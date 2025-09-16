@@ -20,9 +20,8 @@ struct Token {
   Token *next;    // 次の入力トークン
   int val;        // kindがTK_NUMの場合、その数値
   char *str;      // トークン文字列
+  int len;        // トークンの長さ
 };
-
-
 
 // 抽象構文木のノードの種類
 typedef enum {
@@ -30,6 +29,12 @@ typedef enum {
     ND_SUB, // -
     ND_MUL, // *
     ND_DIV, // /
+	ND_LES, // <
+	ND_LEQ, // <=
+	ND_GRE, // >
+	ND_GEQ, // >=
+	ND_EQ,  // ==
+	ND_NEQ, // !=
     ND_NUM, // 整数
 } NodeKind;
 
@@ -79,7 +84,9 @@ void error_at(char *loc, char *fmt, ...) {
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
 bool consume(char op) {
-	if (token->kind != TK_RESERVED || token->str[0] != op)
+	if (token->kind != TK_RESERVED ||
+		strlen(op) != token->len ||
+		memcmp(token->str, op, token->len))
 		return false;
 	token = token->next;
 	return true;
@@ -129,17 +136,27 @@ Token *tokenize(char *p) {
 		continue;
 		}
 
+		if (strncmp(p, ">=", 2) == 0 ||
+			strncmp(p, "<=", 2) == 0 ||
+			strncmp(p, "==", 2) == 0 ||
+			strncmp(p, "!=", 2) == 0) {
+			cur = new_token(TK_RESERVED, cur, p);
+			cur->len = 2;
+			p += 2;
+			continue;
+		}
+
 		if (*p == '+' || *p == '-' ||
 			*p == '*' || *p == '/' ||
 			*p == '(' || *p == ')') {
-		cur = new_token(TK_RESERVED, cur, p++);
-		continue;
+			cur = new_token(TK_RESERVED, cur, p++);
+			continue;
 		}
 
 		if (isdigit(*p)) {
-		cur = new_token(TK_NUM, cur, p);
-		cur->val = strtol(p, &p, 10);
-		continue;
+			cur = new_token(TK_NUM, cur, p);
+			cur->val = strtol(p, &p, 10);
+			continue;
 		}
 
 		error_at(token->str,"トークナイズできません");
@@ -166,17 +183,54 @@ Node *new_node_num(int val) {
 }
 
 Node *expr();
+Node *equality();
+Node *relational();
+Node *add();
 Node *mul();
 Node *unary();
 Node *primary();
 
 Node *expr() {
+	return equality();
+}
+
+Node *equality() {
+    Node *node = relational();
+
+    for (;;) {
+        if (consume("=="))
+        node = new_node(ND_EQ, node, relational());
+        else if (consume("!="))
+        node = new_node(ND_NEQ, node, relational());
+        else
+        return node;
+    }
+}
+
+Node *relational() {
+    Node *node = add();
+
+    for (;;) {
+        if (consume("<"))
+        node = new_node(ND_LES, node, add());
+        else if (consume("<="))
+        node = new_node(ND_LEQ, node, add());
+        else if (consume(">"))
+        node = new_node(ND_GRE, node, add());
+        else if (consume(">="))
+        node = new_node(ND_GEQ, node, add());
+        else
+        return node;
+    }
+}
+
+Node *add() {
     Node *node = mul();
 
     for (;;) {
-        if (consume('+'))
+        if (consume("+"))
         node = new_node(ND_ADD, node, mul());
-        else if (consume('-'))
+        else if (consume("-"))
         node = new_node(ND_SUB, node, mul());
         else
         return node;
