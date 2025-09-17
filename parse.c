@@ -398,23 +398,32 @@ Node *primary() {
     // 次のトークンが識別子なら
     Token *tok = consume_type(TK_IDENT);
     if (tok) {
-        Node *node = calloc(1, sizeof(Node));
-        node->kind = ND_LVAR;
+        if (consume("(")) { // 関数呼び出し
+            Node *node = calloc(1, sizeof(Node));
+            node->kind = ND_FUNC;
+            node->name = tok->str;
+            node->val = tok->len;
+            expect(")"); // TODO:まだ引数無し
+            return node;
+        } else { // 変数
+            Node *node = calloc(1, sizeof(Node));
+            node->kind = ND_LVAR;
 
-        LVar *lvar = find_lvar(tok);
-        if (lvar) {
-            node->offset = lvar->offset;
-        } else {
-            printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-            lvar = calloc(1, sizeof(LVar));
-            lvar->next = locals;
-            lvar->name = tok->str;
-            lvar->len = tok->len;
-            lvar->offset = (locals ? locals->offset : 0) + 8;
-            node->offset = lvar->offset;
-            locals = lvar;
+            LVar *lvar = find_lvar(tok);
+            if (lvar) {
+                node->offset = lvar->offset;
+            } else {
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                lvar = calloc(1, sizeof(LVar));
+                lvar->next = locals;
+                lvar->name = tok->str;
+                lvar->len = tok->len;
+                lvar->offset = (locals ? locals->offset : 0) + 8;
+                node->offset = lvar->offset;
+                locals = lvar;
+            }
+            return node;
         }
-        return node;
     }
 
     // そうでなければ数値のはず

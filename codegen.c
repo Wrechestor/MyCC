@@ -53,7 +53,6 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_FOR) {
-        // TODO: A,B,CがNULLだった時のテスト
         // for (A; B; C) D
         gen(node->lhs); //A
         printf(".Lbegin%d:\n", branch_label);

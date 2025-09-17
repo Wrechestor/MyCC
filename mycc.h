@@ -48,6 +48,7 @@ typedef enum {
     ND_FORSUP,  // for内部のの2つ目以降の文
     ND_BLOCK,   // {}
     ND_LVAR,    // ローカル変数
+    ND_FUNC,    // 関数呼び出し
     ND_NUM,     // 整数
 } NodeKind;
 
@@ -60,6 +61,7 @@ struct Node {
     Node *rhs;     // 右辺
     int val;       // kindがND_NUMの場合のみ使う
     int offset;    // kindがND_LVARの場合のみ使う
+    char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
 
 typedef struct LVar LVar;
