@@ -28,7 +28,9 @@ assert() {
 # assert 0 '3*3<8'
 assert 42 '42;'
 assert 2 'a=b=2;'
-assert 5 'foo = 1; bar = 2 + 3;'
+assert 1 'a=1;a;'
+assert 6 'foo = 1; bar = 2 + 3; return foo + bar;'
+assert 14 'a = 3; b = 5 * 6 - 8; return a + b / 2;'
 
 
 echo OK

@@ -41,13 +41,15 @@ bool consume(char *op) {
 	return true;
 }
 
-// 次のトークンが識別子のときには、トークンを1つ読み進めて
-// トークンを返す。それ以外の場合にはNULLを返す。
-Token *consume_ident() {
-	if (token->kind != TK_IDENT)
+// consume_ident
+Token *consume_type(TokenKind tkind) {
+	if (token->kind != tkind)
 		return NULL;
+
+    // 識別子の時は識別子自体を返せるようにする(次のトークンを返さない)
+    Token *old = token;
 	token = token->next;
-	return token;
+	return old;
 }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
@@ -83,6 +85,14 @@ Token *new_token(TokenKind kind, Token *cur, char *str) {
 	return tok;
 }
 
+// トークンを構成する文字かどうか
+int is_alnum(char c) {
+    return  ('a' <= c && c <= 'z') ||
+            ('A' <= c && c <= 'Z') ||
+            ('0' <= c && c <= '9') ||
+            (c == '_');
+}
+
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
     char *p = user_input;
@@ -93,9 +103,16 @@ void tokenize() {
 	while (*p) {
 		// 空白文字をスキップ
 		if (isspace(*p)) {
-		p++;
-		continue;
+            p++;
+            continue;
 		}
+
+        if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_RETURN, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
 
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
@@ -118,12 +135,8 @@ void tokenize() {
 		}
 
         // 識別子
-        // TODO:複数文字できてる?
         char *q = p;
-        while (('a' <= *q && *q <= 'z') ||
-            ('A' <= *q && *q <= 'Z') ||
-            (q!=p && '0' <= *q && *q <= '9') ||
-            (*q == '_')) {
+        while (is_alnum(*q) && !(q==p && '0' <= *q && *q <= '9')) {
             q++;
         }
         if (q > p) {
@@ -183,7 +196,16 @@ void program() {
 }
 
 Node *stmt() {
-    Node *node = expr();
+    Node *node;
+
+    if (consume_type(TK_RETURN)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_RETURN;
+        node->lhs = expr();
+    } else {
+        node = expr();
+    }
+
     expect(";");
 	return node;
 }
@@ -273,7 +295,7 @@ Node *primary() {
     }
 
     // 次のトークンが識別子なら
-    Token *tok = consume_ident();
+    Token *tok = consume_type(TK_IDENT);
     if (tok) {
         Node *node = calloc(1, sizeof(Node));
         node->kind = ND_LVAR;
@@ -282,6 +304,7 @@ Node *primary() {
         if (lvar) {
             node->offset = lvar->offset;
         } else {
+            printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
             lvar = calloc(1, sizeof(LVar));
             lvar->next = locals;
             lvar->name = tok->str;

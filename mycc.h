@@ -8,6 +8,7 @@
 // トークンの種類
 typedef enum {
   TK_RESERVED, // 記号
+  TK_RETURN,   // return
   TK_IDENT,    // 識別子
   TK_NUM,      // 整数トークン
   TK_EOF,      // 入力の終わりを表すトークン
@@ -35,6 +36,7 @@ typedef enum {
 	ND_EQ,      // ==
 	ND_NEQ,     // !=
     ND_ASSIGN,  // =
+    ND_RETURN,  // return
     ND_LVAR,    // ローカル変数
     ND_NUM,     // 整数
 } NodeKind;
@@ -74,7 +76,7 @@ extern Node *code[100];
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 bool consume(char *op);
-Token *consume_ident();
+Token *consume_type(TokenKind tkind);
 void expect(char *op);
 int expect_number();
 bool at_eof();
