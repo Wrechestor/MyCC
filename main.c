@@ -19,6 +19,7 @@ int main(int argc, char **argv) {
 
     // プロローグ
     // 変数26個分の領域を確保する
+    // TODO:あとで変える
     printf("  push rbp\n");
     printf("  mov rbp, rsp\n");
     printf("  sub rsp, 208\n");

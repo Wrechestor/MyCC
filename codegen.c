@@ -97,6 +97,12 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
         return;
+    case ND_FUNC: // TODO
+        char name[255]; // TODO:長さ
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
+        printf("  call %s\n", name);
+        return;
     }
 
 	gen(node->lhs);
