@@ -83,6 +83,9 @@ extern char *user_input;
 
 extern Node *code[100];
 
+// 制御命令のラベル用の通し番号
+extern int branch_label;
+
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);
 bool consume(char *op);

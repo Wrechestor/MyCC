@@ -31,6 +31,7 @@ assert 2 'a=b=2;'
 assert 1 'a=1;a;'
 assert 6 'foo = 1; bar = 2 + 3; return foo + bar;'
 assert 14 'a = 3; b = 5 * 6 - 8; return a + b / 2;'
+assert 4 'if(2*3<5)a=6;else a=4;return a;'
 
 
 echo OK

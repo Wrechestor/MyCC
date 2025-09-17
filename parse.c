@@ -230,6 +230,7 @@ Node *stmt() {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
+        expect(";");
     } else if (consume_type(TK_IF)) {
         // "if" "(" expr ")" stmt ("else" stmt)?
         expect("(");
@@ -285,9 +286,9 @@ Node *stmt() {
         node->rhs = stmt();
     } else {
         node = expr();
+        expect(";");
     }
 
-    expect(";");
 	return node;
 }
 
