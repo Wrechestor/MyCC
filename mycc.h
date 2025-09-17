@@ -44,9 +44,9 @@ typedef enum {
     ND_IF,      // if
     ND_ELSE,    // else
     ND_WHILE,   // while
-    ND_FOR1,    // for
-    ND_FOR2,    // for
-    ND_FOR3,    // for
+    ND_FOR,     // for
+    ND_FORSUP,  // for内部のの2つ目以降の文
+    ND_BLOCK,   // {}
     ND_LVAR,    // ローカル変数
     ND_NUM,     // 整数
 } NodeKind;

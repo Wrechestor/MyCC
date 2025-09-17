@@ -156,7 +156,8 @@ void tokenize() {
 			*p == '*' || *p == '/' ||
 			*p == '(' || *p == ')' ||
 			*p == '<' || *p == '>' ||
-            *p == ';' || *p == '=') {
+            *p == ';' || *p == '=' ||
+            *p == '{' || *p == '}') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -226,7 +227,26 @@ void program() {
 Node *stmt() {
     Node *node;
 
-    if (consume_type(TK_RETURN)) {
+    if (consume("{")){ // Block
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_BLOCK;
+        Node *tmp = node;
+        while(true){
+            if (token->next == NULL) {
+                error("ブロックが閉じていません");
+            }
+            if (consume("}")) {
+                break;
+            }else{
+                tmp->lhs = stmt();
+                Node *tmp2 = calloc(1, sizeof(Node));
+                tmp2->kind = ND_BLOCK;
+                tmp->rhs = tmp2;
+                tmp = tmp2;
+            }
+        }
+
+    }else if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
@@ -255,7 +275,7 @@ Node *stmt() {
         // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
-        node->kind = ND_FOR1;
+        node->kind = ND_FOR;
         if (consume(";")) {
             node->lhs = NULL;
         } else {
@@ -264,7 +284,7 @@ Node *stmt() {
         }
 
         Node *tmp = calloc(1, sizeof(Node));
-        tmp->kind = ND_FOR2;
+        tmp->kind = ND_FORSUP;
         if (consume(";")) {
             tmp->lhs = NULL;
         } else {
@@ -274,7 +294,7 @@ Node *stmt() {
         node->rhs = tmp;
 
         Node *tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_FOR3;
+        tmp2->kind = ND_FORSUP;
         if (consume(")")) {
             tmp2->lhs = NULL;
         } else {

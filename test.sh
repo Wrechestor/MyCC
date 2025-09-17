@@ -33,7 +33,9 @@ assert 6 'foo = 1; bar = 2 + 3; return foo + bar;'
 assert 14 'a = 3; b = 5 * 6 - 8; return a + b / 2;'
 assert 4 'if(2*3<5)a=6;else a=4;return a;'
 assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
-assert 55 's=0;for(i=0;i<10;i=i+1)s=s+i;return s;'
+assert 55 's=0;for(i=0;i<=10;i=i+1)s=s+i;return s;'
+assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
+assert 45 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
 
 # TODO: += ++ カンマ演算子 三項演算子 など実装
 
