@@ -114,6 +114,34 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
+            cur = new_token(TK_IF, cur, p);
+            cur->len = 2;
+            p += 2;
+            continue;
+        }
+
+        if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_ELSE, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
+            cur = new_token(TK_WHILE, cur, p);
+            cur->len = 5;
+            p += 5;
+            continue;
+        }
+
+        if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
+            cur = new_token(TK_FOR, cur, p);
+            cur->len = 3;
+            p += 3;
+            continue;
+        }
+
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
 			strncmp(p, "==", 2) == 0 ||
@@ -202,6 +230,59 @@ Node *stmt() {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
+    } else if (consume_type(TK_IF)) {
+        // "if" "(" expr ")" stmt ("else" stmt)?
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_IF;
+        node->lhs = expr();
+        expect(")");
+        Node *tmp = stmt();
+        if (consume_type(TK_ELSE)){
+            tmp = new_node(ND_ELSE, tmp, stmt());
+        }
+        node->rhs = tmp;
+    } else if (consume_type(TK_WHILE)) {
+        // "while" "(" expr ")" stmt
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_WHILE;
+        node->lhs = expr();
+        expect(")");
+    } else if (consume_type(TK_FOR)) {
+        // "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_FOR1;
+        if (consume(";")) {
+            node->lhs = NULL;
+        } else {
+            node->lhs = expr();
+            expect(";");
+        }
+
+        Node *tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_FOR2;
+        if (consume(";")) {
+            tmp->lhs = NULL;
+        } else {
+            tmp->lhs = expr();
+            expect(";");
+        }
+        node->rhs = tmp;
+        node = tmp;
+
+        tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_FOR3;
+        if (consume(")")) {
+            tmp->lhs = NULL;
+        } else {
+            tmp->lhs = expr();
+            expect(")");
+        }
+        node->rhs = tmp;
+        node = tmp;
+        node->rhs = stmt();
     } else {
         node = expr();
     }
