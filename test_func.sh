@@ -10,9 +10,8 @@ assert() {
     ./mycc "$input" > tmp.s
     cc -o tmp $file tmp.s
     ./tmp
-
-    rm tmp
 }
 
 assert foo/foo.s 'foo();'
 assert foo/foo.s 'bar(3,4);'
+assert foo/foo.s 'bar(bar(3,4),5);'

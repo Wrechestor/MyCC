@@ -134,6 +134,7 @@ void gen(Node *node) {
             rsp_aligned=!rsp_aligned;
         }
         printf("  call %s\n", name);
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     }
 

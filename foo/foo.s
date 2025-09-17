@@ -52,13 +52,37 @@ bar:
 	mov	rdi, rax
 	mov	eax, 0
 	call	printf@PLT
-	nop
+	mov	edx, DWORD PTR -4[rbp]
+	mov	eax, DWORD PTR -8[rbp]
+	add	eax, edx
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
 .LFE1:
 	.size	bar, .-bar
+	.globl	plus
+	.type	plus, @function
+plus:
+.LFB2:
+	.cfi_startproc
+	endbr64
+	push	rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	mov	rbp, rsp
+	.cfi_def_cfa_register 6
+	mov	DWORD PTR -4[rbp], edi
+	mov	DWORD PTR -8[rbp], esi
+	mov	edx, DWORD PTR -4[rbp]
+	mov	eax, DWORD PTR -8[rbp]
+	add	eax, edx
+	pop	rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2:
+	.size	plus, .-plus
 	.ident	"GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
 	.section	.note.GNU-stack,"",@progbits
 	.section	.note.gnu.property,"a"
