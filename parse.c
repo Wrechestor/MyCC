@@ -250,6 +250,7 @@ Node *stmt() {
         node->kind = ND_WHILE;
         node->lhs = expr();
         expect(")");
+        node->rhs = stmt();
     } else if (consume_type(TK_FOR)) {
         // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
@@ -271,19 +272,17 @@ Node *stmt() {
             expect(";");
         }
         node->rhs = tmp;
-        node = tmp;
 
-        tmp = calloc(1, sizeof(Node));
-        tmp->kind = ND_FOR3;
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->kind = ND_FOR3;
         if (consume(")")) {
-            tmp->lhs = NULL;
+            tmp2->lhs = NULL;
         } else {
-            tmp->lhs = expr();
+            tmp2->lhs = expr();
             expect(")");
         }
-        node->rhs = tmp;
-        node = tmp;
-        node->rhs = stmt();
+        tmp->rhs = tmp2;
+        tmp2->rhs = stmt();
     } else {
         node = expr();
         expect(";");

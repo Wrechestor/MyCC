@@ -12,6 +12,7 @@ void gen_lval(Node *node) {
 int branch_label = 0;
 
 void gen(Node *node) {
+    if (node == NULL) return;
     if (node->kind == ND_IF) {
         gen(node->lhs);
         printf("  pop rax\n");
@@ -26,6 +27,35 @@ void gen(Node *node) {
             printf("  je  .Lend%d\n", branch_label);
             gen(node->rhs);
         }
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
+        return;
+    }
+
+    if (node->kind == ND_WHILE) {
+        printf(".Lbegin%d:\n", branch_label);
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je  .Lend%d\n", branch_label);
+        gen(node->rhs);
+        printf("  jmp .Lbegin%d\n", branch_label);
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
+        return;
+    }
+
+    if (node->kind == ND_FOR1) {
+        // for (A; B; C) D
+        gen(node->lhs); //A
+        printf(".Lbegin%d:\n", branch_label);
+        gen(node->rhs->lhs); //B
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je  .Lend%d\n", branch_label);
+        gen(node->rhs->rhs->lhs); //D
+        gen(node->rhs->rhs->rhs); //C
+        printf("  jmp .Lbegin%d\n", branch_label);
         printf(".Lend%d:\n", branch_label);
         branch_label++;
         return;
