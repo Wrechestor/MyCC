@@ -49,6 +49,7 @@ typedef enum {
     ND_BLOCK,   // {}
     ND_LVAR,    // ローカル変数
     ND_FUNC,    // 関数呼び出し
+    ND_ARG,     // 関数の引数
     ND_NUM,     // 整数
 } NodeKind;
 
@@ -87,6 +88,9 @@ extern Node *code[100];
 
 // 制御命令のラベル用の通し番号
 extern int branch_label;
+
+// rspが16の倍数になっているか
+extern bool rsp_aligned;
 
 void error(char *fmt, ...);
 void error_at(char *loc, char *fmt, ...);

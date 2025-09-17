@@ -157,7 +157,8 @@ void tokenize() {
 			*p == '(' || *p == ')' ||
 			*p == '<' || *p == '>' ||
             *p == ';' || *p == '=' ||
-            *p == '{' || *p == '}') {
+            *p == '{' || *p == '}' ||
+            *p == ',') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -403,7 +404,21 @@ Node *primary() {
             node->kind = ND_FUNC;
             node->name = tok->str;
             node->val = tok->len;
-            expect(")"); // TODO:まだ引数無し
+            // TODO:引数の個数チェック
+            if (consume(")")){
+                return node;
+            } else {
+                node->lhs = expr();
+                Node *now = node;
+                while (consume(",")) {
+                    Node *tmp = calloc(1, sizeof(Node));
+                    tmp->kind = ND_ARG;
+                    tmp->lhs = expr();
+                    now->rhs = tmp;
+                    now = tmp;
+                }
+                expect(")");
+            }
             return node;
         } else { // 変数
             Node *node = calloc(1, sizeof(Node));
