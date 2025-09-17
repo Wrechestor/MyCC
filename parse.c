@@ -118,9 +118,18 @@ void tokenize() {
 		}
 
         // 識別子
-        if ('a' <= *p && *p <= 'z') {
-            cur = new_token(TK_IDENT, cur, p++);
-            cur->len = 1;
+        // TODO:複数文字できてる?
+        char *q = p;
+        while (('a' <= *q && *q <= 'z') ||
+            ('A' <= *q && *q <= 'Z') ||
+            (q!=p && '0' <= *q && *q <= '9') ||
+            (*q == '_')) {
+            q++;
+        }
+        if (q > p) {
+            cur = new_token(TK_IDENT, cur, p);
+            cur->len = q - p;
+            p = q;
             continue;
         }
 
@@ -136,6 +145,16 @@ void tokenize() {
 
 	new_token(TK_EOF, cur, p);
 	token = head.next;
+}
+
+LVar *locals;
+
+// 変数を名前で検索する。見つからなかった場合はNULLを返す。
+LVar *find_lvar(Token *tok) {
+    for (LVar *var = locals; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return NULL;
 }
 
 
@@ -258,7 +277,19 @@ Node *primary() {
     if (tok) {
         Node *node = calloc(1, sizeof(Node));
         node->kind = ND_LVAR;
-        node->offset = (tok->str[0] - 'a' + 1) * 8;
+
+        LVar *lvar = find_lvar(tok);
+        if (lvar) {
+            node->offset = lvar->offset;
+        } else {
+            lvar = calloc(1, sizeof(LVar));
+            lvar->next = locals;
+            lvar->name = tok->str;
+            lvar->len = tok->len;
+            lvar->offset = (locals ? locals->offset : 0) + 8;
+            node->offset = lvar->offset;
+            locals = lvar;
+        }
         return node;
     }
 
