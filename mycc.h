@@ -49,6 +49,7 @@ typedef enum {
     ND_BLOCK,   // {}
     ND_LVAR,    // ローカル変数
     ND_FUNC,    // 関数呼び出し
+    ND_FUNCDEF, // 関数定義
     ND_ARG,     // 関数の引数
     ND_NUM,     // 整数
 } NodeKind;
@@ -106,6 +107,7 @@ Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 
 void program();
+Node *function();
 Node *stmt();
 Node *expr();
 Node *assign();

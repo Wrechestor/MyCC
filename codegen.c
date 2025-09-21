@@ -15,6 +15,37 @@ bool rsp_aligned = true;
 
 void gen(Node *node) {
     if (node == NULL) return;
+    if (node->kind == ND_FUNCDEF) {
+        char name[255]; // TODO:長さ
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
+        printf("%s:\n", name);
+
+        // プロローグ
+        // 変数26個分の領域を確保する
+        // TODO:あとで変える
+        printf("  push rbp\n");rsp_aligned=!rsp_aligned;
+        printf("  mov rbp, rsp\n");
+        printf("  sub rsp, 208\n");
+
+        gen(node->lhs);
+        if(node->lhs != NULL){
+            printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+        }
+        gen(node->rhs);
+        if(node->rhs != NULL){
+            printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+        }
+
+        // エピローグ
+        // 最後の式の結果がRAXに残っているのでそれが返り値になる
+        printf("  mov rsp, rbp\n");
+        printf("  pop rbp\n");rsp_aligned=!rsp_aligned;
+        printf("  ret\n");
+        return;
+    }
+
+
     if (node->kind == ND_BLOCK) {
         gen(node->lhs);
         if(node->lhs != NULL){

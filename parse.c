@@ -221,8 +221,54 @@ Node *code[100];
 void program() {
     int i = 0;
     while (!at_eof())
-        code[i++] = stmt();
+        code[i++] = function();
     code[i] = NULL;
+}
+
+Node *function() {
+    // function = ident "(" ident* ")" "{" stmt* "}"
+    Node *node;
+    node = calloc(1, sizeof(Node));
+
+    Token *funcname;
+    funcname = consume_type(TK_IDENT);
+    if (!funcname) {
+        error_at(token->str,"関数名がありません");
+    }
+
+    node->kind = ND_FUNCDEF;
+    node->name = funcname->str;
+    node->val = funcname->len;
+
+    expect("(");
+    while (!consume(")")) {
+        if (!consume_type(TK_IDENT)) {
+            error_at(token->str,"引数が不正です");
+        }
+        // TODO:変数の展開
+        if (!consume(",")) {
+            expect(")");
+            break;
+        }
+    }
+    expect("{");
+    Node *tmp = node;
+    while(true){
+        if (token->next == NULL) {
+            error("ブロックが閉じていません");
+        }
+        if (consume("}")) {
+            break;
+        }else{
+            tmp->lhs = stmt();
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_BLOCK;
+            tmp->rhs = tmp2;
+            tmp = tmp2;
+        }
+    }
+
+    return node;
 }
 
 Node *stmt() {
