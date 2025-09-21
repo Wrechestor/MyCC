@@ -4,15 +4,15 @@
       "name": "linux-gcc-x64",
       "includePath": [
         "${workspaceFolder}/**",
-        "/usr/include"
+        "/usr/include",
+        "/usr/local/include",
+        "/usr/include/x86_64-linux-gnu",
+        "/usr/lib/gcc/x86_64-linux-gnu/13/include"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",
       "cppStandard": "${default}",
-      "intelliSenseMode": "linux-gcc-x64",
-      "compilerArgs": [
-        ""
-      ]
+      "intelliSenseMode": "linux-gcc-x64"
     }
   ],
   "version": 4

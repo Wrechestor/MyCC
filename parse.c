@@ -399,7 +399,7 @@ Node *primary() {
     // 次のトークンが識別子なら
     Token *tok = consume_type(TK_IDENT);
     if (tok) {
-        if (consume("(")) { // 関数呼び出し
+        if (consume("(")) { // TODO:関数呼び出し
             Node *node = calloc(1, sizeof(Node));
             node->kind = ND_FUNC;
             node->name = tok->str;

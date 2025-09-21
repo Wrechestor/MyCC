@@ -39,6 +39,9 @@
   "C_Cpp_Runner.linkerArgs": [],
   "C_Cpp_Runner.includePaths": [
     "/usr/include",
+    "/usr/local/include",
+    "/usr/include/x86_64-linux-gnu",
+    "/usr/lib/gcc/x86_64-linux-gnu/13/include",
   ],
   "C_Cpp_Runner.includeSearch": [
     "*",
@@ -57,5 +60,10 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "files.associations": {
+    "mycc.h": "c",
+    "stdlib.h": "c"
+  },
+  "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
