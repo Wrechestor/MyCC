@@ -129,6 +129,15 @@ void gen(Node *node) {
 
 
 	switch (node->kind) {
+    case ND_ADDR:
+        gen_lval(node->lhs);
+        return;
+    case ND_DEREF:
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  mov rax, [rax]\n");
+        printf("  push rax\n");
+        return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
@@ -170,7 +179,7 @@ void gen(Node *node) {
                 case 3:printf("  mov ecx, eax\n");break;
                 case 4:printf("  mov r8d, eax\n");break;
                 case 5:printf("  mov r9d, eax\n");break;
-                // default:printf("  push rax\n");break; // TODO:pushは逆順
+                // default:printf("  push rax\n");break; // TODO:7個目以降
             }
         }
         printf("  mov eax, 0\n");

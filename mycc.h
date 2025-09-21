@@ -33,27 +33,29 @@ struct Token {
 
 // 抽象構文木のノードの種類
 typedef enum {
-    ND_ADD,     // +
-    ND_SUB,     // -
-    ND_MUL,     // *
-    ND_DIV,     // /
+  ND_ADD,     // +
+  ND_SUB,     // -
+  ND_MUL,     // *
+  ND_DIV,     // /
 	ND_LES,     // <
 	ND_LEQ,     // <=
 	ND_EQ,      // ==
 	ND_NEQ,     // !=
-    ND_ASSIGN,  // =
-    ND_RETURN,  // return
-    ND_IF,      // if
-    ND_ELSE,    // else
-    ND_WHILE,   // while
-    ND_FOR,     // for
-    ND_FORSUP,  // for内部のの2つ目以降の文
-    ND_BLOCK,   // {}
-    ND_LVAR,    // ローカル変数
-    ND_FUNC,    // 関数呼び出し
-    ND_FUNCDEF, // 関数定義
-    ND_ARG,     // 関数の引数
-    ND_NUM,     // 整数
+  ND_ASSIGN,  // =
+  ND_RETURN,  // return
+  ND_IF,      // if
+  ND_ELSE,    // else
+  ND_WHILE,   // while
+  ND_FOR,     // for
+  ND_FORSUP,  // for内部のの2つ目以降の文
+  ND_BLOCK,   // {}
+  ND_LVAR,    // ローカル変数
+  ND_FUNC,    // 関数呼び出し
+  ND_FUNCDEF, // 関数定義
+  ND_ARG,     // 関数の引数
+  ND_ADDR,    // unary &
+  ND_DEREF,   // unary *
+  ND_NUM,     // 整数
 } NodeKind;
 
 typedef struct Node Node;
