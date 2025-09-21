@@ -16,7 +16,7 @@ bool rsp_aligned = true;
 void gen(Node *node) {
     if (node == NULL) return;
     if (node->kind == ND_FUNCDEF) {
-        char name[255]; // TODO:長さ
+        char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("%s:\n", name);
@@ -24,6 +24,7 @@ void gen(Node *node) {
         // プロローグ
         // 変数26個分の領域を確保する
         // TODO:あとで変える
+        // TODO:引数をスタックに展開
         printf("  push rbp\n");rsp_aligned=!rsp_aligned;
         printf("  mov rbp, rsp\n");
         printf("  sub rsp, 208\n");
@@ -134,7 +135,7 @@ void gen(Node *node) {
         printf("  push rdi\n");rsp_aligned=!rsp_aligned;
         return;
     case ND_FUNC: // TODO
-        char name[255]; // TODO:長さ
+        char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数

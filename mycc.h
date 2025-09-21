@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_IDENT_LEN 255 // 識別子の名前の最大長
+
 // トークンの種類
 typedef enum {
   TK_RESERVED, // 記号

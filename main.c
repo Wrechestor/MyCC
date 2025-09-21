@@ -16,7 +16,20 @@ int main(int argc, char **argv) {
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
-	printf(".globl main\n");
+	printf(".globl ");
+
+    char name[MAX_IDENT_LEN];
+    int is_first = 1;
+    for (int i = 0; code[i]; i++) {
+        if (code[i] && code[i]->kind == ND_FUNCDEF) {
+            if (!is_first) printf(", ");
+            else is_first = 0;
+            strncpy(name, code[i]->name, code[i]->val);
+            name[code[i]->val] = '\0';
+            printf("%s", name);
+        }
+    }
+    printf("\n");
 
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {

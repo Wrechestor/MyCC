@@ -41,6 +41,7 @@ assert() {
 assert 42 'main(){return 42;}'
 assert 6 'main(){foo = 1; bar = 2 + 3; return foo + bar;}'
 assert 4 'main(){if(2*3<5)a=6; else a=4; return a;}'
+assert 11 'eight(){return 8;}main(){a = 3; return a + eight();}'
 # assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
 # assert 55 's=0;for(i=0;i<=10;i=i+1)s=s+i;return s;'
 # assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
