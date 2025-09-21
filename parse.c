@@ -217,11 +217,20 @@ Node *new_node_num(int val) {
 }
 
 Node *code[100];
+int localsnums[100];
+int localsnum;
 
 void program() {
     int i = 0;
-    while (!at_eof())
-        code[i++] = function();
+    while (!at_eof()) {
+        // TODO:変数スコープ
+        locals = NULL;
+        code[i] = function();
+        localsnums[i] = 0;
+        for (LVar *var = locals; var; var = var->next)localsnums[i]++;
+        // ↑TODO:1多いかも
+        i++;
+    }
     code[i] = NULL;
 }
 
@@ -241,31 +250,55 @@ Node *function() {
     node->val = funcname->len;
 
     expect("(");
+    Token *argname;
+    Node *tmparg = node;
     while (!consume(")")) {
-        if (!consume_type(TK_IDENT)) {
+        argname = consume_type(TK_IDENT);
+        if (!argname) {
             error_at(token->str,"引数が不正です");
         }
-        // TODO:変数の展開
+
+        // 引数はローカル変数として扱う
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->kind = ND_LVAR;
+        LVar *lvar = find_lvar(argname);
+        if (lvar) {
+            tmp2->offset = lvar->offset;
+        } else {
+            // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+            lvar = calloc(1, sizeof(LVar));
+            lvar->next = locals;
+            lvar->name = argname->str;
+            lvar->len = argname->len;
+            lvar->offset = (locals ? locals->offset : 0) + 8;
+            tmp2->offset = lvar->offset;
+            locals = lvar;
+        }
+        tmparg->lhs = tmp2;
+        tmparg = tmp2;
+
         if (!consume(",")) {
             expect(")");
             break;
         }
     }
+
     expect("{");
-    Node *tmp = node;
+    Node *tmp = calloc(1, sizeof(Node));
+    tmp->kind = ND_BLOCK;
+    node->rhs = tmp;
     while(true){
         if (token->next == NULL) {
             error("ブロックが閉じていません");
         }
         if (consume("}")) {
             break;
-        }else{
-            tmp->lhs = stmt();
-            Node *tmp2 = calloc(1, sizeof(Node));
-            tmp2->kind = ND_BLOCK;
-            tmp->rhs = tmp2;
-            tmp = tmp2;
         }
+        tmp->lhs = stmt();
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->kind = ND_BLOCK;
+        tmp->rhs = tmp2;
+        tmp = tmp2;
     }
 
     return node;

@@ -12,8 +12,6 @@ int main(int argc, char **argv) {
 	tokenize(user_input);
     program();
 
-    rsp_aligned = true;
-
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
 	printf(".globl ");
@@ -33,6 +31,8 @@ int main(int argc, char **argv) {
 
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {
+        rsp_aligned = true;
+        localsnum = localsnums[i];
         gen(code[i]);
     }
 

@@ -80,6 +80,8 @@ struct LVar {
 
 // ローカル変数
 extern LVar *locals;
+extern int localsnums[100];
+extern int localsnum;
 
 // 現在着目しているトークン
 extern Token *token;

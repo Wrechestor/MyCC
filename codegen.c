@@ -22,17 +22,30 @@ void gen(Node *node) {
         printf("%s:\n", name);
 
         // プロローグ
-        // 変数26個分の領域を確保する
-        // TODO:あとで変える
-        // TODO:引数をスタックに展開
         printf("  push rbp\n");rsp_aligned=!rsp_aligned;
         printf("  mov rbp, rsp\n");
-        printf("  sub rsp, 208\n");
-
-        gen(node->lhs);
-        if(node->lhs != NULL){
-            printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+        // TODO:引数をスタックに展開
+        Node *tmparg = node;
+        int i = 0;
+        while (tmparg->lhs) {
+            switch (i) {
+                // TODO:eax(raxの下位32bit)
+                case 0:printf("  push rdi\n");break;
+                case 1:printf("  push rsi\n");break;
+                case 2:printf("  push rdx\n");break;
+                case 3:printf("  push rcx\n");break;
+                case 4:printf("  push r8\n"); break;
+                case 5:printf("  push r9\n"); break;
+                // default:printf("  push rax\n");break; // TODO:pushは逆順
+            }
+            tmparg = tmparg->lhs;
+            i++;
         }
+        // ローカル変数用のスタックを確保
+        printf("  sub rsp, %d\n", (localsnum - i) * 8);
+        if ((localsnum/8) % 2 == 1)rsp_aligned=!rsp_aligned;
+
+
         gen(node->rhs);
         if(node->rhs != NULL){
             printf("  pop rax\n");rsp_aligned=!rsp_aligned;
@@ -134,7 +147,7 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");rsp_aligned=!rsp_aligned;
         return;
-    case ND_FUNC: // TODO
+    case ND_FUNC: // TODO:関数呼び出し
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
@@ -142,9 +155,14 @@ void gen(Node *node) {
         Node *now = node;
         int i=0;
         while (now->lhs) { // TODO:変数は逆順
+            i++;
             gen(now->lhs);
+            now = now->rhs;
+            if (now == NULL)break;
+        }
+        for (int k=i; k>0; k--){
             printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-            switch (i) {
+            switch (k-1) {
                 // TODO:eax(raxの下位32bit)
                 case 0:printf("  mov edi, eax\n");break;
                 case 1:printf("  mov esi, eax\n");break;
@@ -154,17 +172,14 @@ void gen(Node *node) {
                 case 5:printf("  mov r9d, eax\n");break;
                 // default:printf("  push rax\n");break; // TODO:pushは逆順
             }
-            now = now->rhs;
-            if (now == NULL)break;
-            i++;
         }
         printf("  mov eax, 0\n");
 
-        // TODO:RSPが16の倍数でないと落ちる?
-        if (!rsp_aligned) {
-            printf("  sub rsp, 8\n");
-            rsp_aligned=!rsp_aligned;
-        }
+        // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
+        // if (!rsp_aligned) {
+        //     printf("  sub rsp, 8\n");
+        //     rsp_aligned=!rsp_aligned;
+        // }
         printf("  call %s\n", name);
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
