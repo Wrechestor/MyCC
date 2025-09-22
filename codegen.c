@@ -231,28 +231,17 @@ void gen(Node *node) {
 	printf("  pop rax\n");rsp_aligned=!rsp_aligned;
 
     int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
-    if (node->lhs->kind == ND_LVAR) {
-        LVar *lvar;
-        // printf("### val %s !!!!!\n", node->lhs->name);
-        for (LVar *var = locals; var; var = var->next)
-            if (var->len == node->lhs->val && !memcmp(node->lhs->name, var->name, var->len))
-                lvar = var;
-        if (lvar) {
-            Type *type = lvar->type;
-            if (type->ty == INT) {
-                addsize = 1;
-                // printf("### val %s is int\n", node->lhs->name);
-            } else if (type->ty == PTR) {
-                type = type->ptr_to;
-                if (type->ty == INT) {
-                    addsize = 4;
-                } else if (type->ty == PTR) {
-                    addsize = 8;
-                }
-                // printf("### val %s is ptr\n", node->lhs->name);
-            }
-        } else {
-            // error_at(node->lhs->name,"未定義の変数です");
+    Type *type = estimate_type(node->lhs);
+    if (type == NULL) {
+        addsize = 1;
+    } else if (type->ty == INT) {
+        addsize = 1;
+    } else if (type->ty == PTR) {
+        type = type->ptr_to;
+        if (type->ty == INT) {
+            addsize = 4;
+        } else if (type->ty == PTR) {
+            addsize = 8;
         }
     }
 

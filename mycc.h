@@ -126,6 +126,8 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 
+Type *estimate_type(Node *node);
+
 void program();
 Node *function();
 Node *stmt();

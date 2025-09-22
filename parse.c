@@ -278,6 +278,16 @@ Node *function() {
             error_at(token->str,"引数の型がありません");
         }
 
+        // ポインタ型に対応
+        Type *type = calloc(1, sizeof(Type));
+        type->ty = INT;
+        while (consume("*")) {
+            Type *t = calloc(1, sizeof(Type));
+            t->ty = PTR;
+            t->ptr_to = type;
+            type = t;
+        }
+
         argname = consume_type(TK_IDENT);
         if (!argname) {
             error_at(token->str,"引数が不正です");
@@ -285,17 +295,17 @@ Node *function() {
 
         // 引数はローカル変数として扱う
         Node *tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_LVAR;
+        tmp2->kind = ND_VALDEF;
         LVar *lvar = find_lvar(argname);
         if (lvar) {
             tmp2->offset = lvar->offset;
         } else {
-            // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
             lvar = calloc(1, sizeof(LVar));
             lvar->next = locals;
             lvar->name = argname->str;
             lvar->len = argname->len;
             lvar->offset = (locals ? locals->offset : 0) + 8;
+            lvar->type = type;
             tmp2->offset = lvar->offset;
             locals = lvar;
         }
@@ -554,7 +564,7 @@ Type *estimate_type(Node *node) {
             if (var->len == node->val && !memcmp(node->name, var->name, var->len))
                 lvar = var;
         if (lvar) {
-            Type *type = lvar->type;
+            type = lvar->type;
             return type;
             // if (type->ty == INT) {
             //     size = 4;
@@ -566,6 +576,12 @@ Type *estimate_type(Node *node) {
         } else {
             // error_at(node->lhs->name,"未定義の変数です");
         }
+    }
+    if (node->kind == ND_FUNC) {
+        // TODO:関数の戻り値をポインタ型に対応
+        type = calloc(1, sizeof(Type));
+        type->ty = INT;
+        return type;
     }
     Type *ltype = estimate_type(node->lhs);
     Type *rtype = estimate_type(node->rhs);
