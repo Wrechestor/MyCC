@@ -149,6 +149,13 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_SIZEOF, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
 			strncmp(p, "==", 2) == 0 ||
@@ -522,7 +529,58 @@ Node *mul() {
     }
 }
 
+// TODO:型推定
+Type *estimate_type(Node *node) {
+    if (node==NULL) return NULL;
+    Type *type;
+    if (node->kind == ND_DEREF) {
+        type = estimate_type(node->lhs);
+        // if (type == NULL || type->ty != PTR) {
+        //     error_at(node->lhs->name,"ポインタではありません");
+        // }
+        return type->ptr_to;
+    }
+    if (node->kind == ND_LVAR) {
+        LVar *lvar;
+        // printf("### val %s !!!!!\n", node->lhs->name);
+        for (LVar *var = locals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                lvar = var;
+        if (lvar) {
+            Type *type = lvar->type;
+            return type;
+            // if (type->ty == INT) {
+            //     size = 4;
+            //     // printf("### val %s is int\n", node->lhs->name);
+            // } else if (type->ty == PTR) {
+            //     size = 8;
+            //     // printf("### val %s is ptr\n", node->lhs->name);
+            // }
+        } else {
+            // error_at(node->lhs->name,"未定義の変数です");
+        }
+    }
+    Type *ltype = estimate_type(node->lhs);
+    Type *rtype = estimate_type(node->rhs);
+    // TODO:↓でより深いほうの型を返す or 型一致チェック
+    return (ltype ? ltype : rtype);
+}
+
 Node *unary() {
+    if (consume_type(TK_SIZEOF)) {
+        // TODO:型の推定
+        Node *node = unary();
+        Type *type = estimate_type(node);
+        int size = 4;
+        if (type == NULL) {
+            // size = 4;
+        } else if (type->ty == INT) {
+            // size = 4;
+        } else if (type->ty == PTR) {
+            size = 8;
+        }
+        return new_node_num(size);
+    }
 	if (consume("+"))
 		return primary();
 	if (consume("-"))
