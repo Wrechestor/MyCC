@@ -354,6 +354,16 @@ Node *stmt() {
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
+        // ポインタ型に対応
+        Type *type = calloc(1, sizeof(Type));
+        type->ty = INT;
+        while (consume("*")) {
+            Type *t = calloc(1, sizeof(Type));
+            t->ty = PTR;
+            t->ptr_to = type;
+            type = t;
+        }
+
         Token *tok = consume_type(TK_IDENT);
         if (tok) {
                 Node *tmp = calloc(1, sizeof(Node));
@@ -364,21 +374,13 @@ Node *stmt() {
                     // node->offset = lvar->offset;
                     error_at(tok->str,"重複定義された変数です");
                 } else {
-                    // ポインタ型に対応
-                    Type *type = calloc(1, sizeof(Type));
-                    type->ty = INT;
-                    while (consume("*")) {
-                        Type *t = calloc(1, sizeof(Type));
-                        t->ty = PTR;
-                        t->ptr_to = type;
-                        type = t;
-                    }
                     // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
                     lvar = calloc(1, sizeof(LVar));
                     lvar->next = locals;
                     lvar->name = tok->str;
                     lvar->len = tok->len;
                     lvar->offset = (locals ? locals->offset : 0) + 8;
+                    lvar->type = type;
                     tmp->offset = lvar->offset;
                     locals = lvar;
                 }
