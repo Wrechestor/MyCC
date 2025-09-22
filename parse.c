@@ -613,14 +613,26 @@ Node *unary() {
         return new_node_num(size);
     }
 	if (consume("+"))
-		return primary();
+		return brackets();
 	if (consume("-"))
-		return new_node(ND_SUB, new_node_num(0), primary());
+		return new_node(ND_SUB, new_node_num(0), brackets());
     if (consume("&"))
         return new_node(ND_ADDR, unary(), NULL);
     if (consume("*"))
         return new_node(ND_DEREF, unary(), NULL);
-	return primary();
+	return brackets();
+}
+
+Node *brackets() { // TODO:配列アクセス(優先順位は?)
+    // brackets = primary ("[" expr "]")?
+    Node *node = primary();
+
+    if (consume("[")) {
+        // x[y] -> *(x+y)
+        node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
+        expect("]");
+    }
+    return node;
 }
 
 Node *primary() {
@@ -666,14 +678,6 @@ Node *primary() {
                 node->name = lvar->name;
             } else {
                 error_at(tok->str,"未定義の変数です");
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                // lvar = calloc(1, sizeof(LVar));
-                // lvar->next = locals;
-                // lvar->name = tok->str;
-                // lvar->len = tok->len;
-                // lvar->offset = (locals ? locals->offset : 0) + 8;
-                // node->offset = lvar->offset;
-                // locals = lvar;
             }
             return node;
         }

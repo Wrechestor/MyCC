@@ -64,7 +64,8 @@
   "files.associations": {
     "mycc.h": "c",
     "stdlib.h": "c",
-    "ctype.h": "c"
+    "ctype.h": "c",
+    "typeinfo": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

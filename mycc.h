@@ -138,6 +138,7 @@ Node *relational();
 Node *add();
 Node *mul();
 Node *unary();
+Node *brackets();
 Node *primary();
 
 void gen_lval(Node *node);
