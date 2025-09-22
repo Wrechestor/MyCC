@@ -215,6 +215,16 @@ LVar *find_lvar(Token *tok) {
     return NULL;
 }
 
+GVar *globals;
+
+// 変数を名前で検索する。見つからなかった場合はNULLを返す。
+GVar *find_gvar(Token *tok) {
+    for (GVar *var = globals; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return NULL;
+}
+
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Node *node = calloc(1, sizeof(Node));
@@ -241,7 +251,7 @@ void program() {
         // TODO:変数スコープ
         locals = NULL;
         localsnum = 0;
-        code[i] = function();
+        code[i] = function_gval();
         localsnums[i] = localsnum;
         // for (LVar *var = locals; var; var = var->next)localsnums[i]++;
         // ↑TODO:1多いかも
@@ -250,8 +260,9 @@ void program() {
     code[i] = NULL;
 }
 
-Node *function() {
-    // function = "int" ident "(" ("int" ident)* ")" "{" stmt* "}"
+Node *function_gval() {
+    // function_gval = "int" "*"* ident "(" ("int" "*"* ident)* ")" "{" stmt* "}"
+    // | "int" "*"* ident ("[" num "]")? ";"
     Node *node;
     node = calloc(1, sizeof(Node));
 
@@ -260,83 +271,149 @@ Node *function() {
         error_at(token->str,"返り値の型がありません");
     }
 
+    // TODO:戻り値の型 ポインタ型に対応
+    Type *Rtype = calloc(1, sizeof(Type));
+    Rtype->ty = INT;
+    while (consume("*")) {
+        Type *t = calloc(1, sizeof(Type));
+        t->ty = PTR;
+        t->ptr_to = Rtype;
+        Rtype = t;
+    }
+
     Token *funcname;
     funcname = consume_type(TK_IDENT);
     if (!funcname) {
         error_at(token->str,"関数名がありません");
     }
 
-    node->kind = ND_FUNCDEF;
-    node->name = funcname->str;
-    node->val = funcname->len;
+    if (consume("(")) { // 関数定義
+        node->kind = ND_FUNCDEF;
+        node->name = funcname->str;
+        node->val = funcname->len;
 
-    expect("(");
-    Token *argname, *argtype;
-    Node *tmparg = node;
-    while (!consume(")")) {
-        argtype = consume_type(TK_INT);
-        if (!argtype) {
-            error_at(token->str,"引数の型がありません");
+        Token *argname, *argtype;
+        Node *tmparg = node;
+        while (!consume(")")) {
+            argtype = consume_type(TK_INT);
+            if (!argtype) {
+                error_at(token->str,"引数の型がありません");
+            }
+
+            // ポインタ型に対応
+            Type *type = calloc(1, sizeof(Type));
+            type->ty = INT;
+            while (consume("*")) {
+                Type *t = calloc(1, sizeof(Type));
+                t->ty = PTR;
+                t->ptr_to = type;
+                type = t;
+            }
+
+            argname = consume_type(TK_IDENT);
+            if (!argname) {
+                error_at(token->str,"引数が不正です");
+            }
+
+            // 引数はローカル変数として扱う
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_VALDEF;
+            LVar *lvar = find_lvar(argname);
+            if (lvar) {
+                // tmp2->offset = lvar->offset;
+            } else {
+                lvar = calloc(1, sizeof(LVar));
+                lvar->next = locals;
+                lvar->name = argname->str;
+                lvar->len = argname->len;
+                lvar->offset = (locals ? locals->offset : 0) + 8;
+                lvar->type = type;
+                tmp2->offset = lvar->offset;
+                locals = lvar;
+
+                localsnum += 1;
+            }
+            tmparg->lhs = tmp2;
+            tmparg = tmp2;
+
+            if (!consume(",")) {
+                expect(")");
+                break;
+            }
         }
 
-        // ポインタ型に対応
-        Type *type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        while (consume("*")) {
-            Type *t = calloc(1, sizeof(Type));
-            t->ty = PTR;
-            t->ptr_to = type;
-            type = t;
+        expect("{");
+        Node *tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_BLOCK;
+        node->rhs = tmp;
+        while(true){
+            if (token->next == NULL) {
+                error("ブロックが閉じていません");
+            }
+            if (consume("}")) {
+                break;
+            }
+            tmp->lhs = stmt();
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_BLOCK;
+            tmp->rhs = tmp2;
+            tmp = tmp2;
         }
+    } else { // グローバル変数定義
+        node->kind = ND_GVALDEF;
+        node->name = funcname->str;
+        node->val = funcname->len;
 
-        argname = consume_type(TK_IDENT);
-        if (!argname) {
-            error_at(token->str,"引数が不正です");
-        }
+        Token *tok = funcname;
+        if (tok) {
+            GVar *gvar = find_gvar(tok);
+            if (gvar) {
+                // node->offset = gvar->offset;
+                error_at(tok->str,"重複定義されたグローバル変数です");
+            } else {
+                int arrsize = 1;
+                if (consume("[")) { // 配列型
+                    arrsize = expect_number();
+                    expect("]");
+                    Type *t = calloc(1, sizeof(Type));
+                    t->ty = ARRAY;
+                    t->array_size = arrsize;
+                    t->ptr_to = Rtype;
+                    Rtype = t;
+                }
 
-        // 引数はローカル変数として扱う
-        Node *tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_VALDEF;
-        LVar *lvar = find_lvar(argname);
-        if (lvar) {
-            // tmp2->offset = lvar->offset;
-        } else {
-            lvar = calloc(1, sizeof(LVar));
-            lvar->next = locals;
-            lvar->name = argname->str;
-            lvar->len = argname->len;
-            lvar->offset = (locals ? locals->offset : 0) + 8;
-            lvar->type = type;
-            tmp2->offset = lvar->offset;
-            locals = lvar;
+                int size = 4;
+                if (Rtype == NULL) {
+                    size = 4;
+                } else if (Rtype->ty == INT) {
+                    size = 4;
+                } else if (Rtype->ty == PTR) {
+                    size = 8;
+                } else if (Rtype->ty == ARRAY) {
+                    int arrsize = Rtype->array_size;
+                    Rtype = Rtype->ptr_to;
+                    if (Rtype->ty == INT) {
+                        size = 4;
+                    } else if (Rtype->ty == PTR) {
+                        size = 8;
+                    }
+                }
 
-            localsnum += 1;
-        }
-        tmparg->lhs = tmp2;
-        tmparg = tmp2;
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                gvar = calloc(1, sizeof(GVar));
+                gvar->next = globals;
+                gvar->name = tok->str;
+                gvar->len = tok->len;
+                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                gvar->addr = size * arrsize;
+                gvar->type = Rtype;
+                node->offset = gvar->addr;
+                globals = gvar;
 
-        if (!consume(",")) {
-            expect(")");
-            break;
+                // localsnum += size;
+            }
         }
-    }
-
-    expect("{");
-    Node *tmp = calloc(1, sizeof(Node));
-    tmp->kind = ND_BLOCK;
-    node->rhs = tmp;
-    while(true){
-        if (token->next == NULL) {
-            error("ブロックが閉じていません");
-        }
-        if (consume("}")) {
-            break;
-        }
-        tmp->lhs = stmt();
-        Node *tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_BLOCK;
-        tmp->rhs = tmp2;
-        tmp = tmp2;
+        expect(";");
     }
 
     return node;

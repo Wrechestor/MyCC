@@ -65,7 +65,9 @@
     "mycc.h": "c",
     "stdlib.h": "c",
     "ctype.h": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "compare": "c",
+    "type_traits": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

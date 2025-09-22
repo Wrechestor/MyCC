@@ -33,6 +33,14 @@ void gen(Node *node) {
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     }
+    if (node->kind == ND_GVALDEF) {
+        char name[MAX_IDENT_LEN];
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
+        printf("%s:\n", name);
+        printf("  .zero %d\n", node->offset);
+        return;
+    }
     if (node->kind == ND_FUNCDEF) {
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);

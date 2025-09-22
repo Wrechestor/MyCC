@@ -59,6 +59,7 @@ typedef enum {
   ND_ADDR,    // unary &
   ND_DEREF,   // unary *
   ND_VALDEF,  // 変数定義 TODO
+  ND_GVALDEF, // グローバル変数定義 TODO
   ND_NUM,     // 整数
 } NodeKind;
 
@@ -99,6 +100,20 @@ extern LVar *locals;
 extern int localsnums[100];
 extern int localsnum;
 
+typedef struct GVar GVar;
+
+// グローバル変数の型
+struct GVar {
+  GVar *next; // 次の変数かNULL
+  char *name; // 変数の名前
+  int len;    // 名前の長さ
+  int addr;   // アドレス
+  Type *type; // 変数の型
+};
+
+// グローバル変数
+extern GVar *globals;
+
 // 現在着目しているトークン
 extern Token *token;
 
@@ -125,11 +140,12 @@ void tokenize();
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
+GVar *find_gvar(Token *tok);
 
 Type *estimate_type(Node *node);
 
 void program();
-Node *function();
+Node *function_gval();
 Node *stmt();
 Node *expr();
 Node *assign();
