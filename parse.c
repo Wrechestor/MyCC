@@ -172,7 +172,8 @@ void tokenize() {
 			*p == '<' || *p == '>' ||
             *p == ';' || *p == '=' ||
             *p == '{' || *p == '}' ||
-            *p == ',' || *p == '&') {
+            *p == ',' || *p == '&' ||
+            *p == '[' || *p == ']') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -330,7 +331,7 @@ Node *function() {
 
 Node *stmt() {
     // stmt = { stmt* }
-    //        | "int" ident ";"
+    //        | "int" ident ("[" num "]")? ";"
     //        | "return" expr ";"
     //        | "if" "(" expr ")" stmt ("else" stmt)?
     //        | "while" "(" expr ")" stmt
@@ -357,7 +358,7 @@ Node *stmt() {
             }
         }
 
-    } else if (consume_type(TK_INT)) {
+    } else if (consume_type(TK_INT)) { // 変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
@@ -381,6 +382,16 @@ Node *stmt() {
                 // node->offset = lvar->offset;
                 error_at(tok->str,"重複定義された変数です");
             } else {
+                if (consume("[")) { // 配列型
+                    int array_size = expect_number();
+                    expect("]");
+                    Type *t = calloc(1, sizeof(Type));
+                    t->ty = ARRAY;
+                    t->array_size = array_size;
+                    t->ptr_to = type;
+                    type = t;
+                }
+
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
                 lvar = calloc(1, sizeof(LVar));
                 lvar->next = locals;
@@ -535,14 +546,10 @@ Type *estimate_type(Node *node) {
     Type *type;
     if (node->kind == ND_DEREF) {
         type = estimate_type(node->lhs);
-        // if (type == NULL || type->ty != PTR) {
-        //     error_at(node->lhs->name,"ポインタではありません");
-        // }
         return type->ptr_to;
     }
     if (node->kind == ND_LVAR) {
         LVar *lvar;
-        // printf("### val %s !!!!!\n", node->lhs->name);
         for (LVar *var = locals; var; var = var->next)
             if (var->len == node->val && !memcmp(node->name, var->name, var->len))
                 lvar = var;
@@ -568,7 +575,6 @@ Type *estimate_type(Node *node) {
 
 Node *unary() {
     if (consume_type(TK_SIZEOF)) {
-        // TODO:型の推定
         Node *node = unary();
         Type *type = estimate_type(node);
         int size = 4;
