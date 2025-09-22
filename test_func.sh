@@ -27,4 +27,5 @@ assert() {
 
 
 assert foo/alloc4.s 'int main(){int *p; alloc4(&p, 1, 2, 4, 8); int *q; q = p + 3; return *q;}'
+assert foo/alloc4.s 'int main(){int *p; alloc4(&p, 123, 135, 147, 159); return *(p + 2);}'
 # q = p + 3; return *q;  // → 8}'
