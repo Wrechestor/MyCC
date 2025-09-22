@@ -14,6 +14,9 @@ int main(int argc, char **argv) {
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
+    if (globals) {
+        printf(".bss\n");
+    }
 	printf(".globl ");
 
     char name[MAX_IDENT_LEN];

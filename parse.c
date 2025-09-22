@@ -657,7 +657,16 @@ Type *estimate_type(Node *node) {
             //     // printf("### val %s is ptr\n", node->lhs->name);
             // }
         } else {
-            // error_at(node->lhs->name,"未定義の変数です");
+            GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
+            for (GVar *var = globals; var; var = var->next)
+                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                    gvar = var;
+            if (gvar) {
+                type = gvar->type;
+                return type;
+            } else {
+                // error_at(node->lhs->name,"未定義の変数です");
+            }
         }
     }
     if (node->kind == ND_FUNC) {
@@ -754,7 +763,14 @@ Node *primary() {
                 node->val = lvar->len;
                 node->name = lvar->name;
             } else {
-                error_at(tok->str,"未定義の変数です");
+                GVar *gvar = find_gvar(tok);
+                if (gvar) {
+                    node->offset = gvar->addr;
+                    node->val = gvar->len;
+                    node->name = gvar->name;
+                } else {
+                    error_at(tok->str,"未定義の変数です");
+                }
             }
             return node;
         }

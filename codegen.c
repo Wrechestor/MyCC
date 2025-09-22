@@ -10,9 +10,21 @@ void gen_lval(Node *node) {
     if (node->kind != ND_LVAR)
         error("代入の左辺値が変数ではありません");
 
-    printf("  mov rax, rbp\n");
-    printf("  sub rax, %d\n", node->offset);
-    printf("  push rax\n");rsp_aligned=!rsp_aligned;
+    Token *tok = calloc(1, sizeof(Token));
+    tok->str = node->name;
+    tok->len = node->val;
+    GVar *gvar = find_gvar(tok);
+    if (gvar) { // グローバル変数
+        char name[MAX_IDENT_LEN];
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
+        printf("  add rax, %s\n", name); // TODO:配列インデックス
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+    } else { // ローカル変数
+        printf("  mov rax, rbp\n");
+        printf("  sub rax, %d\n", node->offset);
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+    }
 }
 
 int branch_label = 0;
@@ -20,6 +32,7 @@ int branch_label = 0;
 bool rsp_aligned = true;
 
 void gen(Node *node) {
+    char name[MAX_IDENT_LEN];
     if (node == NULL) return;
     if (node->kind == ND_VALDEF) {
         // TODO:初期化代入
@@ -34,15 +47,15 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_GVALDEF) {
-        char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
+        printf("  .globl %s\n", name);
         printf("%s:\n", name);
         printf("  .zero %d\n", node->offset);
+        printf("  .text\n");
         return;
     }
     if (node->kind == ND_FUNCDEF) {
-        char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("%s:\n", name);
@@ -161,6 +174,9 @@ void gen(Node *node) {
 
     Type *type = NULL;
 
+    Token *tok;
+    GVar *gvar;
+
 	switch (node->kind) {
     case ND_ADDR:
         gen_lval(node->lhs);
@@ -175,6 +191,22 @@ void gen(Node *node) {
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
     case ND_LVAR:
+
+        tok = calloc(1, sizeof(Token));
+        tok->str = node->name;
+        tok->len = node->val;
+        gvar = find_gvar(tok);
+        if (gvar) { // グローバル変数
+            strncpy(name, node->name, node->val);
+            name[node->val] = '\0';
+            printf("  mov rax, %s[rip]\n", name);
+            printf("  push rax\n");rsp_aligned=!rsp_aligned;
+            return;
+        } else { // ローカル変数
+
+        }
+
+
         type = estimate_type(node);
         gen_lval(node);
         if (type != NULL && type->ty == ARRAY) {
@@ -186,6 +218,24 @@ void gen(Node *node) {
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     case ND_ASSIGN:
+        tok = calloc(1, sizeof(Token));
+        tok->str = node->lhs->name;
+        tok->len = node->lhs->val;
+        gvar = find_gvar(tok);
+        if (gvar) { // グローバル変数
+            gen(node->rhs);
+            printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
+
+            strncpy(name, node->lhs->name, node->lhs->val);
+            name[node->lhs->val] = '\0';
+            printf("  mov %s[rip], rdi\n", name);
+            printf("  push rdi\n");rsp_aligned=!rsp_aligned;
+            return;
+        } else { // ローカル変数
+
+        }
+
+
         gen_lval(node->lhs);
         gen(node->rhs);
 
@@ -195,7 +245,6 @@ void gen(Node *node) {
         printf("  push rdi\n");rsp_aligned=!rsp_aligned;
         return;
     case ND_FUNC: // TODO:関数呼び出し
-        char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数

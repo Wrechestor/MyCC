@@ -1,0 +1,1 @@
+int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}
