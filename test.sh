@@ -31,6 +31,7 @@ assert 42   'int mul(int x, int y){return x*y;}int add(int x, int y){return x+y;
 assert 233  'int fibo(int x){if(x<=2)return 1; else return fibo(x-1)+fibo(x-2);}int main(){return fibo(13);}'
 assert 3    'int main(){int x; x=3; int y; y=5; int z; z=&y+8; return *z;}'
 assert 3    'int main(){int x; int *y; y = &x; *y = 3; return x;}'
+assert 6    'int main(){int p[4]; *(p+0)=2; *(p+1)=4; *(p+2)=6; *(p+3)=8; return *(p+2);}'
 # assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
 # assert 55 's=0;for(i=0;i<=10;i=i+1)s=s+i;return s;'
 # assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'

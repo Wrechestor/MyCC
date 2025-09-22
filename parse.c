@@ -240,9 +240,10 @@ void program() {
     while (!at_eof()) {
         // TODO:変数スコープ
         locals = NULL;
+        localsnum = 0;
         code[i] = function();
-        localsnums[i] = 0;
-        for (LVar *var = locals; var; var = var->next)localsnums[i]++;
+        localsnums[i] = localsnum;
+        // for (LVar *var = locals; var; var = var->next)localsnums[i]++;
         // ↑TODO:1多いかも
         i++;
     }
@@ -298,7 +299,7 @@ Node *function() {
         tmp2->kind = ND_VALDEF;
         LVar *lvar = find_lvar(argname);
         if (lvar) {
-            tmp2->offset = lvar->offset;
+            // tmp2->offset = lvar->offset;
         } else {
             lvar = calloc(1, sizeof(LVar));
             lvar->next = locals;
@@ -308,6 +309,8 @@ Node *function() {
             lvar->type = type;
             tmp2->offset = lvar->offset;
             locals = lvar;
+
+            localsnum += 1;
         }
         tmparg->lhs = tmp2;
         tmparg = tmp2;
@@ -392,12 +395,13 @@ Node *stmt() {
                 // node->offset = lvar->offset;
                 error_at(tok->str,"重複定義された変数です");
             } else {
+                int size = 1;
                 if (consume("[")) { // 配列型
-                    int array_size = expect_number();
+                    size = expect_number();
                     expect("]");
                     Type *t = calloc(1, sizeof(Type));
                     t->ty = ARRAY;
-                    t->array_size = array_size;
+                    t->array_size = size;
                     t->ptr_to = type;
                     type = t;
                 }
@@ -407,10 +411,12 @@ Node *stmt() {
                 lvar->next = locals;
                 lvar->name = tok->str;
                 lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8;
+                lvar->offset = (locals ? locals->offset : 0) + 8 * size;
                 lvar->type = type;
                 tmp->offset = lvar->offset;
                 locals = lvar;
+
+                localsnum += size;
             }
             node->lhs = tmp;
         }else{
@@ -600,6 +606,9 @@ Node *unary() {
             // size = 4;
         } else if (type->ty == PTR) {
             size = 8;
+        } else if (type->ty == ARRAY) {
+            int arrsize = type->array_size;
+            size = 8 * arrsize;
         }
         return new_node_num(size);
     }

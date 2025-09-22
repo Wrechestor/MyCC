@@ -243,6 +243,14 @@ void gen(Node *node) {
         } else if (type->ty == PTR) {
             addsize = 8;
         }
+    } else if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        type = type->ptr_to;
+        if (type->ty == INT) {
+            addsize = 4 * arrsize;
+        } else if (type->ty == PTR) {
+            addsize = 8 * arrsize;
+        }
     }
 
 	switch (node->kind) {
