@@ -565,7 +565,7 @@ Type *estimate_type(Node *node) {
         return type->ptr_to;
     }
     if (node->kind == ND_LVAR) {
-        LVar *lvar;
+        LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
         for (LVar *var = locals; var; var = var->next)
             if (var->len == node->val && !memcmp(node->name, var->name, var->len))
                 lvar = var;

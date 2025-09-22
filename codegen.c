@@ -151,6 +151,7 @@ void gen(Node *node) {
         return;
     }
 
+    Type *type = NULL;
 
 	switch (node->kind) {
     case ND_ADDR:
@@ -166,7 +167,12 @@ void gen(Node *node) {
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
     case ND_LVAR:
+        type = estimate_type(node);
         gen_lval(node);
+        if (type != NULL && type->ty == ARRAY) {
+            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+            return;
+        }
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  mov rax, [rax]\n");
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
@@ -231,7 +237,7 @@ void gen(Node *node) {
 	printf("  pop rax\n");rsp_aligned=!rsp_aligned;
 
     int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
-    Type *type = estimate_type(node->lhs);
+    type = estimate_type(node->lhs);
     if (type == NULL) {
         addsize = 1;
     } else if (type->ty == INT) {
@@ -247,9 +253,9 @@ void gen(Node *node) {
         int arrsize = type->array_size;
         type = type->ptr_to;
         if (type->ty == INT) {
-            addsize = 4 * arrsize;
+            addsize = 4;
         } else if (type->ty == PTR) {
-            addsize = 8 * arrsize;
+            addsize = 8;
         }
     }
 
