@@ -15,6 +15,18 @@ bool rsp_aligned = true;
 
 void gen(Node *node) {
     if (node == NULL) return;
+    if (node->kind == ND_VALDEF) {
+        // TODO:初期化代入
+        // gen_lval(node->lhs);
+        // gen(node->rhs);
+
+        // printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
+        // printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+        // printf("  mov [rax], rdi\n");
+        // printf("  push rdi\n");rsp_aligned=!rsp_aligned;
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+        return;
+    }
     if (node->kind == ND_FUNCDEF) {
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);

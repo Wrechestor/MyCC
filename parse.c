@@ -142,6 +142,13 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
+            cur = new_token(TK_INT, cur, p);
+            cur->len = 3;
+            p += 3;
+            continue;
+        }
+
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
 			strncmp(p, "==", 2) == 0 ||
@@ -235,9 +242,14 @@ void program() {
 }
 
 Node *function() {
-    // function = ident "(" ident* ")" "{" stmt* "}"
+    // function = "int" ident "(" ("int" ident)* ")" "{" stmt* "}"
     Node *node;
     node = calloc(1, sizeof(Node));
+
+    Token *ret_type = consume_type(TK_INT);
+    if (!ret_type) {
+        error_at(token->str,"返り値の型がありません");
+    }
 
     Token *funcname;
     funcname = consume_type(TK_IDENT);
@@ -250,9 +262,14 @@ Node *function() {
     node->val = funcname->len;
 
     expect("(");
-    Token *argname;
+    Token *argname, *argtype;
     Node *tmparg = node;
     while (!consume(")")) {
+        argtype = consume_type(TK_INT);
+        if (!argtype) {
+            error_at(token->str,"引数の型がありません");
+        }
+
         argname = consume_type(TK_IDENT);
         if (!argname) {
             error_at(token->str,"引数が不正です");
@@ -305,6 +322,13 @@ Node *function() {
 }
 
 Node *stmt() {
+    // stmt = { stmt* }
+    //        | "int" ident ";"
+    //        | "return" expr ";"
+    //        | "if" "(" expr ")" stmt ("else" stmt)?
+    //        | "while" "(" expr ")" stmt
+    //        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+    //        | expr ";"
     Node *node;
 
     if (consume("{")){ // Block
@@ -326,7 +350,35 @@ Node *stmt() {
             }
         }
 
-    }else if (consume_type(TK_RETURN)) {
+    } else if (consume_type(TK_INT)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_VALDEF;
+
+        Token *tok = consume_type(TK_IDENT);
+        if (tok) {
+                Node *tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_VALDEF;
+
+                LVar *lvar = find_lvar(tok);
+                if (lvar) {
+                    // node->offset = lvar->offset;
+                    error_at(tok->str,"重複定義された変数です");
+                } else {
+                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                    lvar = calloc(1, sizeof(LVar));
+                    lvar->next = locals;
+                    lvar->name = tok->str;
+                    lvar->len = tok->len;
+                    lvar->offset = (locals ? locals->offset : 0) + 8;
+                    tmp->offset = lvar->offset;
+                    locals = lvar;
+                }
+                node->lhs = tmp;
+        }else{
+            error_at(token->str,"変数名がありません");
+        }
+        expect(";");
+    } else if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
@@ -511,14 +563,15 @@ Node *primary() {
             if (lvar) {
                 node->offset = lvar->offset;
             } else {
+                error_at(tok->str,"未定義の変数です");
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                lvar = calloc(1, sizeof(LVar));
-                lvar->next = locals;
-                lvar->name = tok->str;
-                lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8;
-                node->offset = lvar->offset;
-                locals = lvar;
+                // lvar = calloc(1, sizeof(LVar));
+                // lvar->next = locals;
+                // lvar->name = tok->str;
+                // lvar->len = tok->len;
+                // lvar->offset = (locals ? locals->offset : 0) + 8;
+                // node->offset = lvar->offset;
+                // locals = lvar;
             }
             return node;
         }

@@ -17,6 +17,7 @@ typedef enum {
   TK_FOR,      // for
   TK_IDENT,    // 識別子
   TK_NUM,      // 整数トークン
+  TK_INT,      // int
   TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
@@ -55,6 +56,7 @@ typedef enum {
   ND_ARG,     // 関数の引数
   ND_ADDR,    // unary &
   ND_DEREF,   // unary *
+  ND_VALDEF,  // 変数定義 TODO
   ND_NUM,     // 整数
 } NodeKind;
 
