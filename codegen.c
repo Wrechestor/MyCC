@@ -191,12 +191,18 @@ void gen(Node *node) {
             printf("  pop rax\n");rsp_aligned=!rsp_aligned;
             switch (k-1) {
                 // TODO:eax(raxの下位32bit)
-                case 0:printf("  mov edi, eax\n");break;
-                case 1:printf("  mov esi, eax\n");break;
-                case 2:printf("  mov edx, eax\n");break;
-                case 3:printf("  mov ecx, eax\n");break;
-                case 4:printf("  mov r8d, eax\n");break;
-                case 5:printf("  mov r9d, eax\n");break;
+                // case 0:printf("  mov edi, eax\n");break;
+                // case 1:printf("  mov esi, eax\n");break;
+                // case 2:printf("  mov edx, eax\n");break;
+                // case 3:printf("  mov ecx, eax\n");break;
+                // case 4:printf("  mov r8d, eax\n");break;
+                // case 5:printf("  mov r9d, eax\n");break;
+                case 0:printf("  mov rdi, rax\n");break;
+                case 1:printf("  mov rsi, rax\n");break;
+                case 2:printf("  mov rdx, rax\n");break;
+                case 3:printf("  mov rcx, rax\n");break;
+                case 4:printf("  mov r8, rax\n");break;
+                case 5:printf("  mov r9, rax\n");break;
                 // default:printf("  push rax\n");break; // TODO:7個目以降
             }
         }
@@ -218,11 +224,39 @@ void gen(Node *node) {
 	printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
 	printf("  pop rax\n");rsp_aligned=!rsp_aligned;
 
+    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
+    if (node->lhs->kind == ND_LVAR) {
+        LVar *lvar;
+        // printf("### val %s !!!!!\n", node->lhs->name);
+        for (LVar *var = locals; var; var = var->next)
+            if (var->len == node->lhs->val && !memcmp(node->lhs->name, var->name, var->len))
+                lvar = var;
+        if (lvar) {
+            Type *type = lvar->type;
+            if (type->ty == INT) {
+                addsize = 1;
+                // printf("### val %s is int\n", node->lhs->name);
+            } else if (type->ty == PTR) {
+                type = type->ptr_to;
+                if (type->ty == INT) {
+                    addsize = 4;
+                } else if (type->ty == PTR) {
+                    addsize = 8;
+                }
+                // printf("### val %s is ptr\n", node->lhs->name);
+            }
+        } else {
+            // error_at(node->lhs->name,"未定義の変数です");
+        }
+    }
+
 	switch (node->kind) {
 	case ND_ADD:
+        if (addsize != 1) printf("  imul rdi, %d\n", addsize);
 		printf("  add rax, rdi\n");
 		break;
 	case ND_SUB:
+        if (addsize != 1) printf("  imul rdi, %d\n", addsize);
 		printf("  sub rax, rdi\n");
 		break;
 	case ND_MUL:

@@ -366,25 +366,25 @@ Node *stmt() {
 
         Token *tok = consume_type(TK_IDENT);
         if (tok) {
-                Node *tmp = calloc(1, sizeof(Node));
-                tmp->kind = ND_VALDEF;
+            Node *tmp = calloc(1, sizeof(Node));
+            tmp->kind = ND_VALDEF;
 
-                LVar *lvar = find_lvar(tok);
-                if (lvar) {
-                    // node->offset = lvar->offset;
-                    error_at(tok->str,"重複定義された変数です");
-                } else {
-                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                    lvar = calloc(1, sizeof(LVar));
-                    lvar->next = locals;
-                    lvar->name = tok->str;
-                    lvar->len = tok->len;
-                    lvar->offset = (locals ? locals->offset : 0) + 8;
-                    lvar->type = type;
-                    tmp->offset = lvar->offset;
-                    locals = lvar;
-                }
-                node->lhs = tmp;
+            LVar *lvar = find_lvar(tok);
+            if (lvar) {
+                // node->offset = lvar->offset;
+                error_at(tok->str,"重複定義された変数です");
+            } else {
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                lvar = calloc(1, sizeof(LVar));
+                lvar->next = locals;
+                lvar->name = tok->str;
+                lvar->len = tok->len;
+                lvar->offset = (locals ? locals->offset : 0) + 8;
+                lvar->type = type;
+                tmp->offset = lvar->offset;
+                locals = lvar;
+            }
+            node->lhs = tmp;
         }else{
             error_at(token->str,"変数名がありません");
         }
@@ -573,6 +573,8 @@ Node *primary() {
             LVar *lvar = find_lvar(tok);
             if (lvar) {
                 node->offset = lvar->offset;
+                node->val = lvar->len;
+                node->name = lvar->name;
             } else {
                 error_at(tok->str,"未定義の変数です");
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
