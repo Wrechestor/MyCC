@@ -98,8 +98,11 @@ void gen(Node *node) {
             i++;
         }
         // ローカル変数用のスタックを確保
-        // printf("  sub rsp, %d\n", (localsnum - i) * 8);
-        printf("  sub rsp, %d\n", 240); // TODO:仮
+        // printf("  sub rsp, %d\n", (localsnum/2) * 2 * 8);
+        // printf("### locals: %d\n", localsnum);
+        // printf("  sub rsp, %d\n", 128); // TODO:仮
+        // printf("  sub rsp, %d\n", 32); // TODO:仮
+        printf("  sub rsp, %d\n", ((localsnum+1)/2) * 2 * 8); // 本来これでいいはずだが...
         // if ((localsnum) % 2 == 0)printf("  sub rsp, %d\n", 8);
 
 
@@ -323,13 +326,17 @@ void gen(Node *node) {
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
             // rspの8の位を保存
-            printf("  mov r15, rsp\n");
-            printf("  and r15, 8\n");
+            printf("  mov rbx, rsp\n");
+            printf("  and rbx, 0xF\n");
             // rspを16の倍数にする
-            printf("  and rsp, -16\n");
+            // printf("  and rsp, -16\n");
+            printf("  sub rsp, rbx\n");
         printf("  call %s\n", name);
-            // rspの8の位を保存
-            printf("  or rsp, r15\n");
+            // rspを元に戻す
+            // TODO:ここで元に戻すとローカル変数用のスタックがなぜか128個必要になる
+            // TODO:元に戻さないと関数が入れ子になっているときにおかしくなる
+            // printf("  or rsp, rbx\n");
+            // printf("  add rsp, rbx\n");
 
 
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
@@ -346,7 +353,6 @@ void gen(Node *node) {
     type = estimate_type(node->lhs);
     if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
-        printf("### left is ptr size=%d\n", addsize);
     }
 
 	switch (node->kind) {
