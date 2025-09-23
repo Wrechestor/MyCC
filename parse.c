@@ -374,6 +374,7 @@ Node *function_gval() {
                 int arrsize = 1;
                 if (consume("[")) { // 配列型
                     arrsize = expect_number();
+                    // printf("#### arrsize=%d\n", arrsize);
                     expect("]");
                     Type *t = calloc(1, sizeof(Type));
                     t->ty = ARRAY;
@@ -390,8 +391,8 @@ Node *function_gval() {
                 } else if (Rtype->ty == PTR) {
                     size = 8;
                 } else if (Rtype->ty == ARRAY) {
-                    int arrsize = Rtype->array_size;
-                    Rtype = Rtype->ptr_to;
+                    // int arrsize = Rtype->array_size;
+                    // Rtype = Rtype->ptr_to;
                     if (Rtype->ty == INT) {
                         size = 4;
                     } else if (Rtype->ty == PTR) {

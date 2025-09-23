@@ -1,6 +1,6 @@
 #include "mycc.h"
 
-void gen_lval(Node *node) {
+void gen_lval(Node *node) { //TODO:評価値がグローバル変数のときは何か返す
     if (node->kind == ND_DEREF) {
         // ポインタ対応 TODO
         gen(node->lhs);
@@ -18,7 +18,7 @@ void gen_lval(Node *node) {
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
-        printf("  add rax, %s\n", name); // TODO:配列インデックス
+        printf("  lea rax, QWORD PTR %s[rip]\n", name); // TODO:配列インデックス
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
     } else { // ローカル変数
         printf("  mov rax, rbp\n");
@@ -52,12 +52,13 @@ void gen(Node *node) {
         printf("  .globl %s\n", name);
         printf("%s:\n", name);
         printf("  .zero %d\n", node->offset);
-        printf("  .text\n");
+        // printf("  .text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
         return;
     }
     if (node->kind == ND_FUNCDEF) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
+        printf("  .globl %s\n", name);
         printf("%s:\n", name);
 
         // プロローグ
@@ -191,22 +192,6 @@ void gen(Node *node) {
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
     case ND_LVAR:
-
-        tok = calloc(1, sizeof(Token));
-        tok->str = node->name;
-        tok->len = node->val;
-        gvar = find_gvar(tok);
-        if (gvar) { // グローバル変数
-            strncpy(name, node->name, node->val);
-            name[node->val] = '\0';
-            printf("  mov rax, %s[rip]\n", name);
-            printf("  push rax\n");rsp_aligned=!rsp_aligned;
-            return;
-        } else { // ローカル変数
-
-        }
-
-
         type = estimate_type(node);
         gen_lval(node);
         if (type != NULL && type->ty == ARRAY) {
@@ -218,24 +203,6 @@ void gen(Node *node) {
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     case ND_ASSIGN:
-        tok = calloc(1, sizeof(Token));
-        tok->str = node->lhs->name;
-        tok->len = node->lhs->val;
-        gvar = find_gvar(tok);
-        if (gvar) { // グローバル変数
-            gen(node->rhs);
-            printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
-
-            strncpy(name, node->lhs->name, node->lhs->val);
-            name[node->lhs->val] = '\0';
-            printf("  mov %s[rip], rdi\n", name);
-            printf("  push rdi\n");rsp_aligned=!rsp_aligned;
-            return;
-        } else { // ローカル変数
-
-        }
-
-
         gen_lval(node->lhs);
         gen(node->rhs);
 

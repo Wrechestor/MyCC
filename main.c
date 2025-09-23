@@ -17,25 +17,16 @@ int main(int argc, char **argv) {
     if (globals) {
         printf(".bss\n");
     }
-	printf(".globl ");
 
-    char name[MAX_IDENT_LEN];
-    int is_first = 1;
-    for (int i = 0; code[i]; i++) {
-        if (code[i] && code[i]->kind == ND_FUNCDEF) {
-            if (!is_first) printf(", ");
-            else is_first = 0;
-            strncpy(name, code[i]->name, code[i]->val);
-            name[code[i]->val] = '\0';
-            printf("%s", name);
-        }
-    }
-    printf("\n");
-
+    int doing_gloval = 1;
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {
         rsp_aligned = true;
         localsnum = localsnums[i];
+        if (doing_gloval && code[i]->kind != ND_GVALDEF) {
+            printf(".text\n");
+            doing_gloval = 0;
+        }
         gen(code[i]);
     }
 

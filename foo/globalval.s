@@ -12,7 +12,10 @@ main:
 	push	rbp
 	mov	rbp, rsp
 	mov	DWORD PTR x[rip], 3
-	mov	DWORD PTR y[rip+20], 5
+  	lea rax, QWORD PTR y[rip]
+	add rax, 20
+	mov rdi, 5
+	mov [rax], rdi
 	mov	edx, DWORD PTR y[rip+20]
 	mov	eax, DWORD PTR x[rip]
 	add	eax, edx
