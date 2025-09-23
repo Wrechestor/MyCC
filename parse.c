@@ -459,7 +459,7 @@ Node *function_gval() {
                 error_at(tok->str,"重複定義されたグローバル変数です");
             } else {
                 int arrsize = 1;
-                if (consume("[")) { // 配列型
+                while (consume("[")) { // 配列型
                     arrsize = expect_number();
                     // printf("#### arrsize=%d\n", arrsize);
                     expect("]");
@@ -547,7 +547,7 @@ Node *stmt() {
                 error_at(tok->str,"重複定義された変数です");
             } else {
                 int size = 1;
-                if (consume("[")) { // 配列型
+                while (consume("[")) { // 配列型
                     size = expect_number();
                     expect("]");
                     Type *t = calloc(1, sizeof(Type));
@@ -792,10 +792,10 @@ Node *unary() {
 }
 
 Node *brackets() { // TODO:配列アクセス(優先順位は?)
-    // brackets = primary ("[" expr "]")?
+    // brackets = primary ("[" expr "]")*
     Node *node = primary();
 
-    if (consume("[")) {
+    while (consume("[")) {
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
         expect("]");

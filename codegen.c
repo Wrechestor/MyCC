@@ -180,9 +180,26 @@ void gen(Node *node) {
         return;
     case ND_DEREF:
         gen(node->lhs);
-        printf("  pop rax\n");
+        type = estimate_type(node->lhs);
+        if (type) {
+            type = type->ptr_to;
+        }
+        if (type) {
+            if (type->ty == ARRAY) {
+                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                return;
+            }
+            if (type->ty == CHAR) {
+                // char型のときは1バイト読み込む
+                printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+                printf("  movzx eax, BYTE PTR [rax]\n");
+                printf("  push rax\n");rsp_aligned=!rsp_aligned;
+                return;
+            }
+        }
+        printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  mov rax, [rax]\n");
-        printf("  push rax\n");
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
@@ -229,7 +246,6 @@ void gen(Node *node) {
                 return;
             }
         }
-
         printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  mov [rax], rdi\n");
