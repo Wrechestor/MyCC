@@ -5,11 +5,13 @@ int g_count;
 int bt_count;
 int tn_count;
 int abs(int x) {
+    // printf("aaa\n");
     if (x < 0) return -x;
     return x;
 }
 int testNth(char *row, int n)     //  row[0] から row[n] まで配置済み
 {tn_count = tn_count + 1;
+    // printf("aaa\n");
     int i;
     for(i = 0; i < n; i = i + 1) {
         // if( row[i] == row[n] || abs(row[i] - row[n]) == n - i )
@@ -21,7 +23,8 @@ int testNth(char *row, int n)     //  row[0] から row[n] まで配置済み
 }
 int backtracking(char *row, int n, int NQ)     //  n:配置済みクイーン数
 {bt_count = bt_count + 1;
-    // printf("%d\n", g_count);
+    // puts("asdf");
+    printf("asdf\n");
     for(row[n] = 1; row[n] <= NQ; row[n] = row[n] + 1) {
         if( testNth(row, n) ) {    // 制約を満たしている場合のみ先に進む
             if( n + 1 == NQ ) {

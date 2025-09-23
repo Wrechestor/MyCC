@@ -93,13 +93,14 @@ void gen(Node *node) {
                 // case 5:printf("  push r9d\n"); break;
                 // default:printf("  push rax\n");break; // TODO:pushは逆順
             }
+            rsp_aligned=!rsp_aligned;
             tmparg = tmparg->lhs;
             i++;
         }
         // ローカル変数用のスタックを確保
         // printf("  sub rsp, %d\n", (localsnum - i) * 8);
-        printf("  sub rsp, %d\n", 320); // TODO:仮
-        if ((localsnum) % 2 == 1)rsp_aligned=!rsp_aligned;
+        printf("  sub rsp, %d\n", 240); // TODO:仮
+        // if ((localsnum) % 2 == 0)printf("  sub rsp, %d\n", 8);
 
 
         gen(node->rhs);
@@ -229,7 +230,7 @@ void gen(Node *node) {
     case ND_QUOTE:
         printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
         // printf("  lea	rax, .LC%d[rip]\n", node->val);
-        printf("  push rax\n");
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     case ND_LVAR:
         type = estimate_type(node);
@@ -318,12 +319,19 @@ void gen(Node *node) {
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
 
-        // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
-        // if (!rsp_aligned) {
-        //     printf("  sub rsp, 8\n");
-        //     rsp_aligned=!rsp_aligned;
-        // }
+
+        // スタックアライメント
+        // (call時にrspが16の倍数でないとセグフォで落ちる)
+            // rspの8の位を保存
+            printf("  mov r15, rsp\n");
+            printf("  and r15, 8\n");
+            // rspを16の倍数にする
+            printf("  and rsp, -16\n");
         printf("  call %s\n", name);
+            // rspの8の位を保存
+            printf("  or rsp, r15\n");
+
+
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     }

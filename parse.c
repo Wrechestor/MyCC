@@ -485,6 +485,9 @@ Node *function_gval() {
                 gvar->len = tok->len;
                 // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
                 gvar->addr = size;
+                if (Rtype->ty == ARRAY) { // TODO:intがバグるので応急処置
+                    gvar->addr += 4;
+                }
                 gvar->type = Rtype;
                 node->offset = gvar->addr;
                 globals = gvar;
@@ -575,7 +578,7 @@ Node *stmt() {
                 tmp->offset = lvar->offset;
                 locals = lvar;
 
-                localsnum += size;
+                localsnum += totalsize;
             }
             node->lhs = tmp;
         }else{
