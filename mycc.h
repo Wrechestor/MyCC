@@ -20,6 +20,7 @@ typedef enum {
   TK_INT,      // int
   TK_CHAR,     // char
   TK_SIZEOF,   // sizeof
+  TK_QUOTE,    // 文字列リテラル
   TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
@@ -61,6 +62,7 @@ typedef enum {
   ND_DEREF,   // unary *
   ND_VALDEF,  // ローカル変数定義
   ND_GVALDEF, // グローバル変数定義
+  ND_QUOTE,   // 文字列リテラル
   ND_NUM,     // 整数
 } NodeKind;
 
@@ -114,6 +116,21 @@ struct GVar {
 
 // グローバル変数
 extern GVar *globals;
+
+
+typedef struct Strs Strs;
+
+// 文字列リテラルの型
+struct Strs {
+  Strs *next; // 次の変数かNULL
+  char *text; // 内容
+  int len;    // 長さ
+  int id;     // 連番のID
+};
+
+// 文字列リテラルのリスト
+extern Strs *strs;
+extern int strsnum;
 
 // 現在着目しているトークン
 extern Token *token;

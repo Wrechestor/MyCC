@@ -18,6 +18,18 @@ int main(int argc, char **argv) {
         printf(".bss\n");
     }
 
+    // 文字列リテラル
+    Strs *strsptr = strs;
+    for (int i = 0; i < strsnum; i++) {
+        char name[MAX_IDENT_LEN];
+        strncpy(name, strsptr->text, strsptr->len);
+        name[strsptr->len] = '\0';
+        printf(".LC%d:\n", i);
+        printf("  .string \"%s\"\n", name);
+
+        strsptr = strsptr->next;
+    }
+
     int doing_gloval = 1;
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {

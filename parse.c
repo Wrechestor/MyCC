@@ -122,6 +122,18 @@ void tokenize() {
             continue;
 		}
 
+        if (*p == '"') { // 文字列リテラル
+            char *q = p + 1;
+            while (*q != '"') {
+                if (!*q) error_at(p,"閉じられていない文字列リテラルです");
+                q++;
+            }
+            cur = new_token(TK_QUOTE, cur, p + 1);
+            cur->len = q - p - 1;
+            p = q + 1;
+            continue;
+        }
+
         if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_RETURN, cur, p);
             cur->len = 6;
@@ -266,6 +278,9 @@ Node *new_node_num(int val) {
 Node *code[100];
 int localsnums[100];
 int localsnum;
+
+Strs *strs;
+int strsnum;
 
 void program() {
     int i = 0;
@@ -743,8 +758,25 @@ Node *primary() {
         return node;
     }
 
+    Token *tok = consume_type(TK_QUOTE);
+    if (tok) { // 文字列リテラル
+        Node *node = calloc(1, sizeof(Node));
+        node->kind = ND_QUOTE;
+        node->val = strsnum;
+
+        Strs *str = calloc(1, sizeof(Strs));
+        str->next = strs;
+        str->text = tok->str;
+        str->len = tok->len;
+        str->id = strsnum;
+        strs = str;
+
+        strsnum += 1;
+        return node;
+    }
+
     // 次のトークンが識別子なら
-    Token *tok = consume_type(TK_IDENT);
+    tok = consume_type(TK_IDENT);
     if (tok) {
         if (consume("(")) { // TODO:関数呼び出し
             Node *node = calloc(1, sizeof(Node));

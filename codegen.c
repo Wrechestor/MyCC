@@ -187,6 +187,10 @@ void gen(Node *node) {
 	case ND_NUM:
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
+    case ND_QUOTE:
+        printf("  mov eax, OFFSET FLAT:.LC%d\n", node->val);
+        printf("  push rax\n");
+        return;
     case ND_LVAR:
         type = estimate_type(node);
         gen_lval(node);
