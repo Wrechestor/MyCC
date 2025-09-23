@@ -3,7 +3,8 @@ assert() {
     expected="$1"
     input="$2"
 
-    ./mycc "$input" > tmp.s
+    echo "$input" > tmpc
+    ./mycc tmpc > tmp.s
     cc -o tmp tmp.s -g -static
     ./tmp
     actual="$?"
@@ -36,8 +37,8 @@ assert 3    'int main(){int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p
 assert 3    'int main(){int a[2]; a[0] = 1; a[1] = 2; int *p; p = a; return *p + p[1];}'
 assert 8    'int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}'
 
-
 assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
+assert 0    'int main(){printf("Hello, World!\n"); return 0;}'
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 

@@ -266,7 +266,9 @@ void gen(Node *node) {
                 // default:printf("  push rax\n");break; // TODO:7個目以降
             }
         }
-        printf("  mov eax, 0\n");
+
+        // ALに引数の浮動小数点数の数を入れる
+        printf("  mov al, 0\n");
 
         // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
         // if (!rsp_aligned) {

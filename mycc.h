@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #define MAX_IDENT_LEN 255 // 識別子の名前の最大長
 
@@ -146,8 +147,11 @@ extern int branch_label;
 // rspが16の倍数になっているか
 extern bool rsp_aligned;
 
+// 入力ファイル名
+extern char *filename;
+
 void error(char *fmt, ...);
-void error_at(char *loc, char *fmt, ...);
+void error_at(char *loc, char *msg);
 bool consume(char *op);
 Token *consume_type(TokenKind tkind);
 void expect(char *op);
