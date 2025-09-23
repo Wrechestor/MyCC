@@ -44,9 +44,6 @@ int main(int argc, char **argv) {
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
-    if (globals) {
-        printf(".bss\n");
-    }
 
     // 文字列リテラル
     Strs *strsptr = strs;
@@ -54,10 +51,14 @@ int main(int argc, char **argv) {
         char name[MAX_IDENT_LEN];
         strncpy(name, strsptr->text, strsptr->len);
         name[strsptr->len] = '\0';
-        printf(".LC%d:\n", i);
+        printf(".LC%d:\n", strsptr->id);
         printf("  .string \"%s\"\n", name);
 
         strsptr = strsptr->next;
+    }
+
+    if (globals) {
+        printf(".bss\n");
     }
 
     int doing_gloval = 1;
@@ -65,6 +66,7 @@ int main(int argc, char **argv) {
     for (int i = 0; code[i]; i++) {
         rsp_aligned = true;
         localsnum = localsnums[i];
+        locals = LocalsList[i];
         if (doing_gloval && code[i]->kind != ND_GVALDEF) {
             printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
             doing_gloval = 0;

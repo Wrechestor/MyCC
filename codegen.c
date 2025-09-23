@@ -13,6 +13,17 @@ void gen_lval(Node *node) {
     Token *tok = calloc(1, sizeof(Token));
     tok->str = node->name;
     tok->len = node->val;
+    LVar *lvar = find_lvar(tok);
+    if (lvar) { // ローカル変数
+        printf("  mov rax, rbp\n");
+        printf("  sub rax, %d\n", node->offset);
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+        return;
+    }
+
+    tok = calloc(1, sizeof(Token));
+    tok->str = node->name;
+    tok->len = node->val;
     GVar *gvar = find_gvar(tok);
     if (gvar) { // グローバル変数
         char name[MAX_IDENT_LEN];
@@ -20,11 +31,9 @@ void gen_lval(Node *node) {
         name[node->val] = '\0';
         printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
-    } else { // ローカル変数
-        printf("  mov rax, rbp\n");
-        printf("  sub rax, %d\n", node->offset);
-        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+        return;
     }
+    error("代入の左辺の変数がありません");
 }
 
 int branch_label = 0;
@@ -87,7 +96,8 @@ void gen(Node *node) {
             i++;
         }
         // ローカル変数用のスタックを確保
-        printf("  sub rsp, %d\n", (localsnum - i) * 8);
+        // printf("  sub rsp, %d\n", (localsnum - i) * 8);
+        printf("  sub rsp, %d\n", 320); // TODO:仮
         if ((localsnum) % 2 == 1)rsp_aligned=!rsp_aligned;
 
 
@@ -115,50 +125,53 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_IF) {
+        int id = branch_label;
+        branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  cmp rax, 0\n");
         if (node->rhs->kind == ND_ELSE) {
-            printf("  je  .Lelse%d\n", branch_label);
+            printf("  je  .Lelse%d\n", id);
             gen(node->rhs->lhs);
-            printf("  jmp .Lend%d\n", branch_label);
-            printf(".Lelse%d:\n", branch_label);
+            printf("  jmp .Lend%d\n", id);
+            printf(".Lelse%d:\n", id);
             gen(node->rhs->rhs);
         } else {
-            printf("  je  .Lend%d\n", branch_label);
+            printf("  je  .Lend%d\n", id);
             gen(node->rhs);
         }
-        printf(".Lend%d:\n", branch_label);
-        branch_label++;
+        printf(".Lend%d:\n", id);
         return;
     }
 
     if (node->kind == ND_WHILE) {
-        printf(".Lbegin%d:\n", branch_label);
+        int id = branch_label;
+        branch_label++;
+        printf(".Lbegin%d:\n", id);
         gen(node->lhs);
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", branch_label);
+        printf("  je  .Lend%d\n", id);
         gen(node->rhs);
-        printf("  jmp .Lbegin%d\n", branch_label);
-        printf(".Lend%d:\n", branch_label);
-        branch_label++;
+        printf("  jmp .Lbegin%d\n", id);
+        printf(".Lend%d:\n", id);
         return;
     }
 
     if (node->kind == ND_FOR) {
+        int id = branch_label;
+        branch_label++;
         // for (A; B; C) D
         gen(node->lhs); //A
-        printf(".Lbegin%d:\n", branch_label);
+        printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); //B
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", branch_label);
+        printf("  je  .Lend%d\n", id);
         gen(node->rhs->rhs->rhs); //D
         gen(node->rhs->rhs->lhs); //C
-        printf("  jmp .Lbegin%d\n", branch_label);
-        printf(".Lend%d:\n", branch_label);
-        branch_label++;
+        printf("  jmp .Lbegin%d\n", id);
+        printf(".Lend%d:\n", id);
         return;
     }
 
@@ -284,7 +297,7 @@ void gen(Node *node) {
         }
 
         // ALに引数の浮動小数点数の数を入れる
-        printf("  mov al, 0\n");
+        printf("  mov eax, 0\n");
 
         // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
         // if (!rsp_aligned) {
@@ -306,6 +319,7 @@ void gen(Node *node) {
     type = estimate_type(node->lhs);
     if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
+        printf("### left is ptr size=%d\n", addsize);
     }
 
 	switch (node->kind) {

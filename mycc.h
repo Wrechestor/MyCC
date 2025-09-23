@@ -101,6 +101,7 @@ struct LVar {
 
 // ローカル変数
 extern LVar *locals;
+extern LVar *LocalsList[100];
 extern int localsnums[100];
 extern int localsnum;
 

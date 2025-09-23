@@ -37,9 +37,11 @@ assert 3    'int main(){int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p
 assert 3    'int main(){int a[2]; a[0] = 1; a[1] = 2; int *p; p = a; return *p + p[1];}'
 assert 8    'int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}'
 assert 5    'int x[3][5];int main(){x[0][0]=1;x[0][1]=2;x[1][0]=3;x[1][1]=4;return x[0][0]+x[1][1];}'
-
 assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 assert 0    'int main(){printf("Hello, World!\n"); return 0;}'
+assert 4    'char x[8];int add3(char *k, int n){k[n] = k[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
+assert 4    'int x[8];int add3(int *k, int n){k[n] = k[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
+assert 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 

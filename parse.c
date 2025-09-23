@@ -285,6 +285,9 @@ void tokenize() {
 			continue;
 		}
 
+        if (token == NULL) {
+            error_at(p,"トークナイズできません");
+        }
 		error_at(token->str,"トークナイズできません");
 	}
 
@@ -293,6 +296,7 @@ void tokenize() {
 }
 
 LVar *locals;
+LVar *LocalsList[100];
 
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 LVar *find_lvar(Token *tok) {
@@ -343,6 +347,7 @@ void program() {
         localsnum = 0;
         code[i] = function_gval();
         localsnums[i] = localsnum;
+        LocalsList[i] = locals;
         // for (LVar *var = locals; var; var = var->next)localsnums[i]++;
         // ↑TODO:1多いかも
         i++;
@@ -546,6 +551,7 @@ Node *stmt() {
                 // node->offset = lvar->offset;
                 error_at(tok->str,"重複定義された変数です");
             } else {
+                int totalsize = 1;
                 int size = 1;
                 while (consume("[")) { // 配列型
                     size = expect_number();
@@ -555,6 +561,8 @@ Node *stmt() {
                     t->array_size = size;
                     t->ptr_to = type;
                     type = t;
+
+                    totalsize *= size;
                 }
 
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
@@ -562,7 +570,7 @@ Node *stmt() {
                 lvar->next = locals;
                 lvar->name = tok->str;
                 lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8 * size;
+                lvar->offset = (locals ? locals->offset : 0) + 8 * totalsize;
                 lvar->type = type;
                 tmp->offset = lvar->offset;
                 locals = lvar;

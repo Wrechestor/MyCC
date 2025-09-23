@@ -67,7 +67,8 @@
     "ctype.h": "c",
     "typeinfo": "c",
     "compare": "c",
-    "type_traits": "c"
+    "type_traits": "c",
+    "eightqueen_c": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }
