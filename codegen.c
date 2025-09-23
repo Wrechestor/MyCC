@@ -88,7 +88,7 @@ void gen(Node *node) {
         }
         // ローカル変数用のスタックを確保
         printf("  sub rsp, %d\n", (localsnum - i) * 8);
-        if ((localsnum/8) % 2 == 1)rsp_aligned=!rsp_aligned;
+        if ((localsnum) % 2 == 1)rsp_aligned=!rsp_aligned;
 
 
         gen(node->rhs);
@@ -190,9 +190,18 @@ void gen(Node *node) {
     case ND_LVAR:
         type = estimate_type(node);
         gen_lval(node);
-        if (type != NULL && type->ty == ARRAY) {
-            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-            return;
+        if (type) {
+            if (type->ty == ARRAY) {
+                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                return;
+            }
+            if (type->ty == CHAR) {
+                // char型のときは1バイト読み込む
+                printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+                printf("  movzx eax, BYTE PTR [rax]\n");
+                printf("  push rax\n");rsp_aligned=!rsp_aligned;
+                return;
+            }
         }
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
         printf("  mov rax, [rax]\n");
@@ -201,6 +210,21 @@ void gen(Node *node) {
     case ND_ASSIGN:
         gen_lval(node->lhs);
         gen(node->rhs);
+
+        type = estimate_type(node->lhs);
+        if (type) {
+            if (type->ty == ARRAY) {
+                error("配列には代入できません");
+            }
+            if (type->ty == CHAR) {
+                // char型のときは1バイト読み込む
+                printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
+                printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+                printf("  mov [rax], dil\n");
+                printf("  push rdi\n");rsp_aligned=!rsp_aligned;
+                return;
+            }
+        }
 
         printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;

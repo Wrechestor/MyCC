@@ -36,8 +36,13 @@ assert 3    'int main(){int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p
 assert 3    'int main(){int a[2]; a[0] = 1; a[1] = 2; int *p; p = a; return *p + p[1];}'
 assert 8    'int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}'
 
+
+assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
+
+# assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
+
 # assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
-# assert 55 's=0;for(i=0;i<=10;i=i+1)s=s+i;return s;'
+# assert 55 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
 # assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
 # assert 45 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
 

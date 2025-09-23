@@ -52,6 +52,21 @@ Token *consume_type(TokenKind tkind) {
 	return old;
 }
 
+Type *consume_typeword() {
+    Type *type = calloc(1, sizeof(Type));
+    if(consume_type(TK_INT)) type->ty = INT;
+    else if(consume_type(TK_CHAR)) type->ty = CHAR;
+    else {
+        free(type);
+        return NULL;
+    }
+	return type;
+}
+
+int is_typeword() {
+    return  token->kind == TK_INT || token->kind == TK_CHAR;
+}
+
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
 // それ以外の場合にはエラーを報告する。
 void expect(char *op) {
@@ -146,6 +161,13 @@ void tokenize() {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
             p += 3;
+            continue;
+        }
+
+        if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_CHAR, cur, p);
+            cur->len = 4;
+            p += 4;
             continue;
         }
 
@@ -266,14 +288,12 @@ Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
 
-    Token *ret_type = consume_type(TK_INT);
-    if (!ret_type) {
+    // 戻り値の型
+    Type *Rtype = consume_typeword();
+    if (!Rtype) {
         error_at(token->str,"返り値の型がありません");
     }
 
-    // TODO:戻り値の型 ポインタ型に対応
-    Type *Rtype = calloc(1, sizeof(Type));
-    Rtype->ty = INT;
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
         t->ty = PTR;
@@ -292,22 +312,21 @@ Node *function_gval() {
         node->name = funcname->str;
         node->val = funcname->len;
 
-        Token *argname, *argtype;
+        Token *argname;
+        Type *argtype;
         Node *tmparg = node;
         while (!consume(")")) {
-            argtype = consume_type(TK_INT);
+            argtype = consume_typeword();
             if (!argtype) {
                 error_at(token->str,"引数の型がありません");
             }
 
             // ポインタ型に対応
-            Type *type = calloc(1, sizeof(Type));
-            type->ty = INT;
             while (consume("*")) {
                 Type *t = calloc(1, sizeof(Type));
                 t->ty = PTR;
-                t->ptr_to = type;
-                type = t;
+                t->ptr_to = argtype;
+                argtype = t;
             }
 
             argname = consume_type(TK_IDENT);
@@ -327,7 +346,7 @@ Node *function_gval() {
                 lvar->name = argname->str;
                 lvar->len = argname->len;
                 lvar->offset = (locals ? locals->offset : 0) + 8;
-                lvar->type = type;
+                lvar->type = argtype;
                 tmp2->offset = lvar->offset;
                 locals = lvar;
 
@@ -384,21 +403,7 @@ Node *function_gval() {
                 }
 
                 int size = 4;
-                if (Rtype == NULL) {
-                    size = 4;
-                } else if (Rtype->ty == INT) {
-                    size = 4;
-                } else if (Rtype->ty == PTR) {
-                    size = 8;
-                } else if (Rtype->ty == ARRAY) {
-                    // int arrsize = Rtype->array_size;
-                    // Rtype = Rtype->ptr_to;
-                    if (Rtype->ty == INT) {
-                        size = 4;
-                    } else if (Rtype->ty == PTR) {
-                        size = 8;
-                    }
-                }
+                size = size_from_type(Rtype);
 
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
                 gvar = calloc(1, sizeof(GVar));
@@ -406,7 +411,7 @@ Node *function_gval() {
                 gvar->name = tok->str;
                 gvar->len = tok->len;
                 // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                gvar->addr = size * arrsize;
+                gvar->addr = size;
                 gvar->type = Rtype;
                 node->offset = gvar->addr;
                 globals = gvar;
@@ -449,13 +454,13 @@ Node *stmt() {
             }
         }
 
-    } else if (consume_type(TK_INT)) { // 変数定義
+    } else if (is_typeword()) { // 変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
         // ポインタ型に対応
-        Type *type = calloc(1, sizeof(Type));
-        type->ty = INT;
+        Type *type = consume_typeword();
+
         while (consume("*")) {
             Type *t = calloc(1, sizeof(Type));
             t->ty = PTR;
