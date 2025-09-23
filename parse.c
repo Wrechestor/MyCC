@@ -682,21 +682,29 @@ Type *estimate_type(Node *node) {
     return (ltype ? ltype : rtype);
 }
 
+int size_from_type(Type *type) {
+    int size = 4;
+    if (type == NULL) {
+        size = 4;
+    } else if (type->ty == INT) {
+        size = 4;
+    } else if (type->ty == CHAR) {
+        size = 1;
+    } else if (type->ty == PTR) {
+        size = 8;
+    } else if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        Type *t = type->ptr_to;
+        size = size_from_type(t) * arrsize;
+    }
+    return size;
+}
+
 Node *unary() {
     if (consume_type(TK_SIZEOF)) {
         Node *node = unary();
         Type *type = estimate_type(node);
-        int size = 4;
-        if (type == NULL) {
-            // size = 4;
-        } else if (type->ty == INT) {
-            // size = 4;
-        } else if (type->ty == PTR) {
-            size = 8;
-        } else if (type->ty == ARRAY) {
-            int arrsize = type->array_size;
-            size = 8 * arrsize;
-        }
+        int size = size_from_type(type);
         return new_node_num(size);
     }
 	if (consume("+"))

@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
         rsp_aligned = true;
         localsnum = localsnums[i];
         if (doing_gloval && code[i]->kind != ND_GVALDEF) {
-            printf(".text\n");
+            printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
             doing_gloval = 0;
         }
         gen(code[i]);

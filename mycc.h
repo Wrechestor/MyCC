@@ -18,6 +18,7 @@ typedef enum {
   TK_IDENT,    // 識別子
   TK_NUM,      // 整数トークン
   TK_INT,      // int
+  TK_CHAR,     // char
   TK_SIZEOF,   // sizeof
   TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
@@ -58,8 +59,8 @@ typedef enum {
   ND_ARG,     // 関数の引数
   ND_ADDR,    // unary &
   ND_DEREF,   // unary *
-  ND_VALDEF,  // 変数定義 TODO
-  ND_GVALDEF, // グローバル変数定義 TODO
+  ND_VALDEF,  // ローカル変数定義
+  ND_GVALDEF, // グローバル変数定義
   ND_NUM,     // 整数
 } NodeKind;
 
@@ -79,7 +80,7 @@ typedef struct Type Type;
 
 // 変数の型
 struct Type {
-  enum { INT, PTR, ARRAY } ty;
+  enum { INT, CHAR, PTR, ARRAY } ty;
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
 };
@@ -143,6 +144,7 @@ LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
 
 Type *estimate_type(Node *node);
+int size_from_type(Type *type);
 
 void program();
 Node *function_gval();

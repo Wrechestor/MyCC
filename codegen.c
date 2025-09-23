@@ -1,6 +1,6 @@
 #include "mycc.h"
 
-void gen_lval(Node *node) { //TODO:評価値がグローバル変数のときは何か返す
+void gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
         // ポインタ対応 TODO
         gen(node->lhs);
@@ -18,7 +18,7 @@ void gen_lval(Node *node) { //TODO:評価値がグローバル変数のときは
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
-        printf("  lea rax, QWORD PTR %s[rip]\n", name); // TODO:配列インデックス
+        printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
     } else { // ローカル変数
         printf("  mov rax, rbp\n");
@@ -52,7 +52,6 @@ void gen(Node *node) {
         printf("  .globl %s\n", name);
         printf("%s:\n", name);
         printf("  .zero %d\n", node->offset);
-        // printf("  .text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
         return;
     }
     if (node->kind == ND_FUNCDEF) {
@@ -175,9 +174,6 @@ void gen(Node *node) {
 
     Type *type = NULL;
 
-    Token *tok;
-    GVar *gvar;
-
 	switch (node->kind) {
     case ND_ADDR:
         gen_lval(node->lhs);
@@ -260,27 +256,10 @@ void gen(Node *node) {
 	printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
 	printf("  pop rax\n");rsp_aligned=!rsp_aligned;
 
-    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
+    int addsize = 1;
     type = estimate_type(node->lhs);
-    if (type == NULL) {
-        addsize = 1;
-    } else if (type->ty == INT) {
-        addsize = 1;
-    } else if (type->ty == PTR) {
-        type = type->ptr_to;
-        if (type->ty == INT) {
-            addsize = 4;
-        } else if (type->ty == PTR) {
-            addsize = 8;
-        }
-    } else if (type->ty == ARRAY) {
-        int arrsize = type->array_size;
-        type = type->ptr_to;
-        if (type->ty == INT) {
-            addsize = 4;
-        } else if (type->ty == PTR) {
-            addsize = 8;
-        }
+    if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
+        addsize = size_from_type(type->ptr_to);
     }
 
 	switch (node->kind) {
