@@ -165,6 +165,7 @@ Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
 
+extern int estimate_isglobal;
 Type *estimate_type(Node *node);
 int size_from_type(Type *type);
 

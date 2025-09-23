@@ -29,6 +29,7 @@ void gen_lval(Node *node) {
         char name[MAX_IDENT_LEN];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
+
         printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
@@ -209,16 +210,25 @@ void gen(Node *node) {
                 printf("  push rax\n");rsp_aligned=!rsp_aligned;
                 return;
             }
+            // if (type->ty == INT && estimate_isglobal) {
+            if (type->ty == INT) {
+                // int型のときは4バイト読み込む
+                printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+                printf("  mov eax, DWORD PTR [rax]\n");
+                printf("  push rax\n");rsp_aligned=!rsp_aligned;
+                return;
+            }
         }
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-        printf("  mov rax, [rax]\n");
+        printf("  mov rax, QWORD PTR [rax]\n");
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);rsp_aligned=!rsp_aligned;
 		return;
     case ND_QUOTE:
-        printf("  mov eax, OFFSET FLAT:.LC%d\n", node->val);
+        printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
+        // printf("  lea	rax, .LC%d[rip]\n", node->val);
         printf("  push rax\n");
         return;
     case ND_LVAR:
@@ -258,6 +268,15 @@ void gen(Node *node) {
                 printf("  push rdi\n");rsp_aligned=!rsp_aligned;
                 return;
             }
+            // if (type->ty == INT && estimate_isglobal) {
+            // if (type->ty == INT) {
+            //     // int型のときは4バイト読み込む
+            //     printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
+            //     printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+            //     printf("  mov DWORD PTR [rax], edi\n");
+            //     printf("  push rdi\n");rsp_aligned=!rsp_aligned;
+            //     return;
+            // }
         }
         printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
         printf("  pop rax\n");rsp_aligned=!rsp_aligned;

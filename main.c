@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
+	printf(".text\n");
 
     // 文字列リテラル
     Strs *strsptr = strs;
@@ -53,6 +54,7 @@ int main(int argc, char **argv) {
         name[strsptr->len] = '\0';
         printf(".LC%d:\n", strsptr->id);
         printf("  .string \"%s\"\n", name);
+        printf(".text\n");
 
         strsptr = strsptr->next;
     }

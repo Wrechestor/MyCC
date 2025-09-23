@@ -716,7 +716,9 @@ Node *mul() {
 }
 
 // TODO:型推定
+int estimate_isglobal;
 Type *estimate_type(Node *node) {
+    estimate_isglobal = 1;
     if (node==NULL) return NULL;
     Type *type;
     if (node->kind == ND_DEREF) {
@@ -730,14 +732,8 @@ Type *estimate_type(Node *node) {
                 lvar = var;
         if (lvar) {
             type = lvar->type;
+            estimate_isglobal = 0;
             return type;
-            // if (type->ty == INT) {
-            //     size = 4;
-            //     // printf("### val %s is int\n", node->lhs->name);
-            // } else if (type->ty == PTR) {
-            //     size = 8;
-            //     // printf("### val %s is ptr\n", node->lhs->name);
-            // }
         } else {
             GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
             for (GVar *var = globals; var; var = var->next)

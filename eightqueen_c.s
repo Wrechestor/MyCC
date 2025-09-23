@@ -1,14 +1,18 @@
 .intel_syntax noprefix
+.text
 .LC2:
   .string "%d\n"
+.text
 .LC1:
   .string "%d\n"
+.text
 .LC0:
   .string "%d\n"
+.text
 .bss
   .globl row
 row:
-  .zero 32
+  .zero 10
   .globl g_count
 g_count:
   .zero 4
@@ -143,12 +147,11 @@ testNth:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   mov rax, rbp
   sub rax, 8
@@ -164,12 +167,11 @@ testNth:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   pop rdi
   pop rax
@@ -201,12 +203,11 @@ testNth:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   mov rax, rbp
   sub rax, 8
@@ -222,12 +223,11 @@ testNth:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   pop rdi
   pop rax
@@ -340,14 +340,13 @@ backtracking:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   push 1
   pop rdi
   pop rax
-  mov [rax], rdi
+  mov [rax], dil
   push rdi
 .Lbegin4:
   mov rax, rbp
@@ -364,12 +363,11 @@ backtracking:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   mov rax, rbp
   sub rax, 24
@@ -504,8 +502,7 @@ backtracking:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   mov rax, rbp
@@ -522,12 +519,11 @@ backtracking:
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+### left is ptr size=1
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  movzx eax, BYTE PTR [rax]
   push rax
   push 1
   pop rdi
@@ -536,7 +532,7 @@ backtracking:
   push rax
   pop rdi
   pop rax
-  mov [rax], rdi
+  mov [rax], dil
   push rdi
   jmp .Lbegin4
 .Lend4:
@@ -556,18 +552,10 @@ main:
   push rbp
   mov rbp, rsp
   sub rsp, 320
-  lea rax, QWORD PTR g_count[rip]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
   lea rax, QWORD PTR row[rip]
   push rax
   push 0
-  push 8
+  push 10
   pop rax
   mov rdx, rax
   pop rax
@@ -578,7 +566,7 @@ main:
   call backtracking
   push rax
   pop rax
-  mov eax, OFFSET FLAT:.LC0
+  mov rax, OFFSET FLAT:.LC0
   push rax
   lea rax, QWORD PTR g_count[rip]
   push rax
@@ -593,7 +581,7 @@ main:
   call printf
   push rax
   pop rax
-  mov eax, OFFSET FLAT:.LC1
+  mov rax, OFFSET FLAT:.LC1
   push rax
   lea rax, QWORD PTR bt_count[rip]
   push rax
@@ -608,7 +596,7 @@ main:
   call printf
   push rax
   pop rax
-  mov eax, OFFSET FLAT:.LC2
+  mov rax, OFFSET FLAT:.LC2
   push rax
   lea rax, QWORD PTR tn_count[rip]
   push rax
