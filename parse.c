@@ -101,8 +101,7 @@ int is_typeword() {
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
 // それ以外の場合にはエラーを報告する。
-// TODO:↓フォーマット
-char errmsgbuf[100] = "     ではありません";
+char errmsgbuf[100];
 void expect(char *op) {
 	if (token->kind != TK_RESERVED ||
 		strlen(op) != token->len ||
@@ -341,7 +340,6 @@ int strsnum;
 void program() {
     int i = 0;
     while (!at_eof()) {
-        // TODO:変数スコープ
         locals = NULL;
         localsnum = 0;
         code[i] = function_gval();
@@ -827,7 +825,7 @@ Node *primary() {
     // 次のトークンが識別子なら
     tok = consume_type(TK_IDENT);
     if (tok) {
-        if (consume("(")) { // TODO:関数呼び出し
+        if (consume("(")) { // 関数呼び出し
             Node *node = calloc(1, sizeof(Node));
             node->kind = ND_FUNC;
             node->name = tok->str;

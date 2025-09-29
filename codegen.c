@@ -71,7 +71,6 @@ void gen(Node *node) {
 
         Node *tmparg = node;
         int i = 0;
-        // while (tmparg->lhs) {
         while (tmparg) {
             switch (i) {
                 case 0:printf("  push rdi\n");break;
@@ -80,12 +79,6 @@ void gen(Node *node) {
                 case 3:printf("  push rcx\n");break;
                 case 4:printf("  push r8\n"); break;
                 case 5:printf("  push r9\n"); break;
-                // case 0:printf("  push edi\n");break;
-                // case 1:printf("  push esi\n");break;
-                // case 2:printf("  push edx\n");break;
-                // case 3:printf("  push ecx\n");break;
-                // case 4:printf("  push r8d\n"); break;
-                // case 5:printf("  push r9d\n"); break;
                 // default:printf("  push rax\n");break; // TODO:7個目以降
             }
             tmparg = tmparg->lhs;
