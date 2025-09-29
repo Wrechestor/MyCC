@@ -43,16 +43,11 @@ bool rsp_aligned = true;
 
 void gen(Node *node) {
     char name[MAX_IDENT_LEN];
-    if (node == NULL) return;
+    if (node == NULL) {
+        printf("  push rax\n");rsp_aligned=!rsp_aligned;
+        return;
+    }
     if (node->kind == ND_VALDEF) {
-        // TODO:初期化代入
-        // gen_lval(node->lhs);
-        // gen(node->rhs);
-
-        // printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
-        // printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-        // printf("  mov [rax], rdi\n");
-        // printf("  push rdi\n");rsp_aligned=!rsp_aligned;
         printf("  push rax\n");rsp_aligned=!rsp_aligned;
         return;
     }
@@ -107,9 +102,9 @@ void gen(Node *node) {
 
 
         gen(node->rhs);
-        if(node->rhs != NULL){
-            printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-        }
+        // if(node->rhs != NULL){
+        //     printf("  pop rax\n");rsp_aligned=!rsp_aligned;
+        // }
 
         // エピローグ
         // 最後の式の結果がRAXに残っているのでそれが返り値になる
@@ -329,13 +324,13 @@ void gen(Node *node) {
             printf("  mov rbx, rsp\n");
             printf("  and rbx, 0xF\n");
             // rspを16の倍数にする
-            // printf("  and rsp, -16\n");
-            printf("  sub rsp, rbx\n");
+            printf("  and rsp, -16\n");
+            // printf("  sub rsp, rbx\n");
         printf("  call %s\n", name);
             // rspを元に戻す
             // TODO:ここで元に戻すとローカル変数用のスタックがなぜか128個必要になる
             // TODO:元に戻さないと関数が入れ子になっているときにおかしくなる
-            // printf("  or rsp, rbx\n");
+            printf("  or rsp, rbx\n");
             // printf("  add rsp, rbx\n");
 
 

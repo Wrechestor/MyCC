@@ -1,5 +1,8 @@
 .intel_syntax noprefix
 .text
+.LC3:
+  .string "%d\n"
+.text
 .LC2:
   .string "%d\n"
 .text
@@ -7,7 +10,7 @@
   .string "%d\n"
 .text
 .LC0:
-  .string "%d\n"
+  .string "asdf %d\n"
 .text
 .bss
   .globl row
@@ -73,7 +76,8 @@ abs:
   pop rbp
   ret
   pop rax
-  pop rax
+  push rax
+  push rax
   mov rsp, rbp
   pop rbp
   ret
@@ -234,8 +238,9 @@ testNth:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call abs
+  or rsp, rbx
   push rax
   mov rax, rbp
   sub rax, 16
@@ -269,6 +274,8 @@ testNth:
   ret
 .Lend3:
   pop rax
+  push rax
+  push rax
   mov rax, rbp
   sub rax, 24
   push rax
@@ -296,7 +303,8 @@ testNth:
   pop rbp
   ret
   pop rax
-  pop rax
+  push rax
+  push rax
   mov rsp, rbp
   pop rbp
   ret
@@ -324,6 +332,25 @@ backtracking:
   pop rax
   mov [rax], rdi
   push rdi
+  pop rax
+  mov rax, OFFSET FLAT:.LC0
+  push rax
+  lea rax, QWORD PTR bt_count[rip]
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdi, rax
+  mov eax, 0
+  mov rbx, rsp
+  and rbx, 0xF
+  and rsp, -16
+  call printf
+  or rsp, rbx
+  push rax
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -400,8 +427,9 @@ backtracking:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call testNth
+  or rsp, rbx
   push rax
   pop rax
   cmp rax, 0
@@ -449,6 +477,8 @@ backtracking:
   mov [rax], rdi
   push rdi
   pop rax
+  push rax
+  push rax
   jmp .Lend6
 .Lelse6:
   mov rax, rbp
@@ -483,14 +513,21 @@ backtracking:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call backtracking
+  or rsp, rbx
   push rax
   pop rax
+  push rax
+  push rax
 .Lend6:
   pop rax
+  push rax
+  push rax
 .Lend5:
   pop rax
+  push rax
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
@@ -544,7 +581,8 @@ backtracking:
   pop rbp
   ret
   pop rax
-  pop rax
+  push rax
+  push rax
   mov rsp, rbp
   pop rbp
   ret
@@ -566,11 +604,12 @@ main:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call backtracking
+  or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC0
+  mov rax, OFFSET FLAT:.LC1
   push rax
   lea rax, QWORD PTR g_count[rip]
   push rax
@@ -584,11 +623,12 @@ main:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call printf
+  or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC1
+  mov rax, OFFSET FLAT:.LC2
   push rax
   lea rax, QWORD PTR bt_count[rip]
   push rax
@@ -602,11 +642,12 @@ main:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call printf
+  or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC2
+  mov rax, OFFSET FLAT:.LC3
   push rax
   lea rax, QWORD PTR tn_count[rip]
   push rax
@@ -620,8 +661,9 @@ main:
   mov eax, 0
   mov rbx, rsp
   and rbx, 0xF
-  sub rsp, rbx
+  and rsp, -16
   call printf
+  or rsp, rbx
   push rax
   pop rax
   lea rax, QWORD PTR g_count[rip]
@@ -634,7 +676,8 @@ main:
   pop rbp
   ret
   pop rax
-  pop rax
+  push rax
+  push rax
   mov rsp, rbp
   pop rbp
   ret
