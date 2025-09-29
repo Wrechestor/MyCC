@@ -51,7 +51,6 @@ assert 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] =
 # assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
 # assert 45 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
 
-# TODO: スコープの概念導入(LVarを動的に変える)
 # TODO: += ++ カンマ演算子 三項演算子 など実装
 
 echo OK

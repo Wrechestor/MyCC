@@ -145,9 +145,6 @@ extern Node *code[100];
 // 制御命令のラベル用の通し番号
 extern int branch_label;
 
-// rspが16の倍数になっているか
-extern bool rsp_aligned;
-
 // 入力ファイル名
 extern char *filename;
 

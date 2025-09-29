@@ -66,7 +66,6 @@ int main(int argc, char **argv) {
     int doing_gloval = 1;
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {
-        rsp_aligned = true;
         localsnum = localsnums[i];
         locals = LocalsList[i];
         if (doing_gloval && code[i]->kind != ND_GVALDEF) {

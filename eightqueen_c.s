@@ -1,8 +1,5 @@
 .intel_syntax noprefix
 .text
-.LC3:
-  .string "%d\n"
-.text
 .LC2:
   .string "%d\n"
 .text
@@ -10,12 +7,12 @@
   .string "%d\n"
 .text
 .LC0:
-  .string "asdf %d\n"
+  .string "%d\n"
 .text
 .bss
   .globl row
 row:
-  .zero 13
+  .zero 12
   .globl g_count
 g_count:
   .zero 4
@@ -31,7 +28,7 @@ abs:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 16
+  sub rsp, 8
   mov rax, rbp
   sub rax, 8
   push rax
@@ -77,7 +74,9 @@ abs:
   ret
   pop rax
   push rax
+  pop rax
   push rax
+  pop rax
   mov rsp, rbp
   pop rbp
   ret
@@ -87,7 +86,7 @@ testNth:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 32
+  sub rsp, 16
   lea rax, QWORD PTR tn_count[rip]
   push rax
   lea rax, QWORD PTR tn_count[rip]
@@ -275,6 +274,7 @@ testNth:
 .Lend3:
   pop rax
   push rax
+  pop rax
   push rax
   mov rax, rbp
   sub rax, 24
@@ -304,7 +304,9 @@ testNth:
   ret
   pop rax
   push rax
+  pop rax
   push rax
+  pop rax
   mov rsp, rbp
   pop rbp
   ret
@@ -315,7 +317,7 @@ backtracking:
   push rdi
   push rsi
   push rdx
-  sub rsp, 32
+  sub rsp, 8
   lea rax, QWORD PTR bt_count[rip]
   push rax
   lea rax, QWORD PTR bt_count[rip]
@@ -332,25 +334,6 @@ backtracking:
   pop rax
   mov [rax], rdi
   push rdi
-  pop rax
-  mov rax, OFFSET FLAT:.LC0
-  push rax
-  lea rax, QWORD PTR bt_count[rip]
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdi, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call printf
-  or rsp, rbx
-  push rax
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -478,6 +461,7 @@ backtracking:
   push rdi
   pop rax
   push rax
+  pop rax
   push rax
   jmp .Lend6
 .Lelse6:
@@ -519,14 +503,17 @@ backtracking:
   push rax
   pop rax
   push rax
+  pop rax
   push rax
 .Lend6:
   pop rax
   push rax
+  pop rax
   push rax
 .Lend5:
   pop rax
   push rax
+  pop rax
   push rax
   mov rax, rbp
   sub rax, 8
@@ -582,7 +569,9 @@ backtracking:
   ret
   pop rax
   push rax
+  pop rax
   push rax
+  pop rax
   mov rsp, rbp
   pop rbp
   ret
@@ -590,11 +579,11 @@ backtracking:
 main:
   push rbp
   mov rbp, rsp
-  sub rsp, 0
+  sub rsp, 8
   lea rax, QWORD PTR row[rip]
   push rax
   push 0
-  push 9
+  push 8
   pop rax
   mov rdx, rax
   pop rax
@@ -609,7 +598,7 @@ main:
   or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC1
+  mov rax, OFFSET FLAT:.LC0
   push rax
   lea rax, QWORD PTR g_count[rip]
   push rax
@@ -628,7 +617,7 @@ main:
   or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC2
+  mov rax, OFFSET FLAT:.LC1
   push rax
   lea rax, QWORD PTR bt_count[rip]
   push rax
@@ -647,7 +636,7 @@ main:
   or rsp, rbx
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC3
+  mov rax, OFFSET FLAT:.LC2
   push rax
   lea rax, QWORD PTR tn_count[rip]
   push rax
@@ -677,7 +666,9 @@ main:
   ret
   pop rax
   push rax
+  pop rax
   push rax
+  pop rax
   mov rsp, rbp
   pop rbp
   ret
