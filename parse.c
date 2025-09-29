@@ -281,7 +281,6 @@ void tokenize() {
 		if (isdigit(*p)) {
 			cur = new_token(TK_NUM, cur, p);
 			cur->val = strtol(p, &p, 10);
-			// TODO: cur->len = ???;
 			continue;
 		}
 
@@ -348,8 +347,6 @@ void program() {
         code[i] = function_gval();
         localsnums[i] = localsnum;
         LocalsList[i] = locals;
-        // for (LVar *var = locals; var; var = var->next)localsnums[i]++;
-        // ↑TODO:1多いかも
         i++;
     }
     code[i] = NULL;
@@ -485,14 +482,9 @@ Node *function_gval() {
                 gvar->len = tok->len;
                 // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
                 gvar->addr = size;
-                if (Rtype->ty == ARRAY) { // TODO:intがバグるので応急処置
-                    gvar->addr += 4;
-                }
                 gvar->type = Rtype;
                 node->offset = gvar->addr;
                 globals = gvar;
-
-                // localsnum += size;
             }
         }
         expect(";");
@@ -719,9 +711,7 @@ Node *mul() {
 }
 
 // TODO:型推定
-int estimate_isglobal;
 Type *estimate_type(Node *node) {
-    estimate_isglobal = 1;
     if (node==NULL) return NULL;
     Type *type;
     if (node->kind == ND_DEREF) {
@@ -735,7 +725,6 @@ Type *estimate_type(Node *node) {
                 lvar = var;
         if (lvar) {
             type = lvar->type;
-            estimate_isglobal = 0;
             return type;
         } else {
             GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!

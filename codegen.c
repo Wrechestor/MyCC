@@ -2,7 +2,6 @@
 
 void gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
-        // ポインタ対応 TODO
         gen(node->lhs);
         return;
     }
@@ -30,7 +29,8 @@ void gen_lval(Node *node) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
 
-        printf("  lea rax, QWORD PTR %s[rip]\n", name);
+        // printf("  lea rax, QWORD PTR %s[rip]\n", name);
+        printf("  mov rax, OFFSET FLAT:%s\n", name);
         printf("  push rax\n");
         return;
     }
@@ -68,12 +68,12 @@ void gen(Node *node) {
         // プロローグ
         printf("  push rbp\n");
         printf("  mov rbp, rsp\n");
-        // TODO:引数をスタックに展開
+
         Node *tmparg = node;
         int i = 0;
-        while (tmparg->lhs) {
+        // while (tmparg->lhs) {
+        while (tmparg) {
             switch (i) {
-                // TODO:eax(raxの下位32bit)
                 case 0:printf("  push rdi\n");break;
                 case 1:printf("  push rsi\n");break;
                 case 2:printf("  push rdx\n");break;
@@ -86,7 +86,7 @@ void gen(Node *node) {
                 // case 3:printf("  push ecx\n");break;
                 // case 4:printf("  push r8d\n"); break;
                 // case 5:printf("  push r9d\n"); break;
-                // default:printf("  push rax\n");break; // TODO:pushは逆順
+                // default:printf("  push rax\n");break; // TODO:7個目以降
             }
             tmparg = tmparg->lhs;
             i++;
@@ -166,7 +166,6 @@ void gen(Node *node) {
 
     if (node->kind == ND_RETURN) {
         gen(node->lhs);
-        // TODO:ここでrsp_alignedは不正になる
         printf("  pop rax\n");
         printf("  mov rsp, rbp\n");
         printf("  pop rbp\n");
@@ -198,6 +197,13 @@ void gen(Node *node) {
                 printf("  push rax\n");
                 return;
             }
+            if (type->ty == INT) {
+                // int型のときは4バイト読み込む
+                printf("  pop rax\n");
+                printf("  movslq rax, DWORD PTR [rax]\n");
+                printf("  push rax\n");
+                return;
+            }
         }
         printf("  pop rax\n");
         printf("  mov rax, QWORD PTR [rax]\n");
@@ -212,8 +218,8 @@ void gen(Node *node) {
         printf("  push rax\n");
         return;
     case ND_LVAR:
-        type = estimate_type(node);
         gen_lval(node);
+        type = estimate_type(node);
         if (type) {
             if (type->ty == ARRAY) {
                 // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
@@ -223,6 +229,13 @@ void gen(Node *node) {
                 // char型のときは1バイト読み込む
                 printf("  pop rax\n");
                 printf("  movzx eax, BYTE PTR [rax]\n");
+                printf("  push rax\n");
+                return;
+            }
+            if (type->ty == INT) {
+                // int型のときは4バイト読み込む
+                printf("  pop rax\n");
+                printf("  movslq rax, DWORD PTR [rax]\n");
                 printf("  push rax\n");
                 return;
             }
@@ -236,15 +249,26 @@ void gen(Node *node) {
         gen(node->rhs);
 
         type = estimate_type(node->lhs);
+        // if (type) {
+        //     type = type->ptr_to;
+        // }
         if (type) {
             if (type->ty == ARRAY) {
                 error("配列には代入できません");
             }
             if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
+                // char型のときは1バイト書きこむ
                 printf("  pop rdi\n");
                 printf("  pop rax\n");
                 printf("  mov [rax], dil\n");
+                printf("  push rdi\n");
+                return;
+            }
+            if (type->ty == INT) {
+                // int型のときは4バイト書きこむ
+                printf("  pop rdi\n");
+                printf("  pop rax\n");
+                printf("  mov DWORD PTR [rax], edi\n");
                 printf("  push rdi\n");
                 return;
             }
@@ -254,13 +278,13 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
         return;
-    case ND_FUNC: // TODO:関数呼び出し
+    case ND_FUNC:
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数
         Node *now = node;
         int i=0;
-        while (now->lhs) { // TODO:変数は逆順
+        while (now->lhs) {
             i++;
             gen(now->lhs);
             now = now->rhs;
@@ -269,13 +293,6 @@ void gen(Node *node) {
         for (int k=i; k>0; k--){
             printf("  pop rax\n");
             switch (k-1) {
-                // TODO:eax(raxの下位32bit)
-                // case 0:printf("  mov edi, eax\n");break;
-                // case 1:printf("  mov esi, eax\n");break;
-                // case 2:printf("  mov edx, eax\n");break;
-                // case 3:printf("  mov ecx, eax\n");break;
-                // case 4:printf("  mov r8d, eax\n");break;
-                // case 5:printf("  mov r9d, eax\n");break;
                 case 0:printf("  mov rdi, rax\n");break;
                 case 1:printf("  mov rsi, rax\n");break;
                 case 2:printf("  mov rdx, rax\n");break;
@@ -288,7 +305,6 @@ void gen(Node *node) {
 
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
-
 
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
@@ -304,7 +320,6 @@ void gen(Node *node) {
         // rspを元に戻す
         printf("  or rsp, rbx\n");
 
-
         printf("  push rax\n");
         return;
     }
@@ -319,6 +334,10 @@ void gen(Node *node) {
     type = estimate_type(node->lhs);
     if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
+
+        // strncpy(name, node->lhs->name, 5);
+        // name[5] = '\0';
+        // printf("  ## %s &&& %d!! addsize=%d\n",name, type->ty, addsize);
     }
 
 	switch (node->kind) {
