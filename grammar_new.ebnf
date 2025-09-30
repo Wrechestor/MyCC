@@ -11,15 +11,15 @@ stmt = { stmt* }
         | "for" "(" expr? ";" expr? ";" expr? ")" stmt
         | expr ";"
 expr       = comma
-comma      = assign ("," comma)?
+comma      = assign ("," assign)*
 assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
             | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
-condition  = logicOR "?" logicOR ":" logicOR
-logicOR    = logicAND ("||" logicOR)?
-logicAND   = bitOR ("&&" logicAND)?
-bitOR      = bitXOR ("|" bitOR)?
-bitXOR     = bitAND ("^" bitXOR)?
-bitAND     = equality ("&" bitAND)?
+condition  = logicOR ("?" condition ":" condition)? # TODO:これ合ってる?
+logicOR    = logicAND ("||" logicAND)*
+logicAND   = bitOR ("&&" bitOR)*
+bitOR      = bitXOR ("|" bitXOR)*
+bitXOR     = bitAND ("^" bitAND)*
+bitAND     = equality ("&" equality)*
 equality   = relational ("==" relational | "!=" relational)*
 relational = shift (("<" | "<=" | ">" | ">=") shift)*
 shift      = add ("<<" add | ">>" add)*
@@ -38,5 +38,6 @@ primary    = "(" expr ")" | string
             | ident | num
 
 
-
+# 「左から右」の評価 → assign ("," assign)*
+# 「右から左」の評価 → condition ("=" assign)?
 

@@ -355,6 +355,49 @@ void gen(Node *node) {
         return;
     }
 
+
+
+    if (node->kind == ND_LOGICOR){
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  jne .Lor1_%d\n",id);
+        gen(node->rhs);
+        printf("  pop rdi\n");
+        printf("  cmp rdi, 0\n");
+        printf("  je .Lor2_%d\n",id);
+        printf(".Lor1_%d:\n",id);
+        printf("  mov rax, 1\n");
+        printf("  jmp .Lorend_%d\n",id);
+        printf(".Lor2_%d:\n",id);
+        printf("  mov rax, 0\n");
+        printf(".Lorend_%d:\n",id);
+        printf("  push rax\n");
+        return;
+    }
+
+    if (node->kind == ND_LOGICAND){
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je .Lor1_%d\n",id);
+        gen(node->rhs);
+        printf("  pop rdi\n");
+        printf("  cmp rdi, 0\n");
+        printf("  je .Lor1_%d\n",id);
+        printf("  mov rax, 1\n");
+        printf("  jmp .Lorend_%d\n",id);
+        printf(".Lor1_%d:\n",id);
+        printf("  mov rax, 0\n");
+        printf(".Lorend_%d:\n",id);
+        printf("  push rax\n");
+        return;
+    }
+
 	gen(node->lhs);
 	gen(node->rhs);
 
@@ -383,6 +426,15 @@ void gen(Node *node) {
 		printf("  cqo\n");
 		printf("  idiv rdi\n");
 		break;
+    case ND_BITOR:
+		printf("  or rax, rdi\n");
+        break;
+    case ND_BITXOR:
+		printf("  xor rax, rdi\n");
+        break;
+    case ND_BITAND:
+		printf("  and rax, rdi\n");
+        break;
 	case ND_EQ:
 		printf("  cmp rax, rdi\n");
 		printf("  sete al\n");

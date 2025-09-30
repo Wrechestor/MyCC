@@ -245,7 +245,9 @@ void tokenize() {
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
 			strncmp(p, "==", 2) == 0 ||
-			strncmp(p, "!=", 2) == 0) {
+			strncmp(p, "!=", 2) == 0 ||
+			strncmp(p, "||", 2) == 0 ||
+			strncmp(p, "&&", 2) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
 			cur->len = 2;
 			p += 2;
@@ -259,7 +261,9 @@ void tokenize() {
             *p == ';' || *p == '=' ||
             *p == '{' || *p == '}' ||
             *p == ',' || *p == '&' ||
-            *p == '[' || *p == ']') {
+            *p == '[' || *p == ']' ||
+            *p == '|' || *p == '^' ||
+            *p == '&') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -996,11 +1000,61 @@ Node *expr() {
 }
 
 Node *assign() {
-    Node *node = equality();
+    Node *node = logicOR();
 
     if (consume("="))
         node = new_node(ND_ASSIGN, node, assign());
     return node;
+}
+
+Node *logicOR(){
+    Node *node = logicAND();
+    for (;;) {
+        if (consume("||"))
+        node = new_node(ND_LOGICOR, node, logicAND());
+        else
+        return node;
+    }
+}
+
+Node *logicAND(){
+    Node *node = bitOR();
+    for (;;) {
+        if (consume("&&"))
+        node = new_node(ND_LOGICAND, node, bitOR());
+        else
+        return node;
+    }
+}
+
+Node *bitOR(){
+    Node *node = bitXOR();
+    for (;;) {
+        if (consume("|"))
+        node = new_node(ND_BITOR, node, bitXOR());
+        else
+        return node;
+    }
+}
+
+Node *bitXOR(){
+    Node *node = bitAND();
+    for (;;) {
+        if (consume("^"))
+        node = new_node(ND_BITXOR, node, bitAND());
+        else
+        return node;
+    }
+}
+
+Node *bitAND(){
+    Node *node = equality();
+    for (;;) {
+        if (consume("&"))
+        node = new_node(ND_BITAND, node, equality());
+        else
+        return node;
+    }
 }
 
 Node *equality() {

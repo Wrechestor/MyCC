@@ -33,4 +33,5 @@ assert() {
 # assert 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j){return a+b+c+d+e+f+g+h+i+j;}int main(){return foo(1,2,3,4,5,6,7,8,9,10);}'
 # assert 13   'int add(int x, int y){return x+y;}int main(){int a[3] = {1,4,add(3,6)}; return a[1] + a[2];}'
 # assert 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
-assert 2   'char a[] = "ABCDEF!";int main(){return a[3] - a[1];}'
+# assert 2   'char a[] = "ABCDEF!";int main(){return a[3] - a[1];}'
+assert 0   'int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf("%d ",i);}return 0;}'

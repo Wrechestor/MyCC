@@ -14,10 +14,7 @@ int testNth(int *row, int n)     //  row[0] から row[n] まで配置済み
     // printf("aaa\n");
     int i;
     for(i = 0; i < n; i = i + 1) {
-        // if( row[i] == row[n] || abs(row[i] - row[n]) == n - i )
-        //     return 0;
-        if( row[i] == row[n])return 0;
-        if( abs(row[i] - row[n]) == n - i )return 0;
+        if( row[i] == row[n] || abs(row[i] - row[n]) == n - i )return 0;
     }
     return 1;
 }
@@ -27,9 +24,9 @@ int backtracking(int *row, int n, int NQ)     //  n:配置済みクイーン数
     // printf("# btr !!! row:%X [%X %X %X]\n", row, &g_count, &bt_count, &tn_count);
     // printf("# btr !!! row:%X asdf %d, n: %d\n", row, bt_count, n);
 
-    printf("# btr !!!  %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n",
-        row[0], row[1], row[2], row[3], row[4], row[5],
-        g_count, bt_count, tn_count, n, NQ);
+    // printf("# btr !!!  %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n",
+    //     row[0], row[1], row[2], row[3], row[4], row[5],
+    //     g_count, bt_count, tn_count, n, NQ);
 
     for(row[n] = 1; row[n] <= NQ; row[n] = row[n] + 1) {
         if( testNth(row, n) ) {    // 制約を満たしている場合のみ先に進む

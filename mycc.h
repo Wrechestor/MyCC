@@ -47,6 +47,11 @@ typedef enum {
 	ND_EQ,      // ==
 	ND_NEQ,     // !=
   ND_ASSIGN,  // =
+  ND_LOGICOR, // ||
+  ND_LOGICAND,// &&
+  ND_BITOR,   // |
+  ND_BITXOR,  // ^
+  ND_BITAND,  // &
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if
@@ -171,6 +176,11 @@ Node *function_gval();
 Node *stmt();
 Node *expr();
 Node *assign();
+Node *logicOR();
+Node *logicAND();
+Node *bitOR();
+Node *bitXOR();
+Node *bitAND();
 Node *equality();
 Node *relational();
 Node *add();

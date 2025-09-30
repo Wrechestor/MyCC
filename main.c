@@ -43,6 +43,11 @@ char *nodeToStr(Node *node) {
         case ND_EQ: return "==";
         case ND_NEQ: return "!=";
         case ND_ASSIGN: return "=";
+        case ND_LOGICOR: return "||";
+        case ND_LOGICAND: return "&&";
+        case ND_BITOR: return "|";
+        case ND_BITXOR: return "^";
+        case ND_BITAND: return "&";
         case ND_SIZEOF: return "sizeof";
         case ND_RETURN: return "return";
         case ND_IF: return "if";

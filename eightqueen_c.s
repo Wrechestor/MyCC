@@ -1,8 +1,4 @@
 .intel_syntax noprefix
-.text
-.LC3:
-  .string "%d\n"
-.text
 .LC2:
   .string "%d\n"
 .text
@@ -10,19 +6,23 @@
   .string "%d\n"
 .text
 .LC0:
-  .string "# btr !!!  %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
+  .string "%d\n"
 .text
 .bss
   .globl row
+  .data
 row:
   .zero 32
   .globl g_count
+  .data
 g_count:
   .zero 4
   .globl bt_count
+  .data
 bt_count:
   .zero 4
   .globl tn_count
+  .data
 tn_count:
   .zero 4
 .text
@@ -187,14 +187,7 @@ testNth:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend2
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.Lend2:
-  pop rax
+  jne .Lor1_3
   mov rax, rbp
   sub rax, 8
   push rax
@@ -270,17 +263,25 @@ testNth:
   sete al
   movzb rax, al
   push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_3
+.Lor1_3:
+  mov rax, 1
+  jmp .Lorend_3
+.Lor2_3:
+  mov rax, 0
+.Lorend_3:
+  push rax
   pop rax
   cmp rax, 0
-  je  .Lend3
+  je  .Lend2
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
-.Lend3:
-  pop rax
-  push rax
+.Lend2:
   pop rax
   push rax
   mov rax, rbp
@@ -340,145 +341,6 @@ backtracking:
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:tn_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:bt_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:g_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 5
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 4
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 3
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 2
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC0
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  pop rax
-  mov rcx, rax
-  pop rax
-  mov r8, rax
-  pop rax
-  mov r9, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call printf
-  or rsp, rbx
-  push rax
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -608,8 +470,6 @@ backtracking:
   push rdi
   pop rax
   push rax
-  pop rax
-  push rax
   jmp .Lend6
 .Lelse6:
   mov rax, rbp
@@ -650,16 +510,10 @@ backtracking:
   push rax
   pop rax
   push rax
-  pop rax
-  push rax
 .Lend6:
   pop rax
   push rax
-  pop rax
-  push rax
 .Lend5:
-  pop rax
-  push rax
   pop rax
   push rax
   mov rax, rbp
@@ -751,7 +605,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC1
+  mov rax, OFFSET FLAT:.LC0
   push rax
   pop rax
   mov rdi, rax
@@ -770,7 +624,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC2
+  mov rax, OFFSET FLAT:.LC1
   push rax
   pop rax
   mov rdi, rax
@@ -789,7 +643,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC3
+  mov rax, OFFSET FLAT:.LC2
   push rax
   pop rax
   mov rdi, rax
