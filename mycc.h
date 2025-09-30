@@ -53,6 +53,7 @@ typedef enum {
   ND_BITXOR,  // ^
   ND_BITAND,  // &
   ND_COMMA,   // ,
+  ND_REM,     // %
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if

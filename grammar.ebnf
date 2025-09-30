@@ -10,7 +10,9 @@ stmt = { stmt* }
         | "while" "(" expr ")" stmt
         | "for" "(" expr? ";" expr? ";" expr? ")" stmt
         | expr ";"
-expr       = assign
+        | ";"
+expr       = comma
+comma      = assign ("," assign)*
 assign     = logicOR ("=" assign)?
 logicOR    = logicAND ("||" logicAND)*
 logicAND   = bitOR ("&&" bitOR)*
@@ -20,7 +22,7 @@ bitAND     = equality ("&" equality)*
 equality   = relational ("==" relational | "!=" relational)*
 relational = add ("<" add | "<=" add | ">" add | ">=" add)*
 add        = mul ("+" mul | "-" mul)*
-mul        = unary ("*" unary | "/" unary)*
+mul        = unary (("*" | "/" | "%") unary)*
 unary      = ("sizeof" | "&" | "*") unary
             |  ("+" | "-")? brackets
 brackets   = primary ("[" expr "]")*

@@ -433,6 +433,12 @@ void gen(Node *node) {
 		printf("  cqo\n");
 		printf("  idiv rdi\n");
 		break;
+	case ND_REM:
+		printf("  cqo\n");
+		printf("  idiv rdi\n");
+        printf("  push rdx\n");
+        return;
+		break;
     case ND_BITOR:
 		printf("  or rax, rdi\n");
         break;
