@@ -52,6 +52,7 @@ typedef enum {
   ND_BITOR,   // |
   ND_BITXOR,  // ^
   ND_BITAND,  // &
+  ND_COMMA,   // ,
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if
@@ -175,6 +176,7 @@ void program();
 Node *function_gval();
 Node *stmt();
 Node *expr();
+Node *comma();
 Node *assign();
 Node *logicOR();
 Node *logicAND();

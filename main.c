@@ -48,6 +48,7 @@ char *nodeToStr(Node *node) {
         case ND_BITOR: return "|";
         case ND_BITXOR: return "^";
         case ND_BITAND: return "&";
+        case ND_COMMA: return ",";
         case ND_SIZEOF: return "sizeof";
         case ND_RETURN: return "return";
         case ND_IF: return "if";

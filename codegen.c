@@ -398,6 +398,13 @@ void gen(Node *node) {
         return;
     }
 
+    if (node->kind == ND_COMMA){
+        gen(node->lhs);
+        printf("  pop rax\n");
+        gen(node->rhs);
+        return;
+    }
+
 	gen(node->lhs);
 	gen(node->rhs);
 

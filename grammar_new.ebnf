@@ -10,6 +10,7 @@ stmt = { stmt* }
         | "while" "(" expr ")" stmt
         | "for" "(" expr? ";" expr? ";" expr? ")" stmt
         | expr ";"
+        | ";"
 expr       = comma
 comma      = assign ("," assign)*
 assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
@@ -34,7 +35,7 @@ postpos    = primary ("[" expr "]")*
             | primary "->" ident
 # brackets   = primary ("[" expr "]")*
 primary    = "(" expr ")" | string
-            | ident "(" (expr ("," expr)*)? ")"
+            | ident "(" (assign ("," assign)*)? ")" # commaとの衝突を避けるためassign
             | ident | num
 
 

@@ -987,6 +987,8 @@ Node *stmt() {
         }
         tmp->rhs = tmp2;
         tmp2->rhs = stmt();
+    } else if(consume(";")){
+        // 空文 do nothing
     } else {
         node = expr();
         expect(";");
@@ -996,7 +998,17 @@ Node *stmt() {
 }
 
 Node *expr() {
-	return assign();
+	return comma();
+}
+
+Node *comma(){
+    Node *node = assign();
+    for (;;) {
+        if (consume(","))
+        node = new_node(ND_COMMA, node, assign());
+        else
+        return node;
+    }
 }
 
 Node *assign() {
@@ -1183,13 +1195,13 @@ Node *primary() {
                 // ここで逆順にしておく
                 Node *tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_ARG;
-                tmp->lhs = expr();
+                tmp->lhs = assign();
 
                 Node *now = tmp;
                 while (consume(",")) {
                     tmp = calloc(1, sizeof(Node));
                     tmp->kind = ND_ARG;
-                    tmp->lhs = expr();
+                    tmp->lhs = assign();
                     tmp->rhs = now;
                     now = tmp;
                 }
