@@ -77,7 +77,10 @@ void gen(Node *node) {
                 case 3:printf("  push rcx\n");break;
                 case 4:printf("  push r8\n"); break;
                 case 5:printf("  push r9\n"); break;
-                // default:printf("  push rax\n");break; // TODO:7個目以降
+            }
+            if (i >= 6) {
+                // TODO:アライメントの状況はrbx
+                printf("  push [rbp+rbx+%d]\n", 16 + (i - 6) * 8);
             }
             tmparg = tmparg->lhs;
             i++;
@@ -293,6 +296,7 @@ void gen(Node *node) {
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
 
+        // TODO:アライメントの状況をrbxに保存しておく
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
         // rspの8の位を保存

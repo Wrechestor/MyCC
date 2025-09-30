@@ -383,6 +383,7 @@ Node *function_gval() {
         Token *argname;
         Type *argtype;
         Node *tmparg = node;
+        int argsnum = 0;
         while (!consume(")")) {
             argtype = consume_typeword();
             if (!argtype) {
@@ -413,8 +414,9 @@ Node *function_gval() {
                 lvar->next = locals;
                 lvar->name = argname->str;
                 lvar->len = argname->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8;
                 lvar->type = argtype;
+
+                lvar->offset = (locals ? locals->offset : 0) + 8;
                 tmp2->offset = lvar->offset;
                 locals = lvar;
 
@@ -427,6 +429,7 @@ Node *function_gval() {
                 expect(")");
                 break;
             }
+            argsnum++;
         }
 
         expect("{");
