@@ -265,6 +265,14 @@ void tokenize() {
 			continue;
 		}
 
+		if (*p == '\'') { // 文字リテラル
+			cur = new_token(TK_NUM, cur, p);
+			cur->val = *(p+1);
+            if (*(p+2) != '\'') error_at(p,"不正な文字リテラルです");
+            p += 2;
+			continue;
+		}
+
         // 識別子
         char *q = p;
         while (is_alnum(*q) && !(q==p && '0' <= *q && *q <= '9')) {
@@ -357,16 +365,16 @@ Node *function_gval() {
     node = calloc(1, sizeof(Node));
 
     // 戻り値の型
-    Type *Rtype = consume_typeword();
-    if (!Rtype) {
+    Type *type = consume_typeword();
+    if (!type) {
         error_at(token->str,"返り値の型がありません");
     }
 
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
         t->ty = PTR;
-        t->ptr_to = Rtype;
-        Rtype = t;
+        t->ptr_to = type;
+        type = t;
     }
 
     Token *funcname;
@@ -460,39 +468,142 @@ Node *function_gval() {
         node->val = funcname->len;
 
         Token *tok = funcname;
+        int undefsize = 0; // sizeを省略したとき1
+        int size = 1;
+        GVar *gvar;
         if (tok) {
-            GVar *gvar = find_gvar(tok);
+            gvar = find_gvar(tok);
             if (gvar) {
-                // node->offset = gvar->offset;
                 error_at(tok->str,"重複定義されたグローバル変数です");
             } else {
-                int arrsize = 1;
                 while (consume("[")) { // 配列型
-                    arrsize = expect_number();
-                    // printf("#### arrsize=%d\n", arrsize);
-                    expect("]");
                     Type *t = calloc(1, sizeof(Type));
                     t->ty = ARRAY;
-                    t->array_size = arrsize;
-                    t->ptr_to = Rtype;
-                    Rtype = t;
+                    t->ptr_to = type;
+                    type = t;
+
+                    if (consume("]")) { // TODO:配列要素数省略
+                        undefsize = 1;
+                        break;
+                    }
+
+                    size = expect_number();
+                    expect("]");
+
+                    t->array_size = size;
                 }
 
-                int size = 4;
-                size = size_from_type(Rtype);
+                if (!undefsize) {
+                    int totalbytesize = 4;
+                    totalbytesize = size_from_type(type);
 
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                gvar = calloc(1, sizeof(GVar));
-                gvar->next = globals;
-                gvar->name = tok->str;
-                gvar->len = tok->len;
-                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                gvar->addr = size;
-                gvar->type = Rtype;
-                node->offset = gvar->addr;
-                globals = gvar;
+                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                    gvar = calloc(1, sizeof(GVar));
+                    gvar->next = globals;
+                    gvar->name = tok->str;
+                    gvar->len = tok->len;
+                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    globals = gvar;
+                }
             }
         }
+
+
+        // TODO:グローバル変数の初期化
+        if (consume("=")) {
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_GVALDEF;
+
+            node->rhs = tmp2;
+
+
+            if (consume("{")) { // 配列の初期化
+                int nowindex = 0;
+                Node *assignsubj;
+
+                if (consume("}")) {
+                    // do nothing
+                }else{
+                    int nowval = expect_number();
+                    while (consume(",")) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_GVALDEF;
+
+                        tmp2->val = nowval;
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowval = expect_number();
+                        nowindex ++;
+                    }
+                    tmp2->val = nowval;
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+
+                        int totalbytesize = 4;
+                        totalbytesize = size_from_type(type);
+
+                        // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                        gvar = calloc(1, sizeof(GVar));
+                        gvar->next = globals;
+                        gvar->name = tok->str;
+                        gvar->len = tok->len;
+                        // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                        gvar->addr = totalbytesize;
+                        gvar->type = type;
+                        node->offset = gvar->addr;
+                        globals = gvar;
+                    }
+
+                    expect("}");
+                }
+            } else {
+                Token *tokquo = consume_type(TK_QUOTE);
+                if (tokquo) { // 文字列リテラル
+                    int nowindex = 0;
+
+                    char *nowchr = tokquo->str;
+                    while (nowindex < tokquo->len) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_GVALDEF;
+
+                        tmp2->val = *nowchr;
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowchr++;
+                        nowindex++;
+                    }
+                    tmp2->val = 0;
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+
+                        int totalbytesize = 4;
+                        totalbytesize = size_from_type(type);
+
+                        gvar = calloc(1, sizeof(GVar));
+                        gvar->next = globals;
+                        gvar->name = tok->str;
+                        gvar->len = tok->len;
+
+                        gvar->addr = totalbytesize;
+                        gvar->type = type;
+                        node->offset = gvar->addr;
+                        globals = gvar;
+                    }
+                } else {
+                    tmp2->val = expect_number();
+                }
+            }
+        }
+
         expect(";");
     }
 
@@ -553,8 +664,7 @@ Node *stmt() {
         if (tok) {
             lvar = find_lvar(tok);
             if (lvar) {
-                // node->offset = lvar->offset;
-                error_at(tok->str,"重複定義された変数です");
+                error_at(tok->str,"重複定義されたローカル変数です");
             } else {
                 node->name = tok->str;
                 node->val = tok->len;
@@ -598,7 +708,7 @@ Node *stmt() {
         }else{
             error_at(token->str,"変数名がありません");
         }
-        // TODO:ローカル変数の初期化(宣言代入)
+        // TODO:ローカル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
@@ -683,7 +793,62 @@ Node *stmt() {
                     expect("}");
                 }
             } else {
-                tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+                Token *tokquo = consume_type(TK_QUOTE);
+                if (tokquo) { // 文字列リテラル
+                    int nowindex = 0;
+                    Node *assignsubj;
+
+                    char *nowchr = tokquo->str;
+                    while (nowindex < tokquo->len) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(*nowchr));
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowchr++;
+                        nowindex ++;
+                    }
+                    while ((!undefsize) && (nowindex+1 < size)) { // 残りは0で初期化
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowindex ++;
+                    }
+                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+                        totalsize *= size;
+
+                        // TODO:offsetの設定バグありそう?(配列の場所)
+                        offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+                        lval->offset = offset;
+
+                        lvar = calloc(1, sizeof(LVar));
+                        lvar->next = locals;
+                        lvar->name = tok->str;
+                        lvar->len = tok->len;
+                        lvar->offset = offset;
+                        lvar->type = type;
+                        node->offset = offset;
+                        locals = lvar;
+
+                        localsnum += totalsize;
+                    }
+                } else {
+                    tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+                }
             }
             node = top;
         }
@@ -830,7 +995,7 @@ Type *estimate_type(Node *node) {
         type = estimate_type(node->lhs);
         return type->ptr_to;
     }
-    if (node->kind == ND_LVAR) {
+    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
         LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
         for (LVar *var = locals; var; var = var->next)
             if (var->len == node->val && !memcmp(node->name, var->name, var->len))

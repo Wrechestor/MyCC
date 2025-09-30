@@ -53,8 +53,48 @@ void gen(Node *node) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("  .globl %s\n", name);
+        printf("  .data\n");
         printf("%s:\n", name);
-        printf("  .zero %d\n", node->offset);
+
+
+
+        Type *type = estimate_type(node);
+        if (type && type->ptr_to) {
+            type = type->ptr_to;
+        }
+
+        int size = 4;
+        // if (type->ty == ARRAY) { // TODO
+        //     return;
+        // }
+        if (type) {
+            if (type->ty == CHAR) {
+                size = 1;
+            }
+            if (type->ty == INT) {
+                size = 4;
+            }
+            if (type->ty == PTR) {
+                size = 8;
+            }
+        }
+
+
+
+        Node *initval = node->rhs;
+        int nowindex = 0;
+        int remainsize = node->offset;
+        while(initval) {
+            switch(size){
+                case 1:printf("  .byte %d\n", initval->val);remainsize-=1;break;
+                case 4:printf("  .long %d\n", initval->val);remainsize-=4;break;
+                case 8:printf("  .quad %d\n", initval->val);remainsize-=8;break;
+            }
+            initval = initval->rhs;
+            nowindex++;
+        }
+        if (remainsize > 0)
+            printf("  .zero %d\n", remainsize);
         return;
     }
     if (node->kind == ND_FUNCDEF) {

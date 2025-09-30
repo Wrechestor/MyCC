@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
-	printf(".text\n");
+	// printf(".text\n");
 
     // 文字列リテラル
     Strs *strsptr = strs;

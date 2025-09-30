@@ -31,4 +31,6 @@ assert() {
 # assert 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
 # assert 28   'int foo(int a,int b,int c,int d,int e,int f,int g){return a+b+c+d+e+f+g;}int main(){return foo(1,2,3,4,5,6,7);}'
 # assert 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j){return a+b+c+d+e+f+g+h+i+j;}int main(){return foo(1,2,3,4,5,6,7,8,9,10);}'
-assert 13   'int add(int x, int y){return x+y;}int main(){int a[3] = {1,4,add(3,6)}; return a[1] + a[2];}'
+# assert 13   'int add(int x, int y){return x+y;}int main(){int a[3] = {1,4,add(3,6)}; return a[1] + a[2];}'
+# assert 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
+assert 2   'char a[] = "ABCDEF!";int main(){return a[3] - a[1];}'

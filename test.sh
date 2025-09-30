@@ -49,6 +49,10 @@ assert 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j
 assert 13   'int add(int x, int y){return x+y;}int main(){int a[] = {1,4,add(3,6)}; return a[1] + a[2];}'
 assert 1   'int main(){int a[5] = {1}; return a[0] + a[1];}'
 assert 0   'int main(){int a[5] = {}; return a[0] + a[1];}'
+assert 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
+assert 13   'char a[] = {1,4,9};int main(){return a[1] + a[2];}'
+assert 2   'char a[] = "ABCDEF!";int main(){printf("%s", a);return a[3] - a[1];}'
+assert 2   'int main(){char a[] = "ABCDEF!";printf("%s", a);return a[3] - a[1];}'
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 
