@@ -338,6 +338,66 @@ Node *new_node_num(int val) {
     return node;
 }
 
+
+// TODO:型推定
+Type *estimate_type(Node *node) {
+    if (node==NULL) return NULL;
+    Type *type;
+    if (node->kind == ND_DEREF) {
+        type = estimate_type(node->lhs);
+        return type->ptr_to;
+    }
+    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
+        LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
+        for (LVar *var = locals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                lvar = var;
+        if (lvar) {
+            type = lvar->type;
+            return type;
+        } else {
+            GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
+            for (GVar *var = globals; var; var = var->next)
+                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                    gvar = var;
+            if (gvar) {
+                type = gvar->type;
+                return type;
+            } else {
+                // error_at(node->lhs->name,"未定義の変数です");
+            }
+        }
+    }
+    if (node->kind == ND_FUNCCALL) {
+        // TODO:関数の戻り値をポインタ型に対応
+        type = calloc(1, sizeof(Type));
+        type->ty = INT;
+        return type;
+    }
+    Type *ltype = estimate_type(node->lhs);
+    Type *rtype = estimate_type(node->rhs);
+    // TODO:↓でより深いほうの型を返す or 型一致チェック
+    return (ltype ? ltype : rtype);
+}
+
+int size_from_type(Type *type) {
+    int size = 4;
+    if (type == NULL) {
+        size = 4;
+    } else if (type->ty == INT) {
+        size = 4;
+    } else if (type->ty == CHAR) {
+        size = 1;
+    } else if (type->ty == PTR) {
+        size = 8;
+    } else if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        Type *t = type->ptr_to;
+        size = size_from_type(t) * arrsize;
+    }
+    return size;
+}
+
 Node *code[100];
 int localsnums[100];
 int localsnum;
@@ -359,8 +419,6 @@ void program() {
 }
 
 Node *function_gval() {
-    // function_gval = "int" "*"* ident "(" ("int" "*"* ident)* ")" "{" stmt* "}"
-    // | "int" "*"* ident ("[" num "]")? ";"
     Node *node;
     node = calloc(1, sizeof(Node));
 
@@ -563,6 +621,27 @@ Node *function_gval() {
                     expect("}");
                 }
             } else {
+                // TODO:グローバル変数や関数のアドレス(に定数を足したもの)で初期化
+                // int a = 3;
+                // char b[] = "foobar";
+                // int *c = &a;
+                // char *d = b + 3;
+                // ↓
+                // a:
+                // .long 3
+                // b:
+                // .byte 0x66 // 'f'
+                // .byte 0x6f // 'o'
+                // .byte 0x6f // 'o'
+                // .byte 0x62 // 'b'
+                // .byte 0x61 // 'a'
+                // .byte 0x72 // 'r'
+                // .byte 0    // '\0'
+                // c:
+                // .quad a
+                // d:
+                // .quad b + 3
+
                 Token *tokquo = consume_type(TK_QUOTE);
                 if (tokquo) { // 文字列リテラル
                     int nowindex = 0;
@@ -611,13 +690,6 @@ Node *function_gval() {
 }
 
 Node *stmt() {
-    // stmt = { stmt* }
-    //        | "int" ident ("[" num "]")? ";"
-    //        | "return" expr ";"
-    //        | "if" "(" expr ")" stmt ("else" stmt)?
-    //        | "while" "(" expr ")" stmt
-    //        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
-    //        | expr ";"
     Node *node;
 
     if (consume("{")){ // Block
@@ -987,64 +1059,6 @@ Node *mul() {
     }
 }
 
-// TODO:型推定
-Type *estimate_type(Node *node) {
-    if (node==NULL) return NULL;
-    Type *type;
-    if (node->kind == ND_DEREF) {
-        type = estimate_type(node->lhs);
-        return type->ptr_to;
-    }
-    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
-        LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-        for (LVar *var = locals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                lvar = var;
-        if (lvar) {
-            type = lvar->type;
-            return type;
-        } else {
-            GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-            for (GVar *var = globals; var; var = var->next)
-                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                    gvar = var;
-            if (gvar) {
-                type = gvar->type;
-                return type;
-            } else {
-                // error_at(node->lhs->name,"未定義の変数です");
-            }
-        }
-    }
-    if (node->kind == ND_FUNCCALL) {
-        // TODO:関数の戻り値をポインタ型に対応
-        type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        return type;
-    }
-    Type *ltype = estimate_type(node->lhs);
-    Type *rtype = estimate_type(node->rhs);
-    // TODO:↓でより深いほうの型を返す or 型一致チェック
-    return (ltype ? ltype : rtype);
-}
-
-int size_from_type(Type *type) {
-    int size = 4;
-    if (type == NULL) {
-        size = 4;
-    } else if (type->ty == INT) {
-        size = 4;
-    } else if (type->ty == CHAR) {
-        size = 1;
-    } else if (type->ty == PTR) {
-        size = 8;
-    } else if (type->ty == ARRAY) {
-        int arrsize = type->array_size;
-        Type *t = type->ptr_to;
-        size = size_from_type(t) * arrsize;
-    }
-    return size;
-}
 
 Node *unary() {
     if (consume_type(TK_SIZEOF)) {
@@ -1065,7 +1079,6 @@ Node *unary() {
 }
 
 Node *brackets() { // TODO:配列アクセス(優先順位は?)
-    // brackets = primary ("[" expr "]")*
     Node *node = primary();
 
     while (consume("[")) {

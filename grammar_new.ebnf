@@ -1,0 +1,42 @@
+program    = function_gval*
+function_gval = TYPE "*"* ident "(" (TYPE "*"* ident)* ")" "{" stmt* "}"
+                | TYPE "*"* ident ("[" num "]")* "[]"?
+                    ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
+stmt = { stmt* }
+        | TYPE "*"* ident ("[" num "]")* "[]"?
+            ("=" ("{" (num ("," num))? "}") | num | string )? ";"
+        | "return" expr ";"
+        | "if" "(" expr ")" stmt ("else" stmt)?
+        | "while" "(" expr ")" stmt
+        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        | expr ";"
+expr       = comma
+comma      = assign ("," comma)?
+assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
+            | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
+condition  = logicOR "?" logicOR ":" logicOR
+logicOR    = logicAND ("||" logicOR)?
+logicAND   = bitOR ("&&" logicAND)?
+bitOR      = bitXOR ("|" bitOR)?
+bitXOR     = bitAND ("^" bitXOR)?
+bitAND     = equality ("&" bitAND)?
+equality   = relational ("==" relational | "!=" relational)*
+relational = shift (("<" | "<=" | ">" | ">=") shift)*
+shift      = add ("<<" add | ">>" add)*
+add        = mul ("+" mul | "-" mul)*
+mul        = unary (("*" | "/" | "%") unary)*
+unary      = ("sizeof" | "&" | "*" | ("(" TYPE ")")
+                | "!" | "~" | "++" | "--") unary  # ++ -- は前置
+            |  ("+" | "-")? brackets
+postpos    = primary ("[" expr "]")*
+            | primary ("++" | "--")  # ++ -- は後置
+            | primary "." ident
+            | primary "->" ident
+# brackets   = primary ("[" expr "]")*
+primary    = "(" expr ")" | string
+            | ident "(" (expr ("," expr)*)? ")"
+            | ident | num
+
+
+
+

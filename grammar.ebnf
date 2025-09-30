@@ -1,0 +1,24 @@
+program    = function_gval*
+function_gval = TYPE "*"* ident "(" (TYPE "*"* ident)* ")" "{" stmt* "}"
+                | TYPE "*"* ident ("[" num "]")* "[]"?
+                    ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
+stmt = { stmt* }
+        | TYPE "*"* ident ("[" num "]")* "[]"?
+            ("=" ("{" (num ("," num))? "}") | num | string )? ";"
+        | "return" expr ";"
+        | "if" "(" expr ")" stmt ("else" stmt)?
+        | "while" "(" expr ")" stmt
+        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        | expr ";"
+expr       = assign
+assign     = equality ("=" assign)?
+equality   = relational ("==" relational | "!=" relational)*
+relational = add ("<" add | "<=" add | ">" add | ">=" add)*
+add        = mul ("+" mul | "-" mul)*
+mul        = unary ("*" unary | "/" unary)*
+unary      = ("sizeof" | "&" | "*") unary
+            |  ("+" | "-")? brackets
+brackets   = primary ("[" expr "]")*
+primary    = "(" expr ")" | string
+            | ident "(" (expr ("," expr)*)? ")"
+            | ident | num
