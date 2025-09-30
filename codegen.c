@@ -39,8 +39,6 @@ void gen_lval(Node *node) {
 
 int branch_label = 0;
 
-bool rsp_aligned = true;
-
 void gen(Node *node) {
     char name[MAX_IDENT_LEN];
     if (node == NULL) {
@@ -242,9 +240,6 @@ void gen(Node *node) {
         gen(node->rhs);
 
         type = estimate_type(node->lhs);
-        // if (type) {
-        //     type = type->ptr_to;
-        // }
         if (type) {
             if (type->ty == ARRAY) {
                 error("配列には代入できません");
@@ -271,28 +266,27 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
         return;
-    case ND_FUNC:
+    case ND_FUNC: // 関数呼び出し
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数
         Node *now = node;
         int i=0;
-        while (now->lhs) {
+
+        while (now->rhs) {
             i++;
-            gen(now->lhs);
             now = now->rhs;
-            if (now == NULL)break;
+            gen(now->lhs);
         }
-        for (int k=i; k>0; k--){
+        for (int k=0; k<i && k<6; k++){
             printf("  pop rax\n");
-            switch (k-1) {
+            switch (k) {
                 case 0:printf("  mov rdi, rax\n");break;
                 case 1:printf("  mov rsi, rax\n");break;
                 case 2:printf("  mov rdx, rax\n");break;
                 case 3:printf("  mov rcx, rax\n");break;
                 case 4:printf("  mov r8, rax\n");break;
                 case 5:printf("  mov r9, rax\n");break;
-                // default:printf("  push rax\n");break; // TODO:7個目以降
             }
         }
 
@@ -327,10 +321,6 @@ void gen(Node *node) {
     type = estimate_type(node->lhs);
     if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
-
-        // strncpy(name, node->lhs->name, 5);
-        // name[5] = '\0';
-        // printf("  ## %s &&& %d!! addsize=%d\n",name, type->ty, addsize);
     }
 
 	switch (node->kind) {

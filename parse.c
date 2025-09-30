@@ -834,15 +834,20 @@ Node *primary() {
             if (consume(")")){
                 return node;
             } else {
-                node->lhs = expr();
-                Node *now = node;
+                // ここで逆順にしておく
+                Node *tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_ARG;
+                tmp->lhs = expr();
+
+                Node *now = tmp;
                 while (consume(",")) {
-                    Node *tmp = calloc(1, sizeof(Node));
+                    tmp = calloc(1, sizeof(Node));
                     tmp->kind = ND_ARG;
                     tmp->lhs = expr();
-                    now->rhs = tmp;
+                    tmp->rhs = now;
                     now = tmp;
                 }
+                node->rhs = now;
                 expect(")");
             }
             return node;
