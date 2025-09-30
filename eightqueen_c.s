@@ -1,22 +1,13 @@
 .intel_syntax noprefix
 .text
-.LC6:
-  .string "%d\n"
-.text
-.LC5:
-  .string "%d\n"
-.text
-.LC4:
-  .string "%d\n"
-.text
 .LC3:
-  .string "^^^ btr !!!  [%d %d %d], n: %d, NQ: %d\n"
+  .string "%d\n"
 .text
 .LC2:
-  .string "^^^ btr !!!  %d %d %d\n"
+  .string "%d\n"
 .text
 .LC1:
-  .string "^^^ btr !!!  %d %d %d\n"
+  .string "%d\n"
 .text
 .LC0:
   .string "# btr !!!  %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
@@ -85,8 +76,6 @@ abs:
   mov rsp, rbp
   pop rbp
   ret
-  pop rax
-  push rax
   pop rax
   push rax
   pop rax
@@ -323,8 +312,6 @@ testNth:
   pop rax
   push rax
   pop rax
-  push rax
-  pop rax
   mov rsp, rbp
   pop rbp
   ret
@@ -472,181 +459,6 @@ backtracking:
   movslq rax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC0
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  pop rax
-  mov rcx, rax
-  pop rax
-  mov r8, rax
-  pop rax
-  mov r9, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call printf
-  or rsp, rbx
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 2
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC1
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  pop rax
-  mov rcx, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call printf
-  or rsp, rbx
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 5
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 4
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 3
-  pop rdi
-  pop rax
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC2
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  pop rax
-  mov rcx, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call printf
-  or rsp, rbx
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:tn_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:bt_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:g_count
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC3
   push rax
   pop rax
   mov rdi, rax
@@ -907,8 +719,6 @@ backtracking:
   pop rax
   push rax
   pop rax
-  push rax
-  pop rax
   mov rsp, rbp
   pop rbp
   ret
@@ -941,7 +751,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC4
+  mov rax, OFFSET FLAT:.LC1
   push rax
   pop rax
   mov rdi, rax
@@ -960,7 +770,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC5
+  mov rax, OFFSET FLAT:.LC2
   push rax
   pop rax
   mov rdi, rax
@@ -979,7 +789,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC6
+  mov rax, OFFSET FLAT:.LC3
   push rax
   pop rax
   mov rdi, rax
@@ -1002,8 +812,6 @@ main:
   mov rsp, rbp
   pop rbp
   ret
-  pop rax
-  push rax
   pop rax
   push rax
   pop rax

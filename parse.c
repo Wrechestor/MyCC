@@ -406,6 +406,8 @@ Node *function_gval() {
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_VALDEF;
+            tmp2->name = argname->str;
+            tmp2->val = argname->len;
             LVar *lvar = find_lvar(argname);
             if (lvar) {
                 // tmp2->offset = lvar->offset;
@@ -444,6 +446,9 @@ Node *function_gval() {
                 break;
             }
             tmp->lhs = stmt();
+            if (consume("}")) { // 要らないけどツリーを整理するため
+                break;
+            }
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
@@ -514,13 +519,15 @@ Node *stmt() {
             }
             if (consume("}")) {
                 break;
-            }else{
-                tmp->lhs = stmt();
-                Node *tmp2 = calloc(1, sizeof(Node));
-                tmp2->kind = ND_BLOCK;
-                tmp->rhs = tmp2;
-                tmp = tmp2;
             }
+            tmp->lhs = stmt();
+            if (consume("}")) { // 要らないけどツリーを整理するため
+                break;
+            }
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_BLOCK;
+            tmp->rhs = tmp2;
+            tmp = tmp2;
         }
 
     } else if (is_typeword()) { // 変数定義
@@ -539,14 +546,14 @@ Node *stmt() {
 
         Token *tok = consume_type(TK_IDENT);
         if (tok) {
-            Node *tmp = calloc(1, sizeof(Node));
-            tmp->kind = ND_VALDEF;
-
             LVar *lvar = find_lvar(tok);
             if (lvar) {
                 // node->offset = lvar->offset;
                 error_at(tok->str,"重複定義された変数です");
             } else {
+                node->name = tok->str;
+                node->val = tok->len;
+
                 int totalsize = 1;
                 int size = 1;
                 while (consume("[")) { // 配列型
@@ -568,12 +575,11 @@ Node *stmt() {
                 lvar->len = tok->len;
                 lvar->offset = (locals ? locals->offset : 0) + 8 * totalsize;
                 lvar->type = type;
-                tmp->offset = lvar->offset;
+                node->offset = lvar->offset;
                 locals = lvar;
 
                 localsnum += totalsize;
             }
-            node->lhs = tmp;
         }else{
             error_at(token->str,"変数名がありません");
         }
@@ -740,7 +746,7 @@ Type *estimate_type(Node *node) {
             }
         }
     }
-    if (node->kind == ND_FUNC) {
+    if (node->kind == ND_FUNCCALL) {
         // TODO:関数の戻り値をポインタ型に対応
         type = calloc(1, sizeof(Type));
         type->ty = INT;
@@ -830,7 +836,7 @@ Node *primary() {
     if (tok) {
         if (consume("(")) { // 関数呼び出し
             Node *node = calloc(1, sizeof(Node));
-            node->kind = ND_FUNC;
+            node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
             // TODO:引数の個数チェック

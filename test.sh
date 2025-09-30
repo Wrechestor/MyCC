@@ -28,6 +28,7 @@ assert() {
 assert 42   'int main(){return 42;}'
 assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
 assert 4    'int main(){int a; if(2*3<5)a=6; else a=4; return a;}'
+assert 45   'int main(){int s;int i;s=0;for(i=0;i<10;i=i+1){s=s+i;}return s;}'
 assert 5    'int add(int x, int y){return x+y;}int main(){return add(2,3);}'
 assert 42   'int mul(int x, int y){return x*y;}int add(int x, int y){return x+y;}int main(){return add(mul(3,4),mul(5,6));}'
 assert 233  'int fibo(int x){if(x<=2)return 1; else return fibo(x-1)+fibo(x-2);}int main(){return fibo(13);}'

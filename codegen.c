@@ -269,7 +269,7 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
         return;
-    case ND_FUNC: // 関数呼び出し
+    case ND_FUNCCALL: // 関数呼び出し
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数
