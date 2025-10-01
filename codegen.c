@@ -456,6 +456,14 @@ void gen(Node *node) {
     case ND_BITAND:
 		printf("  and rax, rdi\n");
         break;
+    case ND_BITNOT:
+		printf("  not rax\n");
+        break;
+	case ND_LOGICNOT:
+		printf("  cmp rax, 0\n");
+		printf("  setne al\n");
+		printf("  movzb rax, al\n");
+		break;
 	case ND_EQ:
 		printf("  cmp rax, rdi\n");
 		printf("  sete al\n");
