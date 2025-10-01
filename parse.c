@@ -265,7 +265,9 @@ void tokenize() {
 			strncmp(p, "%=", 2) == 0 ||
 			strncmp(p, "&=", 2) == 0 ||
 			strncmp(p, "^=", 2) == 0 ||
-			strncmp(p, "|=", 2) == 0) {
+			strncmp(p, "|=", 2) == 0 ||
+			strncmp(p, "++", 2) == 0 ||
+			strncmp(p, "--", 2) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
 			cur->len = 2;
 			p += 2;
@@ -281,7 +283,8 @@ void tokenize() {
             *p == ',' || *p == '&' ||
             *p == '[' || *p == ']' ||
             *p == '|' || *p == '^' ||
-            *p == '&' || *p == '%') {
+            *p == '&' || *p == '%' ||
+            *p == '!' || *p == '~') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -1188,6 +1191,21 @@ Node *unary() {
         int size = size_from_type(type);
         return new_node_num(size);
     }
+
+    // 前置++ --は+=1 -=1と同じ
+    if (consume("++")) {
+        Node *node = unary();
+        return new_node(ND_ASSIGN, node, new_node(ND_ADD, node, new_node_num(1)));
+    }
+    if (consume("--")) {
+        Node *node = unary();
+        return new_node(ND_ASSIGN, node, new_node(ND_SUB, node, new_node_num(1)));
+    }
+    if (consume("!"))
+        return new_node(ND_LOGICNOT, unary(), NULL);
+    if (consume("~"))
+        return new_node(ND_BITNOT, unary(), NULL);
+
 	if (consume("+"))
 		return brackets();
 	if (consume("-"))

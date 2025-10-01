@@ -56,6 +56,8 @@ typedef enum {
   ND_REM,     // %
   ND_LSHIFT,  // <<
   ND_RSHIFT,  // >>
+  ND_LOGICNOT,// !
+  ND_BITNOT,  // ~
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if

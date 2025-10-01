@@ -52,6 +52,8 @@ char *nodeToStr(Node *node) {
         case ND_REM: return "%";
         case ND_LSHIFT: return "<<";
         case ND_RSHIFT: return ">>";
+        case ND_LOGICNOT: return "!";
+        case ND_BITNOT: return "~";
         case ND_SIZEOF: return "sizeof";
         case ND_RETURN: return "return";
         case ND_IF: return "if";

@@ -13,7 +13,8 @@ stmt = { stmt* }
         | ";"
 expr       = comma
 comma      = assign ("," assign)*
-assign     = logicOR ("=" assign)?
+assign     = logicOR (("=" | "+=" | "-=" | "*=" | "/="
+            | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
 logicOR    = logicAND ("||" logicAND)*
 logicAND   = bitOR ("&&" bitOR)*
 bitOR      = bitXOR ("|" bitXOR)*
@@ -28,5 +29,5 @@ unary      = ("sizeof" | "&" | "*") unary
             |  ("+" | "-")? brackets
 brackets   = primary ("[" expr "]")*
 primary    = "(" expr ")" | string
-            | ident "(" (expr ("," expr)*)? ")"
+            | ident "(" (assign ("," assign)*)? ")"
             | ident | num
