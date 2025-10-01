@@ -235,6 +235,27 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "switch", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_SWITCH, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "case", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_CASE, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "default", 7) == 0 && !is_alnum(p[7])) {
+            cur = new_token(TK_DEFAULT, cur, p);
+            cur->len = 7;
+            p += 7;
+            continue;
+        }
+
         if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
@@ -980,7 +1001,6 @@ Node *stmt() {
         node->kind = ND_CONTINUE;
         expect(";");
     } else if (consume_type(TK_IF)) {
-        // "if" "(" expr ")" stmt ("else" stmt)?
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_IF;
@@ -991,6 +1011,36 @@ Node *stmt() {
             tmp = new_node(ND_ELSE, tmp, stmt());
         }
         node->rhs = tmp;
+    } else if (consume_type(TK_SWITCH)) {
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_SWITCH;
+        node->lhs = expr();
+        expect(")");
+        expect("{");
+        Node *tmp;
+        Node *top = node;
+        for(;;){
+            if (consume("}")) break;
+
+            if (consume_type(TK_CASE)){
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_CASE;
+                tmp->val = expect_number(); // TODO:caseに数値以外の定数
+                expect(":");
+            } else if (consume_type(TK_DEFAULT)){
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_DEFAULT;
+                expect(":");
+            } else {
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_BLOCK;
+                tmp->lhs = stmt();
+            }
+            node->rhs = tmp;
+            node = tmp;
+        }
+        node = top;
     } else if (consume_type(TK_WHILE)) {
         // "while" "(" expr ")" stmt
         expect("(");

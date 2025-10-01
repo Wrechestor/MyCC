@@ -65,15 +65,7 @@ assert 55   'int main(){int s=0;int i=0;while(1){i++;s+=i;if(i>=10)break;}return
 assert 55   'int main(){int s=0;int i=0;for(;;){i++;s+=i;if(i>=10)break;}return s;}'
 assert 0   'int main(){int i;for(i=0;i<10;++i){if(i%3==0)continue;printf("%d ",i);}return 0;}'
 assert 0   'int main(){int i;int j;for(i=0;i<5;++i){for(j=0;j<10;++j){if(j%3==0)continue;if(j==7)break;printf("%d ",i*100+j);}}return 0;}'
+# assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日です\n");break;case 6:case 7:printf("週末です\n");break;default:printf("無効な日付\n");}}return 0;}'
 
-
-# assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
-
-# assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
-# assert 55 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
-# assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
-# assert 45 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
-
-# TODO: += ++ || カンマ演算子 三項演算子 など実装
 
 echo OK

@@ -9,6 +9,8 @@ stmt = { stmt* }
         | "if" "(" expr ")" stmt ("else" stmt)?
         | "while" "(" expr ")" stmt
         | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        | "break" ";"
+        | "continue" ";"
         | expr ";"
         | ";"
 expr       = comma

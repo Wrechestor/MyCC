@@ -39,7 +39,9 @@ void gen_lval(Node *node) {
 
 int branch_label = 0;
 int is_inloop = 0;
+int is_inswitch = 0;
 int current_loop_id = 0;
+int current_switch_id = 0;
 
 void gen(Node *node) {
     char name[MAX_IDENT_LEN];
@@ -169,6 +171,48 @@ void gen(Node *node) {
         return;
     }
 
+    if (node->kind == ND_SWITCH) {
+        int id = branch_label;
+        current_switch_id = id;
+        branch_label++;
+        int caseid = 0;
+        gen(node->lhs);
+        printf("  pop rax\n");
+
+        is_inswitch = 1;
+        Node *tmp = node->rhs;
+        while (tmp) {
+            if (tmp->kind == ND_CASE) {
+                printf("  cmp rax, %d\n", tmp->val);
+                printf("  je .Lcase%d_%d\n", id, caseid);
+                caseid++;
+            } else if (tmp->kind == ND_DEFAULT) {
+                printf("  jmp .Ldefault%d\n", id);
+            }
+            tmp = tmp->rhs;
+        }
+        printf("  jmp .Lend%d\n", id);
+
+        caseid = 0;
+        tmp = node->rhs;
+        while (tmp) {
+            if (tmp->kind == ND_CASE) {
+                printf(".Lcase%d_%d:\n", id, caseid);
+                caseid++;
+            } else if (tmp->kind == ND_DEFAULT) {
+                printf(".Ldefault%d:\n", id);
+            } else if (tmp->kind == ND_BLOCK) {
+                gen(tmp->lhs);
+                current_switch_id = id;
+                printf("  pop rax\n");
+            }
+            tmp = tmp->rhs;
+        }
+        is_inswitch = 0;
+        printf(".Lend%d:\n", id);
+        return;
+    }
+
     if (node->kind == ND_WHILE) {
         int id = branch_label;
         current_loop_id = id;
@@ -215,9 +259,10 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_BREAK) {
-        if (is_inloop) {
-            printf("### berraer1!\n");
-            printf("  jmp .Lend%d\n", current_loop_id);
+        if (is_inloop || is_inswitch) {
+            int id = current_loop_id;
+            if (current_switch_id > id) id = current_switch_id;
+            printf("  jmp .Lend%d\n", id);
         } else {
             error("breakの位置が不正です");
         }
