@@ -26,12 +26,12 @@ typedef enum {
   TK_INT,      // int
   TK_CHAR,     // char
   TK_SIZEOF,   // sizeof
+  TK_ENUM,     // enum
   TK_QUOTE,    // 文字列リテラル
   TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
 typedef struct Token Token;
-
 // トークン型
 struct Token {
   TokenKind kind; // トークンの型
@@ -40,6 +40,7 @@ struct Token {
   char *str;      // トークン文字列
   int len;        // トークンの長さ
 };
+
 
 // 抽象構文木のノードの種類
 typedef enum {
@@ -79,6 +80,7 @@ typedef enum {
   ND_SWITCH,  // switch
   ND_CASE,    // case
   ND_DEFAULT, // default
+  ND_ENUM,    // enum
   ND_BLOCK,   // {}
   ND_LVAR,    // ローカル変数
   ND_FUNCCALL,// 関数呼び出し
@@ -93,7 +95,6 @@ typedef enum {
 } NodeKind;
 
 typedef struct Node Node;
-
 // 抽象構文木のノードの型
 struct Node {
     NodeKind kind; // ノードの型
@@ -104,8 +105,8 @@ struct Node {
     char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
 
-typedef struct Type Type;
 
+typedef struct Type Type;
 // 変数の型
 struct Type {
   enum { INT, CHAR, PTR, ARRAY } ty;
@@ -113,8 +114,8 @@ struct Type {
   size_t array_size; // 配列のときの要素数
 };
 
-typedef struct LVar LVar;
 
+typedef struct LVar LVar;
 // ローカル変数の型
 struct LVar {
   LVar *next; // 次の変数かNULL
@@ -123,15 +124,14 @@ struct LVar {
   int offset; // RBPからのオフセット
   Type *type; // 変数の型
 };
-
 // ローカル変数
 extern LVar *locals;
 extern LVar *LocalsList[100];
 extern int localsnums[100];
 extern int localsnum;
 
-typedef struct GVar GVar;
 
+typedef struct GVar GVar;
 // グローバル変数の型
 struct GVar {
   GVar *next; // 次の変数かNULL
@@ -140,13 +140,11 @@ struct GVar {
   int addr;   // アドレス
   Type *type; // 変数の型
 };
-
 // グローバル変数
 extern GVar *globals;
 
 
 typedef struct Strs Strs;
-
 // 文字列リテラルの型
 struct Strs {
   Strs *next; // 次の変数かNULL
@@ -154,10 +152,22 @@ struct Strs {
   int len;    // 長さ
   int id;     // 連番のID
 };
-
 // 文字列リテラルのリスト
 extern Strs *strs;
 extern int strsnum;
+
+
+typedef struct Constant Constant;
+// enum定数
+struct Constant {
+    Constant *next;
+    char *name;
+    int len;
+    int val;
+};
+// enum定数のリスト
+extern Constant *constants;
+
 
 // 現在着目しているトークン
 extern Token *token;

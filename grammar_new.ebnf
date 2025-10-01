@@ -2,6 +2,7 @@ program    = function_gval*
 function_gval = TYPE "*"* ident "(" (TYPE "*"* ident)* ")" "{" stmt* "}"
                 | TYPE "*"* ident ("[" num "]")* "[]"?
                     ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
+                | "enum" ident "{" ident ("," ident)* "}" ";"
 stmt = { stmt* }
         | TYPE "*"* ident ("[" num "]")* "[]"?
             ("=" ("{" (num ("," num))? "}") | num | string )? ";"

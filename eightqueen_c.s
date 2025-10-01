@@ -48,7 +48,7 @@ abs:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend0
+  je  .Lendif0
   push 0
   mov rax, rbp
   sub rax, 8
@@ -64,7 +64,7 @@ abs:
   mov rsp, rbp
   pop rbp
   ret
-.Lend0:
+.Lendif0:
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -275,15 +275,16 @@ testNth:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend2
+  je  .Lendif2
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
-.Lend2:
+.Lendif2:
   pop rax
   push rax
+.Lcontinue1:
   mov rax, rbp
   sub rax, 24
   push rax
@@ -425,7 +426,7 @@ backtracking:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend5
+  je  .Lendif5
   mov rax, rbp
   sub rax, 16
   push rax
@@ -470,7 +471,7 @@ backtracking:
   push rdi
   pop rax
   push rax
-  jmp .Lend6
+  jmp .Lendif6
 .Lelse6:
   mov rax, rbp
   sub rax, 24
@@ -510,12 +511,13 @@ backtracking:
   push rax
   pop rax
   push rax
-.Lend6:
+.Lendif6:
   pop rax
   push rax
-.Lend5:
+.Lendif5:
   pop rax
   push rax
+.Lcontinue4:
   mov rax, rbp
   sub rax, 8
   push rax

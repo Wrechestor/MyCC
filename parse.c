@@ -277,6 +277,13 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "enum", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_ENUM, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
 		if (strncmp(p, ">>=", 3) == 0 ||
 			strncmp(p, "<<=", 3) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
@@ -430,10 +437,16 @@ Type *estimate_type(Node *node) {
         }
     }
     if (node->kind == ND_FUNCCALL) {
-        // TODO:関数の戻り値をポインタ型に対応
-        type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        return type;
+        GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
+        for (GVar *var = globals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                gvar = var;
+        if (gvar) {
+            type = gvar->type;
+            return type;
+        } else {
+            // error_at(node->lhs->name,"未定義の関数です");
+        }
     }
     Type *ltype = estimate_type(node->lhs);
     Type *rtype = estimate_type(node->rhs);
@@ -466,6 +479,8 @@ int localsnum;
 Strs *strs;
 int strsnum;
 
+Constant *constants;
+
 void program() {
     int i = 0;
     while (!at_eof()) {
@@ -482,6 +497,41 @@ void program() {
 Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
+
+    if (consume_type(TK_ENUM)) { // TODO:enum
+        node->kind = ND_ENUM;
+        Token *tok = consume_type(TK_IDENT);
+        int num = 0;
+        if (tok) {
+            expect("{");
+            for(;;){
+                if(consume("}")) break;
+                tok = consume_type(TK_IDENT);
+                if (tok) {
+                    Constant *cons = calloc(1, sizeof(Constant));
+                    cons->name = tok->str;
+                    cons->len = tok->len;
+                    cons->val = num;
+                    num++;
+                    cons->next = constants;
+                    constants = cons;
+                    if (consume(",")) {
+                        //
+                    } else {
+                        expect("}");
+                        break;
+                    }
+                }
+            }
+            expect(";");
+        } else {
+            error_at(token->str,"列挙型の名前がありません");
+        }
+
+        return node;
+    }
+
+
 
     // 戻り値の型
     Type *type = consume_typeword();
@@ -581,6 +631,21 @@ Node *function_gval() {
             tmp->rhs = tmp2;
             tmp = tmp2;
         }
+
+
+        // TODO:関数もグローバル変数の領域に登録する
+        GVar * gvar;
+        int totalbytesize = 4;
+        totalbytesize = size_from_type(type);
+
+        gvar = calloc(1, sizeof(GVar));
+        gvar->next = globals;
+        gvar->name = funcname->str;
+        gvar->len = funcname->len;
+        gvar->addr = totalbytesize;
+        gvar->type = type;
+        node->offset = gvar->addr;
+        globals = gvar;
     } else { // グローバル変数定義
         node->kind = ND_GVALDEF;
         node->name = funcname->str;
@@ -601,7 +666,7 @@ Node *function_gval() {
                     t->ptr_to = type;
                     type = t;
 
-                    if (consume("]")) { // TODO:配列要素数省略
+                    if (consume("]")) { // 配列要素数省略
                         undefsize = 1;
                         break;
                     }
@@ -631,7 +696,7 @@ Node *function_gval() {
         }
 
 
-        // TODO:グローバル変数の初期化
+        // グローバル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_GVALDEF;
@@ -808,7 +873,7 @@ Node *stmt() {
                     t->ptr_to = type;
                     type = t;
 
-                    if (consume("]")) { // TODO:配列要素数省略
+                    if (consume("]")) { // 配列要素数省略
                         undefsize = 1;
                         break;
                     }
@@ -841,7 +906,7 @@ Node *stmt() {
         }else{
             error_at(token->str,"変数名がありません");
         }
-        // TODO:ローカル変数の初期化
+        // ローカル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
@@ -1135,7 +1200,7 @@ Node *assign() {
     return node;
 }
 
-Node *condition(){ // TODO:優先順位
+Node *condition(){
     Node *node = logicOR();
 
     if (consume("?")) {
@@ -1359,7 +1424,7 @@ Node *primary() {
             node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
-            // TODO:引数の個数チェック
+
             if (consume(")")){
                 return node;
             } else {
@@ -1395,8 +1460,16 @@ Node *primary() {
                     node->offset = gvar->addr;
                     node->val = gvar->len;
                     node->name = gvar->name;
-                } else {
-                    error_at(tok->str,"未定義の変数です");
+                } else { // TODO:enum
+                    Constant *cons = constants;
+                    for (; cons; cons = cons->next)
+                        if (cons->len == tok->len && !memcmp(tok->str, cons->name, cons->len))
+                            break;
+                    if (cons) {
+                        return new_node_num(cons->val);
+                    } else {
+                        error_at(tok->str,"未定義の変数です");
+                    }
                 }
             }
             return node;
