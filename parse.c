@@ -242,6 +242,14 @@ void tokenize() {
             continue;
         }
 
+		if (strncmp(p, ">>=", 3) == 0 ||
+			strncmp(p, "<<=", 3) == 0) {
+			cur = new_token(TK_RESERVED, cur, p);
+			cur->len = 3;
+			p += 3;
+			continue;
+		}
+
 		if (strncmp(p, ">=", 2) == 0 ||
 			strncmp(p, "<=", 2) == 0 ||
 			strncmp(p, "==", 2) == 0 ||
@@ -249,7 +257,15 @@ void tokenize() {
 			strncmp(p, "||", 2) == 0 ||
 			strncmp(p, "&&", 2) == 0 ||
 			strncmp(p, "<<", 2) == 0 ||
-			strncmp(p, ">>", 2) == 0) {
+			strncmp(p, ">>", 2) == 0 ||
+			strncmp(p, "+=", 2) == 0 ||
+			strncmp(p, "-=", 2) == 0 ||
+			strncmp(p, "*=", 2) == 0 ||
+			strncmp(p, "/=", 2) == 0 ||
+			strncmp(p, "%=", 2) == 0 ||
+			strncmp(p, "&=", 2) == 0 ||
+			strncmp(p, "^=", 2) == 0 ||
+			strncmp(p, "|=", 2) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
 			cur->len = 2;
 			p += 2;
@@ -991,6 +1007,7 @@ Node *stmt() {
         tmp2->rhs = stmt();
     } else if(consume(";")){
         // 空文 do nothing
+        return NULL;
     } else {
         node = expr();
         expect(";");
@@ -1018,6 +1035,27 @@ Node *assign() {
 
     if (consume("="))
         node = new_node(ND_ASSIGN, node, assign());
+    else if (consume("+="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_ADD, node, assign()));
+    else if (consume("-="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_SUB, node, assign()));
+    else if (consume("*="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_MUL, node, assign()));
+    else if (consume("/="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_DIV, node, assign()));
+    else if (consume("%="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_REM, node, assign()));
+    else if (consume("&="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITAND, node, assign()));
+    else if (consume("^="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITXOR, node, assign()));
+    else if (consume("|="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITOR, node, assign()));
+    else if (consume("<<="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_LSHIFT, node, assign()));
+    else if (consume(">>="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_RSHIFT, node, assign()));
+
     return node;
 }
 
