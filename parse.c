@@ -284,7 +284,8 @@ void tokenize() {
             *p == '[' || *p == ']' ||
             *p == '|' || *p == '^' ||
             *p == '&' || *p == '%' ||
-            *p == '!' || *p == '~') {
+            *p == '!' || *p == '~' ||
+            *p == '?' || *p == ':') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -1034,7 +1035,7 @@ Node *comma(){
 }
 
 Node *assign() {
-    Node *node = logicOR();
+    Node *node = condition();
 
     if (consume("="))
         node = new_node(ND_ASSIGN, node, assign());
@@ -1059,6 +1060,19 @@ Node *assign() {
     else if (consume(">>="))
         node = new_node(ND_ASSIGN, node, new_node(ND_RSHIFT, node, assign()));
 
+    return node;
+}
+
+Node *condition(){ // TODO:優先順位
+    Node *node = logicOR();
+
+    if (consume("?")) {
+        node = new_node(ND_COND, node, NULL);
+        Node *b = logicOR();
+        expect(":");
+        Node *tmp = new_node(ND_COLON, b, condition());
+        node->rhs = tmp;
+    }
     return node;
 }
 
@@ -1207,25 +1221,37 @@ Node *unary() {
         return new_node(ND_BITNOT, unary(), NULL);
 
 	if (consume("+"))
-		return brackets();
+		return postpos();
 	if (consume("-"))
-		return new_node(ND_SUB, new_node_num(0), brackets());
+		return new_node(ND_SUB, new_node_num(0), postpos());
     if (consume("&"))
         return new_node(ND_ADDR, unary(), NULL);
     if (consume("*"))
         return new_node(ND_DEREF, unary(), NULL);
-	return brackets();
+	return postpos();
 }
 
-Node *brackets() { // TODO:配列アクセス(優先順位は?)
+Node *postpos() { // TODO:配列アクセス(優先順位は?)
     Node *node = primary();
 
-    while (consume("[")) {
+    for (;;) {
+        if (consume("[")) {
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
         expect("]");
+        }
+        // else if (consume("."))
+        // node = new_node(ND_, node, unary());
+        // else if (consume("->"))
+        // node = new_node(ND_, node, unary());
+        else break;
     }
-    return node;
+    if (consume("++")) {
+        node = new_node(ND_POSTINCR, node, new_node(ND_ADD, node, new_node_num(1)));
+    } else if (consume("--")) {
+        node = new_node(ND_POSTDECR, node, new_node(ND_SUB, node, new_node_num(1)));
+    } else
+        return node;
 }
 
 Node *primary() {

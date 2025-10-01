@@ -355,7 +355,20 @@ void gen(Node *node) {
         return;
     }
 
-
+    if (node->kind == ND_COND){
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je .Lcond1_%d\n",id);
+        gen(node->rhs->lhs);
+        printf("  jmp .Lcond2_%d\n",id);
+        printf(".Lcond1_%d:\n",id);
+        gen(node->rhs->rhs);
+        printf(".Lcond2_%d:\n",id);
+        return;
+    }
 
     if (node->kind == ND_LOGICOR){
         int id = branch_label;
@@ -402,6 +415,39 @@ void gen(Node *node) {
         gen(node->lhs);
         printf("  pop rax\n");
         gen(node->rhs);
+        return;
+    }
+
+    if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR){
+        gen_lval(node->lhs);
+        gen(node->rhs);
+
+        type = estimate_type(node->lhs);
+        if (type) {
+            if (type->ty == ARRAY) {
+                error("配列には代入できません");
+            }
+            if (type->ty == CHAR) {
+                // char型のときは1バイト書きこむ
+                printf("  pop rdi\n");
+                printf("  pop rax\n");
+                printf("  push [rax]\n");
+                printf("  mov [rax], dil\n");
+                return;
+            }
+            if (type->ty == INT) {
+                // int型のときは4バイト書きこむ
+                printf("  pop rdi\n");
+                printf("  pop rax\n");
+                printf("  push [rax]\n");
+                printf("  mov DWORD PTR [rax], edi\n");
+                return;
+            }
+        }
+        printf("  pop rdi\n");
+        printf("  pop rax\n");
+        printf("  push [rax]\n");
+        printf("  mov [rax], rdi\n");
         return;
     }
 

@@ -54,6 +54,10 @@ char *nodeToStr(Node *node) {
         case ND_RSHIFT: return ">>";
         case ND_LOGICNOT: return "!";
         case ND_BITNOT: return "~";
+        case ND_POSTINCR: return "(POST)++";
+        case ND_POSTDECR: return "(POST)--";
+        case ND_COND: return "?";
+        case ND_COLON: return ":";
         case ND_SIZEOF: return "sizeof";
         case ND_RETURN: return "return";
         case ND_IF: return "if";

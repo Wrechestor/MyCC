@@ -57,6 +57,10 @@ assert 0   'int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf(
 assert 45   'int main(){int s=0;int i;for(i=0;i<10;s+=i,i+=1);return s;}'
 assert 0   'int main(){int i;for(i=0;i<20;++i){printf("%d ",i % 5);}return 0;}'
 assert 0   'int main(){int i;for(i=0;i<8;++i){printf("%d,%d ",1<<i,1710581>>i);}return 0;}'
+assert 0   'int main(){int i;for(i=0;i<10;++i){if(!(i%5))printf("%d ",i);}return 0;}'
+assert 0   'int main(){int i=0;printf("%d ",i++);printf("%d ",++i);return 0;}'
+assert 0   'int main(){int i;for(i=0;i<10;++i){printf("%s ",(i%3==0?"Fizz":"Buzz"));}return 0;}'
+assert 55   'int main(){return 1==2 ? 5 : 1<2 ? 55 : 107;}'
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 

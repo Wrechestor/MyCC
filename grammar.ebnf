@@ -13,8 +13,9 @@ stmt = { stmt* }
         | ";"
 expr       = comma
 comma      = assign ("," assign)*
-assign     = logicOR (("=" | "+=" | "-=" | "*=" | "/="
+assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
             | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
+condition  = logicOR ("?" logicOR ":" condition)?
 logicOR    = logicAND ("||" logicAND)*
 logicAND   = bitOR ("&&" bitOR)*
 bitOR      = bitXOR ("|" bitXOR)*
@@ -25,9 +26,11 @@ relational = shift (("<" | "<=" | ">" | ">=") shift)*
 shift      = add ("<<" add | ">>" add)*
 add        = mul ("+" mul | "-" mul)*
 mul        = unary (("*" | "/" | "%") unary)*
-unary      = ("sizeof" | "&" | "*") unary
-            |  ("+" | "-")? brackets
-brackets   = primary ("[" expr "]")*
+unary      = ("sizeof" | "&" | "*" |
+                | "!" | "~" | "++" | "--") unary  # ++ -- は前置
+            |  ("+" | "-")? postpos
+postpos    = primary ("[" expr "]")*
+            ("++" | "--")?  # ++ -- は後置
 primary    = "(" expr ")" | string
-            | ident "(" (assign ("," assign)*)? ")"
+            | ident "(" (assign ("," assign)*)? ")" # commaとの衝突を避けるためassign
             | ident | num

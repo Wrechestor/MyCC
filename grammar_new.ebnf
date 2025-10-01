@@ -15,7 +15,7 @@ expr       = comma
 comma      = assign ("," assign)*
 assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
             | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
-condition  = logicOR ("?" condition ":" condition)? # TODO:これ合ってる?
+condition  = logicOR ("?" logicOR ":" condition)?
 logicOR    = logicAND ("||" logicAND)*
 logicAND   = bitOR ("&&" bitOR)*
 bitOR      = bitXOR ("|" bitXOR)*
@@ -29,11 +29,8 @@ mul        = unary (("*" | "/" | "%") unary)*
 unary      = ("sizeof" | "&" | "*" | ("(" TYPE ")")
                 | "!" | "~" | "++" | "--") unary  # ++ -- は前置
             |  ("+" | "-")? postpos
-postpos    = primary ("[" expr "]")*
-            | primary ("++" | "--")  # ++ -- は後置
-            | primary "." ident
-            | primary "->" ident
-# brackets   = primary ("[" expr "]")*
+postpos    = primary (("[" expr "]") || ("." ident) || ("->" ident))*
+            ("++" | "--")?  # ++ -- は後置
 primary    = "(" expr ")" | string
             | ident "(" (assign ("," assign)*)? ")" # commaとの衝突を避けるためassign
             | ident | num

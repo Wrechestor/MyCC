@@ -58,6 +58,10 @@ typedef enum {
   ND_RSHIFT,  // >>
   ND_LOGICNOT,// !
   ND_BITNOT,  // ~
+  ND_COND,    // ?
+  ND_COLON,   // :
+  ND_POSTINCR,// 後置++
+  ND_POSTDECR,// 後置--
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if
@@ -183,6 +187,7 @@ Node *stmt();
 Node *expr();
 Node *comma();
 Node *assign();
+Node *condition();
 Node *logicOR();
 Node *logicAND();
 Node *bitOR();
@@ -194,7 +199,7 @@ Node *shift();
 Node *add();
 Node *mul();
 Node *unary();
-Node *brackets();
+Node *postpos();
 Node *primary();
 
 void gen_lval(Node *node);
