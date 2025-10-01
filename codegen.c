@@ -439,6 +439,14 @@ void gen(Node *node) {
         printf("  push rdx\n");
         return;
 		break;
+	case ND_LSHIFT:
+		printf("  mov rcx, rdi\n");
+		printf("  shl rax, cl\n");
+		break;
+	case ND_RSHIFT: // TODO:符号拡張
+		printf("  mov rcx, rdi\n");
+		printf("  shr rax, cl\n");
+		break;
     case ND_BITOR:
 		printf("  or rax, rdi\n");
         break;

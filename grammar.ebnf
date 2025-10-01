@@ -20,7 +20,8 @@ bitOR      = bitXOR ("|" bitXOR)*
 bitXOR     = bitAND ("^" bitAND)*
 bitAND     = equality ("&" equality)*
 equality   = relational ("==" relational | "!=" relational)*
-relational = add ("<" add | "<=" add | ">" add | ">=" add)*
+relational = shift (("<" | "<=" | ">" | ">=") shift)*
+shift      = add ("<<" add | ">>" add)*
 add        = mul ("+" mul | "-" mul)*
 mul        = unary (("*" | "/" | "%") unary)*
 unary      = ("sizeof" | "&" | "*") unary

@@ -56,6 +56,7 @@ assert 2   'int main(){char a[] = "ABCDEF!";printf("%s", a);return a[3] - a[1];}
 assert 0   'int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf("%d ",i);}return 0;}'
 assert 45   'int main(){int s=0;int i;for(i=0;i<10;s=s+i,i=i+1);return s;}'
 assert 0   'int main(){int i;for(i=0;i<20;i=i+1){printf("%d ",i % 5);}return 0;}'
+assert 0   'int main(){int i;for(i=0;i<8;i=i+1){printf("%d,%d ",1<<i,1710581>>i);}return 0;}'
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 

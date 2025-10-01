@@ -54,6 +54,8 @@ typedef enum {
   ND_BITAND,  // &
   ND_COMMA,   // ,
   ND_REM,     // %
+  ND_LSHIFT,  // <<
+  ND_RSHIFT,  // >>
   ND_SIZEOF,  // sizeof
   ND_RETURN,  // return
   ND_IF,      // if
@@ -186,6 +188,7 @@ Node *bitXOR();
 Node *bitAND();
 Node *equality();
 Node *relational();
+Node *shift();
 Node *add();
 Node *mul();
 Node *unary();

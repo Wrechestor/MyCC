@@ -247,7 +247,9 @@ void tokenize() {
 			strncmp(p, "==", 2) == 0 ||
 			strncmp(p, "!=", 2) == 0 ||
 			strncmp(p, "||", 2) == 0 ||
-			strncmp(p, "&&", 2) == 0) {
+			strncmp(p, "&&", 2) == 0 ||
+			strncmp(p, "<<", 2) == 0 ||
+			strncmp(p, ">>", 2) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
 			cur->len = 2;
 			p += 2;
@@ -1083,17 +1085,30 @@ Node *equality() {
 }
 
 Node *relational() {
-    Node *node = add();
+    Node *node = shift();
 
     for (;;) {
         if (consume("<"))
-        node = new_node(ND_LES, node, add());
+        node = new_node(ND_LES, node, shift());
         else if (consume("<="))
-        node = new_node(ND_LEQ, node, add());
+        node = new_node(ND_LEQ, node, shift());
         else if (consume(">"))
-        node = new_node(ND_LES, add(), node);
+        node = new_node(ND_LES, shift(), node);
         else if (consume(">="))
-        node = new_node(ND_LEQ, add(), node);
+        node = new_node(ND_LEQ, shift(), node);
+        else
+        return node;
+    }
+}
+
+Node *shift() {
+    Node *node = add();
+
+    for (;;) {
+        if (consume("<<"))
+        node = new_node(ND_LSHIFT, node, add());
+        else if (consume(">>"))
+        node = new_node(ND_RSHIFT, node, add());
         else
         return node;
     }
