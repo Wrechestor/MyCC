@@ -38,6 +38,8 @@ void gen_lval(Node *node) {
 }
 
 int branch_label = 0;
+int is_inloop = 0;
+int current_loop_id = 0;
 
 void gen(Node *node) {
     char name[MAX_IDENT_LEN];
@@ -156,26 +158,31 @@ void gen(Node *node) {
         if (node->rhs->kind == ND_ELSE) {
             printf("  je  .Lelse%d\n", id);
             gen(node->rhs->lhs);
-            printf("  jmp .Lend%d\n", id);
+            printf("  jmp .Lendif%d\n", id);
             printf(".Lelse%d:\n", id);
             gen(node->rhs->rhs);
         } else {
-            printf("  je  .Lend%d\n", id);
+            printf("  je  .Lendif%d\n", id);
             gen(node->rhs);
         }
-        printf(".Lend%d:\n", id);
+        printf(".Lendif%d:\n", id);
         return;
     }
 
     if (node->kind == ND_WHILE) {
         int id = branch_label;
+        current_loop_id = id;
         branch_label++;
         printf(".Lbegin%d:\n", id);
+        printf(".Lcontinue%d:\n", id);
         gen(node->lhs);
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
+        is_inloop = 1;
         gen(node->rhs);
+        is_inloop = 0;
+        current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
         return;
@@ -183,18 +190,45 @@ void gen(Node *node) {
 
     if (node->kind == ND_FOR) {
         int id = branch_label;
+        current_loop_id = id;
         branch_label++;
         // for (A; B; C) D
         gen(node->lhs); //A
         printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); //B
         printf("  pop rax\n");
+        if (node->rhs->lhs == NULL){ // 条件を省略した場合常に真
+
+        } else {
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
+        }
+        is_inloop = 1;
         gen(node->rhs->rhs->rhs); //D
+        printf(".Lcontinue%d:\n", id);
         gen(node->rhs->rhs->lhs); //C
+        is_inloop = 0;
+        current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
+        return;
+    }
+
+    if (node->kind == ND_BREAK) {
+        if (is_inloop) {
+            printf("### berraer1!\n");
+            printf("  jmp .Lend%d\n", current_loop_id);
+        } else {
+            error("breakの位置が不正です");
+        }
+        return;
+    }
+    if (node->kind == ND_CONTINUE) {
+        if (is_inloop) {
+            printf("  jmp .Lcontinue%d\n", current_loop_id);
+        } else {
+            error("continueの位置が不正です");
+        }
         return;
     }
 
@@ -420,7 +454,14 @@ void gen(Node *node) {
 
     if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR){
         gen_lval(node->lhs);
-        gen(node->rhs);
+
+        printf("  pop rax\n");
+        printf("  mov rdi, [rax]\n");
+        if (node->kind == ND_POSTINCR){
+            printf("  add rdi, 1\n");
+        } else {
+            printf("  sub rdi, 1\n");
+        }
 
         type = estimate_type(node->lhs);
         if (type) {
@@ -429,23 +470,17 @@ void gen(Node *node) {
             }
             if (type->ty == CHAR) {
                 // char型のときは1バイト書きこむ
-                printf("  pop rdi\n");
-                printf("  pop rax\n");
                 printf("  push [rax]\n");
                 printf("  mov [rax], dil\n");
                 return;
             }
             if (type->ty == INT) {
                 // int型のときは4バイト書きこむ
-                printf("  pop rdi\n");
-                printf("  pop rax\n");
                 printf("  push [rax]\n");
                 printf("  mov DWORD PTR [rax], edi\n");
                 return;
             }
         }
-        printf("  pop rdi\n");
-        printf("  pop rax\n");
         printf("  push [rax]\n");
         printf("  mov [rax], rdi\n");
         return;

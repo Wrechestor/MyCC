@@ -60,7 +60,12 @@ assert 0   'int main(){int i;for(i=0;i<8;++i){printf("%d,%d ",1<<i,1710581>>i);}
 assert 0   'int main(){int i;for(i=0;i<10;++i){if(!(i%5))printf("%d ",i);}return 0;}'
 assert 0   'int main(){int i=0;printf("%d ",i++);printf("%d ",++i);return 0;}'
 assert 0   'int main(){int i;for(i=0;i<10;++i){printf("%s ",(i%3==0?"Fizz":"Buzz"));}return 0;}'
-assert 55   'int main(){return 1==2 ? 5 : 1<2 ? 55 : 107;}'
+assert 47   'int main(){return 1==2 ? 5 : 1<2 ? 47 : 107;}'
+assert 55   'int main(){int s=0;int i=0;while(1){i++;s+=i;if(i>=10)break;}return s;}'
+assert 55   'int main(){int s=0;int i=0;for(;;){i++;s+=i;if(i>=10)break;}return s;}'
+assert 0   'int main(){int i;for(i=0;i<10;++i){if(i%3==0)continue;printf("%d ",i);}return 0;}'
+assert 0   'int main(){int i;int j;for(i=0;i<5;++i){for(j=0;j<10;++j){if(j%3==0)continue;if(j==7)break;printf("%d ",i*100+j);}}return 0;}'
+
 
 # assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
 

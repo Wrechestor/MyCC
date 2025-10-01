@@ -16,6 +16,8 @@ typedef enum {
   TK_ELSE,     // else
   TK_WHILE,    // while
   TK_FOR,      // for
+  TK_BREAK,    // while
+  TK_CONTINUE, // for
   TK_IDENT,    // 識別子
   TK_NUM,      // 整数トークン
   TK_INT,      // int
@@ -69,6 +71,8 @@ typedef enum {
   ND_WHILE,   // while
   ND_FOR,     // for
   ND_FORSUP,  // for内部のの2つ目以降の文
+  ND_BREAK,   // break
+  ND_CONTINUE,// continue
   ND_BLOCK,   // {}
   ND_LVAR,    // ローカル変数
   ND_FUNCCALL,// 関数呼び出し

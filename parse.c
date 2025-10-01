@@ -221,6 +221,20 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "break", 5) == 0 && !is_alnum(p[5])) {
+            cur = new_token(TK_BREAK, cur, p);
+            cur->len = 5;
+            p += 5;
+            continue;
+        }
+
+        if (strncmp(p, "continue", 8) == 0 && !is_alnum(p[8])) {
+            cur = new_token(TK_CONTINUE, cur, p);
+            cur->len = 8;
+            p += 8;
+            continue;
+        }
+
         if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
@@ -957,6 +971,14 @@ Node *stmt() {
         node->kind = ND_RETURN;
         node->lhs = expr();
         expect(";");
+    } else if (consume_type(TK_BREAK)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_BREAK;
+        expect(";");
+    } else if (consume_type(TK_CONTINUE)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_CONTINUE;
+        expect(";");
     } else if (consume_type(TK_IF)) {
         // "if" "(" expr ")" stmt ("else" stmt)?
         expect("(");
@@ -1247,9 +1269,9 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
         else break;
     }
     if (consume("++")) {
-        node = new_node(ND_POSTINCR, node, new_node(ND_ADD, node, new_node_num(1)));
+        node = new_node(ND_POSTINCR, node, NULL);
     } else if (consume("--")) {
-        node = new_node(ND_POSTDECR, node, new_node(ND_SUB, node, new_node_num(1)));
+        node = new_node(ND_POSTDECR, node, NULL);
     } else
         return node;
 }

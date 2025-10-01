@@ -64,6 +64,8 @@ char *nodeToStr(Node *node) {
         case ND_ELSE: return "then | else";
         case ND_WHILE: return "while";
         case ND_FOR: return "for";
+        case ND_BREAK: return "break";
+        case ND_CONTINUE: return "continue";
         case ND_FORSUP: return "FORSUP";
         case ND_BLOCK: return "BLOCK";
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
