@@ -50,5 +50,4 @@ TYPE       = ("int" | "char" | ("struct" ident)) "*"*
 # postpos    = primary (("[" expr "]") || ("." ident) || ("->" ident))*
 #             ("++" | "--")?  # ++ -- は後置
 
-# unary      = ("sizeof" | "&" | "*" | ("(" TYPE ")")
-#                 | "!" | "~" | "++" | "--") unary  # ++ -- は前置
+# unary      = | ("(" TYPE ")") unary

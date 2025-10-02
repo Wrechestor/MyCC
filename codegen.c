@@ -1,9 +1,36 @@
 #include "mycc.h"
 
-void gen_lval(Node *node) {
+int gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
         gen(node->lhs);
-        return;
+        return 0;
+    }
+
+    if (node->kind == ND_STRREF) { // TODO:struct(特に複数階層の参照)
+        printf("### begin strref\n");
+        gen_lval(node->lhs);
+        // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
+        Type *lhstype = estimate_type(node->lhs);
+        if (lhstype->ty != STRUCT) error("左辺がstructではありません");
+
+        int offset = 0;
+
+        Type *now = lhstype->member;
+        for (;;) {
+            if (!now) error("structのメンバ名が存在しません");
+            if (now->ty != MEMBER) error("不正な構文木:member");
+            if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
+                break;
+            offset += size_from_type(now->ptr_to);
+            now = now->member;
+        }
+        int ty = now->ty;
+        printf("  pop rax\n");
+        printf("  add rax, %d\n", offset); // TODO:offsetが大きすぎると?
+        printf("  push rax\n");
+
+        printf("### end strref\n");
+        return ty;
     }
 
     if (node->kind != ND_LVAR)
@@ -17,7 +44,7 @@ void gen_lval(Node *node) {
         printf("  mov rax, rbp\n");
         printf("  sub rax, %d\n", node->offset);
         printf("  push rax\n");
-        return;
+        return 0;
     }
 
     tok = calloc(1, sizeof(Token));
@@ -32,7 +59,7 @@ void gen_lval(Node *node) {
         // printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  mov rax, OFFSET FLAT:%s\n", name);
         printf("  push rax\n");
-        return;
+        return 0;
     }
     error("代入の左辺の変数がありません");
 }
@@ -130,6 +157,7 @@ void gen(Node *node) {
             i++;
         }
         // ローカル変数用のスタックを確保
+        // TODO:8より大きいローカル変数(配列,構造体)
         printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
 
         gen(node->rhs);
@@ -321,6 +349,32 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  mov rax, QWORD PTR [rax]\n");
         printf("  push rax\n");
+        return;
+    case ND_STRREF:
+        printf("### $$$ begin strref_R\n");
+        int ty = gen_lval(node); // TODO:structの型推定
+        if (ty == ARRAY) {
+            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+            return;
+        }
+        if (ty == CHAR) {
+            // char型のときは1バイト読み込む
+            printf("  pop rax\n");
+            printf("  movzx eax, BYTE PTR [rax]\n");
+            printf("  push rax\n");
+            return;
+        }
+        if (ty == INT) {
+            // int型のときは4バイト読み込む
+            printf("  pop rax\n");
+            printf("  movslq rax, DWORD PTR [rax]\n");
+            printf("  push rax\n");
+            return;
+        }
+        printf("  pop rax\n");
+        printf("  mov rax, [rax]\n");
+        printf("  push rax\n");
+        printf("### $$$ end strref_R\n");
         return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);

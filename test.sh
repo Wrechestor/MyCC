@@ -64,8 +64,9 @@ assert() {
 # assert 2    'typedef char *chrptr; char a[] = {1,2,3,4,5};int main(){chrptr p=a; return p[1];}'
 # assert 2    'enum Color {RED,GREEN,BLUE};int main() {enum Color paint = BLUE;if (paint == BLUE) {return 2;}return 0;}'
 # assert 0    'enum Color {RED,GREEN,BLUE}; enum Color paint;int main() {paint = GREEN;if (paint == BLUE) {return 2;}return 0;}'
-
-assert 12   'struct MyInts {int a;int b;int c;};int main() {struct MyInts myint; return sizeof(myint);}'
+# assert 16   'struct MyStruct {char *a;int b;int c;};int main() {struct MyStruct myint; return sizeof(myint);}'
+# assert 16   'struct MyStruct {int a;int b;int c;};struct MyStruct myint; int main() {myint.b=7; myint.c=9; return myint.b+myint.c;}'
+assert 7   'struct MyStruct {int a;int b;int c;};typedef struct MyStruct MyStruct;MyStruct myint; int main() {MyStruct *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
 
 
 echo OK

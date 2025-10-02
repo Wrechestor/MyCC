@@ -68,6 +68,7 @@ typedef enum {
   ND_BITNOT,  // ~
   ND_COND,    // ?
   ND_COLON,   // :
+  ND_STRREF,  // .
   ND_POSTINCR,// 後置++
   ND_POSTDECR,// 後置--
   ND_SIZEOF,  // sizeof
@@ -118,6 +119,8 @@ struct Type {
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
   struct Type *member; // structのときの型リスト
+  char *name; // structのときのメンバの名前
+  int len;    // 名前の長さ
 };
 
 
@@ -267,5 +270,5 @@ Node *unary();
 Node *postpos();
 Node *primary();
 
-void gen_lval(Node *node);
+int gen_lval(Node *node);
 void gen(Node *node);

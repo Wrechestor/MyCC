@@ -360,7 +360,8 @@ void tokenize() {
 			strncmp(p, "^=", 2) == 0 ||
 			strncmp(p, "|=", 2) == 0 ||
 			strncmp(p, "++", 2) == 0 ||
-			strncmp(p, "--", 2) == 0) {
+			strncmp(p, "--", 2) == 0 ||
+			strncmp(p, "->", 2) == 0) {
 			cur = new_token(TK_RESERVED, cur, p);
 			cur->len = 2;
 			p += 2;
@@ -378,7 +379,8 @@ void tokenize() {
             *p == '|' || *p == '^' ||
             *p == '&' || *p == '%' ||
             *p == '!' || *p == '~' ||
-            *p == '?' || *p == ':') {
+            *p == '?' || *p == ':' ||
+            *p == '.') {
 			cur = new_token(TK_RESERVED, cur, p++);
 			cur->len = 1;
 			continue;
@@ -649,7 +651,7 @@ Node *function_gval() {
             strc->type = type;
 
             expect("{");
-            for(;;){
+            for(;;){ // TODO:char等があったときアライメントする
                 if(consume("}")) break;
 
                 Type *membertype = consume_type();
@@ -661,6 +663,8 @@ Node *function_gval() {
                 Type *member = calloc(1, sizeof(Type));
                 member->ty = MEMBER;
                 member->ptr_to = membertype;
+                member->name = tok->str;
+                member->len = tok->len;
                 type->member = member;
                 type = member;
 
@@ -1512,12 +1516,26 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
         expect("]");
-        }
-        // else if (consume("."))
-        // node = new_node(ND_, node, unary());
-        // else if (consume("->"))
-        // node = new_node(ND_, node, unary());
-        else break;
+        } else if (consume(".")) {
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok) error_at(tok->str,"メンバ名が識別子でありません");
+
+            Node *membername = calloc(1, sizeof(Node));
+            membername->kind = ND_STRREF;
+            membername->name = tok->str;
+            membername->val = tok->len;
+            node = new_node(ND_STRREF, node, membername);
+        } else if (consume("->")) { // TODO:->
+            // a->b は (*a).bと等価
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok) error_at(tok->str,"メンバ名が識別子でありません");
+
+            Node *membername = calloc(1, sizeof(Node));
+            membername->kind = ND_STRREF;
+            membername->name = tok->str;
+            membername->val = tok->len;
+            node = new_node(ND_STRREF, new_node(ND_DEREF, node, NULL), membername);
+        } else break;
     }
     if (consume("++")) {
         node = new_node(ND_POSTINCR, node, NULL);
@@ -1603,9 +1621,8 @@ Node *primary() {
                             break;
                     if (cons) {
                         return new_node_num(cons->val);
-                    } else {
-                        error_at(tok->str,"未定義の変数です");
                     }
+                    error_at(tok->str,"未定義の変数です");
                 }
             }
             return node;
