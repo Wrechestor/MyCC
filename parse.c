@@ -542,10 +542,10 @@ int size_from_type(Type *type) {
         size = size_from_type(t) * arrsize;
     } else if (type->ty == STRUCT) { // TODO:struct対応
         size = 0;
-        Type *tmp = type->mebmer;
+        Type *tmp = type->member;
         while (tmp) {
             size += size_from_type(tmp->ptr_to);
-            tmp = tmp->mebmer;
+            tmp = tmp->member;
         }
     }
     return size;
@@ -582,15 +582,15 @@ Node *function_gval() {
     if (!type) { // 存在しない型の場合→enum or struct or エラー
         if (consume_kind(TK_ENUM)) { // TODO:enum
             node->kind = ND_ENUM;
+
             Token *tok = consume_kind(TK_IDENT);
+            if (!tok) error_at(token->str,"enumの名前がありません");
+
             node->name = tok->str;
             node->val = tok->len;
             int num = 0;
 
-            EnumName *ename;
-            if (!tok) error_at(token->str,"enumの名前がありません");
-
-            ename = find_enum(tok);
+            EnumName *ename = find_enum(tok);
             if (ename) error_at(tok->str,"重複定義されたenumです");
 
             ename = calloc(1, sizeof(EnumName));
@@ -624,68 +624,68 @@ Node *function_gval() {
             return node;
         }
 
-        // if (consume_kind(TK_STRUCT)) { // TODO:struct
-        //     node->kind = ND_STRUCT;
-        //     Token *tok = consume_kind(TK_IDENT);
-        //     node->name = tok->str;
-        //     node->val = tok->len;
-        //     int num = 0;
+        if (consume_kind(TK_STRUCT)) { // TODO:struct
+            node->kind = ND_STRUCT;
 
-        //     EnumName *ename;
-        //     if (!tok) error_at(token->str,"structの名前がありません");
-        //     ename = find_enum(tok);
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok) error_at(token->str,"structの名前がありません");
 
-        //     if (ename) {
-        //         error_at(tok->str,"重複定義されたstructです");
-        //     } else {
-        //         ename = calloc(1, sizeof(EnumName));
-        //         ename->next = enumnames;
-        //         ename->name = tok->str;
-        //         ename->len = tok->len;
-        //         enumnames = ename;
-        //     }
+            node->name = tok->str;
+            node->val = tok->len;
+            int num = 0;
 
-        //     expect("{");
-        //     for(;;){
-        //         if(consume("}")) break;
-        //         tok = consume_kind(TK_IDENT);
-        //         if (tok) {
-        //             Constant *cons = calloc(1, sizeof(Constant));
-        //             cons->name = tok->str;
-        //             cons->len = tok->len;
-        //             cons->val = num;
-        //             num++;
-        //             cons->next = constants;
-        //             constants = cons;
-        //             if (consume(",")) {
-        //                 //
-        //             } else {
-        //                 expect("}");
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     expect(";");
-        //     return node;
-        // }
+            StructDef *strc = find_struct(tok);
+            if (strc) error_at(tok->str,"重複定義されたstructです");
+
+            strc = calloc(1, sizeof(StructDef));
+            strc->next = structdefs;
+            strc->name = tok->str;
+            strc->len = tok->len;
+            structdefs = strc;
+
+            Type *type = calloc(1, sizeof(Type));
+            type->ty = STRUCT;
+
+            strc->type = type;
+
+            expect("{");
+            for(;;){
+                if(consume("}")) break;
+
+                Type *membertype = consume_type();
+                if (!membertype) error_at(token->str,"存在しない型です");
+
+                tok = consume_kind(TK_IDENT);
+                if (!tok) error_at(token->str,"structのメンバ名が識別子ではありません");
+
+                Type *member = calloc(1, sizeof(Type));
+                member->ty = MEMBER;
+                member->ptr_to = membertype;
+                type->member = member;
+                type = member;
+
+                expect(";");
+            }
+            expect(";");
+            return node;
+        }
 
         if (consume_kind(TK_TYPEDEF)) {
             node->kind = ND_TYPEDEF;
 
             Type *type = consume_type();
-
-            Type *tmp = type;
             if (!type) {
                 // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
-                error_at(token->str,"typedefの型がありません");
+                error_at(token->str,"存在しない型です");
             }
 
             Token *tok = consume_kind(TK_IDENT);
+            if (!tok) error_at(token->str,"typedefの名前がありません");
+
             node->name = tok->str;
             node->val = tok->len;
             int num = 0;
             DefinedType *dtype;
-            if (!tok) error_at(token->str,"typedefの名前がありません");
 
             dtype = find_dtype(tok);
             if (dtype) error_at(tok->str,"重複定義されたtypedefです");

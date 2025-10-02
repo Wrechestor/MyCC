@@ -117,7 +117,7 @@ struct Type {
     // MEMBER:structの時の型リスト保存用
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
-  struct Type *mebmer; // structのときの型リスト
+  struct Type *member; // structのときの型リスト
 };
 
 
@@ -181,7 +181,6 @@ struct EnumName {
     EnumName *next;
     char *name;
     int len;
-    int val;
 };
 // enum型の名前のリスト
 extern EnumName *enumnames;
@@ -193,7 +192,6 @@ struct StructDef {
     StructDef *next;
     char *name;
     int len;
-    int val;
     Type *type;
 };
 // struct型の定義のリスト
@@ -207,7 +205,6 @@ struct DefinedType {
     DefinedType *next;
     char *name;
     int len;
-    int val;
     Type *type;
 };
 // 定義した型のリスト
