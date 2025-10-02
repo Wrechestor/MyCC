@@ -72,6 +72,7 @@ char *nodeToStr(Node *node) {
         case ND_FORSUP: return "FORSUP";
         case ND_BLOCK: return "BLOCK";
         case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf);  return ret;
+        case ND_STRUCT: sprintf(ret, "STRUCT(%s)", namebuf);  return ret;
         case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf);  return ret;
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
         case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;

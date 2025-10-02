@@ -70,7 +70,7 @@ Token *consume_kind(TokenKind tkind) {
 	return old;
 }
 
-Type *consume_type() { // TODO:enum,structに対応
+Type *consume_type() { // TODO:structに対応
     Type *type = calloc(1, sizeof(Type));
     Token *first = token;
 
@@ -91,7 +91,18 @@ Type *consume_type() { // TODO:enum,structに対応
             type->ty = INT;
             is_typefound = 1;
         } else {
-            // error_at(token->str, "enum型の名前がありません");
+            token = first;
+            return NULL;
+        }
+    }
+
+    if (consume_kind(TK_STRUCT)) {
+        StructDef *strc = find_struct(token);
+        if (strc) {
+            token = token->next;
+            type = strc->type;
+            is_typefound = 1;
+        } else {
             token = first;
             return NULL;
         }
@@ -120,26 +131,11 @@ Type *consume_type() { // TODO:enum,structに対応
 	return type;
 }
 
-int is_type() { // TODO:enum,structに対応
-    if(token->kind == TK_INT || token->kind == TK_CHAR) {
-        return 1;
-    }
-
-    if (token->kind == TK_ENUM && token->next) {
-        EnumName *ename = find_enum(token->next);
-        if (ename) {
-            return 1;
-        } else {
-            // error_at(token->next->str, "enum型の名前がありません");
-            return 0;
-        }
-    }
-
-    DefinedType *dtype = find_dtype(token);
-    if (dtype != NULL) {
-        return 1;
-    }
-    return 0;
+int is_type() {
+    Token *first = token;
+    Type *type = consume_type();
+    token = first;
+    return type!=NULL;
 }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
@@ -449,6 +445,15 @@ EnumName *enumnames;
 // 定義されたenumを名前で検索する。見つからなかった場合はNULLを返す。
 EnumName *find_enum(Token *tok) {
     for (EnumName *var = enumnames; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return NULL;
+}
+
+StructDef *structdefs;
+// 定義されたstructを名前で検索する。見つからなかった場合はNULLを返す。
+StructDef *find_struct(Token *tok) {
+    for (StructDef *var = structdefs; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;

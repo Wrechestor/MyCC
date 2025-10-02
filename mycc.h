@@ -82,7 +82,8 @@ typedef enum {
   ND_SWITCH,  // switch
   ND_CASE,    // case
   ND_DEFAULT, // default
-  ND_ENUM,    // enum
+  ND_ENUM,    // enumの定義
+  ND_STRUCT,  // structの定義
   ND_TYPEDEF, // typedef
   ND_BLOCK,   // {}
   ND_LVAR,    // ローカル変数
@@ -112,9 +113,11 @@ struct Node {
 typedef struct Type Type;
 // 変数の型
 struct Type {
-  enum { INT, CHAR, PTR, ARRAY, STRUCT } ty;
+  enum { INT, CHAR, PTR, ARRAY, STRUCT, MEMBER } ty;
+    // MEMBER:structの時の型リスト保存用
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
+  Type *mebmer; // structのときの型リスト
 };
 
 
@@ -173,6 +176,7 @@ extern Constant *constants;
 
 
 typedef struct EnumName EnumName;
+// enum型の名前
 struct EnumName {
     EnumName *next;
     char *name;
@@ -183,8 +187,21 @@ struct EnumName {
 extern EnumName *enumnames;
 
 
+typedef struct StructDef StructDef;
+// struct型の定義
+struct StructDef {
+    StructDef *next;
+    char *name;
+    int len;
+    int val;
+    Type *type;
+};
+// struct型の定義のリスト
+extern StructDef *structdefs;
+
+
 typedef struct DefinedType DefinedType;
-// 定義した型(struct, typedef, (enum))
+// 定義した型名(struct, typedef, (enum))
 // TODO:2単語以上の型(enum A, struct Bなど)
 struct DefinedType {
     DefinedType *next;
@@ -225,6 +242,7 @@ Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
 EnumName *find_enum(Token *tok);
+StructDef *find_struct(Token *tok);
 DefinedType *find_dtype(Token *tok);
 
 extern int estimate_isglobal;
