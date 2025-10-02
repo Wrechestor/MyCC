@@ -117,7 +117,7 @@ struct Type {
     // MEMBER:structの時の型リスト保存用
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
-  Type *mebmer; // structのときの型リスト
+  struct Type *mebmer; // structのときの型リスト
 };
 
 

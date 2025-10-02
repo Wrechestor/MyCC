@@ -545,6 +545,13 @@ int size_from_type(Type *type) {
         int arrsize = type->array_size;
         Type *t = type->ptr_to;
         size = size_from_type(t) * arrsize;
+    } else if (type->ty == STRUCT) { // TODO:struct対応
+        size = 0;
+        Type *tmp = type->mebmer;
+        while (tmp) {
+            size += size_from_type(tmp->ptr_to);
+            tmp = tmp->mebmer;
+        }
     }
     return size;
 }
@@ -621,11 +628,56 @@ Node *function_gval() {
                 }
                 expect(";");
             } else {
-                error_at(token->str,"列挙型の名前がありません");
+                error_at(token->str,"enumの名前がありません");
             }
 
             return node;
         }
+
+        // if (consume_kind(TK_STRUCT)) { // TODO:struct
+        //     node->kind = ND_STRUCT;
+        //     Token *tok = consume_kind(TK_IDENT);
+        //     node->name = tok->str;
+        //     node->val = tok->len;
+        //     int num = 0;
+
+        //     EnumName *ename;
+        //     if (!tok) error_at(token->str,"structの名前がありません");
+        //     ename = find_enum(tok);
+
+        //     if (ename) {
+        //         error_at(tok->str,"重複定義されたstructです");
+        //     } else {
+        //         ename = calloc(1, sizeof(EnumName));
+        //         ename->next = enumnames;
+        //         ename->name = tok->str;
+        //         ename->len = tok->len;
+        //         enumnames = ename;
+        //     }
+
+        //     expect("{");
+        //     for(;;){
+        //         if(consume("}")) break;
+        //         tok = consume_kind(TK_IDENT);
+        //         if (tok) {
+        //             Constant *cons = calloc(1, sizeof(Constant));
+        //             cons->name = tok->str;
+        //             cons->len = tok->len;
+        //             cons->val = num;
+        //             num++;
+        //             cons->next = constants;
+        //             constants = cons;
+        //             if (consume(",")) {
+        //                 //
+        //             } else {
+        //                 expect("}");
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     expect(";");
+        //     return node;
+        // }
 
         if (consume_kind(TK_TYPEDEF)) {
             node->kind = ND_TYPEDEF;
