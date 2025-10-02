@@ -22,7 +22,7 @@ expr       = comma
 comma      = assign ("," assign)*
 assign     = condition (("=" | "+=" | "-=" | "*=" | "/="
             | "%=" | "&=" | "^=" | "|=" | "<<=" | ">>=") assign)?
-condition  = logicOR ("?" logicOR ":" condition)?
+condition  = logicOR ("?" expr ":" condition)? # 中央はカンマ演算子などもOK a?b,c:d → a?(b,c):d と解釈
 logicOR    = logicAND ("||" logicAND)*
 logicAND   = bitOR ("&&" bitOR)*
 bitOR      = bitXOR ("|" bitXOR)*

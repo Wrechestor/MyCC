@@ -59,6 +59,7 @@ char *nodeToStr(Node *node) {
         case ND_COND: return "?";
         case ND_COLON: return ":";
         case ND_STRREF: return ".";
+        case ND_MEMBER: sprintf(ret, "%s", namebuf);  return ret;
         case ND_SIZEOF: return "sizeof";
         case ND_RETURN: return "return";
         case ND_IF: return "if";
@@ -108,7 +109,7 @@ int gengraph(Node *node, int nodeid) {
     printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
-        node->kind == ND_TYPEDEF) {
+        node->kind == ND_STRUCT || node->kind == ND_TYPEDEF) {
         printf(" shape = box");
     }
     if (node->kind == ND_BLOCK) {

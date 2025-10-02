@@ -1345,7 +1345,7 @@ Node *condition(){
 
     if (consume("?")) {
         node = new_node(ND_COND, node, NULL);
-        Node *b = logicOR();
+        Node *b = expr();
         expect(":");
         Node *tmp = new_node(ND_COLON, b, condition());
         node->rhs = tmp;
@@ -1511,30 +1511,26 @@ Node *unary() {
 Node *postpos() { // TODO:配列アクセス(優先順位は?)
     Node *node = primary();
 
+    int is_strderef;
     for (;;) {
+        is_strderef = 0;
         if (consume("[")) {
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
         expect("]");
-        } else if (consume(".")) {
+        } else if (consume(".") || (is_strderef = consume("->"))) {
             Token *tok = consume_kind(TK_IDENT);
             if (!tok) error_at(tok->str,"メンバ名が識別子でありません");
 
             Node *membername = calloc(1, sizeof(Node));
-            membername->kind = ND_STRREF;
+            membername->kind = ND_MEMBER;
             membername->name = tok->str;
             membername->val = tok->len;
-            node = new_node(ND_STRREF, node, membername);
-        } else if (consume("->")) { // TODO:->
+
             // a->b は (*a).bと等価
-            Token *tok = consume_kind(TK_IDENT);
-            if (!tok) error_at(tok->str,"メンバ名が識別子でありません");
-
-            Node *membername = calloc(1, sizeof(Node));
-            membername->kind = ND_STRREF;
-            membername->name = tok->str;
-            membername->val = tok->len;
-            node = new_node(ND_STRREF, new_node(ND_DEREF, node, NULL), membername);
+            if (is_strderef)
+                node = new_node(ND_STRREF, new_node(ND_DEREF, node, NULL), membername);
+            else node = new_node(ND_STRREF, node, membername);
         } else break;
     }
     if (consume("++")) {

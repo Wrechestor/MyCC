@@ -69,6 +69,7 @@ typedef enum {
   ND_COND,    // ?
   ND_COLON,   // :
   ND_STRREF,  // .
+  ND_MEMBER,  // .
   ND_POSTINCR,// 後置++
   ND_POSTDECR,// 後置--
   ND_SIZEOF,  // sizeof
