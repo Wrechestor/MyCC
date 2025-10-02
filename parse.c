@@ -120,7 +120,6 @@ Type *consume_type() { // TODO:structに対応
         return NULL;
     }
 
-
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
         t->ty = PTR;
@@ -154,14 +153,13 @@ void expect(char *op) {
 // 次のトークンが数値の場合、トークンを1つ読み進めてその数値を返す。
 // それ以外の場合にはエラーを報告する。
 int expect_number() {
-	if (token->kind != TK_NUM)
-		error_at(token->str,"数ではありません");
+	if (token->kind != TK_NUM) error_at(token->str,"数ではありません");
 	int val = token->val;
 	token = token->next;
 	return val;
 }
 
-bool at_eof() {
+bool at_eof() { // TODO:これ使ってない(NULLで判定してる→バグの可能性?)
 	return token->kind == TK_EOF;
 }
 
@@ -500,18 +498,16 @@ Type *estimate_type(Node *node) {
         if (lvar) {
             type = lvar->type;
             return type;
-        } else {
-            GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-            for (GVar *var = globals; var; var = var->next)
-                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                    gvar = var;
-            if (gvar) {
-                type = gvar->type;
-                return type;
-            } else {
-                // error_at(node->lhs->name,"未定義の変数です");
-            }
         }
+        GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
+        for (GVar *var = globals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                gvar = var;
+        if (gvar) {
+            type = gvar->type;
+            return type;
+        }
+        // error_at(node->lhs->name,"未定義の変数です");
     }
     if (node->kind == ND_FUNCCALL) {
         GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
@@ -521,9 +517,8 @@ Type *estimate_type(Node *node) {
         if (gvar) {
             type = gvar->type;
             return type;
-        } else {
-            // error_at(node->lhs->name,"未定義の関数です");
         }
+        // error_at(node->lhs->name,"未定義の関数です");
     }
     Type *ltype = estimate_type(node->lhs);
     Type *rtype = estimate_type(node->rhs);
@@ -593,44 +588,39 @@ Node *function_gval() {
             int num = 0;
 
             EnumName *ename;
-            if (tok) {
-                ename = find_enum(tok);
+            if (!tok) error_at(token->str,"enumの名前がありません");
 
-                if (ename) {
-                    error_at(tok->str,"重複定義されたenumです");
+            ename = find_enum(tok);
+            if (ename) error_at(tok->str,"重複定義されたenumです");
+
+            ename = calloc(1, sizeof(EnumName));
+            ename->next = enumnames;
+            ename->name = tok->str;
+            ename->len = tok->len;
+            enumnames = ename;
+
+            expect("{");
+            for(;;){
+                if(consume("}")) break;
+
+                tok = consume_kind(TK_IDENT);
+                if (!tok) error_at(token->str,"enumの要素が識別子ではありません");
+
+                Constant *cons = calloc(1, sizeof(Constant));
+                cons->name = tok->str;
+                cons->len = tok->len;
+                cons->val = num;
+                num++;
+                cons->next = constants;
+                constants = cons;
+                if (consume(",")) {
+                    //
                 } else {
-                    ename = calloc(1, sizeof(EnumName));
-                    ename->next = enumnames;
-                    ename->name = tok->str;
-                    ename->len = tok->len;
-                    enumnames = ename;
+                    expect("}");
+                    break;
                 }
-
-                expect("{");
-                for(;;){
-                    if(consume("}")) break;
-                    tok = consume_kind(TK_IDENT);
-                    if (tok) {
-                        Constant *cons = calloc(1, sizeof(Constant));
-                        cons->name = tok->str;
-                        cons->len = tok->len;
-                        cons->val = num;
-                        num++;
-                        cons->next = constants;
-                        constants = cons;
-                        if (consume(",")) {
-                            //
-                        } else {
-                            expect("}");
-                            break;
-                        }
-                    }
-                }
-                expect(";");
-            } else {
-                error_at(token->str,"enumの名前がありません");
             }
-
+            expect(";");
             return node;
         }
 
@@ -695,52 +685,42 @@ Node *function_gval() {
             node->val = tok->len;
             int num = 0;
             DefinedType *dtype;
-            if (tok) {
-                dtype = find_dtype(tok);
+            if (!tok) error_at(token->str,"typedefの名前がありません");
 
-                if (dtype) {
-                    error_at(tok->str,"重複定義されたtypedefです");
-                } else {
-                    node->name = tok->str;
-                    node->val = tok->len;
+            dtype = find_dtype(tok);
+            if (dtype) error_at(tok->str,"重複定義されたtypedefです");
 
-                    // while (consume("[")) { // TODO:配列型のtypedef
-                    //     Type *t = calloc(1, sizeof(Type));
-                    //     t->ty = ARRAY;
-                    //     t->ptr_to = type;
-                    //     type = t;
-                    //     size = expect_number();
-                    //     expect("]");
-                    //     t->array_size = size;
-                    //     totalsize *= size;
-                    // }
+            // while (consume("[")) { // TODO:配列型のtypedef
+            //     Type *t = calloc(1, sizeof(Type));
+            //     t->ty = ARRAY;
+            //     t->ptr_to = type;
+            //     type = t;
+            //     size = expect_number();
+            //     expect("]");
+            //     t->array_size = size;
+            //     totalsize *= size;
+            // }
 
-                    dtype = calloc(1, sizeof(DefinedType));
-                    dtype->next = definedtypes;
-                    dtype->name = tok->str;
-                    dtype->len = tok->len;
-                    dtype->type = type;
-                    definedtypes = dtype;
-                }
-                expect(";");
-            } else {
-                error_at(token->str,"typedefの名前がありません");
-            }
-            return node;
+            dtype = calloc(1, sizeof(DefinedType));
+            dtype->next = definedtypes;
+            dtype->name = tok->str;
+            dtype->len = tok->len;
+            dtype->type = type;
+            definedtypes = dtype;
+            expect(";");
+        return node;
         }
         error_at(token->str,"関数の返り値またはグローバル変数の型がありません");
     }
 
-    Token *funcname;
-    funcname = consume_kind(TK_IDENT);
-    if (!funcname) {
-        error_at(token->str,"関数名がありません");
-    }
+    Token *funcgvalname;
+    funcgvalname = consume_kind(TK_IDENT);
+    if (!funcgvalname) error_at(token->str,"関数またはグローバル変数の名前がありません");
 
     if (consume("(")) { // 関数定義
         node->kind = ND_FUNCDEF;
-        node->name = funcname->str;
-        node->val = funcname->len;
+        node->name = funcgvalname->str;
+        node->val = funcgvalname->len;
 
         Token *argname;
         Type *argtype;
@@ -748,14 +728,10 @@ Node *function_gval() {
         int argsnum = 0;
         while (!consume(")")) {
             argtype = consume_type();
-            if (!argtype) {
-                error_at(token->str,"引数の型がありません");
-            }
+            if (!argtype) error_at(token->str,"引数の型がありません");
 
             argname = consume_kind(TK_IDENT);
-            if (!argname) {
-                error_at(token->str,"引数が不正です");
-            }
+            if (!argname) error_at(token->str,"引数が不正です");
 
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
@@ -793,16 +769,12 @@ Node *function_gval() {
         tmp->kind = ND_BLOCK;
         node->rhs = tmp;
         while(true){
-            if (token->next == NULL) {
-                error("ブロックが閉じていません");
-            }
-            if (consume("}")) {
-                break;
-            }
+            if (token->next == NULL) error("ブロックが閉じていません");
+            if (consume("}")) break;
+
             tmp->lhs = stmt();
-            if (consume("}")) { // 要らないけどツリーを整理するため
-                break;
-            }
+            if (consume("}")) break; // 要らないけどツリーを整理するため
+
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
@@ -817,8 +789,8 @@ Node *function_gval() {
 
         gvar = calloc(1, sizeof(GVar));
         gvar->next = globals;
-        gvar->name = funcname->str;
-        gvar->len = funcname->len;
+        gvar->name = funcgvalname->str;
+        gvar->len = funcgvalname->len;
         gvar->addr = totalbytesize;
         gvar->type = type;
         node->offset = gvar->addr;
@@ -826,50 +798,48 @@ Node *function_gval() {
     } else { // グローバル変数定義
         // TODO:typedef,enum対応?
         node->kind = ND_GVALDEF;
-        node->name = funcname->str;
-        node->val = funcname->len;
+        node->name = funcgvalname->str;
+        node->val = funcgvalname->len;
 
-        Token *tok = funcname;
+        Token *tok = funcgvalname;
         int undefsize = 0; // sizeを省略したとき1
         int size = 1;
         GVar *gvar;
         if (tok) {
             gvar = find_gvar(tok);
-            if (gvar) {
-                error_at(tok->str,"重複定義されたグローバル変数です");
-            } else {
-                while (consume("[")) { // 配列型
-                    Type *t = calloc(1, sizeof(Type));
-                    t->ty = ARRAY;
-                    t->ptr_to = type;
-                    type = t;
+            if (gvar) error_at(tok->str,"重複定義されたグローバル変数です");
 
-                    if (consume("]")) { // 配列要素数省略
-                        undefsize = 1;
-                        break;
-                    }
+            while (consume("[")) { // 配列型
+                Type *t = calloc(1, sizeof(Type));
+                t->ty = ARRAY;
+                t->ptr_to = type;
+                type = t;
 
-                    size = expect_number();
-                    expect("]");
-
-                    t->array_size = size;
+                if (consume("]")) { // 配列要素数省略
+                    undefsize = 1;
+                    break;
                 }
 
-                if (!undefsize) {
-                    int totalbytesize = 4;
-                    totalbytesize = size_from_type(type);
+                size = expect_number();
+                expect("]");
 
-                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                    gvar = calloc(1, sizeof(GVar));
-                    gvar->next = globals;
-                    gvar->name = tok->str;
-                    gvar->len = tok->len;
-                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                    gvar->addr = totalbytesize;
-                    gvar->type = type;
-                    node->offset = gvar->addr;
-                    globals = gvar;
-                }
+                t->array_size = size;
+            }
+
+            if (!undefsize) {
+                int totalbytesize = 4;
+                totalbytesize = size_from_type(type);
+
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                gvar = calloc(1, sizeof(GVar));
+                gvar->next = globals;
+                gvar->name = tok->str;
+                gvar->len = tok->len;
+                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                gvar->addr = totalbytesize;
+                gvar->type = type;
+                node->offset = gvar->addr;
+                globals = gvar;
             }
         }
 
@@ -1024,57 +994,53 @@ Node *stmt() {
         Type *type = consume_type();
 
         Token *tok = consume_kind(TK_IDENT);
+        if (!tok) error_at(token->str,"変数名がありません");
+
         int offset;
         int undefsize = 0; // sizeを省略したとき1
         int totalsize = 1;
         int size = 1;
+
         LVar *lvar;
-        if (tok) {
-            lvar = find_lvar(tok);
-            if (lvar) {
-                error_at(tok->str,"重複定義されたローカル変数です");
-            } else {
-                node->name = tok->str;
-                node->val = tok->len;
+        lvar = find_lvar(tok);
+        if (lvar) error_at(tok->str,"重複定義されたローカル変数です");
 
-                while (consume("[")) { // 配列型
-                    Type *t = calloc(1, sizeof(Type));
-                    t->ty = ARRAY;
-                    t->ptr_to = type;
-                    type = t;
+        node->name = tok->str;
+        node->val = tok->len;
 
-                    if (consume("]")) { // 配列要素数省略
-                        undefsize = 1;
-                        break;
-                    }
+        while (consume("[")) { // 配列型
+            Type *t = calloc(1, sizeof(Type));
+            t->ty = ARRAY;
+            t->ptr_to = type;
+            type = t;
 
-                    size = expect_number();
-                    expect("]");
-
-                    t->array_size = size;
-
-                    totalsize *= size;
-                }
-
-
-                if (!undefsize) {
-                    // TODO:offsetの設定バグありそう?(配列の場所)
-                    offset = (locals ? locals->offset : 0) + 8 * totalsize;
-
-                    lvar = calloc(1, sizeof(LVar));
-                    lvar->next = locals;
-                    lvar->name = tok->str;
-                    lvar->len = tok->len;
-                    lvar->offset = offset;
-                    lvar->type = type;
-                    node->offset = offset;
-                    locals = lvar;
-
-                    localsnum += totalsize;
-                }
+            if (consume("]")) { // 配列要素数省略
+                undefsize = 1;
+                break;
             }
-        }else{
-            error_at(token->str,"変数名がありません");
+
+            size = expect_number();
+            expect("]");
+
+            t->array_size = size;
+            totalsize *= size;
+        }
+
+
+        if (!undefsize) {
+            // TODO:offsetの設定バグありそう?(配列の場所)
+            offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+            lvar = calloc(1, sizeof(LVar));
+            lvar->next = locals;
+            lvar->name = tok->str;
+            lvar->len = tok->len;
+            lvar->offset = offset;
+            lvar->type = type;
+            node->offset = offset;
+            locals = lvar;
+
+            localsnum += totalsize;
         }
         // ローカル変数の初期化
         if (consume("=")) {
