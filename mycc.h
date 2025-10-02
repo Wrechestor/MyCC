@@ -172,6 +172,17 @@ struct Constant {
 extern Constant *constants;
 
 
+typedef struct EnumName EnumName;
+struct EnumName {
+    EnumName *next;
+    char *name;
+    int len;
+    int val;
+};
+// enum型の名前のリスト
+extern EnumName *enumnames;
+
+
 typedef struct DefinedType DefinedType;
 // 定義した型(struct, typedef, (enum))
 // TODO:2単語以上の型(enum A, struct Bなど)
@@ -213,6 +224,7 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
+EnumName *find_enum(Token *tok);
 DefinedType *find_dtype(Token *tok);
 
 extern int estimate_isglobal;
