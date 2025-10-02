@@ -71,6 +71,7 @@ char *nodeToStr(Node *node) {
         case ND_DEFAULT: return "default";
         case ND_FORSUP: return "FORSUP";
         case ND_BLOCK: return "BLOCK";
+        case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf);  return ret;
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
         case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
         case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;
@@ -102,7 +103,8 @@ int gengraph(Node *node, int nodeid) {
     int nowid = nodeid;
 
     printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
-    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF || node->kind == ND_FUNCDEF) {
+    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
+        node->kind == ND_FUNCDEF || node->kind == ND_ENUM) {
         printf(" shape = box");
     }
     if (node->kind == ND_BLOCK) {

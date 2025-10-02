@@ -27,6 +27,8 @@ typedef enum {
   TK_CHAR,     // char
   TK_SIZEOF,   // sizeof
   TK_ENUM,     // enum
+  TK_STRUCT,   // struct
+  TK_TYPEDEF,  // typedef
   TK_QUOTE,    // 文字列リテラル
   TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
@@ -109,7 +111,7 @@ struct Node {
 typedef struct Type Type;
 // 変数の型
 struct Type {
-  enum { INT, CHAR, PTR, ARRAY } ty;
+  enum { INT, CHAR, PTR, ARRAY, STRUCT } ty;
   struct Type *ptr_to;
   size_t array_size; // 配列のときの要素数
 };
@@ -169,6 +171,19 @@ struct Constant {
 extern Constant *constants;
 
 
+typedef struct DefinedType DefinedType;
+// 定義した型(struct, typedef, (enum))
+struct DefinedType {
+    DefinedType *next;
+    char *name;
+    int len;
+    int val;
+    Type *type;
+};
+// 定義した型のリスト
+extern DefinedType *definedtypes;
+
+
 // 現在着目しているトークン
 extern Token *token;
 
@@ -186,7 +201,7 @@ extern char *filename;
 void error(char *fmt, ...);
 void error_at(char *loc, char *msg);
 bool consume(char *op);
-Token *consume_type(TokenKind tkind);
+Token *consume_kind(TokenKind tkind);
 void expect(char *op);
 int expect_number();
 bool at_eof();

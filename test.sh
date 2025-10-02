@@ -67,7 +67,7 @@ assert 0   'int main(){int i;for(i=0;i<10;++i){if(i%3==0)continue;printf("%d ",i
 assert 0   'int main(){int i;int j;for(i=0;i<5;++i){for(j=0;j<10;++j){if(j%3==0)continue;if(j==7)break;printf("%d ",i*100+j);}}return 0;}'
 # assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日です\n");break;case 6:case 7:printf("週末です\n");break;default:printf("無効な日付\n");}}return 0;}'
 assert 2   'enum Color {RED,GREEN,BLUE};int main() {int paint = BLUE;if (paint == BLUE) {return 2;}return 0;}'
-assert 4 'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return *plus2(&a[1]);}'
+assert 5 'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return plus2(&a[1])[1];}'
 
 
 echo OK

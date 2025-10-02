@@ -39,5 +39,7 @@ assert() {
 # assert 0   'int main(){int i=0;printf("%d ",i++);printf("%d ",++i);return 0;}'
 # assert 55   'int main(){return 1==2 ? 5 : 1<2 ? 55 : 107;}'
 # assert 45   'int main(){int s=0;int i=0;while(1){i++;s+=i;if(i>=10)break;}return s;}'
-assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日です\n");break;case 6:case 7:printf("週末です\n");break;default:printf("無効な日付\n");}}return 0;}'
+# assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日です\n");break;case 6:case 7:printf("週末です\n");break;default:printf("無効な日付\n");}}return 0;}'
 # assert 4 'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return *plus2(&a[1]);}'
+assert 2   'enum Color {RED,GREEN,BLUE};int main() {int paint = BLUE;if (paint == BLUE) {return 2;}return 0;}'
+# assert 5 'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return plus2(&a[1])[1];}'

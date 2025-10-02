@@ -48,20 +48,6 @@ void error_at(char *loc, char *msg) {
     exit(1);
 }
 
-// // エラー箇所を報告する
-// void error_at(char *loc, char *fmt, ...) {
-// 	va_list ap;
-// 	va_start(ap, fmt);
-
-// 	int pos = loc - user_input;
-// 	fprintf(stderr, "%s\n", user_input);
-// 	fprintf(stderr, "%*s", pos, " "); // pos個の空白を出力
-// 	fprintf(stderr, "^ ");
-// 	vfprintf(stderr, fmt, ap);
-// 	fprintf(stderr, "\n");
-// 	exit(1);
-// }
-
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
 bool consume(char *op) {
@@ -74,7 +60,7 @@ bool consume(char *op) {
 }
 
 // consume_ident
-Token *consume_type(TokenKind tkind) {
+Token *consume_kind(TokenKind tkind) {
 	if (token->kind != tkind)
 		return NULL;
 
@@ -84,18 +70,26 @@ Token *consume_type(TokenKind tkind) {
 	return old;
 }
 
-Type *consume_typeword() {
+Type *consume_type() { // TODO:他の型に対応
     Type *type = calloc(1, sizeof(Type));
-    if(consume_type(TK_INT)) type->ty = INT;
-    else if(consume_type(TK_CHAR)) type->ty = CHAR;
+    if(consume_kind(TK_INT)) type->ty = INT;
+    else if(consume_kind(TK_CHAR)) type->ty = CHAR;
     else {
         free(type);
         return NULL;
     }
+
+    while (consume("*")) {
+        Type *t = calloc(1, sizeof(Type));
+        t->ty = PTR;
+        t->ptr_to = type;
+        type = t;
+    }
+
 	return type;
 }
 
-int is_typeword() {
+int is_type() { // TODO:他の型に対応
     return  token->kind == TK_INT || token->kind == TK_CHAR;
 }
 
@@ -281,6 +275,20 @@ void tokenize() {
             cur = new_token(TK_ENUM, cur, p);
             cur->len = 4;
             p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "struct", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_STRUCT, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "typedef", 7) == 0 && !is_alnum(p[7])) {
+            cur = new_token(TK_TYPEDEF, cur, p);
+            cur->len = 7;
+            p += 7;
             continue;
         }
 
@@ -498,15 +506,52 @@ Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
 
-    if (consume_type(TK_ENUM)) { // TODO:enum
+    if (consume_kind(TK_ENUM)) { // TODO:enum
         node->kind = ND_ENUM;
-        Token *tok = consume_type(TK_IDENT);
+        Token *tok = consume_kind(TK_IDENT);
+        node->name = tok->str;
+        node->val = tok->len;
         int num = 0;
         if (tok) {
             expect("{");
             for(;;){
                 if(consume("}")) break;
-                tok = consume_type(TK_IDENT);
+                tok = consume_kind(TK_IDENT);
+                if (tok) {
+                    Constant *cons = calloc(1, sizeof(Constant));
+                    cons->name = tok->str;
+                    cons->len = tok->len;
+                    cons->val = num;
+                    num++;
+                    cons->next = constants;
+                    constants = cons;
+                    if (consume(",")) {
+                        //
+                    } else {
+                        expect("}");
+                        break;
+                    }
+                }
+            }
+            expect(";");
+        } else {
+            error_at(token->str,"列挙型の名前がありません");
+        }
+
+        return node;
+    }
+
+    if (consume_kind(TK_ENUM)) { // TODO:enum
+        node->kind = ND_ENUM;
+        Token *tok = consume_kind(TK_IDENT);
+        node->name = tok->str;
+        node->val = tok->len;
+        int num = 0;
+        if (tok) {
+            expect("{");
+            for(;;){
+                if(consume("}")) break;
+                tok = consume_kind(TK_IDENT);
                 if (tok) {
                     Constant *cons = calloc(1, sizeof(Constant));
                     cons->name = tok->str;
@@ -534,20 +579,13 @@ Node *function_gval() {
 
 
     // 戻り値の型
-    Type *type = consume_typeword();
+    Type *type = consume_type();
     if (!type) {
         error_at(token->str,"返り値の型がありません");
     }
 
-    while (consume("*")) {
-        Type *t = calloc(1, sizeof(Type));
-        t->ty = PTR;
-        t->ptr_to = type;
-        type = t;
-    }
-
     Token *funcname;
-    funcname = consume_type(TK_IDENT);
+    funcname = consume_kind(TK_IDENT);
     if (!funcname) {
         error_at(token->str,"関数名がありません");
     }
@@ -562,20 +600,12 @@ Node *function_gval() {
         Node *tmparg = node;
         int argsnum = 0;
         while (!consume(")")) {
-            argtype = consume_typeword();
+            argtype = consume_type();
             if (!argtype) {
                 error_at(token->str,"引数の型がありません");
             }
 
-            // ポインタ型に対応
-            while (consume("*")) {
-                Type *t = calloc(1, sizeof(Type));
-                t->ty = PTR;
-                t->ptr_to = argtype;
-                argtype = t;
-            }
-
-            argname = consume_type(TK_IDENT);
+            argname = consume_kind(TK_IDENT);
             if (!argname) {
                 error_at(token->str,"引数が不正です");
             }
@@ -768,7 +798,7 @@ Node *function_gval() {
                 // d:
                 // .quad b + 3
 
-                Token *tokquo = consume_type(TK_QUOTE);
+                Token *tokquo = consume_kind(TK_QUOTE);
                 if (tokquo) { // 文字列リテラル
                     int nowindex = 0;
 
@@ -839,21 +869,13 @@ Node *stmt() {
             tmp = tmp2;
         }
 
-    } else if (is_typeword()) { // ローカル変数定義
+    } else if (is_type()) { // ローカル変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
-        // ポインタ型に対応
-        Type *type = consume_typeword();
+        Type *type = consume_type();
 
-        while (consume("*")) {
-            Type *t = calloc(1, sizeof(Type));
-            t->ty = PTR;
-            t->ptr_to = type;
-            type = t;
-        }
-
-        Token *tok = consume_type(TK_IDENT);
+        Token *tok = consume_kind(TK_IDENT);
         int offset;
         int undefsize = 0; // sizeを省略したとき1
         int totalsize = 1;
@@ -991,7 +1013,7 @@ Node *stmt() {
                     expect("}");
                 }
             } else {
-                Token *tokquo = consume_type(TK_QUOTE);
+                Token *tokquo = consume_kind(TK_QUOTE);
                 if (tokquo) { // 文字列リテラル
                     int nowindex = 0;
                     Node *assignsubj;
@@ -1052,31 +1074,31 @@ Node *stmt() {
         }
 
         expect(";");
-    } else if (consume_type(TK_RETURN)) {
+    } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
         expect(";");
-    } else if (consume_type(TK_BREAK)) {
+    } else if (consume_kind(TK_BREAK)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_BREAK;
         expect(";");
-    } else if (consume_type(TK_CONTINUE)) {
+    } else if (consume_kind(TK_CONTINUE)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_CONTINUE;
         expect(";");
-    } else if (consume_type(TK_IF)) {
+    } else if (consume_kind(TK_IF)) {
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_IF;
         node->lhs = expr();
         expect(")");
         Node *tmp = stmt();
-        if (consume_type(TK_ELSE)){
+        if (consume_kind(TK_ELSE)){
             tmp = new_node(ND_ELSE, tmp, stmt());
         }
         node->rhs = tmp;
-    } else if (consume_type(TK_SWITCH)) {
+    } else if (consume_kind(TK_SWITCH)) {
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_SWITCH;
@@ -1088,12 +1110,12 @@ Node *stmt() {
         for(;;){
             if (consume("}")) break;
 
-            if (consume_type(TK_CASE)){
+            if (consume_kind(TK_CASE)){
                 tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_CASE;
                 tmp->val = expect_number(); // TODO:caseに数値以外の定数
                 expect(":");
-            } else if (consume_type(TK_DEFAULT)){
+            } else if (consume_kind(TK_DEFAULT)){
                 tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_DEFAULT;
                 expect(":");
@@ -1106,7 +1128,7 @@ Node *stmt() {
             node = tmp;
         }
         node = top;
-    } else if (consume_type(TK_WHILE)) {
+    } else if (consume_kind(TK_WHILE)) {
         // "while" "(" expr ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
@@ -1114,7 +1136,7 @@ Node *stmt() {
         node->lhs = expr();
         expect(")");
         node->rhs = stmt();
-    } else if (consume_type(TK_FOR)) {
+    } else if (consume_kind(TK_FOR)) {
         // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
@@ -1336,7 +1358,7 @@ Node *mul() {
 
 
 Node *unary() {
-    if (consume_type(TK_SIZEOF)) {
+    if (consume_kind(TK_SIZEOF)) {
         Node *node = unary();
         Type *type = estimate_type(node);
         int size = size_from_type(type);
@@ -1399,7 +1421,7 @@ Node *primary() {
         return node;
     }
 
-    Token *tok = consume_type(TK_QUOTE);
+    Token *tok = consume_kind(TK_QUOTE);
     if (tok) { // 文字列リテラル
         Node *node = calloc(1, sizeof(Node));
         node->kind = ND_QUOTE;
@@ -1417,7 +1439,7 @@ Node *primary() {
     }
 
     // 次のトークンが識別子なら
-    tok = consume_type(TK_IDENT);
+    tok = consume_kind(TK_IDENT);
     if (tok) {
         if (consume("(")) { // 関数呼び出し
             Node *node = calloc(1, sizeof(Node));

@@ -60,15 +60,13 @@ void gen(Node *node) {
         printf("  .data\n");
         printf("%s:\n", name);
 
-
-
         Type *type = estimate_type(node);
         if (type && type->ptr_to) {
             type = type->ptr_to;
         }
 
         int size = 4;
-        // if (type->ty == ARRAY) { // TODO
+        // if (type->ty == ARRAY) { // TODO:二次元配列の初期化
         //     return;
         // }
         if (type) {
@@ -82,8 +80,6 @@ void gen(Node *node) {
                 size = 8;
             }
         }
-
-
 
         Node *initval = node->rhs;
         int nowindex = 0;
