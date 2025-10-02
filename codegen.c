@@ -53,6 +53,9 @@ void gen(Node *node) {
         printf("  push rax\n");
         return;
     }
+    if (node->kind == ND_TYPEDEF || node->kind == ND_ENUM) {
+        return; // TODO:struct
+    }
     if (node->kind == ND_GVALDEF) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';

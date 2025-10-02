@@ -18,13 +18,6 @@ assert() {
     fi
 }
 
-# assert 14 'a = 3; b = 5 * 6 - 8; return a + b / 2;'
-# assert 4 'if(2*3<5)a=6;else a=4;return a;'
-# assert 55 'i=0;s=0;while(i<10)s=s+(i=i+1);return s;'
-# assert 55 's=0;for(i=0;i<=10;i=i+1)s=s+i;return s;'
-# assert 4 'a=0;if(1<2){a=1;a=a+3;}return a;'
-# assert 45 's=0;i=0;for(;i<10;){s=s+i;i=i+1;}return s;'
-
 assert 42   'int main(){return 42;}'
 assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
 assert 4    'int main(){int a; if(2*3<5)a=6; else a=4; return a;}'
@@ -65,9 +58,11 @@ assert 55   'int main(){int s=0;int i=0;while(1){i++;s+=i;if(i>=10)break;}return
 assert 55   'int main(){int s=0;int i=0;for(;;){i++;s+=i;if(i>=10)break;}return s;}'
 assert 0   'int main(){int i;for(i=0;i<10;++i){if(i%3==0)continue;printf("%d ",i);}return 0;}'
 assert 0   'int main(){int i;int j;for(i=0;i<5;++i){for(j=0;j<10;++j){if(j%3==0)continue;if(j==7)break;printf("%d ",i*100+j);}}return 0;}'
-# assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日です\n");break;case 6:case 7:printf("週末です\n");break;default:printf("無効な日付\n");}}return 0;}'
+assert 0   'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日 ");break;case 6:case 7:printf("週末 ");break;default:printf("無効な日付 ");}}return 0;}'
 assert 2   'enum Color {RED,GREEN,BLUE};int main() {int paint = BLUE;if (paint == BLUE) {return 2;}return 0;}'
 assert 5 'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return plus2(&a[1])[1];}'
+assert 27 'typedef char chr; int main(){chr p=23; return p+4;}'
+assert 2 'typedef char *chrptr; char a[] = {1,2,3,4,5};int main(){chrptr p=a; return p[1];}'
 
 
 echo OK

@@ -72,6 +72,7 @@ char *nodeToStr(Node *node) {
         case ND_FORSUP: return "FORSUP";
         case ND_BLOCK: return "BLOCK";
         case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf);  return ret;
+        case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf);  return ret;
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
         case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
         case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;
@@ -104,7 +105,8 @@ int gengraph(Node *node, int nodeid) {
 
     printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
-        node->kind == ND_FUNCDEF || node->kind == ND_ENUM) {
+        node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
+        node->kind == ND_TYPEDEF) {
         printf(" shape = box");
     }
     if (node->kind == ND_BLOCK) {
@@ -177,16 +179,25 @@ int main(int argc, char **argv) {
         printf(".bss\n");
     }
 
-    int doing_gloval = 1;
+    int last_gloval_index = -1;
+    for (int i = 0; code[i]; i++) {
+        if (code[i]->kind == ND_GVALDEF) last_gloval_index = i;
+    }
+
+    if (-1 == last_gloval_index) {
+        // .textは最後のグローバル変数の後ろにのみ入れる
+        printf(".text\n");
+    }
+
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {
         localsnum = localsnums[i];
         locals = LocalsList[i];
-        if (doing_gloval && code[i]->kind != ND_GVALDEF) {
-            printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
-            doing_gloval = 0;
-        }
         gen(code[i]);
+        if (i == last_gloval_index) {
+            // .textは最後のグローバル変数の後ろにのみ入れる
+            printf(".text\n");
+        }
     }
 
 	return 0;

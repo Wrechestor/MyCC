@@ -72,12 +72,29 @@ Token *consume_kind(TokenKind tkind) {
 
 Type *consume_type() { // TODO:他の型に対応
     Type *type = calloc(1, sizeof(Type));
-    if(consume_kind(TK_INT)) type->ty = INT;
-    else if(consume_kind(TK_CHAR)) type->ty = CHAR;
-    else {
+
+    int is_typefound = 0;
+    if(consume_kind(TK_INT)) {
+        type->ty = INT;
+        is_typefound = 1;
+    }
+    if(consume_kind(TK_CHAR)) {
+        type->ty = CHAR;
+        is_typefound = 1;
+    }
+    DefinedType *dtype = find_dtype(token);
+    if (dtype != NULL) {
+        token = token->next;
+
+        type = dtype->type;
+        is_typefound = 1;
+    }
+
+    if (!is_typefound) {
         free(type);
         return NULL;
     }
+
 
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
@@ -90,7 +107,14 @@ Type *consume_type() { // TODO:他の型に対応
 }
 
 int is_type() { // TODO:他の型に対応
-    return  token->kind == TK_INT || token->kind == TK_CHAR;
+    if(token->kind == TK_INT || token->kind == TK_CHAR) {
+        return 1;
+    }
+    DefinedType *dtype = find_dtype(token);
+    if (dtype != NULL) {
+        return 1;
+    }
+    return 0;
 }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
@@ -379,7 +403,6 @@ void tokenize() {
 
 LVar *locals;
 LVar *LocalsList[100];
-
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 LVar *find_lvar(Token *tok) {
     for (LVar *var = locals; var; var = var->next)
@@ -389,7 +412,6 @@ LVar *find_lvar(Token *tok) {
 }
 
 GVar *globals;
-
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 GVar *find_gvar(Token *tok) {
     for (GVar *var = globals; var; var = var->next)
@@ -398,6 +420,15 @@ GVar *find_gvar(Token *tok) {
     return NULL;
 }
 
+
+DefinedType *definedtypes;
+// 定義された型を名前で検索する。見つからなかった場合はNULLを返す。
+DefinedType *find_dtype(Token *tok) {
+    for (DefinedType *var = definedtypes; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return NULL;
+}
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Node *node = calloc(1, sizeof(Node));
@@ -541,38 +572,60 @@ Node *function_gval() {
         return node;
     }
 
-    if (consume_kind(TK_ENUM)) { // TODO:enum
-        node->kind = ND_ENUM;
+    if (consume_kind(TK_TYPEDEF)) { // TODO:typedef
+        node->kind = ND_TYPEDEF;
+
+        Type *type = consume_type();
+
+        Type *tmp = type;
+        while(tmp){ // TODO:debug
+        fprintf(stderr, "### typedef type:%d; ", tmp->ty);
+            tmp = tmp->ptr_to;
+        }
+
+
+        if (!type) {
+            error_at(token->str,"typedefの型がありません");
+        }
+
         Token *tok = consume_kind(TK_IDENT);
         node->name = tok->str;
         node->val = tok->len;
         int num = 0;
+        DefinedType *dtype;
         if (tok) {
-            expect("{");
-            for(;;){
-                if(consume("}")) break;
-                tok = consume_kind(TK_IDENT);
-                if (tok) {
-                    Constant *cons = calloc(1, sizeof(Constant));
-                    cons->name = tok->str;
-                    cons->len = tok->len;
-                    cons->val = num;
-                    num++;
-                    cons->next = constants;
-                    constants = cons;
-                    if (consume(",")) {
-                        //
-                    } else {
-                        expect("}");
-                        break;
-                    }
-                }
+            dtype = find_dtype(tok);
+
+            if (dtype) {
+                error_at(tok->str,"重複定義されたtypedefです");
+            } else {
+                node->name = tok->str;
+                node->val = tok->len;
+
+                // while (consume("[")) { // TODO:配列型のtypedef
+                //     Type *t = calloc(1, sizeof(Type));
+                //     t->ty = ARRAY;
+                //     t->ptr_to = type;
+                //     type = t;
+                //     size = expect_number();
+                //     expect("]");
+
+                //     t->array_size = size;
+
+                //     totalsize *= size;
+                // }
+
+                dtype = calloc(1, sizeof(DefinedType));
+                dtype->next = definedtypes;
+                dtype->name = tok->str;
+                dtype->len = tok->len;
+                dtype->type = type;
+                definedtypes = dtype;
             }
             expect(";");
         } else {
-            error_at(token->str,"列挙型の名前がありません");
+            error_at(token->str,"typedefの名前がありません");
         }
-
         return node;
     }
 
@@ -677,6 +730,7 @@ Node *function_gval() {
         node->offset = gvar->addr;
         globals = gvar;
     } else { // グローバル変数定義
+        // TODO:typedef対応
         node->kind = ND_GVALDEF;
         node->name = funcname->str;
         node->val = funcname->len;
