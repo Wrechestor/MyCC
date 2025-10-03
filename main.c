@@ -18,7 +18,7 @@ char *read_file(char *path) {
         fprintf(stderr, "\n");
         exit(1);
     }
-    size_t size = ftell(fp);
+    int size = ftell(fp);
     if (fseek(fp, 0, SEEK_SET) == -1) {
         fprintf(stderr, "%s: fseek: %s", path, strerror(errno));
         fprintf(stderr, "\n");

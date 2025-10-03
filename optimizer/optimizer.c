@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_LINES 5000
+#define MAX_LINES 20000
 #define LINE_LEN 256
 
 int main() {
@@ -33,12 +33,12 @@ int main() {
             i++; // 次の行もスキップ
             continue;
         }
-        if (strcmp(lines[i], "  ret\n") == 0) {
-            fputs(lines[i], stdout);
-            while (!(strchr(lines[i], (int)':') || strchr(lines[i], (int)'.'))) {
-                i++;
-            }
-        }
+        // if (strcmp(lines[i], "  ret\n") == 0) {
+        //     fputs(lines[i], stdout);
+        //     while (!(strchr(lines[i], (int)':') || strchr(lines[i], (int)'.'))) {
+        //         i++;
+        //     }
+        // }
         fputs(lines[i], stdout);
     }
     return 0;

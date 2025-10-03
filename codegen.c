@@ -1,5 +1,11 @@
 #include "mycc.h"
 
+int branch_label = 0;
+int is_inloop = 0;
+int is_inswitch = 0;
+int current_loop_id = 0;
+int current_switch_id = 0;
+
 int gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
         gen(node->lhs);
@@ -7,13 +13,13 @@ int gen_lval(Node *node) {
     }
 
     if (node->kind == ND_STRREF) { // TODO:struct(特に複数階層の参照)
-        printf("### begin strref\n");
+        // printf("### begin strref\n");
         gen_lval(node->lhs);
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
         Type *lhstype = estimate_type(node->lhs);
         if (!lhstype || lhstype->ty != STRUCT) error("左辺がstructではありません");
 
-        if (lhstype)printf("# @@@@ lhstype->ty: %d\n",lhstype->ty);
+        // if (lhstype)printf("# @@@@ lhstype->ty: %d\n",lhstype->ty);
         if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
 
         int offset = 0;
@@ -32,7 +38,7 @@ int gen_lval(Node *node) {
         printf("  add rax, %d\n", offset); // TODO:offsetが大きすぎると?
         printf("  push rax\n");
 
-        printf("### end strref\n");
+        // printf("### end strref\n");
         return ty;
     }
 
@@ -55,7 +61,7 @@ int gen_lval(Node *node) {
     tok->len = node->val;
     GVar *gvar = find_gvar(tok);
     if (gvar) { // グローバル変数
-        char name[MAX_IDENT_LEN];
+        char name[ MAX_IDENT_LEN ];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
 
@@ -67,22 +73,20 @@ int gen_lval(Node *node) {
     error("代入の左辺の変数がありません");
 }
 
-int branch_label = 0;
-int is_inloop = 0;
-int is_inswitch = 0;
-int current_loop_id = 0;
-int current_switch_id = 0;
-
 void gen(Node *node) {
-    char name[MAX_IDENT_LEN];
+    char name[ MAX_IDENT_LEN ];
     int id;
-    Type *type = NULL;
+    // Type *type = NULL; // TODO:NULL
+    Type *type = 0;
     int i;
 
-    if (node == NULL) {
+
+    // if (node == NULL) { // TODO:NULL
+    if (node == 0) {
         printf("  push rax\n");
         return;
     }
+
     if (node->kind == ND_VALDEF) {
         printf("  push rax\n");
         return;
@@ -137,8 +141,8 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_FUNCDEF) {
-        strncpy(name, node->name, node->val);
-        name[node->val] = '\0';
+    strncpy(name, node->name, node->val);
+    name[node->val] = '\0';
         printf("  .globl %s\n", name);
         printf("%s:\n", name);
 
@@ -277,7 +281,8 @@ void gen(Node *node) {
         printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); //B
         printf("  pop rax\n");
-        if (node->rhs->lhs == NULL){ // 条件を省略した場合常に真
+        // if (node->rhs->lhs == NULL ){
+        if (node->rhs->lhs == 0 ){ // TODO:NULL// 条件を省略した場合常に真
 
         } else {
         printf("  cmp rax, 0\n");
@@ -358,7 +363,7 @@ void gen(Node *node) {
         printf("  push rax\n");
         return;
     case ND_STRREF:
-        printf("### $$$ begin strref_R\n");
+        // printf("### $$$ begin strref_R\n");
         int ty = gen_lval(node); // TODO:structの型推定
         if (ty == ARRAY) {
             // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
@@ -381,7 +386,7 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  mov rax, [rax]\n");
         printf("  push rax\n");
-        printf("### $$$ end strref_R\n");
+        // printf("### $$$ end strref_R\n");
         return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);
@@ -450,8 +455,8 @@ void gen(Node *node) {
         printf("  push rdi\n");
         return;
     case ND_FUNCCALL: // 関数呼び出し
-        strncpy(name, node->name, node->val);
-        name[node->val] = '\0';
+    strncpy(name, node->name, node->val);
+    name[node->val] = '\0';
         // 引数
         Node *now = node;
         i=0;
@@ -601,7 +606,8 @@ void gen(Node *node) {
 
     int addsize = 1;
     type = estimate_type(node->lhs);
-    if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
+    // if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
+    if (type != 0 && (type->ty == PTR || type->ty == ARRAY)) { // TODO:NULL
         addsize = size_from_type(type->ptr_to);
     }
 

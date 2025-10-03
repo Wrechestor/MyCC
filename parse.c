@@ -37,7 +37,8 @@ void error_at(char *loc, char *msg) {
 
     // 見つかった行が全体の何行目なのかを調べる
     int line_num = 1;
-    for (char *p = user_input; p < line; p++)
+    char *p;
+    for (p = user_input; p < line; p++)
         if (*p == '\n')
         line_num++;
 
@@ -530,7 +531,8 @@ LVar *locals;
 LVar *LocalsList[100];
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 LVar *find_lvar(Token *tok) {
-    for (LVar *var = locals; var; var = var->next)
+    LVar *var;
+    for (var = locals; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;
@@ -539,7 +541,8 @@ LVar *find_lvar(Token *tok) {
 GVar *globals;
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 GVar *find_gvar(Token *tok) {
-    for (GVar *var = globals; var; var = var->next)
+    GVar *var;
+    for (var = globals; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;
@@ -548,7 +551,8 @@ GVar *find_gvar(Token *tok) {
 EnumName *enumnames;
 // 定義されたenumを名前で検索する。見つからなかった場合はNULLを返す。
 EnumName *find_enum(Token *tok) {
-    for (EnumName *var = enumnames; var; var = var->next)
+    EnumName *var;
+    for (var = enumnames; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;
@@ -557,7 +561,8 @@ EnumName *find_enum(Token *tok) {
 StructDef *structdefs;
 // 定義されたstructを名前で検索する。見つからなかった場合はNULLを返す。
 StructDef *find_struct(Token *tok) {
-    for (StructDef *var = structdefs; var; var = var->next)
+    StructDef *var;
+    for (var = structdefs; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;
@@ -566,7 +571,8 @@ StructDef *find_struct(Token *tok) {
 DefinedType *definedtypes;
 // 定義された型を名前で検索する。見つからなかった場合はNULLを返す。
 DefinedType *find_dtype(Token *tok) {
-    for (DefinedType *var = definedtypes; var; var = var->next)
+    DefinedType *var;
+    for (var = definedtypes; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return NULL;

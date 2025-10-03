@@ -1,6 +1,7 @@
 
 // 識別子の名前の最大長 
 
+
 // トークンの種類 
 enum TokenKind { 
 TK_RESERVED, // 記号 
@@ -18,10 +19,12 @@ TK_IDENT, // 識別子
 TK_NUM, // 整数トークン 
 TK_INT, // int 
 TK_CHAR, // char 
+TK_VOID, // void 
 TK_SIZEOF, // sizeof 
 TK_ENUM, // enum 
 TK_STRUCT, // struct 
 TK_TYPEDEF, // typedef 
+TK_EXTERN, // extern 
 TK_QUOTE, // 文字列リテラル 
 TK_EOF, // 入力の終わりを表すトークン 
 }; 
@@ -81,10 +84,12 @@ ND_DEFAULT, // default
 ND_ENUM, // enumの定義 
 ND_STRUCT, // structの定義 
 ND_TYPEDEF, // typedef 
+ND_EXTERN, // extern 
 ND_BLOCK, // {} 
 ND_LVAR, // ローカル変数 
 ND_FUNCCALL,// 関数呼び出し 
 ND_FUNCDEF, // 関数定義 
+ND_PROTO, // プロトタイプ宣言 
 ND_ARG, // 関数の引数 
 ND_ADDR, // unary & 
 ND_DEREF, // unary * 
@@ -95,6 +100,21 @@ ND_NUM, // 整数
 }; 
 typedef enum NodeKind NodeKind; 
 
+// TODO:structのメンバーら辺整理する 
+
+enum type_t { INT, CHAR, VOID, PTR, ARRAY, STRUCT, MEMBER }; 
+// 変数の型 
+struct Type { 
+enum type_t ty; 
+struct Type *ptr_to; 
+int array_size; // 配列のときの要素数 
+struct Type *member; // structのときの型リスト 
+char *name; // structのときのメンバの名前 
+int len; // 名前の長さ 
+}; 
+typedef struct Type Type; 
+
+
 // 抽象構文木のノードの型 
 struct Node { 
 NodeKind kind; // ノードの型 
@@ -103,23 +123,10 @@ struct Node *rhs; // 右辺
 int val; // kindがND_NUMの場合のみ使う 
 int offset; // kindがND_LVARの場合のみ使う 
 char *name; // kindがND_FUMCの場合のみ,valにnameの長さを入れる 
+struct Type *type; 
 }; 
 typedef struct Node Node; 
 
-
-enum type_t { INT, CHAR, PTR, ARRAY, STRUCT, MEMBER }; 
-
-// 変数の型 
-struct Type { 
-enum type_t ty; 
-// MEMBER:structの時の型リスト保存用 
-struct Type *ptr_to; 
-int array_size; // 配列のときの要素数 
-struct Type *member; // structのときの型リスト 
-char *name; // structのときのメンバの名前 
-int len; // 名前の長さ 
-}; 
-typedef struct Type Type; 
 
 
 // ローカル変数の型 
@@ -144,6 +151,7 @@ struct GVar *next; // 次の変数かNULL
 char *name; // 変数の名前 
 int len; // 名前の長さ 
 int addr; // アドレス 
+int is_extern; 
 Type *type; // 変数の型 
 }; 
 typedef struct GVar GVar; 
@@ -271,6 +279,10 @@ Node *primary();
 int gen_lval(Node *node); 
 void gen(Node *node); 
 
+
+
+char *typeToStr(Type *type); 
+
 char *filename; 
 
 // 指定されたファイルの内容を返す 
@@ -318,24 +330,24 @@ case ND_ADD: return "+";
 case ND_SUB: return "-"; 
 case ND_MUL: return "*"; 
 case ND_DIV: return "/"; 
-case ND_LES: return "<"; 
-case ND_LEQ: return "<="; 
+case ND_LES: return "&lt;"; 
+case ND_LEQ: return "&lt;="; 
 case ND_EQ: return "=="; 
 case ND_NEQ: return "!="; 
 case ND_ASSIGN: return "="; 
 case ND_LOGICOR: return "||"; 
-case ND_LOGICAND: return "&&"; 
+case ND_LOGICAND: return "&amp;&amp;"; 
 case ND_BITOR: return "|"; 
 case ND_BITXOR: return "^"; 
-case ND_BITAND: return "&"; 
+case ND_BITAND: return "&amp;"; 
 case ND_COMMA: return ","; 
 case ND_REM: return "%"; 
-case ND_LSHIFT: return "<<"; 
-case ND_RSHIFT: return ">>"; 
+case ND_LSHIFT: return "&lt;&lt;"; 
+case ND_RSHIFT: return "&gt;&gt;"; 
 case ND_LOGICNOT: return "!"; 
 case ND_BITNOT: return "~"; 
-case ND_POSTINCR: return "(POST)++"; 
-case ND_POSTDECR: return "(POST)--"; 
+case ND_POSTINCR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>++"; 
+case ND_POSTDECR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>--"; 
 case ND_COND: return "?"; 
 case ND_COLON: return ":"; 
 case ND_STRREF: return "."; 
@@ -356,12 +368,14 @@ case ND_BLOCK: return "BLOCK";
 case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf); return ret; 
 case ND_STRUCT: sprintf(ret, "STRUCT(%s)", namebuf); return ret; 
 case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf); return ret; 
+case ND_EXTERN: sprintf(ret, "EXTERN(%s)", namebuf); return ret; 
 case ND_LVAR: sprintf(ret, "%s", namebuf); return ret; 
 case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret; 
 case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf); return ret; 
+case ND_PROTO: sprintf(ret, "PROTO(%s)", namebuf); return ret; 
 case ND_ARG: return "ARG"; 
-case ND_ADDR: return "ADDR"; 
-case ND_DEREF: return "DEREF"; 
+case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>"; 
+case ND_DEREF: return "*<FONT POINT-SIZE='12.0'>(DEREF)</FONT>"; 
 case ND_VALDEF: sprintf(ret, "LVAL(%s) @%d", namebuf, node->offset); return ret; 
 case ND_GVALDEF: sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset); return ret; 
 case ND_QUOTE: 
@@ -383,13 +397,44 @@ case ND_NUM: sprintf(ret, "%d", node->val); return ret;
 return ""; 
 } 
 
+char *typeToStr(Type *type) { 
+char *namebuf = calloc(1, sizeof(char) * 100); 
+// if(node->name) strncpy(namebuf, node->name, node->val); 
+char *ret = calloc(1, sizeof(char) * 100); 
+char *buf = calloc(1, sizeof(char) * 100); 
+
+while (type) { 
+switch (type->ty) { 
+case INT:strcat(ret,"int");break; 
+case CHAR:strcat(ret,"char");break; 
+case VOID:strcat(ret,"void");break; 
+case PTR:strcat(ret,"*");break; 
+case ARRAY:sprintf(buf,"[%d]",type->array_size);strcat(ret,buf);break; 
+case STRUCT:strcat(ret,"struct");break; 
+case MEMBER:strcat(ret,"MEMBER");break; 
+
+} 
+type = type->ptr_to; 
+} 
+return ret; 
+} 
+
 int gengraph(Node *node, int nodeid) { 
 int nowid = nodeid; 
 
-printf(" node%d [label=\"%s\"", nowid, nodeToStr(node)); 
+if (node->kind == ND_ENUM || 
+node->kind == ND_STRUCT || node->kind == ND_TYPEDEF || 
+node->kind == ND_EXTERN || node->kind == ND_PROTO) { 
+return nodeid; 
+} 
+
+printf(" node%d [label=<%s", nowid, nodeToStr(node)); 
+if (node->type) printf("<br/><FONT COLOR='BLUE' POINT-SIZE='8.0'>%s</FONT>", typeToStr(node->type)); 
+printf(">"); 
 if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF || 
 node->kind == ND_FUNCDEF || node->kind == ND_ENUM || 
-node->kind == ND_STRUCT || node->kind == ND_TYPEDEF) { 
+node->kind == ND_STRUCT || node->kind == ND_TYPEDEF || 
+node->kind == ND_EXTERN || node->kind == ND_PROTO) { 
 printf(" shape = box"); 
 } 
 if (node->kind == ND_BLOCK) { 

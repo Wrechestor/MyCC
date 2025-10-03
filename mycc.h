@@ -8,6 +8,7 @@
 // 識別子の名前の最大長
 #define MAX_IDENT_LEN 255
 
+
 // トークンの種類
 enum TokenKind {
   TK_RESERVED, // 記号
