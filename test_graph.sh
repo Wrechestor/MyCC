@@ -6,8 +6,8 @@ assert() {
 
     echo "$input" > tmpc
     ./mycc tmpc -g > tmp.dot
-    dot -Tpng tmp.dot -o tmp.png
-    feh tmp.png
+    dot -Tpdf tmp.dot -o tmp.pdf
+    okular tmp.pdf
 }
 
 # assert 42   'int main(){return 42;}'

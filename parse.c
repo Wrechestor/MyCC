@@ -226,6 +226,19 @@ Type *estimate_type(Node *node) {
         type = estimate_type(node->lhs);
         return type->ptr_to;
     }
+    if (node->kind == ND_STRREF) {
+        // TODO:structの多重参照用
+        // Node構築中に型推論しないと無理!
+        // StructDef *strc = find_struct(token);
+        // if (strc) {
+        //     token = token->next;
+        //     type = strc->type;
+        //     is_typefound = 1;
+        // } else {
+        //     token = first;
+        //     return NULL;
+        // }
+    }
     if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
         LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
         for (LVar *var = locals; var; var = var->next)
@@ -1704,6 +1717,8 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
             if (is_strderef)
                 node = new_node(ND_STRREF, new_node(ND_DEREF, node, NULL), membername);
             else node = new_node(ND_STRREF, node, membername);
+            node->name = tok->str; // TODO:debug
+            node->val = tok->len;
         } else break;
     }
     if (consume("++")) {
