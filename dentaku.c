@@ -132,7 +132,6 @@ Token *tokenize(char *p) {
 	Token *cur = head;
 
 	while (*p) {
-		printf("################   ################   ################   ################        %c\n",*p);
 		// 空白文字をスキップ
 		if (*p == ' ' || *p == '\t' || *p == "\n") {
 		p++;
@@ -142,29 +141,13 @@ Token *tokenize(char *p) {
 		if (*p == '+' || *p == '-' ||
 			*p == '*' || *p == '/' ||
 			*p == '(' || *p == ')') {
-		printf("################   3411411   ################   ################        %c\n",*p);
-		printf("################   3411411   ################   ################        %s\n",p);
-		// cur = new_token(TK_RESERVED, cur, p++);
-		// char *pp = p;
-		cur = new_token(TK_RESERVED, cur, p);
-		printf("################   3411411   ################   ################        %c\n",*p);
-		printf("################   3411411   ################   ################        %s\n",p);
-
-		++p;
-		// p = pp + 1;
-		printf("################   3411411   ################   ################        %c\n",*p);
-		printf("################   3411411   ################   ################        %s\n",p);
+		cur = new_token(TK_RESERVED, cur, p++);
 		continue;
 		}
 
 		if ('0' <= *p && *p <= '9') {
 		cur = new_token(TK_NUM, cur, p);
-		printf("################   66666666666   ################   ################        %p\n",p);
-		int a = mystrtol(p, &p, 10);
-printf("################   122121121221   ################   ################        %p\n",p);
-
-		cur->val = a;
-		printf("################   77777777777   ################   ################        %p\n",p);
+		cur->val = mystrtol(p, &p, 10);
 		continue;
 		}
 
@@ -218,7 +201,7 @@ Node *mul() {
 }
 
 Node *primary() {
-	// printf("### %s\n", token->str);
+	printf("### %s kind:%d\n", token->str, token->kind);
     // 次のトークンが"("なら、"(" expr ")"のはず
     if (consume('(')) {
         Node *node = expr();
@@ -270,6 +253,13 @@ int main(int argc, char **argv) {
 	// user_input = buf;
 	printf("###fff %s\n", user_input);
 	token = tokenize(user_input);
+
+	Token *now = token;
+	while(now){
+		printf("### TOKEN %d\n",now->kind);
+		now = now->next;
+	}
+
 	Node *node = expr();
 
 	// アセンブリの前半部分を出力

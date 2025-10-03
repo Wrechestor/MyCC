@@ -32,7 +32,7 @@ int gen_lval(Node *node) {
             offset += size_from_type(now->ptr_to);
             now = now->member;
         }
-        int ty = now->ty;
+        int ty = now->ptr_to->ty; // typeの本体はnow->ptr_to
         printf("  pop rax\n");
         printf("  add rax, %d\n", offset); // TODO:offsetが大きすぎると?
         printf("  push rax\n");

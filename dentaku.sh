@@ -3,5 +3,12 @@
 make
 gcc -S dentaku_sup.c -masm=intel
 ./mycc dentaku.c > dentaku.s
-gcc -o dent dentaku.s dentaku_sup.s -g -static -O0
-gdb ./dent
+gcc -o dent dentaku.s dentaku_sup.s -g -static
+# gdb ./dent
+
+input="12+34*5"
+echo $input | ./dent  > dentout.s
+gcc -o dentout dentout.s -g -static
+./dentout
+actual="$?"
+echo "$input => $actual"
