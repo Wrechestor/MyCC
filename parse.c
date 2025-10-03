@@ -572,16 +572,54 @@ DefinedType *find_dtype(Token *tok) {
     return NULL;
 }
 
+
+/*
+ ######  ######## ######## ######## #### ##    ##  ######
+##    ## ##          ##       ##     ##  ###   ## ##    ##
+##       ##          ##       ##     ##  ####  ## ##
+ ######  ######      ##       ##     ##  ## ## ## ##   ####
+      ## ##          ##       ##     ##  ##  #### ##    ##
+##    ## ##          ##       ##     ##  ##   ### ##    ##
+ ######  ########    ##       ##    #### ##    ##  ######
+
+######## ##    ## ########  ########  ######
+   ##     ##  ##  ##     ## ##       ##    ##
+   ##      ####   ##     ## ##       ##
+   ##       ##    ########  ######    ######
+   ##       ##    ##        ##             ##
+   ##       ##    ##        ##       ##    ##
+   ##       ##    ##        ########  ######
+*/
+
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Node *node = calloc(1, sizeof(Node));
     node->kind = kind;
     node->lhs = lhs;
     node->rhs = rhs;
 
+
+    if (kind == ND_STRREF) {
+        Type *lhstype = estimate_type(lhs);
+        // if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
+        if (!lhstype || lhstype->ty != STRUCT) error("左辺がstructではありません");
+
+        Type *now = lhstype->member;
+        for (;;) {
+            if (!now) error("structのメンバ名が存在しません");
+            if (now->ty != MEMBER) error("不正な構文木:member");
+            if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
+                break;
+            now = now->member;
+        }
+        node->type = now->ptr_to;
+        return node;
+    }
+
+
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
     node->type = ltype ? ltype : rtype;
-    if (kind == ND_DEREF) node->type = node->type->ptr_to; // TODO
+    if (kind == ND_DEREF) node->type = node->type->ptr_to;
     return node;
 }
 

@@ -68,6 +68,7 @@ assert 16   'struct MyStruct {int a;int b;int c;};struct MyStruct myint; int mai
 assert 7    'struct MyStruct {int a;int b;int c;};typedef struct MyStruct MyStrc;MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
 assert 4    'int main(){return 1<2 ? 3,4 : 5;}'
 assert 5    'int main(){return sizeof(int)+sizeof(char);}'
+assert 3   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
 
 
 # TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト

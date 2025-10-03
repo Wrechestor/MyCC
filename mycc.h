@@ -106,6 +106,8 @@ enum NodeKind {
 };
 typedef enum NodeKind NodeKind;
 
+// TODO:structのメンバーら辺整理する
+
 enum type_t { INT, CHAR, VOID, PTR, ARRAY, STRUCT, MEMBER };
 // 変数の型
 struct Type {
@@ -282,3 +284,7 @@ Node *primary();
 
 int gen_lval(Node *node);
 void gen(Node *node);
+
+
+
+char *typeToStr(Type *type);

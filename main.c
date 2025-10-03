@@ -47,24 +47,24 @@ char *nodeToStr(Node *node) {
         case ND_SUB: return "-";
         case ND_MUL: return "*";
         case ND_DIV: return "/";
-        case ND_LES: return "<";
-        case ND_LEQ: return "<=";
+        case ND_LES: return "&lt;";
+        case ND_LEQ: return "&lt;=";
         case ND_EQ: return "==";
         case ND_NEQ: return "!=";
         case ND_ASSIGN: return "=";
         case ND_LOGICOR: return "||";
-        case ND_LOGICAND: return "&&";
+        case ND_LOGICAND: return "&amp;&amp;";
         case ND_BITOR: return "|";
         case ND_BITXOR: return "^";
-        case ND_BITAND: return "&";
+        case ND_BITAND: return "&amp;";
         case ND_COMMA: return ",";
         case ND_REM: return "%";
-        case ND_LSHIFT: return "<<";
-        case ND_RSHIFT: return ">>";
+        case ND_LSHIFT: return "&lt;&lt;";
+        case ND_RSHIFT: return "&gt;&gt;";
         case ND_LOGICNOT: return "!";
         case ND_BITNOT: return "~";
-        case ND_POSTINCR: return "(POST)++";
-        case ND_POSTDECR: return "(POST)--";
+        case ND_POSTINCR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>++";
+        case ND_POSTDECR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>--";
         case ND_COND: return "?";
         case ND_COLON: return ":";
         case ND_STRREF: return ".";
@@ -91,8 +91,8 @@ char *nodeToStr(Node *node) {
         case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;
         case ND_PROTO: sprintf(ret, "PROTO(%s)", namebuf);  return ret;
         case ND_ARG: return "ARG";
-        case ND_ADDR: return "ADDR";
-        case ND_DEREF: return "DEREF";
+        case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
+        case ND_DEREF: return "*<FONT POINT-SIZE='12.0'>(DEREF)</FONT>";
         case ND_VALDEF: sprintf(ret, "LVAL(%s) @%d", namebuf, node->offset); return ret;
         case ND_GVALDEF: sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset); return ret;
         case ND_QUOTE:
@@ -114,6 +114,28 @@ char *nodeToStr(Node *node) {
     return "";
 }
 
+char *typeToStr(Type *type) {
+    char *namebuf = calloc(1, sizeof(char) * 100);
+    // if(node->name) strncpy(namebuf, node->name, node->val);
+    char *ret = calloc(1, sizeof(char) * 100);
+    char *buf = calloc(1, sizeof(char) * 100);
+
+    while (type) {
+        switch (type->ty) {
+            case INT:strcat(ret,"int");break;
+            case CHAR:strcat(ret,"char");break;
+            case VOID:strcat(ret,"void");break;
+            case PTR:strcat(ret,"*");break;
+            case ARRAY:sprintf(buf,"[%d]",type->array_size);strcat(ret,buf);break;
+            case STRUCT:strcat(ret,"struct");break;
+            case MEMBER:strcat(ret,"MEMBER");break;
+
+        }
+        type = type->ptr_to;
+    }
+    return ret;
+}
+
 int gengraph(Node *node, int nodeid) {
     int nowid = nodeid;
 
@@ -123,7 +145,9 @@ int gengraph(Node *node, int nodeid) {
         return nodeid;
     }
 
-    printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
+    printf(" node%d [label=<%s", nowid, nodeToStr(node));
+    if (node->type) printf("<br/><FONT COLOR='BLUE' POINT-SIZE='8.0'>%s</FONT>", typeToStr(node->type));
+    printf(">");
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
         node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
