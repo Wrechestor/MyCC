@@ -113,11 +113,10 @@ int at_eof() {
 
 // 新しいトークンを作成してcurに繋げる
 // Token *new_token(TokenKind kind, Token *cur, char *str) {
-Token *new_token(TokenKind kind, Token *cur, char *A) {
+Token *new_token(TokenKind kind, Token *cur, char *str) {
 	Token *tok = mycalloc(1, sizeof(Token));
 	tok->kind = kind;
-	// tok->str = str;
-	tok->str = A;
+	tok->str = str;
 	cur->next = tok;
 	return tok;
 }
@@ -201,7 +200,6 @@ Node *mul() {
 }
 
 Node *primary() {
-	printf("### %s kind:%d\n", token->str, token->kind);
     // 次のトークンが"("なら、"(" expr ")"のはず
     if (consume('(')) {
         Node *node = expr();
@@ -251,14 +249,7 @@ int main(int argc, char **argv) {
 	scanf("%s",user_input);
 
 	// user_input = buf;
-	printf("###fff %s\n", user_input);
 	token = tokenize(user_input);
-
-	Token *now = token;
-	while(now){
-		printf("### TOKEN %d\n",now->kind);
-		now = now->next;
-	}
 
 	Node *node = expr();
 

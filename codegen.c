@@ -170,9 +170,7 @@ void gen(Node *node) {
         }
         // ローカル変数用のスタックを確保
         // TODO:8より大きいローカル変数(配列,構造体)
-        // printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
-        printf("  sub rsp, %d\n", (localsnum - i + 10) * 8);
-
+        printf("  sub rsp, %d\n", (localsnum - i) * 8);
 
 
         gen(node->rhs);
@@ -204,14 +202,18 @@ void gen(Node *node) {
         if (node->rhs->kind == ND_ELSE) {
             printf("  je  .Lelse%d\n", id);
             gen(node->rhs->lhs);
+            printf("  pop rax\n");
             printf("  jmp .Lendif%d\n", id);
             printf(".Lelse%d:\n", id);
             gen(node->rhs->rhs);
+            printf("  pop rax\n");
         } else {
             printf("  je  .Lendif%d\n", id);
             gen(node->rhs);
+            printf("  pop rax\n");
         }
         printf(".Lendif%d:\n", id);
+        printf("  push rax\n");
         return;
     }
 
@@ -254,6 +256,7 @@ void gen(Node *node) {
         }
         is_inswitch = 0;
         printf(".Lend%d:\n", id);
+        printf("  push rax\n");
         return;
     }
 
@@ -269,10 +272,12 @@ void gen(Node *node) {
         printf("  je  .Lend%d\n", id);
         is_inloop = 1;
         gen(node->rhs);
+        printf("  pop rax\n");
         is_inloop = 0;
         current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
+        printf("  push rax\n");
         return;
     }
 
@@ -459,11 +464,14 @@ void gen(Node *node) {
         printf("  push rdi\n");
         return;
     case ND_FUNCCALL: // 関数呼び出し
-    strncpy(name, node->name, node->val);
-    name[node->val] = '\0';
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
         // 引数
         Node *now = node;
         i=0;
+
+        // TODO:アライメントを元に戻すため
+        printf("  push r15\n");
 
         while (now->rhs) {
             i++;
@@ -487,8 +495,6 @@ void gen(Node *node) {
         printf("  mov eax, 0\n");
 
 
-        // TODO:アライメントを元に戻すため
-        printf("  push r15\n");
 
         // TODO:アライメントの状況をr15に保存しておく
         // スタックアライメント

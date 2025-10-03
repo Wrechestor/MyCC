@@ -1,57 +1,48 @@
 .intel_syntax noprefix
-.LC18:
+.LC15:
   .string "  ret\n"
 .text
-.LC17:
-  .string "  pop rax\n"
-.text
-.LC16:
-  .string "main:\n"
-.text
-.LC15:
-  .string ".globl main\n"
-.text
 .LC14:
-  .string ".intel_syntax noprefix\n"
+  .string "  pop rax\n"
 .text
 .LC13:
-  .string "### TOKEN %d\n"
+  .string "main:\n"
 .text
 .LC12:
-  .string "###fff %s\n"
+  .string ".globl main\n"
 .text
 .LC11:
-  .string "%s"
+  .string ".intel_syntax noprefix\n"
 .text
 .LC10:
-  .string "  push rax\n"
+  .string "%s"
 .text
 .LC9:
-  .string "  idiv rdi\n"
+  .string "  push rax\n"
 .text
 .LC8:
-  .string "  cqo\n"
+  .string "  idiv rdi\n"
 .text
 .LC7:
-  .string "  imul rax, rdi\n"
+  .string "  cqo\n"
 .text
 .LC6:
-  .string "  sub rax, rdi\n"
+  .string "  imul rax, rdi\n"
 .text
 .LC5:
-  .string "  add rax, rdi\n"
+  .string "  sub rax, rdi\n"
 .text
 .LC4:
-  .string "  pop rax\n"
+  .string "  add rax, rdi\n"
 .text
 .LC3:
-  .string "  pop rdi\n"
+  .string "  pop rax\n"
 .text
 .LC2:
-  .string "  push %d\n"
+  .string "  pop rdi\n"
 .text
 .LC1:
-  .string "### %s kind:%d\n"
+  .string "  push %d\n"
 .text
 .LC0:
   .string "\n"
@@ -76,7 +67,7 @@ consume:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 72
+  sub rsp, -8
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -147,7 +138,9 @@ consume:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
 .Lendif0:
+  push rax
   pop rax
   mov rax, OFFSET FLAT:token
   push rax
@@ -185,7 +178,7 @@ expect:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 72
+  sub rsp, -8
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -251,11 +244,11 @@ expect:
   pop rax
   cmp rax, 0
   je  .Lendif2
+  push r15
   push 4
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -263,7 +256,9 @@ expect:
   or rsp, r15
   pop r15
   push rax
+  pop rax
 .Lendif2:
+  push rax
   pop rax
   mov rax, OFFSET FLAT:token
   push rax
@@ -294,7 +289,7 @@ expect_number:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 80
+  sub rsp, 0
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -316,11 +311,11 @@ expect_number:
   pop rax
   cmp rax, 0
   je  .Lendif4
+  push r15
   push 3
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -328,7 +323,9 @@ expect_number:
   or rsp, r15
   pop r15
   push rax
+  pop rax
 .Lendif4:
+  push rax
   pop rax
   push rax
   pop rax
@@ -391,7 +388,7 @@ at_eof:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 72
+  sub rsp, -8
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -429,12 +426,13 @@ new_token:
   push rsi
   push rdx
   push rcx
-  sub rsp, 80
+  sub rsp, 0
   push rax
   pop rax
   mov rax, rbp
   sub rax, 32
   push rax
+  push r15
   push 24
   push 1
   pop rax
@@ -442,7 +440,6 @@ new_token:
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -538,12 +535,13 @@ tokenize:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 88
+  sub rsp, 8
   push rax
   pop rax
   mov rax, rbp
   sub rax, 16
   push rax
+  push r15
   push 24
   push 1
   pop rax
@@ -551,7 +549,6 @@ tokenize:
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -699,7 +696,9 @@ tokenize:
   jmp .Lcontinue5
   pop rax
   push rax
+  pop rax
 .Lendif6:
+  push rax
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -868,6 +867,7 @@ tokenize:
   mov rax, rbp
   sub rax, 24
   push rax
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -890,7 +890,6 @@ tokenize:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -906,7 +905,9 @@ tokenize:
   jmp .Lcontinue5
   pop rax
   push rax
+  pop rax
 .Lendif9:
+  push rax
   pop rax
   push 48
   mov rax, rbp
@@ -958,6 +959,7 @@ tokenize:
   mov rax, rbp
   sub rax, 24
   push rax
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -978,7 +980,6 @@ tokenize:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1000,6 +1001,7 @@ tokenize:
   pop rax
   add rax, 12
   push rax
+  push r15
   push 10
   mov rax, rbp
   sub rax, 8
@@ -1017,7 +1019,6 @@ tokenize:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1033,13 +1034,15 @@ tokenize:
   jmp .Lcontinue5
   pop rax
   push rax
-.Lendif15:
   pop rax
+.Lendif15:
+  push rax
+  pop rax
+  push r15
   push 6
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1049,9 +1052,12 @@ tokenize:
   push rax
   pop rax
   push rax
+  pop rax
   jmp .Lbegin5
 .Lend5:
+  push rax
   pop rax
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1072,7 +1078,6 @@ tokenize:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1112,12 +1117,13 @@ new_node:
   push rsi
   push rdx
   push rcx
-  sub rsp, 80
+  sub rsp, 0
   push rax
   pop rax
   mov rax, rbp
   sub rax, 32
   push rax
+  push r15
   push 24
   push 1
   pop rax
@@ -1125,7 +1131,6 @@ new_node:
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1221,12 +1226,13 @@ new_node_num:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 80
+  sub rsp, 0
   push rax
   pop rax
   mov rax, rbp
   sub rax, 16
   push rax
+  push r15
   push 24
   push 1
   pop rax
@@ -1234,7 +1240,6 @@ new_node_num:
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1304,14 +1309,14 @@ expr:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 80
+  sub rsp, 0
   push rax
   pop rax
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1328,11 +1333,11 @@ expr:
 .Lbegin17:
   push rax
   pop rax
+  push r15
   push 43
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1346,8 +1351,9 @@ expr:
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1369,7 +1375,6 @@ expr:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1381,13 +1386,14 @@ expr:
   pop rax
   mov [rax], rdi
   push rdi
+  pop rax
   jmp .Lendif18
 .Lelse18:
+  push r15
   push 45
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1401,8 +1407,9 @@ expr:
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1424,7 +1431,6 @@ expr:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1436,6 +1442,7 @@ expr:
   pop rax
   mov [rax], rdi
   push rdi
+  pop rax
   jmp .Lendif19
 .Lelse19:
   mov rax, rbp
@@ -1448,8 +1455,12 @@ expr:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
 .Lendif19:
+  push rax
+  pop rax
 .Lendif18:
+  push rax
   pop rax
   push rax
 .Lcontinue17:
@@ -1468,14 +1479,14 @@ mul:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 80
+  sub rsp, 0
   push rax
   pop rax
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1492,11 +1503,11 @@ mul:
 .Lbegin20:
   push rax
   pop rax
+  push r15
   push 42
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1510,8 +1521,9 @@ mul:
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1533,7 +1545,6 @@ mul:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1545,13 +1556,14 @@ mul:
   pop rax
   mov [rax], rdi
   push rdi
+  pop rax
   jmp .Lendif21
 .Lelse21:
+  push r15
   push 47
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1565,8 +1577,9 @@ mul:
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1588,7 +1601,6 @@ mul:
   pop rax
   mov rdx, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1600,6 +1612,7 @@ mul:
   pop rax
   mov [rax], rdi
   push rdi
+  pop rax
   jmp .Lendif22
 .Lelse22:
   mov rax, rbp
@@ -1612,8 +1625,12 @@ mul:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
 .Lendif22:
+  push rax
+  pop rax
 .Lendif21:
+  push rax
   pop rax
   push rax
 .Lcontinue20:
@@ -1632,52 +1649,12 @@ primary:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 80
-  mov rax, OFFSET FLAT:token
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:token
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC1
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov eax, 0
+  sub rsp, 0
   push r15
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call printf
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
   push 40
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1693,8 +1670,8 @@ primary:
   mov rax, rbp
   sub rax, 8
   push rax
-  mov eax, 0
   push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1707,11 +1684,11 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
+  push r15
   push 41
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1732,10 +1709,13 @@ primary:
   ret
   pop rax
   push rax
-.Lendif23:
   pop rax
-  mov eax, 0
+.Lendif23:
+  push rax
+  pop rax
   push r15
+  push r15
+  mov eax, 0
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1746,7 +1726,6 @@ primary:
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1771,7 +1750,7 @@ gen:
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 72
+  sub rsp, -8
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1794,6 +1773,7 @@ gen:
   pop rax
   cmp rax, 0
   je  .Lendif24
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1806,14 +1786,13 @@ gen:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC2
+  mov rax, OFFSET FLAT:.LC1
   push rax
   pop rax
   mov rdi, rax
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1829,8 +1808,11 @@ gen:
   ret
   pop rax
   push rax
-.Lendif24:
   pop rax
+.Lendif24:
+  push rax
+  pop rax
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1846,7 +1828,6 @@ gen:
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1855,6 +1836,7 @@ gen:
   pop r15
   push rax
   pop rax
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1870,7 +1852,6 @@ gen:
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1879,12 +1860,12 @@ gen:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC3
+  push r15
+  mov rax, OFFSET FLAT:.LC2
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1893,12 +1874,12 @@ gen:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC4
+  push r15
+  mov rax, OFFSET FLAT:.LC3
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1930,12 +1911,12 @@ gen:
   je .Lcase25_3
   jmp .Lend25
 .Lcase25_0:
-  mov rax, OFFSET FLAT:.LC5
+  push r15
+  mov rax, OFFSET FLAT:.LC4
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1947,12 +1928,12 @@ gen:
   jmp .Lend25
   pop rax
 .Lcase25_1:
-  mov rax, OFFSET FLAT:.LC6
+  push r15
+  mov rax, OFFSET FLAT:.LC5
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1964,12 +1945,12 @@ gen:
   jmp .Lend25
   pop rax
 .Lcase25_2:
-  mov rax, OFFSET FLAT:.LC7
+  push r15
+  mov rax, OFFSET FLAT:.LC6
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1981,12 +1962,12 @@ gen:
   jmp .Lend25
   pop rax
 .Lcase25_3:
-  mov rax, OFFSET FLAT:.LC8
+  push r15
+  mov rax, OFFSET FLAT:.LC7
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -1995,12 +1976,12 @@ gen:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC9
+  push r15
+  mov rax, OFFSET FLAT:.LC8
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2012,13 +1993,14 @@ gen:
   jmp .Lend25
   pop rax
 .Lend25:
+  push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC10
+  push r15
+  mov rax, OFFSET FLAT:.LC9
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2040,9 +2022,10 @@ main:
   push rdi
   push rsi
   push rdx
-  sub rsp, 88
+  sub rsp, 0
   mov rax, OFFSET FLAT:user_input
   push rax
+  push r15
   push 1
   push 8192
   pop rax
@@ -2050,7 +2033,6 @@ main:
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2063,19 +2045,19 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
+  push r15
   mov rax, OFFSET FLAT:user_input
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC11
+  mov rax, OFFSET FLAT:.LC10
   push rax
   pop rax
   mov rdi, rax
   pop rax
   mov rsi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2084,29 +2066,9 @@ main:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:user_input
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC12
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov eax, 0
-  push r15
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call printf
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
   mov rax, OFFSET FLAT:token
   push rax
+  push r15
   mov rax, OFFSET FLAT:user_input
   push rax
   pop rax
@@ -2115,7 +2077,6 @@ main:
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2133,86 +2094,8 @@ main:
   mov rax, rbp
   sub rax, 24
   push rax
-  mov rax, OFFSET FLAT:token
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-.Lbegin26:
-.Lcontinue26:
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lend26
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC13
-  push rax
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov eax, 0
   push r15
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call printf
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  jmp .Lbegin26
-.Lend26:
-  pop rax
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2225,12 +2108,12 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
-  mov rax, OFFSET FLAT:.LC14
+  push r15
+  mov rax, OFFSET FLAT:.LC11
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2239,12 +2122,12 @@ main:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC15
+  push r15
+  mov rax, OFFSET FLAT:.LC12
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2253,12 +2136,12 @@ main:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC16
+  push r15
+  mov rax, OFFSET FLAT:.LC13
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2267,8 +2150,9 @@ main:
   pop r15
   push rax
   pop rax
+  push r15
   mov rax, rbp
-  sub rax, 32
+  sub rax, 24
   push rax
   pop rax
   mov rax, [rax]
@@ -2276,7 +2160,6 @@ main:
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2285,12 +2168,12 @@ main:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC17
+  push r15
+  mov rax, OFFSET FLAT:.LC14
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
@@ -2299,12 +2182,12 @@ main:
   pop r15
   push rax
   pop rax
-  mov rax, OFFSET FLAT:.LC18
+  push r15
+  mov rax, OFFSET FLAT:.LC15
   push rax
   pop rax
   mov rdi, rax
   mov eax, 0
-  push r15
   mov r15, rsp
   and r15, 0xF
   and rsp, -16

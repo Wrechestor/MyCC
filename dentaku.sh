@@ -12,3 +12,6 @@ gcc -o dentout dentout.s -g -static
 ./dentout
 actual="$?"
 echo "$input => $actual"
+
+# ./mycc dentaku.c -g > dentaku.dot
+# dot -Tpdf dentaku.dot -o dentaku.pdf

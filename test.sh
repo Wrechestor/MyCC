@@ -72,6 +72,7 @@ assert 3   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c
 
 
 # TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト
+# TODO:グローバル変数はまとめて最初に置かなければだめ,ローカル変数にstructを使えない(ポインタのみ)
 
 
 

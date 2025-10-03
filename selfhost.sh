@@ -2,7 +2,8 @@
 
 make
 
-preprocessor/preprocessor codegen.c > codegenc_pp
+# preprocessor/preprocessor codegen.c > codegenc_pp
+preprocessor/preprocessor codegen.c | sed s/NULL/0/ > codegenc_pp
 # gcc -E codegen.c > codegenc_pp
 # preprocessor/preprocessor main.c > mainc_pp
 # preprocessor/preprocessor parse.c > parsec_pp
