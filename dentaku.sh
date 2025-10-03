@@ -6,7 +6,7 @@ gcc -S dentaku_sup.c -masm=intel
 gcc -o dent dentaku.s dentaku_sup.s -g -static
 # gdb ./dent
 
-input="12+34*5"
+input="13+2*(5-1)"
 echo $input | ./dent  > dentout.s
 gcc -o dentout dentout.s -g -static
 ./dentout

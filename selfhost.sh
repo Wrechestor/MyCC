@@ -16,6 +16,9 @@ cat codegenc_pp.s | optimizer/optimizer > codegenc_pp_opt.s
 # cat mainc_pp.s | optimizer/optimizer > mainc_pp_opt.s
 # cat parsec_pp.s | optimizer/optimizer > parsec_pp_opt.s
 
+gcc -S main.c -o main.s -masm=intel
+gcc -S parse.c -o parse.s -masm=intel
+
 gcc -o mycc_s main.s parse.s codegenc_pp_opt.s -g -static
 # gcc -o mycc_s mainc_pp_opt.s parsec_pp_opt.s codegenc_pp_opt.s -g -static
 # gcc -o mycc_s main.s parsec_pp_opt.s codegenc_pp_opt.s -g -static

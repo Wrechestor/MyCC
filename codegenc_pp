@@ -343,7 +343,7 @@ tok->str = node->name;
 tok->len = node->val; 
 GVar *gvar = find_gvar(tok); 
 if (gvar) { // グローバル変数 
-char name[ 255 ]; 
+char *name = calloc(256,sizeof(char)); 
 strncpy(name, node->name, node->val); 
 name[node->val] = '\0'; 
 
@@ -356,7 +356,7 @@ error("代入の左辺の変数がありません");
 } 
 
 void gen(Node *node) { 
-char name[ 255 ]; 
+char *name = calloc(256,sizeof(char)); 
 int id; 
 // Type *type = 0; // TODO:NULL 
 Type *type = 0; 
@@ -423,6 +423,8 @@ printf(" .zero %d\n", remainsize);
 return; 
 } 
 if (node->kind == ND_FUNCDEF) { 
+printf("### .nodename %d %p\n", node->val, node->name); 
+printf("### .nodename %d %p\n", node->val, name); 
 strncpy(name, node->name, node->val); 
 name[node->val] = '\0'; 
 printf(" .globl %s\n", name); 
@@ -453,9 +455,7 @@ i++;
 } 
 // ローカル変数用のスタックを確保 
 // TODO:8より大きいローカル変数(配列,構造体) 
-// printf(" sub rsp, %d\n", (localsnum - i + 1) * 8); 
-printf(" sub rsp, %d\n", (localsnum - i + 10) * 8); 
-
+printf(" sub rsp, %d\n", (localsnum - i) * 8); 
 
 
 gen(node->rhs); 
@@ -487,14 +487,18 @@ printf(" cmp rax, 0\n");
 if (node->rhs->kind == ND_ELSE) { 
 printf(" je .Lelse%d\n", id); 
 gen(node->rhs->lhs); 
+printf(" pop rax\n"); 
 printf(" jmp .Lendif%d\n", id); 
 printf(".Lelse%d:\n", id); 
 gen(node->rhs->rhs); 
+printf(" pop rax\n"); 
 } else { 
 printf(" je .Lendif%d\n", id); 
 gen(node->rhs); 
+printf(" pop rax\n"); 
 } 
 printf(".Lendif%d:\n", id); 
+printf(" push rax\n"); 
 return; 
 } 
 
@@ -537,6 +541,7 @@ tmp = tmp->rhs;
 } 
 is_inswitch = 0; 
 printf(".Lend%d:\n", id); 
+printf(" push rax\n"); 
 return; 
 } 
 
@@ -552,10 +557,12 @@ printf(" cmp rax, 0\n");
 printf(" je .Lend%d\n", id); 
 is_inloop = 1; 
 gen(node->rhs); 
+printf(" pop rax\n"); 
 is_inloop = 0; 
 current_loop_id = id; 
 printf(" jmp .Lbegin%d\n", id); 
 printf(".Lend%d:\n", id); 
+printf(" push rax\n"); 
 return; 
 } 
 
@@ -748,6 +755,9 @@ name[node->val] = '\0';
 Node *now = node; 
 i=0; 
 
+// TODO:アライメントを元に戻すため 
+printf(" push r15\n"); 
+
 while (now->rhs) { 
 i++; 
 now = now->rhs; 
@@ -770,8 +780,6 @@ case 5:printf(" mov r9, rax\n");break;
 printf(" mov eax, 0\n"); 
 
 
-// TODO:アライメントを元に戻すため 
-printf(" push r15\n"); 
 
 // TODO:アライメントの状況をr15に保存しておく 
 // スタックアライメント 

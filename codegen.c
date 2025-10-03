@@ -60,7 +60,7 @@ int gen_lval(Node *node) {
     tok->len = node->val;
     GVar *gvar = find_gvar(tok);
     if (gvar) { // グローバル変数
-        char name[ MAX_IDENT_LEN ];
+        char *name = calloc(256,sizeof(char));
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
 
@@ -73,7 +73,7 @@ int gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
-    char name[ MAX_IDENT_LEN ];
+    char *name = calloc(256,sizeof(char));
     int id;
     // Type *type = NULL; // TODO:NULL
     Type *type = 0;
@@ -140,6 +140,7 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_FUNCDEF) {
+        printf("###  .nodename %d %p\n", node->val, node->name);
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("  .globl %s\n", name);

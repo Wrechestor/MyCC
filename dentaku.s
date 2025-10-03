@@ -60,6 +60,7 @@ user_input:
 buf:
   .zero 1024
 .text
+###  .nodename 7 0x5635406b2bf6
   .globl consume
   .type consume, @function
 consume:
@@ -171,6 +172,7 @@ consume:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 6 0x5635406b2d18
   .globl expect
   .type expect, @function
 expect:
@@ -283,6 +285,7 @@ expect:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 13 0x5635406b2e29
   .globl expect_number
   .type expect_number, @function
 expect_number:
@@ -382,6 +385,7 @@ expect_number:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 6 0x5635406b2ea3
   .globl at_eof
   .type at_eof, @function
 at_eof:
@@ -417,6 +421,7 @@ at_eof:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 9 0x5635406b2f4b
   .globl new_token
   .type new_token, @function
 new_token:
@@ -528,6 +533,7 @@ new_token:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 8 0x5635406b3033
   .globl tokenize
   .type tokenize, @function
 tokenize:
@@ -1108,6 +1114,7 @@ tokenize:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 8 0x5635406b329c
   .globl new_node
   .type new_node, @function
 new_node:
@@ -1219,6 +1226,7 @@ new_node:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 12 0x5635406b3353
   .globl new_node_num
   .type new_node_num, @function
 new_node_num:
@@ -1303,6 +1311,7 @@ new_node_num:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 4 0x5635406b33df
   .globl expr
   .type expr, @function
 expr:
@@ -1473,6 +1482,7 @@ expr:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 3 0x5635406b34d6
   .globl mul
   .type mul, @function
 mul:
@@ -1643,6 +1653,7 @@ mul:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 7 0x5635406b35d8
   .globl primary
   .type primary, @function
 primary:
@@ -1743,6 +1754,7 @@ primary:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 3 0x5635406b36e7
   .globl gen
   .type gen, @function
 gen:
@@ -2014,6 +2026,7 @@ gen:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 4 0x5635406b38bd
   .globl main
   .type main, @function
 main:

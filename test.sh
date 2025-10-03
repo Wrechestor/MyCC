@@ -71,8 +71,11 @@ assert 5    'int main(){return sizeof(int)+sizeof(char);}'
 assert 3   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
 
 
+assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
+
+
 # TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト
-# TODO:グローバル変数はまとめて最初に置かなければだめ,ローカル変数にstructを使えない(ポインタのみ)
+# TODO:グローバル変数はまとめて最初に置かなければだめ,ローカル変数に配列やstructを使えない(ポインタのみ)
 
 
 

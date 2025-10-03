@@ -4,5 +4,9 @@
 tmp*
 a.out
 mycc
+dent
+codegenc_pp
+dentout
+mycc_s
 preprocessor/preprocessor
 optimizer/optimizer

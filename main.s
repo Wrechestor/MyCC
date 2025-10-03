@@ -83,7 +83,7 @@ read_file:
 	mov	rax, QWORD PTR -16[rbp]
 	mov	rdi, rax
 	call	ftell@PLT
-	mov	QWORD PTR -24[rbp], rax
+	mov	DWORD PTR -20[rbp], eax
 	mov	rax, QWORD PTR -16[rbp]
 	mov	edx, 0
 	mov	esi, 0
@@ -109,22 +109,25 @@ read_file:
 	mov	edi, 1
 	call	exit@PLT
 .L4:
-	mov	rax, QWORD PTR -24[rbp]
-	add	rax, 2
+	mov	eax, DWORD PTR -20[rbp]
+	add	eax, 2
+	cdqe
 	mov	rsi, rax
 	mov	edi, 1
 	call	calloc@PLT
 	mov	QWORD PTR -8[rbp], rax
+	mov	eax, DWORD PTR -20[rbp]
+	movsx	rsi, eax
 	mov	rdx, QWORD PTR -16[rbp]
-	mov	rsi, QWORD PTR -24[rbp]
 	mov	rax, QWORD PTR -8[rbp]
 	mov	rcx, rdx
 	mov	edx, 1
 	mov	rdi, rax
 	call	fread@PLT
-	cmp	QWORD PTR -24[rbp], 0
+	cmp	DWORD PTR -20[rbp], 0
 	je	.L5
-	mov	rax, QWORD PTR -24[rbp]
+	mov	eax, DWORD PTR -20[rbp]
+	cdqe
 	lea	rdx, -1[rax]
 	mov	rax, QWORD PTR -8[rbp]
 	add	rax, rdx
@@ -132,15 +135,17 @@ read_file:
 	cmp	al, 10
 	je	.L6
 .L5:
-	mov	rax, QWORD PTR -24[rbp]
-	lea	rdx, 1[rax]
-	mov	QWORD PTR -24[rbp], rdx
-	mov	rdx, QWORD PTR -8[rbp]
+	mov	eax, DWORD PTR -20[rbp]
+	lea	edx, 1[rax]
+	mov	DWORD PTR -20[rbp], edx
+	movsx	rdx, eax
+	mov	rax, QWORD PTR -8[rbp]
 	add	rax, rdx
 	mov	BYTE PTR [rax], 10
 .L6:
-	mov	rdx, QWORD PTR -8[rbp]
-	mov	rax, QWORD PTR -24[rbp]
+	mov	eax, DWORD PTR -20[rbp]
+	movsx	rdx, eax
+	mov	rax, QWORD PTR -8[rbp]
 	add	rax, rdx
 	mov	BYTE PTR [rax], 0
 	mov	rax, QWORD PTR -16[rbp]
@@ -1016,8 +1021,6 @@ gengraph:
 	.string	"  .string \"%s\"\n"
 .LC71:
 	.string	".text"
-.LC72:
-	.string	".bss"
 	.text
 	.globl	main
 	.type	main, @function
@@ -1146,17 +1149,10 @@ main:
 	mov	eax, DWORD PTR strsnum[rip]
 	cmp	DWORD PTR -296[rbp], eax
 	jl	.L101
-	mov	rax, QWORD PTR globals[rip]
-	test	rax, rax
-	je	.L102
-	lea	rax, .LC72[rip]
-	mov	rdi, rax
-	call	puts@PLT
-.L102:
 	mov	DWORD PTR -292[rbp], -1
 	mov	DWORD PTR -288[rbp], 0
-	jmp	.L103
-.L105:
+	jmp	.L102
+.L104:
 	mov	eax, DWORD PTR -288[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*8]
@@ -1164,28 +1160,28 @@ main:
 	mov	rax, QWORD PTR [rdx+rax]
 	mov	eax, DWORD PTR [rax]
 	cmp	eax, 51
-	jne	.L104
+	jne	.L103
 	mov	eax, DWORD PTR -288[rbp]
 	mov	DWORD PTR -292[rbp], eax
-.L104:
-	add	DWORD PTR -288[rbp], 1
 .L103:
+	add	DWORD PTR -288[rbp], 1
+.L102:
 	mov	eax, DWORD PTR -288[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*8]
 	lea	rax, code[rip]
 	mov	rax, QWORD PTR [rdx+rax]
 	test	rax, rax
-	jne	.L105
+	jne	.L104
 	cmp	DWORD PTR -292[rbp], -1
-	jne	.L106
+	jne	.L105
 	lea	rax, .LC71[rip]
 	mov	rdi, rax
 	call	puts@PLT
-.L106:
+.L105:
 	mov	DWORD PTR -284[rbp], 0
-	jmp	.L107
-.L109:
+	jmp	.L106
+.L108:
 	mov	eax, DWORD PTR -284[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*4]
@@ -1207,27 +1203,27 @@ main:
 	call	gen@PLT
 	mov	eax, DWORD PTR -284[rbp]
 	cmp	eax, DWORD PTR -292[rbp]
-	jne	.L108
+	jne	.L107
 	lea	rax, .LC71[rip]
 	mov	rdi, rax
 	call	puts@PLT
-.L108:
-	add	DWORD PTR -284[rbp], 1
 .L107:
+	add	DWORD PTR -284[rbp], 1
+.L106:
 	mov	eax, DWORD PTR -284[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*8]
 	lea	rax, code[rip]
 	mov	rax, QWORD PTR [rdx+rax]
 	test	rax, rax
-	jne	.L109
+	jne	.L108
 	mov	eax, 0
 .L96:
 	mov	rdx, QWORD PTR -8[rbp]
 	sub	rdx, QWORD PTR fs:40
-	je	.L110
+	je	.L109
 	call	__stack_chk_fail@PLT
-.L110:
+.L109:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
