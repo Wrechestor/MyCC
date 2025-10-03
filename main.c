@@ -89,6 +89,7 @@ char *nodeToStr(Node *node) {
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
         case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
         case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;
+        case ND_PROTO: sprintf(ret, "PROTO(%s)", namebuf);  return ret;
         case ND_ARG: return "ARG";
         case ND_ADDR: return "ADDR";
         case ND_DEREF: return "DEREF";
@@ -116,10 +117,17 @@ char *nodeToStr(Node *node) {
 int gengraph(Node *node, int nodeid) {
     int nowid = nodeid;
 
+    if (node->kind == ND_ENUM ||
+        node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
+        node->kind == ND_EXTERN || node->kind == ND_PROTO) {
+        return nodeid;
+    }
+
     printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
-        node->kind == ND_STRUCT || node->kind == ND_TYPEDEF) {
+        node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
+        node->kind == ND_EXTERN || node->kind == ND_PROTO) {
         printf(" shape = box");
     }
     if (node->kind == ND_BLOCK) {

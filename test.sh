@@ -67,6 +67,11 @@ assert 16   'struct MyStruct {char *a;int b;int c;};int main() {struct MyStruct 
 assert 16   'struct MyStruct {int a;int b;int c;};struct MyStruct myint; int main() {myint.b=7; myint.c=9; return myint.b+myint.c;}'
 assert 7    'struct MyStruct {int a;int b;int c;};typedef struct MyStruct MyStrc;MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
 assert 4    'int main(){return 1<2 ? 3,4 : 5;}'
+assert 5    'int main(){return sizeof(int)+sizeof(char);}'
+
+
+# TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト
+
 
 
 echo -e "\e[32mOK\e[m"

@@ -11,7 +11,7 @@ int gen_lval(Node *node) {
         gen_lval(node->lhs);
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
         Type *lhstype = estimate_type(node->lhs);
-        if (lhstype->ty != STRUCT) error("左辺がstructではありません");
+        if (!lhstype || lhstype->ty != STRUCT) error("左辺がstructではありません");
 
         int offset = 0;
 
@@ -72,6 +72,10 @@ int current_switch_id = 0;
 
 void gen(Node *node) {
     char name[MAX_IDENT_LEN];
+    int id;
+    Type *type = NULL;
+    int i;
+
     if (node == NULL) {
         printf("  push rax\n");
         return;
@@ -81,7 +85,8 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_TYPEDEF || node->kind == ND_ENUM ||
-        node->kind == ND_STRUCT || node->kind == ND_EXTERN) {
+        node->kind == ND_STRUCT || node->kind == ND_EXTERN ||
+        node->kind == ND_PROTO) {
         return;
     }
     if (node->kind == ND_GVALDEF) {
@@ -91,7 +96,7 @@ void gen(Node *node) {
         printf("  .data\n");
         printf("%s:\n", name);
 
-        Type *type = estimate_type(node);
+        type = estimate_type(node);
         if (type && type->ptr_to) {
             type = type->ptr_to;
         }
@@ -139,7 +144,7 @@ void gen(Node *node) {
         printf("  mov rbp, rsp\n");
 
         Node *tmparg = node;
-        int i = 0;
+        i = 0;
         while (tmparg) {
             switch (i) {
                 case 0:printf("  push rdi\n");break;
@@ -180,7 +185,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_IF) {
-        int id = branch_label;
+        id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
@@ -200,7 +205,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_SWITCH) {
-        int id = branch_label;
+        id = branch_label;
         current_switch_id = id;
         branch_label++;
         int caseid = 0;
@@ -242,7 +247,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_WHILE) {
-        int id = branch_label;
+        id = branch_label;
         current_loop_id = id;
         branch_label++;
         printf(".Lbegin%d:\n", id);
@@ -261,7 +266,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_FOR) {
-        int id = branch_label;
+        id = branch_label;
         current_loop_id = id;
         branch_label++;
         // for (A; B; C) D
@@ -288,7 +293,7 @@ void gen(Node *node) {
 
     if (node->kind == ND_BREAK) {
         if (is_inloop || is_inswitch) {
-            int id = current_loop_id;
+            id = current_loop_id;
             if (current_switch_id > id) id = current_switch_id;
             printf("  jmp .Lend%d\n", id);
         } else {
@@ -314,7 +319,6 @@ void gen(Node *node) {
         return;
     }
 
-    Type *type = NULL;
 
 	switch (node->kind) {
     case ND_ADDR:
@@ -447,14 +451,15 @@ void gen(Node *node) {
         name[node->val] = '\0';
         // 引数
         Node *now = node;
-        int i=0;
+        i=0;
 
         while (now->rhs) {
             i++;
             now = now->rhs;
             gen(now->lhs);
         }
-        for (int k=0; k<i && k<6; k++){
+        int k;
+        for (k=0; k<i && k<6; k++){
             printf("  pop rax\n");
             switch (k) {
                 case 0:printf("  mov rdi, rax\n");break;
@@ -489,7 +494,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_COND){
-        int id = branch_label;
+        id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
@@ -504,7 +509,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_LOGICOR){
-        int id = branch_label;
+        id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
@@ -525,7 +530,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_LOGICAND){
-        int id = branch_label;
+        id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");

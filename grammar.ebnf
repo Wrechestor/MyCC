@@ -1,15 +1,16 @@
 program    = function_gval*
-function_gval = TYPE ident "(" (TYPE ident)* ")" "{" stmt* "}"
+function_gval = TYPE ident "(" (TYPE ident)* ")" "{" stmt* "}" # 関数定義
+                | TYPE ident "(" (TYPE ident)* ")" ";" # プロトタイプ宣言
                 | TYPE ident ("[" num "]")* "[]"?
                     ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
-                | "extern" TYPE ident ("[" num "]")* # TODO
+                | "extern" TYPE ident ("[" num "]")*
                 | "enum" ident "{" ident ("," ident)* "}" ";"
                 | "struct" ident "{" (TYPE ident ";")* "}" ";"
                 | "typedef" TYPE ident ";"
 stmt = { stmt* }
         | TYPE ident ("[" num "]")* "[]"?
             ("=" ("{" (num ("," num))? "}") | num | string )? ";"
-        | "return" expr ";"
+        | "return" expr? ";"
         | "if" "(" expr ")" stmt ("else" stmt)?
         | "switch"  "(" expr ")" "{"
             ((("case" (num | string)) | "default") ":" stmt*)* "}"

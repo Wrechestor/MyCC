@@ -95,6 +95,7 @@ enum NodeKind {
   ND_LVAR,    // ローカル変数
   ND_FUNCCALL,// 関数呼び出し
   ND_FUNCDEF, // 関数定義
+  ND_PROTO,   // プロトタイプ宣言
   ND_ARG,     // 関数の引数
   ND_ADDR,    // unary &
   ND_DEREF,   // unary *

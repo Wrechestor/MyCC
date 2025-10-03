@@ -89,8 +89,18 @@ void expect(char *op) {
 
 // 次のトークンが数値の場合、トークンを1つ読み進めてその数値を返す。
 // それ以外の場合にはエラーを報告する。
+// enum定数も数値として扱う
 int expect_number() {
-	if (token->kind != TK_NUM) error_at(token->str,"数ではありません");
+    Constant *cons = constants;
+    for (; cons; cons = cons->next)
+        if (cons->len == token->len && !memcmp(token->str, cons->name, cons->len))
+            break;
+    if (cons) {
+        token = token->next;
+        return cons->val;
+    }
+
+	if (token->kind != TK_NUM) error_at(token->str,"数値ではありません");
 	int val = token->val;
 	token = token->next;
 	return val;
@@ -625,6 +635,24 @@ int strsnum;
 
 Constant *constants;
 
+/*
+######## ########  ##    ## ########
+##       ##     ## ###   ## ##
+##       ##     ## ####  ## ##
+######   ########  ## ## ## ######
+##       ##     ## ##  #### ##
+##       ##     ## ##   ### ##
+######## ########  ##    ## ##
+
+########     ###    ########   ######  ######## ########
+##     ##   ## ##   ##     ## ##    ## ##       ##     ##
+##     ##  ##   ##  ##     ## ##       ##       ##     ##
+########  ##     ## ########   ######  ######   ########
+##        ######### ##   ##         ## ##       ##   ##
+##        ##     ## ##    ##  ##    ## ##       ##    ##
+##        ##     ## ##     ##  ######  ######## ##     ##
+*/
+
 void program() {
     int i = 0;
     while (!at_eof()) {
@@ -888,6 +916,11 @@ Node *function_gval() {
                 break;
             }
             argsnum++;
+        }
+
+        if (consume(";")) { // TODO:プロトタイプ宣言
+            node->kind = ND_PROTO;
+            return node;
         }
 
         expect("{");
@@ -1325,8 +1358,11 @@ Node *stmt() {
     } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
-        node->lhs = expr();
-        expect(";");
+        if (consume(";")) node->lhs = new_node_num(0); // return;はreturn 0;と等価
+        else {
+            node->lhs = expr();
+            expect(";");
+        }
     } else if (consume_kind(TK_BREAK)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_BREAK;
@@ -1607,9 +1643,16 @@ Node *mul() {
 
 Node *unary() {
     if (consume_kind(TK_SIZEOF)) {
-        Node *node = unary();
-        Type *type = estimate_type(node);
+        // TODO:sizeof 型名 のとき
+        int parens = 0;
+        while (consume("(")) parens++;
+        Type *type = consume_type();
+        if (!type){
+            Node *node = unary();
+            type = estimate_type(node);
+        }
         int size = size_from_type(type);
+        while (parens-- > 0) expect(")");
         return new_node_num(size);
     }
 
@@ -1740,15 +1783,9 @@ Node *primary() {
                     node->offset = gvar->addr;
                     node->val = gvar->len;
                     node->name = gvar->name;
-                } else { // TODO:enum
-                    Constant *cons = constants;
-                    for (; cons; cons = cons->next)
-                        if (cons->len == tok->len && !memcmp(tok->str, cons->name, cons->len))
-                            break;
-                    if (cons) {
-                        return new_node_num(cons->val);
-                    }
-                    error_at(tok->str,"未定義の変数です");
+                } else { // enum
+                    token = tok;
+                    return new_node_num(expect_number());
                 }
             }
             return node;
