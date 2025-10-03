@@ -3,8 +3,11 @@
 make
 
 preprocessor/preprocessor codegen.c > codegenc_pp
+# gcc -E codegen.c > codegenc_pp
 # preprocessor/preprocessor main.c > mainc_pp
 # preprocessor/preprocessor parse.c > parsec_pp
+
+
 ./mycc codegenc_pp > codegenc_pp.s
 # ./mycc mainc_pp > mainc_pp.s
 # ./mycc parsec_pp > parsec_pp.s

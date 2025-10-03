@@ -1,5 +1,8 @@
 CFLAGS=-std=c11 -g -static
-SRCS=$(wildcard *.c)
+
+SRCS    = main.c
+SRCS    += parse.c
+SRCS    += codegen.c
 OBJS=$(SRCS:.c=.o)
 
 all: mycc preprocessor optimizer

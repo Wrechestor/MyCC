@@ -17,7 +17,6 @@ int gen_lval(Node *node) {
         gen_lval(node->lhs);
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
         Type *lhstype = estimate_type(node->lhs);
-        if (!lhstype || lhstype->ty != STRUCT) error("左辺がstructではありません");
 
         // if (lhstype)printf("# @@@@ lhstype->ty: %d\n",lhstype->ty);
         if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
@@ -141,9 +140,10 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_FUNCDEF) {
-    strncpy(name, node->name, node->val);
-    name[node->val] = '\0';
+        strncpy(name, node->name, node->val);
+        name[node->val] = '\0';
         printf("  .globl %s\n", name);
+        printf("  .type %s, @function\n", name);
         printf("%s:\n", name);
 
         // プロローグ
@@ -162,18 +162,22 @@ void gen(Node *node) {
                 case 5:printf("  push r9\n"); break;
             }
             if (i >= 6) {
-                // TODO:アライメントの状況はrbx
-                printf("  push [rbp+rbx+%d]\n", 16 + (i - 6) * 8);
+                // TODO:アライメントの状況はr15
+                printf("  push [rbp+r15+%d]\n", 16 + (i - 6) * 8);
             }
             tmparg = tmparg->lhs;
             i++;
         }
         // ローカル変数用のスタックを確保
         // TODO:8より大きいローカル変数(配列,構造体)
-        printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
+        // printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
+        printf("  sub rsp, %d\n", (localsnum - i + 10) * 8);
+
+
 
         gen(node->rhs);
         printf("  pop rax\n");
+
 
         // エピローグ
         // 最後の式の結果がRAXに残っているのでそれが返り値になる
@@ -482,12 +486,16 @@ void gen(Node *node) {
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
 
-        // TODO:アライメントの状況をrbxに保存しておく
+
+        // TODO:アライメントを元に戻すため
+        printf("  push r15\n");
+
+        // TODO:アライメントの状況をr15に保存しておく
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
         // rspの8の位を保存
-        printf("  mov rbx, rsp\n");
-        printf("  and rbx, 0xF\n");
+        printf("  mov r15, rsp\n");
+        printf("  and r15, 0xF\n");
         // rspを16の倍数にする
         printf("  and rsp, -16\n");
 
@@ -495,7 +503,10 @@ void gen(Node *node) {
 
         // スタックアライメント
         // rspを元に戻す
-        printf("  or rsp, rbx\n");
+        printf("  or rsp, r15\n");
+
+        // TODO:アライメントを元に戻すため
+        printf("  pop r15\n");
 
         printf("  push rax\n");
         return;

@@ -71,7 +71,9 @@
     "eightqueen_c": "c",
     "mainc_pp": "c",
     "limits": "c",
-    "new": "c"
+    "new": "c",
+    "dentaku": "c",
+    "dentaku_sup": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

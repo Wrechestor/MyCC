@@ -66,9 +66,13 @@ void process_file(const char *filename) {
         } else if (strncmp(line, "#include", 8) == 0) {
             char incfile[MAX_LINE];
             // "filename" または <filename> の両方に対応
-            if (sscanf(line, "#include \"%[^\"]\"", incfile) == 1 ||
-                sscanf(line, "#include <%[^>]>", incfile) == 1) {
+            if (sscanf(line, "#include \"%[^\"]\"", incfile) == 1) {
                 process_file(incfile);
+            }
+            if (sscanf(line, "#include <%[^>]>", incfile) == 1) {
+                // char *incfilebuf = malloc(1024*sizeof(char));
+                // sprintf(incfilebuf, "/usr/include/c++/11/tr1/%s", incfile);
+                // process_file(incfilebuf);
             }
         } else {
             expand_macros(line);

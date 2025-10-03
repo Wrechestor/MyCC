@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
     }
 
     if (globals) {
-        printf(".bss\n");
+        // printf(".bss\n");
     }
 
     int last_gloval_index = -1;
