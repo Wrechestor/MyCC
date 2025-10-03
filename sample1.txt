@@ -1,0 +1,10 @@
+#include "sample2.txt"
+#define AB 0
+
+aosihaosh
+aosigjsaoig
+okam hakshjm
+aosjgoajg
+ajjgjk
+A AB A
+aaaa

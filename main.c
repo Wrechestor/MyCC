@@ -6,15 +6,24 @@ char *filename;
 char *read_file(char *path) {
     // ファイルを開く
     FILE *fp = fopen(path, "r");
-    if (!fp)
-        error("cannot open %s: %s", path, strerror(errno));
+    if (!fp) {
+        fprintf(stderr, "cannot open %s: %s", path, strerror(errno));
+        fprintf(stderr, "\n");
+        exit(1);
+    }
 
     // ファイルの長さを調べる
-    if (fseek(fp, 0, SEEK_END) == -1)
-        error("%s: fseek: %s", path, strerror(errno));
+    if (fseek(fp, 0, SEEK_END) == -1) {
+        fprintf(stderr, "%s: fseek: %s", path, strerror(errno));
+        fprintf(stderr, "\n");
+        exit(1);
+    }
     size_t size = ftell(fp);
-    if (fseek(fp, 0, SEEK_SET) == -1)
-        error("%s: fseek: %s", path, strerror(errno));
+    if (fseek(fp, 0, SEEK_SET) == -1) {
+        fprintf(stderr, "%s: fseek: %s", path, strerror(errno));
+        fprintf(stderr, "\n");
+        exit(1);
+    }
 
     // ファイル内容を読み込む
     char *buf = calloc(1, size + 2);
@@ -76,6 +85,7 @@ char *nodeToStr(Node *node) {
         case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf);  return ret;
         case ND_STRUCT: sprintf(ret, "STRUCT(%s)", namebuf);  return ret;
         case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf);  return ret;
+        case ND_EXTERN: sprintf(ret, "EXTERN(%s)", namebuf);  return ret;
         case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
         case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
         case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;

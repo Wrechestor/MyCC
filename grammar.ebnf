@@ -1,12 +1,13 @@
 program    = function_gval*
-function_gval = TYPE "*"* ident "(" (TYPE "*"* ident)* ")" "{" stmt* "}"
-                | TYPE "*"* ident ("[" num "]")* "[]"?
+function_gval = TYPE ident "(" (TYPE ident)* ")" "{" stmt* "}"
+                | TYPE ident ("[" num "]")* "[]"?
                     ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
+                | "extern" TYPE ident ("[" num "]")* # TODO
                 | "enum" ident "{" ident ("," ident)* "}" ";"
-                | "struct" ident "{" (TYPE ident ";")* "}" ";" # TODO
-                | "typedef" TYPE ident ";" # TODO
+                | "struct" ident "{" (TYPE ident ";")* "}" ";"
+                | "typedef" TYPE ident ";"
 stmt = { stmt* }
-        | TYPE "*"* ident ("[" num "]")* "[]"?
+        | TYPE ident ("[" num "]")* "[]"?
             ("=" ("{" (num ("," num))? "}") | num | string )? ";"
         | "return" expr ";"
         | "if" "(" expr ")" stmt ("else" stmt)?
@@ -33,21 +34,15 @@ relational = shift (("<" | "<=" | ">" | ">=") shift)*
 shift      = add ("<<" add | ">>" add)*
 add        = mul ("+" mul | "-" mul)*
 mul        = unary (("*" | "/" | "%") unary)*
-unary      = ("sizeof" | "&" | "*" |
+unary      = ("sizeof" | "&" | "*" | # TODO ("(" TYPE ")")
                 | "!" | "~" | "++" | "--") unary  # ++ -- は前置
             |  ("+" | "-")? postpos
-postpos    = primary ("[" expr "]")*
+postpos    = primary (("[" expr "]") || ("." ident) || ("->" ident))*
             ("++" | "--")?  # ++ -- は後置
 primary    = "(" expr ")" | string
             | ident "(" (assign ("," assign)*)? ")" # commaとの衝突を避けるためassign
             | ident | num
 
 
-# ↓TODO
+# TODO
 TYPE       = ("int" | "char" | ("struct" ident)) "*"*
-
-
-# postpos    = primary (("[" expr "]") || ("." ident) || ("->" ident))*
-#             ("++" | "--")?  # ++ -- は後置
-
-# unary      = | ("(" TYPE ")") unary

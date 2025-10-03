@@ -1,15 +1,15 @@
 #include <ctype.h>
 #include <stdarg.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 
-#define MAX_IDENT_LEN 255 // 識別子の名前の最大長
+// 識別子の名前の最大長
+#define MAX_IDENT_LEN 255
 
 // トークンの種類
-typedef enum {
+enum TokenKind {
   TK_RESERVED, // 記号
   TK_RETURN,   // return
   TK_IF,       // if
@@ -25,27 +25,30 @@ typedef enum {
   TK_NUM,      // 整数トークン
   TK_INT,      // int
   TK_CHAR,     // char
+  TK_VOID,     // void
   TK_SIZEOF,   // sizeof
   TK_ENUM,     // enum
   TK_STRUCT,   // struct
   TK_TYPEDEF,  // typedef
+  TK_EXTERN,   // extern
   TK_QUOTE,    // 文字列リテラル
   TK_EOF,      // 入力の終わりを表すトークン
-} TokenKind;
+};
+typedef enum TokenKind TokenKind;
 
-typedef struct Token Token;
 // トークン型
 struct Token {
   TokenKind kind; // トークンの型
-  Token *next;    // 次の入力トークン
+  struct Token *next;    // 次の入力トークン
   int val;        // kindがTK_NUMの場合、その数値
   char *str;      // トークン文字列
   int len;        // トークンの長さ
 };
+typedef struct Token Token;
 
 
 // 抽象構文木のノードの種類
-typedef enum {
+enum NodeKind {
   ND_ADD,     // +
   ND_SUB,     // -
   ND_MUL,     // *
@@ -87,6 +90,7 @@ typedef enum {
   ND_ENUM,    // enumの定義
   ND_STRUCT,  // structの定義
   ND_TYPEDEF, // typedef
+  ND_EXTERN,  // extern
   ND_BLOCK,   // {}
   ND_LVAR,    // ローカル変数
   ND_FUNCCALL,// 関数呼び出し
@@ -98,42 +102,44 @@ typedef enum {
   ND_GVALDEF, // グローバル変数定義
   ND_QUOTE,   // 文字列リテラル
   ND_NUM,     // 整数
-} NodeKind;
+};
+typedef enum NodeKind NodeKind;
 
-typedef struct Node Node;
 // 抽象構文木のノードの型
 struct Node {
     NodeKind kind; // ノードの型
-    Node *lhs;     // 左辺
-    Node *rhs;     // 右辺
+    struct Node *lhs;     // 左辺
+    struct Node *rhs;     // 右辺
     int val;       // kindがND_NUMの場合のみ使う
     int offset;    // kindがND_LVARの場合のみ使う
     char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
+typedef struct Node Node;
 
 
-typedef struct Type Type;
+enum type_t { INT, CHAR, VOID, PTR, ARRAY, STRUCT, MEMBER };
 // 変数の型
 struct Type {
-  enum { INT, CHAR, PTR, ARRAY, STRUCT, MEMBER } ty;
+  enum type_t ty;
     // MEMBER:structの時の型リスト保存用
   struct Type *ptr_to;
-  size_t array_size; // 配列のときの要素数
+  int array_size; // 配列のときの要素数
   struct Type *member; // structのときの型リスト
   char *name; // structのときのメンバの名前
   int len;    // 名前の長さ
 };
+typedef struct Type Type;
 
 
-typedef struct LVar LVar;
 // ローカル変数の型
 struct LVar {
-  LVar *next; // 次の変数かNULL
+  struct LVar *next; // 次の変数かNULL
   char *name; // 変数の名前
   int len;    // 名前の長さ
   int offset; // RBPからのオフセット
   Type *type; // 変数の型
 };
+typedef struct LVar LVar;
 // ローカル変数
 extern LVar *locals;
 extern LVar *LocalsList[100];
@@ -141,76 +147,77 @@ extern int localsnums[100];
 extern int localsnum;
 
 
-typedef struct GVar GVar;
 // グローバル変数の型
 struct GVar {
-  GVar *next; // 次の変数かNULL
+  struct GVar *next; // 次の変数かNULL
   char *name; // 変数の名前
   int len;    // 名前の長さ
   int addr;   // アドレス
+  int is_extern;
   Type *type; // 変数の型
 };
+typedef struct GVar GVar;
 // グローバル変数
 extern GVar *globals;
 
 
-typedef struct Strs Strs;
 // 文字列リテラルの型
 struct Strs {
-  Strs *next; // 次の変数かNULL
+  struct Strs *next; // 次の変数かNULL
   char *text; // 内容
   int len;    // 長さ
   int id;     // 連番のID
 };
+typedef struct Strs Strs;
 // 文字列リテラルのリスト
 extern Strs *strs;
 extern int strsnum;
 
 
-typedef struct Constant Constant;
 // enum定数
 struct Constant {
-    Constant *next;
+    struct Constant *next;
     char *name;
     int len;
     int val;
 };
+typedef struct Constant Constant;
 // enum定数のリスト
 extern Constant *constants;
 
 
-typedef struct EnumName EnumName;
 // enum型の名前
 struct EnumName {
-    EnumName *next;
+    struct EnumName *next;
     char *name;
     int len;
 };
+typedef struct EnumName EnumName;
 // enum型の名前のリスト
 extern EnumName *enumnames;
 
 
-typedef struct StructDef StructDef;
 // struct型の定義
 struct StructDef {
-    StructDef *next;
+    struct StructDef *next;
     char *name;
     int len;
     Type *type;
 };
+typedef struct StructDef StructDef;
 // struct型の定義のリスト
 extern StructDef *structdefs;
 
 
-typedef struct DefinedType DefinedType;
 // 定義した型名(struct, typedef, (enum))
 // TODO:2単語以上の型(enum A, struct Bなど)
 struct DefinedType {
-    DefinedType *next;
+    struct DefinedType *next;
     char *name;
     int len;
     Type *type;
 };
+typedef struct DefinedType DefinedType;
 // 定義した型のリスト
 extern DefinedType *definedtypes;
 
@@ -229,13 +236,13 @@ extern int branch_label;
 // 入力ファイル名
 extern char *filename;
 
-void error(char *fmt, ...);
+void error(char *fmt);
 void error_at(char *loc, char *msg);
-bool consume(char *op);
+int consume(char *op);
 Token *consume_kind(TokenKind tkind);
 void expect(char *op);
 int expect_number();
-bool at_eof();
+int at_eof();
 Token *new_token(TokenKind kind, Token *cur, char *str);
 void tokenize();
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);

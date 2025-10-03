@@ -81,7 +81,7 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_TYPEDEF || node->kind == ND_ENUM ||
-        node->kind == ND_STRUCT) {
+        node->kind == ND_STRUCT || node->kind == ND_EXTERN) {
         return;
     }
     if (node->kind == ND_GVALDEF) {

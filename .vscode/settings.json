@@ -68,7 +68,10 @@
     "typeinfo": "c",
     "compare": "c",
     "type_traits": "c",
-    "eightqueen_c": "c"
+    "eightqueen_c": "c",
+    "mainc_pp": "c",
+    "limits": "c",
+    "new": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

@@ -1,5 +1,8 @@
 *~
 *.o
+*.png
 tmp*
 a.out
 mycc
+preprocessor/preprocessor
+optimizer/optimizer
