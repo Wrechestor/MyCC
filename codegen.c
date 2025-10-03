@@ -12,8 +12,8 @@ int gen_lval(Node *node) {
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
         Type *lhstype = estimate_type(node->lhs);
         // if (!lhstype || lhstype->ty != STRUCT) error("左辺がstructではありません");
-        printf("@@@@ lhstype->ty: %d\n",node->lhs->kind,ND_DEREF);
-        if (lhstype)printf("@@@@ lhstype->ty: %d\n",lhstype->ty);
+
+        if (lhstype)printf("# @@@@ lhstype->ty: %d\n",lhstype->ty);
         if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
 
         int offset = 0;

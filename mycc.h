@@ -106,6 +106,19 @@ enum NodeKind {
 };
 typedef enum NodeKind NodeKind;
 
+enum type_t { INT, CHAR, VOID, PTR, ARRAY, STRUCT, MEMBER };
+// 変数の型
+struct Type {
+  enum type_t ty;
+  struct Type *ptr_to;
+  int array_size; // 配列のときの要素数
+  struct Type *member; // structのときの型リスト
+  char *name; // structのときのメンバの名前
+  int len;    // 名前の長さ
+};
+typedef struct Type Type;
+
+
 // 抽象構文木のノードの型
 struct Node {
     NodeKind kind; // ノードの型
@@ -114,22 +127,10 @@ struct Node {
     int val;       // kindがND_NUMの場合のみ使う
     int offset;    // kindがND_LVARの場合のみ使う
     char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
+    struct Type *type;
 };
 typedef struct Node Node;
 
-
-enum type_t { INT, CHAR, VOID, PTR, ARRAY, STRUCT, MEMBER };
-// 変数の型
-struct Type {
-  enum type_t ty;
-    // MEMBER:structの時の型リスト保存用
-  struct Type *ptr_to;
-  int array_size; // 配列のときの要素数
-  struct Type *member; // structのときの型リスト
-  char *name; // structのときのメンバの名前
-  int len;    // 名前の長さ
-};
-typedef struct Type Type;
 
 
 // ローカル変数の型

@@ -218,61 +218,9 @@ int is_type() {
 }
 
 
-// TODO:型推定
 Type *estimate_type(Node *node) {
     if (node==NULL) return NULL;
-    Type *type;
-    if (node->kind == ND_DEREF) {
-        type = estimate_type(node->lhs);
-        return type->ptr_to;
-    }
-    if (node->kind == ND_STRREF) {
-        // TODO:structの多重参照用
-        // Node構築中に型推論しないと無理!
-        // StructDef *strc = find_struct(token);
-        // if (strc) {
-        //     token = token->next;
-        //     type = strc->type;
-        //     is_typefound = 1;
-        // } else {
-        //     token = first;
-        //     return NULL;
-        // }
-    }
-    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
-        LVar *lvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-        for (LVar *var = locals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                lvar = var;
-        if (lvar) {
-            type = lvar->type;
-            return type;
-        }
-        GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-        for (GVar *var = globals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                gvar = var;
-        if (gvar) {
-            type = gvar->type;
-            return type;
-        }
-        // error_at(node->lhs->name,"未定義の変数です");
-    }
-    if (node->kind == ND_FUNCCALL) {
-        GVar *gvar = NULL; // NULL入れておかないと初期値でおかしくなる!!
-        for (GVar *var = globals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                gvar = var;
-        if (gvar) {
-            type = gvar->type;
-            return type;
-        }
-        // error_at(node->lhs->name,"未定義の関数です");
-    }
-    Type *ltype = estimate_type(node->lhs);
-    Type *rtype = estimate_type(node->rhs);
-    // TODO:↓でより深いほうの型を返す or 型一致チェック
-    return (ltype ? ltype : rtype);
+    return node->type;
 }
 
 int size_from_type(Type *type) {
@@ -629,6 +577,11 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     node->kind = kind;
     node->lhs = lhs;
     node->rhs = rhs;
+
+    Type *ltype = lhs ? lhs->type : NULL;
+    Type *rtype = rhs ? rhs->type : NULL;
+    node->type = ltype ? ltype : rtype;
+    if (kind == ND_DEREF) node->type = node->type->ptr_to; // TODO
     return node;
 }
 
@@ -636,6 +589,10 @@ Node *new_node_num(int val) {
     Node *node = calloc(1, sizeof(Node));
     node->kind = ND_NUM;
     node->val = val;
+
+    Type *type = calloc(1, sizeof(type));
+    type->ty = INT;
+    node->type = type;
     return node;
 }
 
@@ -733,6 +690,7 @@ Node *function_gval() {
                 gvar->type = type;
                 gvar->is_extern = 1;
                 node->offset = gvar->addr;
+                node->type = type;
                 globals = gvar;
             }
         }
@@ -966,9 +924,9 @@ Node *function_gval() {
         gvar->addr = totalbytesize;
         gvar->type = type;
         node->offset = gvar->addr;
+        node->type = type;
         globals = gvar;
     } else { // グローバル変数定義
-        // TODO extern
         node->kind = ND_GVALDEF;
         node->name = funcgvalname->str;
         node->val = funcgvalname->len;
@@ -1019,6 +977,7 @@ Node *function_gval() {
                 gvar->addr = totalbytesize;
                 gvar->type = type;
                 node->offset = gvar->addr;
+                node->type = type;
                 globals = gvar;
             }
         }
@@ -1069,6 +1028,7 @@ Node *function_gval() {
                         gvar->addr = totalbytesize;
                         gvar->type = type;
                         node->offset = gvar->addr;
+                        node->type = type;
                         globals = gvar;
                     }
 
@@ -1129,6 +1089,7 @@ Node *function_gval() {
                         gvar->addr = totalbytesize;
                         gvar->type = type;
                         node->offset = gvar->addr;
+                        node->type = type;
                         globals = gvar;
                     }
                 } else {
@@ -1218,6 +1179,7 @@ Node *stmt() {
             lvar->offset = offset;
             lvar->type = type;
             node->offset = offset;
+            node->type = type;
             locals = lvar;
 
             localsnum += totalsize;
@@ -1235,6 +1197,7 @@ Node *stmt() {
             lval->offset = offset;
             lval->name = tok->str;
             lval->val = tok->len;
+            lval->type = type;
             if (consume("{")) { // 配列の初期化
                 int nowindex = 0;
                 Node *assignsubj;
@@ -1299,6 +1262,7 @@ Node *stmt() {
                         lvar->offset = offset;
                         lvar->type = type;
                         node->offset = offset;
+                        node->type = type;
                         locals = lvar;
 
                         localsnum += totalsize;
@@ -1356,6 +1320,7 @@ Node *stmt() {
                         lvar->offset = offset;
                         lvar->type = type;
                         node->offset = offset;
+                        node->type = type;
                         locals = lvar;
 
                         localsnum += totalsize;
@@ -1700,6 +1665,7 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
     int is_strderef;
     for (;;) {
         is_strderef = 0;
+        // TODO:型の設定
         if (consume("[")) {
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
@@ -1751,6 +1717,14 @@ Node *primary() {
         strs = str;
 
         strsnum += 1;
+
+        Type *strtype = calloc(1, sizeof(Type));
+        strtype->ty = PTR;
+        Type *chrtype = calloc(1, sizeof(Type));
+        chrtype->ty = CHAR;
+        strtype->ptr_to = chrtype;
+
+        node->type = strtype;
         return node;
     }
 
@@ -1762,6 +1736,12 @@ Node *primary() {
             node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
+
+            // TODO:返り値の型
+            GVar *gvar = find_gvar(tok);
+            if (gvar) {
+                node->type = gvar->type;
+            }
 
             if (consume(")")){
                 return node;
@@ -1792,12 +1772,14 @@ Node *primary() {
                 node->offset = lvar->offset;
                 node->val = lvar->len;
                 node->name = lvar->name;
+                node->type = lvar->type;
             } else {
                 GVar *gvar = find_gvar(tok);
                 if (gvar) {
                     node->offset = gvar->addr;
                     node->val = gvar->len;
                     node->name = gvar->name;
+                    node->type = gvar->type;
                 } else { // enum
                     token = tok;
                     return new_node_num(expect_number());
