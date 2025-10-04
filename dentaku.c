@@ -49,9 +49,6 @@ char *user_input;
 
 char buf[1024];
 
-void *mycalloc(int a,int b);
-int mystrtol(char *nptr, char **endptr, int base);
-
 Node *expr();
 Node *mul();
 Node *primary();
@@ -114,7 +111,7 @@ int at_eof() {
 // 新しいトークンを作成してcurに繋げる
 // Token *new_token(TokenKind kind, Token *cur, char *str) {
 Token *new_token(TokenKind kind, Token *cur, char *str) {
-	Token *tok = mycalloc(1, sizeof(Token));
+	Token *tok = calloc(1, sizeof(Token));
 	tok->kind = kind;
 	tok->str = str;
 	cur->next = tok;
@@ -126,7 +123,7 @@ Token *tokenize(char *p) {
 	// Token head;
 	// head.next = 0;
 	// Token *cur = &head;
-	Token *head = mycalloc(1,sizeof(Token));
+	Token *head = calloc(1,sizeof(Token));
 	head->next = 0;
 	Token *cur = head;
 
@@ -146,7 +143,7 @@ Token *tokenize(char *p) {
 
 		if ('0' <= *p && *p <= '9') {
 		cur = new_token(TK_NUM, cur, p);
-		cur->val = mystrtol(p, &p, 10);
+		cur->val = strtol(p, &p, 10);
 		continue;
 		}
 
@@ -159,7 +156,7 @@ Token *tokenize(char *p) {
 
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
-    Node *node = mycalloc(1, sizeof(Node));
+    Node *node = calloc(1, sizeof(Node));
     node->kind = kind;
     node->lhs = lhs;
     node->rhs = rhs;
@@ -167,7 +164,7 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
 }
 
 Node *new_node_num(int val) {
-    Node *node = mycalloc(1, sizeof(Node));
+    Node *node = calloc(1, sizeof(Node));
     node->kind = ND_NUM;
     node->val = val;
     return node;
@@ -245,7 +242,7 @@ void gen(Node *node) {
 
 int main(int argc, char **argv) {
 
-	user_input = mycalloc(8192,sizeof(char));
+	user_input = calloc(8192,sizeof(char));
 	scanf("%s",user_input);
 
 	// user_input = buf;

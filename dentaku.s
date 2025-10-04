@@ -60,7 +60,7 @@ user_input:
 buf:
   .zero 1024
 .text
-###  .nodename 7 0x5635406b2bf6
+###  .nodename 7 0x61e007b82ba5
   .globl consume
   .type consume, @function
 consume:
@@ -172,7 +172,7 @@ consume:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 6 0x5635406b2d18
+###  .nodename 6 0x61e007b82cc7
   .globl expect
   .type expect, @function
 expect:
@@ -285,7 +285,7 @@ expect:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 13 0x5635406b2e29
+###  .nodename 13 0x61e007b82dd8
   .globl expect_number
   .type expect_number, @function
 expect_number:
@@ -385,7 +385,7 @@ expect_number:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 6 0x5635406b2ea3
+###  .nodename 6 0x61e007b82e52
   .globl at_eof
   .type at_eof, @function
 at_eof:
@@ -421,7 +421,7 @@ at_eof:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 9 0x5635406b2f4b
+###  .nodename 9 0x61e007b82efa
   .globl new_token
   .type new_token, @function
 new_token:
@@ -448,7 +448,7 @@ new_token:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mycalloc
+  call calloc
   or rsp, r15
   pop r15
   push rax
@@ -533,7 +533,7 @@ new_token:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 8 0x5635406b3033
+###  .nodename 8 0x61e007b82fe0
   .globl tokenize
   .type tokenize, @function
 tokenize:
@@ -558,7 +558,7 @@ tokenize:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mycalloc
+  call calloc
   or rsp, r15
   pop r15
   push rax
@@ -1028,7 +1028,7 @@ tokenize:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mystrtol
+  call strtol
   or rsp, r15
   pop r15
   push rax
@@ -1114,7 +1114,7 @@ tokenize:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 8 0x5635406b329c
+###  .nodename 8 0x61e007b83245
   .globl new_node
   .type new_node, @function
 new_node:
@@ -1141,7 +1141,7 @@ new_node:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mycalloc
+  call calloc
   or rsp, r15
   pop r15
   push rax
@@ -1226,7 +1226,7 @@ new_node:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 12 0x5635406b3353
+###  .nodename 12 0x61e007b832fa
   .globl new_node_num
   .type new_node_num, @function
 new_node_num:
@@ -1251,7 +1251,7 @@ new_node_num:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mycalloc
+  call calloc
   or rsp, r15
   pop r15
   push rax
@@ -1311,7 +1311,7 @@ new_node_num:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 4 0x5635406b33df
+###  .nodename 4 0x61e007b83384
   .globl expr
   .type expr, @function
 expr:
@@ -1482,7 +1482,7 @@ expr:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 3 0x5635406b34d6
+###  .nodename 3 0x61e007b8347b
   .globl mul
   .type mul, @function
 mul:
@@ -1653,7 +1653,7 @@ mul:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 7 0x5635406b35d8
+###  .nodename 7 0x61e007b8357d
   .globl primary
   .type primary, @function
 primary:
@@ -1754,7 +1754,7 @@ primary:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 3 0x5635406b36e7
+###  .nodename 3 0x61e007b8368c
   .globl gen
   .type gen, @function
 gen:
@@ -2026,7 +2026,7 @@ gen:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 4 0x5635406b38bd
+###  .nodename 4 0x61e007b83862
   .globl main
   .type main, @function
 main:
@@ -2049,7 +2049,7 @@ main:
   mov r15, rsp
   and r15, 0xF
   and rsp, -16
-  call mycalloc
+  call calloc
   or rsp, r15
   pop r15
   push rax

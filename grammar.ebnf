@@ -45,5 +45,6 @@ primary    = "(" expr ")" | string
             | ident | num
 
 
-# TODO
-TYPE       = ("int" | "char" | ("struct" ident)) "*"*
+# TODO:int/char以外の型,配列型や関数ポインタ型の整理
+TYPE       = ("int" | "char" | ("struct" ident) | ("enum" ident)
+            | definedtype) "*"*

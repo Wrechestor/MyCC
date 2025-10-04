@@ -22,6 +22,6 @@ test: mycc
 	./test.sh
 
 clean:
-	rm -f mycc *.o *~ tmp* preprocessor/preprocessor optimizer/optimizer
+	rm -f mycc *.o *~ tmp* mycc dent codegenc_pp dentout mycc_s preprocessor/preprocessor optimizer/optimizer
 
-.PHONY: test clean
+.PHONY: all test clean
