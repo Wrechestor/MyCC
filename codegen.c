@@ -12,13 +12,12 @@ int gen_lval(Node *node) {
         return 0;
     }
 
-    if (node->kind == ND_STRREF) { // TODO:struct(特に複数階層の参照)
-        // printf("### begin strref\n");
-        gen_lval(node->lhs);
+    if (node->kind == ND_STRREF) { // TODO:struct
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
+
+        gen_lval(node->lhs);
         Type *lhstype = estimate_type(node->lhs);
 
-        // if (lhstype)printf("# @@@@ lhstype->ty: %d\n",lhstype->ty);
         if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
 
         int offset = 0;
@@ -75,13 +74,11 @@ int gen_lval(Node *node) {
 void gen(Node *node) {
     char *name = calloc(256,sizeof(char));
     int id;
-    // Type *type = NULL; // TODO:NULL
-    Type *type = 0;
+    Type *type = NULL;
     int i;
+    Node *nownode;
 
-
-    // if (node == NULL) { // TODO:NULL
-    if (node == 0) {
+    if (node == NULL) {
         printf("  push rax\n");
         return;
     }
@@ -151,9 +148,9 @@ void gen(Node *node) {
         printf("  push rbp\n");
         printf("  mov rbp, rsp\n");
 
-        Node *tmparg = node;
+        nownode = node;
         i = 0;
-        while (tmparg) {
+        while (nownode) {
             switch (i) {
                 case 0:printf("  push rdi\n");break;
                 case 1:printf("  push rsi\n");break;
@@ -163,20 +160,18 @@ void gen(Node *node) {
                 case 5:printf("  push r9\n"); break;
             }
             if (i >= 6) {
-                // TODO:アライメントの状況はr15
+                // アライメントの状況はr15
                 printf("  push [rbp+r15+%d]\n", 16 + (i - 6) * 8);
             }
-            tmparg = tmparg->lhs;
+            nownode = nownode->lhs;
             i++;
         }
         // ローカル変数用のスタックを確保
         // TODO:8より大きいローカル変数(配列,構造体)
         printf("  sub rsp, %d\n", (localsnum - i) * 8);
 
-
         gen(node->rhs);
         printf("  pop rax\n");
-
 
         // エピローグ
         // 最後の式の結果がRAXに残っているのでそれが返り値になる
@@ -227,33 +222,33 @@ void gen(Node *node) {
         printf("  pop rax\n");
 
         is_inswitch = 1;
-        Node *tmp = node->rhs;
-        while (tmp) {
-            if (tmp->kind == ND_CASE) {
-                printf("  cmp rax, %d\n", tmp->val);
+        nownode = node->rhs;
+        while (nownode) {
+            if (nownode->kind == ND_CASE) {
+                printf("  cmp rax, %d\n", nownode->val);
                 printf("  je .Lcase%d_%d\n", id, caseid);
                 caseid++;
-            } else if (tmp->kind == ND_DEFAULT) {
+            } else if (nownode->kind == ND_DEFAULT) {
                 printf("  jmp .Ldefault%d\n", id);
             }
-            tmp = tmp->rhs;
+            nownode = nownode->rhs;
         }
         printf("  jmp .Lend%d\n", id);
 
         caseid = 0;
-        tmp = node->rhs;
-        while (tmp) {
-            if (tmp->kind == ND_CASE) {
+        nownode = node->rhs;
+        while (nownode) {
+            if (nownode->kind == ND_CASE) {
                 printf(".Lcase%d_%d:\n", id, caseid);
                 caseid++;
-            } else if (tmp->kind == ND_DEFAULT) {
+            } else if (nownode->kind == ND_DEFAULT) {
                 printf(".Ldefault%d:\n", id);
-            } else if (tmp->kind == ND_BLOCK) {
-                gen(tmp->lhs);
+            } else if (nownode->kind == ND_BLOCK) {
+                gen(nownode->lhs);
                 current_switch_id = id;
                 printf("  pop rax\n");
             }
-            tmp = tmp->rhs;
+            nownode = nownode->rhs;
         }
         is_inswitch = 0;
         printf(".Lend%d:\n", id);
@@ -291,8 +286,7 @@ void gen(Node *node) {
         printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); //B
         printf("  pop rax\n");
-        // if (node->rhs->lhs == NULL ){
-        if (node->rhs->lhs == 0 ){ // TODO:NULL// 条件を省略した場合常に真
+        if (node->rhs->lhs == NULL){ // 条件を省略した場合常に真
 
         } else {
         printf("  cmp rax, 0\n");
@@ -373,8 +367,7 @@ void gen(Node *node) {
         printf("  push rax\n");
         return;
     case ND_STRREF:
-        // printf("### $$$ begin strref_R\n");
-        int ty = gen_lval(node); // TODO:structの型推定
+        int ty = gen_lval(node);
         if (ty == ARRAY) {
             // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
             return;
@@ -396,7 +389,6 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  mov rax, [rax]\n");
         printf("  push rax\n");
-        // printf("### $$$ end strref_R\n");
         return;
 	case ND_NUM:
 		printf("  push %d\n", node->val);
@@ -467,18 +459,20 @@ void gen(Node *node) {
     case ND_FUNCCALL: // 関数呼び出し
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
-        // 引数
-        Node *now = node;
-        i=0;
 
-        // TODO:アライメントを元に戻すため
+        nownode = node;
+
+        // アライメントを元に戻すため
         printf("  push r15\n");
 
-        while (now->rhs) {
+        i=0;
+        while (nownode->rhs) {
             i++;
-            now = now->rhs;
-            gen(now->lhs);
+            nownode = nownode->rhs;
+            gen(nownode->lhs);
         }
+
+        // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れるだけ
         int k;
         for (k=0; k<i && k<6; k++){
             printf("  pop rax\n");
@@ -495,8 +489,6 @@ void gen(Node *node) {
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
 
-
-
         // TODO:アライメントの状況をr15に保存しておく
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
@@ -512,7 +504,7 @@ void gen(Node *node) {
         // rspを元に戻す
         printf("  or rsp, r15\n");
 
-        // TODO:アライメントを元に戻すため
+        // アライメントを元に戻すため
         printf("  pop r15\n");
 
         printf("  push rax\n");
@@ -624,8 +616,7 @@ void gen(Node *node) {
 
     int addsize = 1;
     type = estimate_type(node->lhs);
-    // if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
-    if (type != 0 && (type->ty == PTR || type->ty == ARRAY)) { // TODO:NULL
+    if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
     }
 

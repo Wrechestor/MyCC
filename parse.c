@@ -3,8 +3,28 @@
 // 現在着目しているトークン
 Token *token;
 
-// 入力プログラム
+// 入力プログラム文字列
 char *user_input;
+
+// プログラム全体の構文木(各要素は関数,グローバル変数,
+//                  enum,struct,typedefの定義)
+Node *code[100];
+
+// 現在の関数内のローカル変数及びプログラム全体でのリスト
+LVar *locals;
+LVar *LocalsList[100];
+int localsnum;
+int localsnums[100];
+
+// 文字列リテラルのリスト
+Strs *strs;
+int strsnum;
+
+Constant *constants;        // enum定数のリスト
+GVar *globals;              //グローバル変数のリスト
+EnumName *enumnames;        // enum型名のリスト
+StructDef *structdefs;      // struct型のリスト
+DefinedType *definedtypes;  // typedef型名のリスト
 
 // エラーを報告するための関数
 // printfと同じ引数を取る
@@ -147,7 +167,7 @@ int is_alnum(char c) {
 */
 
 
-Type *consume_type() { // TODO:structに対応
+Type *consume_type() {
     Type *type = calloc(1, sizeof(Type));
     Token *first = token;
 
@@ -218,7 +238,6 @@ int is_type() {
     return type!=NULL;
 }
 
-
 Type *estimate_type(Node *node) {
     if (node==NULL) return NULL;
     return node->type;
@@ -228,7 +247,7 @@ int size_from_type(Type *type) {
     int size = 4;
     if (type == NULL) {
         size = 4;
-    } else if (type->ty == VOID) { // TODO:void
+    } else if (type->ty == VOID) {
         size = 0;
     } else if (type->ty == INT) {
         size = 4;
@@ -240,7 +259,7 @@ int size_from_type(Type *type) {
         int arrsize = type->array_size;
         Type *t = type->ptr_to;
         size = size_from_type(t) * arrsize;
-    } else if (type->ty == STRUCT) { // TODO:struct対応
+    } else if (type->ty == STRUCT) {
         size = 0;
         Type *tmp = type->member;
         while (tmp) {
@@ -250,12 +269,6 @@ int size_from_type(Type *type) {
     }
     return size;
 }
-
-
-
-
-
-
 
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
@@ -527,8 +540,24 @@ void tokenize() {
 	token = head.next;
 }
 
-LVar *locals;
-LVar *LocalsList[100];
+/*
+######## #### ##    ## ########
+##        ##  ###   ## ##     ##
+##        ##  ####  ## ##     ##
+######    ##  ## ## ## ##     ##
+##        ##  ##  #### ##     ##
+##        ##  ##   ### ##     ##
+##       #### ##    ## ########
+
+######## ##     ## ##    ##  ######   ######
+##       ##     ## ###   ## ##    ## ##    ##
+##       ##     ## ####  ## ##       ##
+######   ##     ## ## ## ## ##        ######
+##       ##     ## ##  #### ##             ##
+##       ##     ## ##   ### ##    ## ##    ##
+##        #######  ##    ##  ######   ######
+*/
+
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 LVar *find_lvar(Token *tok) {
     LVar *var;
@@ -538,7 +567,6 @@ LVar *find_lvar(Token *tok) {
     return NULL;
 }
 
-GVar *globals;
 // 変数を名前で検索する。見つからなかった場合はNULLを返す。
 GVar *find_gvar(Token *tok) {
     GVar *var;
@@ -548,7 +576,6 @@ GVar *find_gvar(Token *tok) {
     return NULL;
 }
 
-EnumName *enumnames;
 // 定義されたenumを名前で検索する。見つからなかった場合はNULLを返す。
 EnumName *find_enum(Token *tok) {
     EnumName *var;
@@ -558,7 +585,6 @@ EnumName *find_enum(Token *tok) {
     return NULL;
 }
 
-StructDef *structdefs;
 // 定義されたstructを名前で検索する。見つからなかった場合はNULLを返す。
 StructDef *find_struct(Token *tok) {
     StructDef *var;
@@ -568,7 +594,6 @@ StructDef *find_struct(Token *tok) {
     return NULL;
 }
 
-DefinedType *definedtypes;
 // 定義された型を名前で検索する。見つからなかった場合はNULLを返す。
 DefinedType *find_dtype(Token *tok) {
     DefinedType *var;
@@ -621,7 +646,7 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
         return node;
     }
 
-
+    // TODO:ここで型のチェックorキャスト
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
     node->type = ltype ? ltype : rtype;
@@ -640,14 +665,6 @@ Node *new_node_num(int val) {
     return node;
 }
 
-Node *code[100];
-int localsnums[100];
-int localsnum;
-
-Strs *strs;
-int strsnum;
-
-Constant *constants;
 
 /*
 ######## ########  ##    ## ########
@@ -687,7 +704,6 @@ Node *function_gval() {
     Type *type;
 
     if (consume_kind(TK_EXTERN)) { // externグローバル変数定義
-        // TODO extern
         type = consume_type();
         if (!type) error_at(token->str,"extern変数の型がありません");
 
@@ -700,7 +716,6 @@ Node *function_gval() {
         node->val = externname->len;
 
         Token *tok = externname;
-        int undefsize = 0; // sizeを省略したとき1
         int size = 1;
         GVar *gvar;
 
@@ -738,7 +753,6 @@ Node *function_gval() {
                 globals = gvar;
             }
         }
-
         expect(";");
         return node;
     }
@@ -877,7 +891,7 @@ Node *function_gval() {
             dtype->type = type;
             definedtypes = dtype;
             expect(";");
-        return node;
+            return node;
         }
         error_at(token->str,"関数の返り値またはグローバル変数の型がありません");
     }
@@ -933,7 +947,7 @@ Node *function_gval() {
             argsnum++;
         }
 
-        if (consume(";")) { // TODO:プロトタイプ宣言
+        if (consume(";")) { // プロトタイプ宣言
             node->kind = ND_PROTO;
             return node;
         }
@@ -1141,10 +1155,8 @@ Node *function_gval() {
                 }
             }
         }
-
         expect(";");
     }
-
     return node;
 }
 
@@ -1156,16 +1168,12 @@ Node *stmt() {
         node->kind = ND_BLOCK;
         Node *tmp = node;
         for (;;) {
-            if (token->next == NULL) {
-                error("ブロックが閉じていません");
-            }
-            if (consume("}")) {
-                break;
-            }
+            if (token->next == NULL) error("ブロックが閉じていません");
+            if (consume("}")) break;
+
             tmp->lhs = stmt();
-            if (consume("}")) { // 要らないけどツリーを整理するため
-                break;
-            }
+            if (consume("}")) break; // 要らないけどツリーを整理するため
+
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
@@ -1375,12 +1383,12 @@ Node *stmt() {
             }
             node = top;
         }
-
         expect(";");
     } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
-        if (consume(";")) node->lhs = new_node_num(0); // return;はreturn 0;と等価
+        if (consume(";"))
+            node->lhs = new_node_num(0); // return;はreturn 0;と等価
         else {
             node->lhs = expr();
             expect(";");
@@ -1419,7 +1427,7 @@ Node *stmt() {
             if (consume_kind(TK_CASE)){
                 tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_CASE;
-                tmp->val = expect_number(); // TODO:caseに数値以外の定数
+                tmp->val = expect_number();
                 expect(":");
             } else if (consume_kind(TK_DEFAULT)){
                 tmp = calloc(1, sizeof(Node));
@@ -1435,7 +1443,6 @@ Node *stmt() {
         }
         node = top;
     } else if (consume_kind(TK_WHILE)) {
-        // "while" "(" expr ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_WHILE;
@@ -1443,7 +1450,6 @@ Node *stmt() {
         expect(")");
         node->rhs = stmt();
     } else if (consume_kind(TK_FOR)) {
-        // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_FOR;
@@ -1481,7 +1487,6 @@ Node *stmt() {
         node = expr();
         expect(";");
     }
-
 	return node;
 }
 
@@ -1493,9 +1498,8 @@ Node *comma(){
     Node *node = assign();
     for (;;) {
         if (consume(","))
-        node = new_node(ND_COMMA, node, assign());
-        else
-        return node;
+            node = new_node(ND_COMMA, node, assign());
+        else return node;
     }
 }
 
@@ -1545,9 +1549,8 @@ Node *logicOR(){
     Node *node = logicAND();
     for (;;) {
         if (consume("||"))
-        node = new_node(ND_LOGICOR, node, logicAND());
-        else
-        return node;
+            node = new_node(ND_LOGICOR, node, logicAND());
+        else return node;
     }
 }
 
@@ -1555,9 +1558,8 @@ Node *logicAND(){
     Node *node = bitOR();
     for (;;) {
         if (consume("&&"))
-        node = new_node(ND_LOGICAND, node, bitOR());
-        else
-        return node;
+            node = new_node(ND_LOGICAND, node, bitOR());
+        else return node;
     }
 }
 
@@ -1565,9 +1567,8 @@ Node *bitOR(){
     Node *node = bitXOR();
     for (;;) {
         if (consume("|"))
-        node = new_node(ND_BITOR, node, bitXOR());
-        else
-        return node;
+            node = new_node(ND_BITOR, node, bitXOR());
+        else return node;
     }
 }
 
@@ -1575,9 +1576,8 @@ Node *bitXOR(){
     Node *node = bitAND();
     for (;;) {
         if (consume("^"))
-        node = new_node(ND_BITXOR, node, bitAND());
-        else
-        return node;
+            node = new_node(ND_BITXOR, node, bitAND());
+        else return node;
     }
 }
 
@@ -1585,9 +1585,8 @@ Node *bitAND(){
     Node *node = equality();
     for (;;) {
         if (consume("&"))
-        node = new_node(ND_BITAND, node, equality());
-        else
-        return node;
+            node = new_node(ND_BITAND, node, equality());
+        else return node;
     }
 }
 
@@ -1596,11 +1595,10 @@ Node *equality() {
 
     for (;;) {
         if (consume("=="))
-        node = new_node(ND_EQ, node, relational());
+            node = new_node(ND_EQ, node, relational());
         else if (consume("!="))
-        node = new_node(ND_NEQ, node, relational());
-        else
-        return node;
+            node = new_node(ND_NEQ, node, relational());
+        else return node;
     }
 }
 
@@ -1609,15 +1607,14 @@ Node *relational() {
 
     for (;;) {
         if (consume("<"))
-        node = new_node(ND_LES, node, shift());
+            node = new_node(ND_LES, node, shift());
         else if (consume("<="))
-        node = new_node(ND_LEQ, node, shift());
+            node = new_node(ND_LEQ, node, shift());
         else if (consume(">"))
-        node = new_node(ND_LES, shift(), node);
+            node = new_node(ND_LES, shift(), node);
         else if (consume(">="))
-        node = new_node(ND_LEQ, shift(), node);
-        else
-        return node;
+            node = new_node(ND_LEQ, shift(), node);
+        else return node;
     }
 }
 
@@ -1626,11 +1623,10 @@ Node *shift() {
 
     for (;;) {
         if (consume("<<"))
-        node = new_node(ND_LSHIFT, node, add());
+            node = new_node(ND_LSHIFT, node, add());
         else if (consume(">>"))
-        node = new_node(ND_RSHIFT, node, add());
-        else
-        return node;
+            node = new_node(ND_RSHIFT, node, add());
+        else return node;
     }
 }
 
@@ -1639,11 +1635,10 @@ Node *add() {
 
     for (;;) {
         if (consume("+"))
-        node = new_node(ND_ADD, node, mul());
+            node = new_node(ND_ADD, node, mul());
         else if (consume("-"))
-        node = new_node(ND_SUB, node, mul());
-        else
-        return node;
+            node = new_node(ND_SUB, node, mul());
+        else return node;
     }
 }
 
@@ -1652,29 +1647,38 @@ Node *mul() {
 
     for (;;) {
         if (consume("*"))
-        node = new_node(ND_MUL, node, unary());
+            node = new_node(ND_MUL, node, unary());
         else if (consume("/"))
-        node = new_node(ND_DIV, node, unary());
+            node = new_node(ND_DIV, node, unary());
         else if (consume("%"))
-        node = new_node(ND_REM, node, unary());
-        else
-        return node;
+            node = new_node(ND_REM, node, unary());
+        else return node;
     }
 }
 
-
 Node *unary() {
     if (consume_kind(TK_SIZEOF)) {
-        // TODO:sizeof 型名 のとき
+        // 参考: https://qiita.com/yohhoy/items/a2ab2900a2bd36c31879
+        // sizeofと括弧() [★★★]
+        // sizeof演算子には、そのオペランドに 式(expression) をとるものと、
+        // 型名(type-name) をとるものの2種類が存在します。
+        // オペランドに 式 をとる場合、括弧は任意です。
+        // オペランドに 型名 をとる場合、括弧は必須です。
+        // unary-expression:
+        //      sizeof unary-expression
+        //      sizeof ( type-name )
         int parens = 0;
-        while (consume("(")) parens++;
-        Type *type = consume_type();
+        Type *type = NULL;
+        if (consume("(")) {
+            type = consume_type();
+            parens = 1;
+        }
         if (!type){
             Node *node = unary();
             type = estimate_type(node);
         }
         int size = size_from_type(type);
-        while (parens-- > 0) expect(")");
+        if (parens) expect(")");
         return new_node_num(size);
     }
 
@@ -1691,10 +1695,9 @@ Node *unary() {
         return new_node(ND_LOGICNOT, unary(), NULL);
     if (consume("~"))
         return new_node(ND_BITNOT, unary(), NULL);
-
-	if (consume("+"))
+	if (consume("+")) // 単項+
 		return postpos();
-	if (consume("-"))
+	if (consume("-")) // 単項-
 		return new_node(ND_SUB, new_node_num(0), postpos());
     if (consume("&"))
         return new_node(ND_ADDR, unary(), NULL);
@@ -1703,7 +1706,7 @@ Node *unary() {
 	return postpos();
 }
 
-Node *postpos() { // TODO:配列アクセス(優先順位は?)
+Node *postpos() {
     Node *node = primary();
 
     int is_strderef;
@@ -1711,9 +1714,8 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
         is_strderef = 0;
         // TODO:型の設定
         if (consume("[")) {
-        // x[y] -> *(x+y)
-        node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
-        expect("]");
+            node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
+            expect("]");
         } else if (consume(".") || (is_strderef = consume("->"))) {
             Token *tok = consume_kind(TK_IDENT);
             if (!tok) error_at(tok->str,"メンバ名が識別子でありません");
@@ -1727,7 +1729,7 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
             if (is_strderef)
                 node = new_node(ND_STRREF, new_node(ND_DEREF, node, NULL), membername);
             else node = new_node(ND_STRREF, node, membername);
-            node->name = tok->str; // TODO:debug
+            node->name = tok->str; // for debug
             node->val = tok->len;
         } else break;
     }
@@ -1735,13 +1737,11 @@ Node *postpos() { // TODO:配列アクセス(優先順位は?)
         node = new_node(ND_POSTINCR, node, NULL);
     } else if (consume("--")) {
         node = new_node(ND_POSTDECR, node, NULL);
-    } else
-        return node;
+    } else return node;
 }
 
 Node *primary() {
-    // 次のトークンが"("なら、"(" expr ")"のはず
-    if (consume("(")) {
+    if (consume("(")) { // 括弧
         Node *node = expr();
         expect(")");
         return node;
@@ -1776,36 +1776,34 @@ Node *primary() {
     tok = consume_kind(TK_IDENT);
     if (tok) {
         if (consume("(")) { // 関数呼び出し
+            // TODO: postpos()内に移す(関数名or関数ポインタを評価→関数呼び出し)
             Node *node = calloc(1, sizeof(Node));
             node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
 
-            // TODO:返り値の型
+            // 返り値の型
             GVar *gvar = find_gvar(tok);
-            if (gvar) {
-                node->type = gvar->type;
-            }
+            if (gvar) node->type = gvar->type;
 
-            if (consume(")")){
-                return node;
-            } else {
-                // ここで逆順にしておく
-                Node *tmp = calloc(1, sizeof(Node));
+            if (consume(")")) return node;
+
+            // ここで逆順にしておく
+            Node *tmp = calloc(1, sizeof(Node));
+            tmp->kind = ND_ARG;
+            tmp->lhs = assign();
+
+            Node *now = tmp;
+            while (consume(",")) {
+                tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_ARG;
                 tmp->lhs = assign();
-
-                Node *now = tmp;
-                while (consume(",")) {
-                    tmp = calloc(1, sizeof(Node));
-                    tmp->kind = ND_ARG;
-                    tmp->lhs = assign();
-                    tmp->rhs = now;
-                    now = tmp;
-                }
-                node->rhs = now;
-                expect(")");
+                tmp->rhs = now;
+                now = tmp;
             }
+            node->rhs = now;
+            expect(")");
+
             return node;
         } else { // 変数
             Node *node = calloc(1, sizeof(Node));

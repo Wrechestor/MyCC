@@ -60,7 +60,7 @@ user_input:
 buf:
   .zero 1024
 .text
-###  .nodename 7 0x61e007b82ba5
+###  .nodename 7 0x626087471ba5
   .globl consume
   .type consume, @function
 consume:
@@ -172,7 +172,7 @@ consume:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 6 0x61e007b82cc7
+###  .nodename 6 0x626087471cc7
   .globl expect
   .type expect, @function
 expect:
@@ -285,7 +285,7 @@ expect:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 13 0x61e007b82dd8
+###  .nodename 13 0x626087471dd8
   .globl expect_number
   .type expect_number, @function
 expect_number:
@@ -385,7 +385,7 @@ expect_number:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 6 0x61e007b82e52
+###  .nodename 6 0x626087471e52
   .globl at_eof
   .type at_eof, @function
 at_eof:
@@ -421,7 +421,7 @@ at_eof:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 9 0x61e007b82efa
+###  .nodename 9 0x626087471efa
   .globl new_token
   .type new_token, @function
 new_token:
@@ -533,7 +533,7 @@ new_token:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 8 0x61e007b82fe0
+###  .nodename 8 0x626087471fe0
   .globl tokenize
   .type tokenize, @function
 tokenize:
@@ -1114,7 +1114,7 @@ tokenize:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 8 0x61e007b83245
+###  .nodename 8 0x626087472245
   .globl new_node
   .type new_node, @function
 new_node:
@@ -1226,7 +1226,7 @@ new_node:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 12 0x61e007b832fa
+###  .nodename 12 0x6260874722fa
   .globl new_node_num
   .type new_node_num, @function
 new_node_num:
@@ -1311,7 +1311,7 @@ new_node_num:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 4 0x61e007b83384
+###  .nodename 4 0x626087472384
   .globl expr
   .type expr, @function
 expr:
@@ -1482,7 +1482,7 @@ expr:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 3 0x61e007b8347b
+###  .nodename 3 0x62608747247b
   .globl mul
   .type mul, @function
 mul:
@@ -1653,7 +1653,7 @@ mul:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 7 0x61e007b8357d
+###  .nodename 7 0x62608747257d
   .globl primary
   .type primary, @function
 primary:
@@ -1754,7 +1754,7 @@ primary:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 3 0x61e007b8368c
+###  .nodename 3 0x62608747268c
   .globl gen
   .type gen, @function
 gen:
@@ -2026,7 +2026,7 @@ gen:
   mov rsp, rbp
   pop rbp
   ret
-###  .nodename 4 0x61e007b83862
+###  .nodename 4 0x626087472862
   .globl main
   .type main, @function
 main:

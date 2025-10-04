@@ -70,19 +70,7 @@ assert 4    'int main(){return 1<2 ? 3,4 : 5;}'
 assert 5    'int main(){return sizeof(int)+sizeof(char);}'
 assert 3   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
 
-
 assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
-
-
-# TODO:複数変数の宣言 int x,y; (ポインタの仕様に注意)
-# TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト
-# TODO:グローバル変数はまとめて最初に置かなければだめ,ローカル変数に配列やstructを使えない(ポインタのみ)
-
-# TODO:ブロックスコープ
-# BLOCKまたは関数定義のNodeにLVar *localsを持たせ, 変数が使われるときは
-# Nodeのツリーを上向きに遡ってローカル変数定義を探す
-# →①Nodeのツリーに親へのポインタを持たせる
-# ②変数定義(Rspを下げる,localsへの登録等)はパース時ではなくgenで行う
 
 
 echo -e "\e[32mOK\e[m"

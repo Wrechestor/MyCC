@@ -129,7 +129,7 @@ char *typeToStr(Type *type) {
             case ARRAY:sprintf(buf,"[%d]",type->array_size);strcat(ret,buf);break;
             case STRUCT:strcat(ret,"struct");break;
             case MEMBER:strcat(ret,"MEMBER");break;
-
+            default:break;
         }
         type = type->ptr_to;
     }
@@ -190,9 +190,8 @@ int main(int argc, char **argv) {
     program();
 
 
-    // TODO:グラフを出力
+    // グラフを出力
     if (argc == 3 && strcmp(argv[2],"-g")==0) {
-        // グラフを出力
         int nodeid = 1;
         printf("graph parsegraph {\n");
         for (int i = 0; code[i]; i++) {
@@ -201,7 +200,6 @@ int main(int argc, char **argv) {
         printf("}\n");
         return 0;
     }
-
 
 	// アセンブリの前半部分を出力
 	printf(".intel_syntax noprefix\n");
