@@ -18,14 +18,17 @@ int gen_lval(Node *node) {
         gen_lval(node->lhs);
         Type *lhstype = estimate_type(node->lhs);
 
-        if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
+        if (!lhstype || lhstype->ty != STRUCT)
+            error_at(node->name, "左辺がstructではありません");
 
         int offset = 0;
 
         Type *now = lhstype->member;
         for (;;) {
-            if (!now) error("structのメンバ名が存在しません");
-            if (now->ty != MEMBER) error("不正な構文木:member");
+            if (!now)
+                error("structのメンバ名が存在しません");
+            if (now->ty != MEMBER)
+                error("不正な構文木:member");
             if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
                 break;
             offset += size_from_type(now->ptr_to);
@@ -59,7 +62,7 @@ int gen_lval(Node *node) {
     tok->len = node->val;
     GVar *gvar = find_gvar(tok);
     if (gvar) { // グローバル変数
-        char *name = calloc(256,sizeof(char));
+        char *name = calloc(256, sizeof(char));
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
 
@@ -72,7 +75,7 @@ int gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
-    char *name = calloc(256,sizeof(char));
+    char *name = calloc(256, sizeof(char));
     int id;
     Type *type = NULL;
     int i;
@@ -123,11 +126,20 @@ void gen(Node *node) {
         Node *initval = node->rhs;
         int nowindex = 0;
         int remainsize = node->offset;
-        while(initval) {
-            switch(size){
-                case 1:printf("  .byte %d\n", initval->val);remainsize-=1;break;
-                case 4:printf("  .long %d\n", initval->val);remainsize-=4;break;
-                case 8:printf("  .quad %d\n", initval->val);remainsize-=8;break;
+        while (initval) {
+            switch (size) {
+            case 1:
+                printf("  .byte %d\n", initval->val);
+                remainsize -= 1;
+                break;
+            case 4:
+                printf("  .long %d\n", initval->val);
+                remainsize -= 4;
+                break;
+            case 8:
+                printf("  .quad %d\n", initval->val);
+                remainsize -= 8;
+                break;
             }
             initval = initval->rhs;
             nowindex++;
@@ -152,12 +164,24 @@ void gen(Node *node) {
         i = 0;
         while (nownode) {
             switch (i) {
-                case 0:printf("  push rdi\n");break;
-                case 1:printf("  push rsi\n");break;
-                case 2:printf("  push rdx\n");break;
-                case 3:printf("  push rcx\n");break;
-                case 4:printf("  push r8\n"); break;
-                case 5:printf("  push r9\n"); break;
+            case 0:
+                printf("  push rdi\n");
+                break;
+            case 1:
+                printf("  push rsi\n");
+                break;
+            case 2:
+                printf("  push rdx\n");
+                break;
+            case 3:
+                printf("  push rcx\n");
+                break;
+            case 4:
+                printf("  push r8\n");
+                break;
+            case 5:
+                printf("  push r9\n");
+                break;
             }
             if (i >= 6) {
                 // アライメントの状況はr15
@@ -180,7 +204,6 @@ void gen(Node *node) {
         printf("  ret\n");
         return;
     }
-
 
     if (node->kind == ND_BLOCK) {
         gen(node->lhs);
@@ -282,20 +305,20 @@ void gen(Node *node) {
         current_loop_id = id;
         branch_label++;
         // for (A; B; C) D
-        gen(node->lhs); //A
+        gen(node->lhs); // A
         printf(".Lbegin%d:\n", id);
-        gen(node->rhs->lhs); //B
+        gen(node->rhs->lhs); // B
         printf("  pop rax\n");
-        if (node->rhs->lhs == NULL){ // 条件を省略した場合常に真
+        if (node->rhs->lhs == NULL) { // 条件を省略した場合常に真
 
         } else {
-        printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", id);
+            printf("  cmp rax, 0\n");
+            printf("  je  .Lend%d\n", id);
         }
         is_inloop = 1;
-        gen(node->rhs->rhs->rhs); //D
+        gen(node->rhs->rhs->rhs); // D
         printf(".Lcontinue%d:\n", id);
-        gen(node->rhs->rhs->lhs); //C
+        gen(node->rhs->rhs->lhs); // C
         is_inloop = 0;
         current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
@@ -306,7 +329,8 @@ void gen(Node *node) {
     if (node->kind == ND_BREAK) {
         if (is_inloop || is_inswitch) {
             id = current_loop_id;
-            if (current_switch_id > id) id = current_switch_id;
+            if (current_switch_id > id)
+                id = current_switch_id;
             printf("  jmp .Lend%d\n", id);
         } else {
             error("breakの位置が不正です");
@@ -331,8 +355,7 @@ void gen(Node *node) {
         return;
     }
 
-
-	switch (node->kind) {
+    switch (node->kind) {
     case ND_ADDR:
         gen_lval(node->lhs);
         return;
@@ -390,9 +413,9 @@ void gen(Node *node) {
         printf("  mov rax, [rax]\n");
         printf("  push rax\n");
         return;
-	case ND_NUM:
-		printf("  push %d\n", node->val);
-		return;
+    case ND_NUM:
+        printf("  push %d\n", node->val);
+        return;
     case ND_QUOTE:
         printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
         // printf("  lea	rax, .LC%d[rip]\n", node->val);
@@ -465,7 +488,7 @@ void gen(Node *node) {
         // アライメントを元に戻すため
         printf("  push r15\n");
 
-        i=0;
+        i = 0;
         while (nownode->rhs) {
             i++;
             nownode = nownode->rhs;
@@ -474,15 +497,27 @@ void gen(Node *node) {
 
         // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れるだけ
         int k;
-        for (k=0; k<i && k<6; k++){
+        for (k = 0; k < i && k < 6; k++) {
             printf("  pop rax\n");
             switch (k) {
-                case 0:printf("  mov rdi, rax\n");break;
-                case 1:printf("  mov rsi, rax\n");break;
-                case 2:printf("  mov rdx, rax\n");break;
-                case 3:printf("  mov rcx, rax\n");break;
-                case 4:printf("  mov r8, rax\n");break;
-                case 5:printf("  mov r9, rax\n");break;
+            case 0:
+                printf("  mov rdi, rax\n");
+                break;
+            case 1:
+                printf("  mov rsi, rax\n");
+                break;
+            case 2:
+                printf("  mov rdx, rax\n");
+                break;
+            case 3:
+                printf("  mov rcx, rax\n");
+                break;
+            case 4:
+                printf("  mov r8, rax\n");
+                break;
+            case 5:
+                printf("  mov r9, rax\n");
+                break;
             }
         }
 
@@ -511,75 +546,75 @@ void gen(Node *node) {
         return;
     }
 
-    if (node->kind == ND_COND){
+    if (node->kind == ND_COND) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
-        printf("  je .Lcond1_%d\n",id);
+        printf("  je .Lcond1_%d\n", id);
         gen(node->rhs->lhs);
-        printf("  jmp .Lcond2_%d\n",id);
-        printf(".Lcond1_%d:\n",id);
+        printf("  jmp .Lcond2_%d\n", id);
+        printf(".Lcond1_%d:\n", id);
         gen(node->rhs->rhs);
-        printf(".Lcond2_%d:\n",id);
+        printf(".Lcond2_%d:\n", id);
         return;
     }
 
-    if (node->kind == ND_LOGICOR){
+    if (node->kind == ND_LOGICOR) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
-        printf("  jne .Lor1_%d\n",id);
+        printf("  jne .Lor1_%d\n", id);
         gen(node->rhs);
         printf("  pop rdi\n");
         printf("  cmp rdi, 0\n");
-        printf("  je .Lor2_%d\n",id);
-        printf(".Lor1_%d:\n",id);
+        printf("  je .Lor2_%d\n", id);
+        printf(".Lor1_%d:\n", id);
         printf("  mov rax, 1\n");
-        printf("  jmp .Lorend_%d\n",id);
-        printf(".Lor2_%d:\n",id);
+        printf("  jmp .Lorend_%d\n", id);
+        printf(".Lor2_%d:\n", id);
         printf("  mov rax, 0\n");
-        printf(".Lorend_%d:\n",id);
+        printf(".Lorend_%d:\n", id);
         printf("  push rax\n");
         return;
     }
 
-    if (node->kind == ND_LOGICAND){
+    if (node->kind == ND_LOGICAND) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
-        printf("  je .Lor1_%d\n",id);
+        printf("  je .Lor1_%d\n", id);
         gen(node->rhs);
         printf("  pop rdi\n");
         printf("  cmp rdi, 0\n");
-        printf("  je .Lor1_%d\n",id);
+        printf("  je .Lor1_%d\n", id);
         printf("  mov rax, 1\n");
-        printf("  jmp .Lorend_%d\n",id);
-        printf(".Lor1_%d:\n",id);
+        printf("  jmp .Lorend_%d\n", id);
+        printf(".Lor1_%d:\n", id);
         printf("  mov rax, 0\n");
-        printf(".Lorend_%d:\n",id);
+        printf(".Lorend_%d:\n", id);
         printf("  push rax\n");
         return;
     }
 
-    if (node->kind == ND_COMMA){
+    if (node->kind == ND_COMMA) {
         gen(node->lhs);
         printf("  pop rax\n");
         gen(node->rhs);
         return;
     }
 
-    if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR){
+    if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
         gen_lval(node->lhs);
 
         printf("  pop rax\n");
         printf("  mov rdi, [rax]\n");
-        if (node->kind == ND_POSTINCR){
+        if (node->kind == ND_POSTINCR) {
             printf("  add rdi, 1\n");
         } else {
             printf("  sub rdi, 1\n");
@@ -608,11 +643,11 @@ void gen(Node *node) {
         return;
     }
 
-	gen(node->lhs);
-	gen(node->rhs);
+    gen(node->lhs);
+    gen(node->rhs);
 
-	printf("  pop rdi\n");
-	printf("  pop rax\n");
+    printf("  pop rdi\n");
+    printf("  pop rax\n");
 
     int addsize = 1;
     type = estimate_type(node->lhs);
@@ -620,74 +655,76 @@ void gen(Node *node) {
         addsize = size_from_type(type->ptr_to);
     }
 
-	switch (node->kind) {
-	case ND_ADD:
-        if (addsize != 1) printf("  imul rdi, %d\n", addsize);
-		printf("  add rax, rdi\n");
-		break;
-	case ND_SUB:
-        if (addsize != 1) printf("  imul rdi, %d\n", addsize);
-		printf("  sub rax, rdi\n");
-		break;
-	case ND_MUL:
-		printf("  imul rax, rdi\n");
-		break;
-	case ND_DIV:
-		printf("  cqo\n");
-		printf("  idiv rdi\n");
-		break;
-	case ND_REM:
-		printf("  cqo\n");
-		printf("  idiv rdi\n");
+    switch (node->kind) {
+    case ND_ADD:
+        if (addsize != 1)
+            printf("  imul rdi, %d\n", addsize);
+        printf("  add rax, rdi\n");
+        break;
+    case ND_SUB:
+        if (addsize != 1)
+            printf("  imul rdi, %d\n", addsize);
+        printf("  sub rax, rdi\n");
+        break;
+    case ND_MUL:
+        printf("  imul rax, rdi\n");
+        break;
+    case ND_DIV:
+        printf("  cqo\n");
+        printf("  idiv rdi\n");
+        break;
+    case ND_REM:
+        printf("  cqo\n");
+        printf("  idiv rdi\n");
         printf("  push rdx\n");
         return;
-		break;
-	case ND_LSHIFT:
-		printf("  mov rcx, rdi\n");
-		printf("  shl rax, cl\n");
-		break;
-	case ND_RSHIFT: // TODO:符号拡張
-		printf("  mov rcx, rdi\n");
-		printf("  shr rax, cl\n");
-		break;
+        break;
+    case ND_LSHIFT:
+        printf("  mov rcx, rdi\n");
+        printf("  shl rax, cl\n");
+        break;
+    case ND_RSHIFT: // TODO:符号拡張
+        printf("  mov rcx, rdi\n");
+        printf("  shr rax, cl\n");
+        break;
     case ND_BITOR:
-		printf("  or rax, rdi\n");
+        printf("  or rax, rdi\n");
         break;
     case ND_BITXOR:
-		printf("  xor rax, rdi\n");
+        printf("  xor rax, rdi\n");
         break;
     case ND_BITAND:
-		printf("  and rax, rdi\n");
+        printf("  and rax, rdi\n");
         break;
     case ND_BITNOT:
-		printf("  not rax\n");
+        printf("  not rax\n");
         break;
-	case ND_LOGICNOT:
-		printf("  cmp rax, 0\n");
-		printf("  setne al\n");
-		printf("  movzb rax, al\n");
-		break;
-	case ND_EQ:
-		printf("  cmp rax, rdi\n");
-		printf("  sete al\n");
-		printf("  movzb rax, al\n");
-		break;
-	case ND_NEQ:
-		printf("  cmp rax, rdi\n");
-		printf("  setne al\n");
-		printf("  movzb rax, al\n");
-		break;
-	case ND_LES:
-		printf("  cmp rax, rdi\n");
-		printf("  setl al\n");
-		printf("  movzb rax, al\n");
-		break;
-	case ND_LEQ:
-		printf("  cmp rax, rdi\n");
-		printf("  setle al\n");
-		printf("  movzb rax, al\n");
-		break;
-	}
+    case ND_LOGICNOT:
+        printf("  cmp rax, 0\n");
+        printf("  setne al\n");
+        printf("  movzb rax, al\n");
+        break;
+    case ND_EQ:
+        printf("  cmp rax, rdi\n");
+        printf("  sete al\n");
+        printf("  movzb rax, al\n");
+        break;
+    case ND_NEQ:
+        printf("  cmp rax, rdi\n");
+        printf("  setne al\n");
+        printf("  movzb rax, al\n");
+        break;
+    case ND_LES:
+        printf("  cmp rax, rdi\n");
+        printf("  setl al\n");
+        printf("  movzb rax, al\n");
+        break;
+    case ND_LEQ:
+        printf("  cmp rax, rdi\n");
+        printf("  setle al\n");
+        printf("  movzb rax, al\n");
+        break;
+    }
 
-	printf("  push rax\n");
+    printf("  push rax\n");
 }

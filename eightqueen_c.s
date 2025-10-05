@@ -8,7 +8,6 @@
 .LC0:
   .string "%d\n"
 .text
-.bss
   .globl row
   .data
 row:
@@ -26,13 +25,15 @@ bt_count:
 tn_count:
   .zero 4
 .text
+###  .nodename 3 0x5a76c0cdc4cb
   .globl abs
+  .type abs, @function
 abs:
   push rbp
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 0
+  sub rsp, -8
   mov rax, rbp
   sub rax, 8
   push rax
@@ -64,7 +65,9 @@ abs:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
 .Lendif0:
+  push rax
   pop rax
   mov rax, rbp
   sub rax, 8
@@ -82,14 +85,16 @@ abs:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 7 0x5a76c0cdc51e
   .globl testNth
+  .type testNth, @function
 testNth:
   push rbp
   mov rbp, rsp
   push rdi
   push rsi
   push rdx
-  sub rsp, 8
+  sub rsp, 0
   mov rax, OFFSET FLAT:tn_count
   push rax
   mov rax, OFFSET FLAT:tn_count
@@ -188,6 +193,7 @@ testNth:
   pop rax
   cmp rax, 0
   jne .Lor1_3
+  push r15
   mov rax, rbp
   sub rax, 8
   push rax
@@ -235,11 +241,12 @@ testNth:
   pop rax
   mov rdi, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call abs
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   mov rax, rbp
   sub rax, 16
@@ -281,7 +288,9 @@ testNth:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
 .Lendif2:
+  push rax
   pop rax
   push rax
 .Lcontinue1:
@@ -317,7 +326,9 @@ testNth:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 12 0x5a76c0cdc62a
   .globl backtracking
+  .type backtracking, @function
 backtracking:
   push rbp
   mov rbp, rsp
@@ -325,7 +336,7 @@ backtracking:
   push rsi
   push rdx
   push rcx
-  sub rsp, 0
+  sub rsp, -8
   mov rax, OFFSET FLAT:bt_count
   push rax
   mov rax, OFFSET FLAT:bt_count
@@ -401,6 +412,7 @@ backtracking:
   pop rax
   cmp rax, 0
   je  .Lend4
+  push r15
   mov rax, rbp
   sub rax, 16
   push rax
@@ -418,11 +430,12 @@ backtracking:
   pop rax
   mov rsi, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call testNth
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
   cmp rax, 0
@@ -471,8 +484,10 @@ backtracking:
   push rdi
   pop rax
   push rax
+  pop rax
   jmp .Lendif6
 .Lelse6:
+  push r15
   mov rax, rbp
   sub rax, 24
   push rax
@@ -503,18 +518,23 @@ backtracking:
   pop rax
   mov rdx, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call backtracking
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
   push rax
+  pop rax
 .Lendif6:
+  push rax
   pop rax
   push rax
+  pop rax
 .Lendif5:
+  push rax
   pop rax
   push rax
 .Lcontinue4:
@@ -578,12 +598,15 @@ backtracking:
   mov rsp, rbp
   pop rbp
   ret
+###  .nodename 4 0x5a76c0cdca3e
   .globl main
+  .type main, @function
 main:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 0
+  sub rsp, -8
+  push r15
   push 8
   push 0
   mov rax, OFFSET FLAT:row
@@ -595,13 +618,15 @@ main:
   pop rax
   mov rdx, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call backtracking
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
+  push r15
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax
@@ -614,13 +639,15 @@ main:
   pop rax
   mov rsi, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call printf
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
+  push r15
   mov rax, OFFSET FLAT:bt_count
   push rax
   pop rax
@@ -633,13 +660,15 @@ main:
   pop rax
   mov rsi, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call printf
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
+  push r15
   mov rax, OFFSET FLAT:tn_count
   push rax
   pop rax
@@ -652,11 +681,12 @@ main:
   pop rax
   mov rsi, rax
   mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
+  mov r15, rsp
+  and r15, 0xF
   and rsp, -16
   call printf
-  or rsp, rbx
+  or rsp, r15
+  pop r15
   push rax
   pop rax
   mov rax, OFFSET FLAT:g_count

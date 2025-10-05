@@ -1,6 +1,7 @@
 *~
 *.o
 *.png
+*.pdf
 tmp*
 a.out
 mycc

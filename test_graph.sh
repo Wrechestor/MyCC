@@ -46,5 +46,6 @@ assert() {
 # assert 2 'typedef char *chrptr; char a[] = {1,2,3,4,5};int main(){chrptr p=a; return p[1];}'
 # assert 7   'struct MyStruct {int a;int b;int c;};typedef struct MyStruct MyStrc;MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
 
+# assert 7   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
 
-assert 7   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
+assert 3    'int x=3; int y=5; int main(){ int *z; z=&y; return *z;}'

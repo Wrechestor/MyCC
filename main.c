@@ -37,79 +37,103 @@ char *read_file(char *path) {
     return buf;
 }
 
-
 char *nodeToStr(Node *node) {
     char *namebuf = calloc(1, sizeof(char) * 100);
-    if(node->name) strncpy(namebuf, node->name, node->val);
+    if (node->name)
+        strncpy(namebuf, node->name, node->val);
     char *ret = calloc(1, sizeof(char) * 100);
     switch (node->kind) {
-        case ND_ADD: return "+";
-        case ND_SUB: return "-";
-        case ND_MUL: return "*";
-        case ND_DIV: return "/";
-        case ND_LES: return "&lt;";
-        case ND_LEQ: return "&lt;=";
-        case ND_EQ: return "==";
-        case ND_NEQ: return "!=";
-        case ND_ASSIGN: return "=";
-        case ND_LOGICOR: return "||";
-        case ND_LOGICAND: return "&amp;&amp;";
-        case ND_BITOR: return "|";
-        case ND_BITXOR: return "^";
-        case ND_BITAND: return "&amp;";
-        case ND_COMMA: return ",";
-        case ND_REM: return "%";
-        case ND_LSHIFT: return "&lt;&lt;";
-        case ND_RSHIFT: return "&gt;&gt;";
-        case ND_LOGICNOT: return "!";
-        case ND_BITNOT: return "~";
-        case ND_POSTINCR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>++";
-        case ND_POSTDECR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>--";
-        case ND_COND: return "?";
-        case ND_COLON: return ":";
-        case ND_STRREF: return ".";
-        case ND_MEMBER: sprintf(ret, "%s", namebuf);  return ret;
-        case ND_SIZEOF: return "sizeof";
-        case ND_RETURN: return "return";
-        case ND_IF: return "if";
-        case ND_ELSE: return "then | else";
-        case ND_WHILE: return "while";
-        case ND_FOR: return "for";
-        case ND_BREAK: return "break";
-        case ND_CONTINUE: return "continue";
-        case ND_SWITCH: return "switch";
-        case ND_CASE: sprintf(ret, "case %d", node->val); return ret;
-        case ND_DEFAULT: return "default";
-        case ND_FORSUP: return "FORSUP";
-        case ND_BLOCK: return "BLOCK";
-        case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf);  return ret;
-        case ND_STRUCT: sprintf(ret, "STRUCT(%s)", namebuf);  return ret;
-        case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf);  return ret;
-        case ND_EXTERN: sprintf(ret, "EXTERN(%s)", namebuf);  return ret;
-        case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
-        case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
-        case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf);  return ret;
-        case ND_PROTO: sprintf(ret, "PROTO(%s)", namebuf);  return ret;
-        case ND_ARG: return "ARG";
-        case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
-        case ND_DEREF: return "*<FONT POINT-SIZE='12.0'>(DEREF)</FONT>";
-        case ND_VALDEF: sprintf(ret, "LVAL(%s) @%d", namebuf, node->offset); return ret;
-        case ND_GVALDEF: sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset); return ret;
-        case ND_QUOTE:
-
+    case ND_ADD: return "+";
+    case ND_SUB: return "-";
+    case ND_MUL: return "*";
+    case ND_DIV: return "/";
+    case ND_LES: return "&lt;";
+    case ND_LEQ: return "&lt;=";
+    case ND_EQ: return "==";
+    case ND_NEQ: return "!=";
+    case ND_ASSIGN: return "=";
+    case ND_LOGICOR: return "||";
+    case ND_LOGICAND: return "&amp;&amp;";
+    case ND_BITOR: return "|";
+    case ND_BITXOR: return "^";
+    case ND_BITAND: return "&amp;";
+    case ND_COMMA: return ",";
+    case ND_REM: return "%";
+    case ND_LSHIFT: return "&lt;&lt;";
+    case ND_RSHIFT: return "&gt;&gt;";
+    case ND_LOGICNOT: return "!";
+    case ND_BITNOT: return "~";
+    case ND_POSTINCR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>++";
+    case ND_POSTDECR: return "<FONT POINT-SIZE='12.0'>(POST)</FONT>--";
+    case ND_COND: return "?";
+    case ND_COLON: return ":";
+    case ND_STRREF: return ".";
+    case ND_MEMBER:
+        sprintf(ret, "%s", namebuf);
+        return ret;
+    case ND_SIZEOF: return "sizeof";
+    case ND_RETURN: return "return";
+    case ND_IF: return "if";
+    case ND_ELSE: return "then | else";
+    case ND_WHILE: return "while";
+    case ND_FOR: return "for";
+    case ND_BREAK: return "break";
+    case ND_CONTINUE: return "continue";
+    case ND_SWITCH: return "switch";
+    case ND_CASE:
+        sprintf(ret, "case %d", node->val);
+        return ret;
+    case ND_DEFAULT: return "default";
+    case ND_FORSUP: return "FORSUP";
+    case ND_BLOCK: return "BLOCK";
+    case ND_ENUM:
+        sprintf(ret, "ENUM(%s)", namebuf);
+        return ret;
+    case ND_STRUCT:
+        sprintf(ret, "STRUCT(%s)", namebuf);
+        return ret;
+    case ND_TYPEDEF:
+        sprintf(ret, "TYPEDEF(%s)", namebuf);
+        return ret;
+    case ND_EXTERN:
+        sprintf(ret, "EXTERN(%s)", namebuf);
+        return ret;
+    case ND_LVAR:
+        sprintf(ret, "%s", namebuf);
+        return ret;
+    case ND_FUNCCALL:
+        sprintf(ret, "CALL(%s)", namebuf);
+        return ret;
+    case ND_FUNCDEF:
+        sprintf(ret, "FUNC(%s)", namebuf);
+        return ret;
+    case ND_PROTO:
+        sprintf(ret, "PROTO(%s)", namebuf);
+        return ret;
+    case ND_ARG: return "ARG";
+    case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
+    case ND_DEREF: return "*<FONT POINT-SIZE='12.0'>(DEREF)</FONT>";
+    case ND_VALDEF:
+        sprintf(ret, "LVAL(%s) @%d", namebuf, node->offset);
+        return ret;
+    case ND_GVALDEF:
+        sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset);
+        return ret;
+    case ND_QUOTE:
         int strid = node->val;
         Strs *nowstr = strs;
-        while(nowstr) {
-            if(nowstr->id == strid){
+        while (nowstr) {
+            if (nowstr->id == strid) {
                 strncpy(namebuf, nowstr->text, nowstr->len);
                 break;
             }
             nowstr = nowstr->next;
         }
         sprintf(ret, "\\\"%s\\\"", namebuf);
-
         return ret;
-        case ND_NUM: sprintf(ret, "%d", node->val); return ret;
+    case ND_NUM:
+        sprintf(ret, "%d", node->val);
+        return ret;
     }
     return "";
 }
@@ -122,14 +146,30 @@ char *typeToStr(Type *type) {
 
     while (type) {
         switch (type->ty) {
-            case INT:strcat(ret,"int");break;
-            case CHAR:strcat(ret,"char");break;
-            case VOID:strcat(ret,"void");break;
-            case PTR:strcat(ret,"*");break;
-            case ARRAY:sprintf(buf,"[%d]",type->array_size);strcat(ret,buf);break;
-            case STRUCT:strcat(ret,"struct");break;
-            case MEMBER:strcat(ret,"MEMBER");break;
-            default:break;
+        case INT:
+            strcat(ret, "int");
+            break;
+        case CHAR:
+            strcat(ret, "char");
+            break;
+        case VOID:
+            strcat(ret, "void");
+            break;
+        case PTR:
+            strcat(ret, "*");
+            break;
+        case ARRAY:
+            sprintf(buf, "[%d]", type->array_size);
+            strcat(ret, buf);
+            break;
+        case STRUCT:
+            strcat(ret, "struct");
+            break;
+        case MEMBER:
+            strcat(ret, "MEMBER");
+            break;
+        default:
+            break;
         }
         type = type->ptr_to;
     }
@@ -146,7 +186,8 @@ int gengraph(Node *node, int nodeid) {
     }
 
     printf(" node%d [label=<%s", nowid, nodeToStr(node));
-    if (node->type) printf("<br/><FONT COLOR='BLUE' POINT-SIZE='8.0'>%s</FONT>", typeToStr(node->type));
+    if (node->type)
+        printf("<br/><FONT COLOR='BLUE' POINT-SIZE='8.0'>%s</FONT>", typeToStr(node->type));
     printf(">");
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
@@ -172,26 +213,25 @@ int gengraph(Node *node, int nodeid) {
 }
 
 int main(int argc, char **argv) {
-	// if (argc != 2) {
-	// 	error("引数の個数が正しくありません");
-	// 	return 1;
-	// }
-	if (argc < 2) {
-		error("引数の個数が正しくありません");
-		return 1;
-	}
+    // if (argc != 2) {
+    // 	error("引数の個数が正しくありません");
+    // 	return 1;
+    // }
+    if (argc < 2) {
+        error("引数の個数が正しくありません");
+        return 1;
+    }
 
     filename = argv[1];
 
     // トークナイズしてパースする
     // 結果はcodeに保存される
-	user_input = read_file(filename);
-	tokenize(user_input);
+    user_input = read_file(filename);
+    tokenize(user_input);
     program();
 
-
     // グラフを出力
-    if (argc == 3 && strcmp(argv[2],"-g")==0) {
+    if (argc == 3 && strcmp(argv[2], "-g") == 0) {
         int nodeid = 1;
         printf("graph parsegraph {\n");
         for (int i = 0; code[i]; i++) {
@@ -201,9 +241,9 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-	// アセンブリの前半部分を出力
-	printf(".intel_syntax noprefix\n");
-	// printf(".text\n");
+    // アセンブリの前半部分を出力
+    printf(".intel_syntax noprefix\n");
+    // printf(".text\n");
 
     // 文字列リテラル
     Strs *strsptr = strs;
@@ -224,7 +264,8 @@ int main(int argc, char **argv) {
 
     int last_gloval_index = -1;
     for (int i = 0; code[i]; i++) {
-        if (code[i]->kind == ND_GVALDEF) last_gloval_index = i;
+        if (code[i]->kind == ND_GVALDEF)
+            last_gloval_index = i;
     }
 
     if (-1 == last_gloval_index) {
@@ -243,5 +284,5 @@ int main(int argc, char **argv) {
         }
     }
 
-	return 0;
+    return 0;
 }
