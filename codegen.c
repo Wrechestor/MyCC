@@ -187,6 +187,7 @@ void gen(Node *node) {
             }
             if (i >= 6) {
                 // アライメントの状況はr15
+                // TODO:ここ違う?
                 printf("  push [rbp+r15+%d]\n", 16 + (i - 6) * 8);
             }
             nownode = nownode->lhs;
@@ -705,7 +706,7 @@ void gen(Node *node) {
         break;
     case ND_LOGICNOT:
         printf("  cmp rax, 0\n");
-        printf("  setne al\n");
+        printf("  sete al\n");
         printf("  movzb rax, al\n");
         break;
     case ND_EQ:

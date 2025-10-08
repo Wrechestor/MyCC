@@ -284,5 +284,22 @@ int main(int argc, char **argv) {
         }
     }
 
+    // // TODO:グローバル変数を先に処理する
+    // for (int i = 0; code[i]; i++) {
+    //     if (code[i]->kind == ND_GVALDEF) {
+    //         gen(code[i]);
+    //     }
+    // }
+    // printf(".text\n");
+
+    // // 先頭の式から順にコード生成
+    // for (int i = 0; code[i]; i++) {
+    //     if (code[i]->kind != ND_GVALDEF) {
+    //         localsnum = localsnums[i];
+    //         locals = LocalsList[i];
+    //         gen(code[i]);
+    //     }
+    // }
+
     return 0;
 }
