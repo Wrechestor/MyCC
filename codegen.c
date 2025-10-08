@@ -318,7 +318,7 @@ void gen(Node *node) {
             printf("  cmp rax, 0\n");
             printf("  je  .Lend%d\n", id);
         }
-        is_inloop_old = is_inloop;
+        is_inloop_old = is_inloop; // TODO:これis_inloop++と--でいいかも?
         is_inloop = 1;
         gen(node->rhs->rhs->rhs); // D
         printf(".Lcontinue%d:\n", id);

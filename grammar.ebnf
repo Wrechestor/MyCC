@@ -4,9 +4,11 @@ function_gval = TYPE ident "(" (TYPE ident)* ")" "{" stmt* "}" # 関数定義
                 | TYPE ident ("[" num "]")* "[]"?
                     ("=" ("{" (num ("," num)*)? "}") | num | string )? ";"
                 | "extern" TYPE ident ("[" num "]")*
-                | "enum" ident "{" ident ("," ident)* "}" ";"
-                | "struct" ident "{" (TYPE ident ";")* "}" ";"
-                | "typedef" TYPE ident ";"
+                | define_enum  ";"
+                | define_struct ";"
+                | "typedef" (TYPE | define_enum | define_struct) ident ";"
+define_enum = "enum" ident "{" ident ("," ident)* "}"
+define_struct = "struct" ident "{" (TYPE ident ";")* "}"
 stmt = { stmt* }
         | TYPE ident ("[" num "]")* "[]"?
             ("=" ("{" (num ("," num))? "}") | num | string )? ";"
@@ -65,4 +67,3 @@ TYPE       = ("int" | "char" | ("struct" ident) | ("enum" ident)
 # →①Nodeのツリーに親へのポインタを持たせる
 # ②変数定義(Rspを下げる,localsへの登録等)はパース時ではなくgenで行う
 # TODO:for内での宣言 for(int i=0; ...)
-

@@ -214,6 +214,7 @@ struct DefinedType {
     struct DefinedType *next;
     char *name;
     int len;
+    int is_defined; // 型定義がすでにあるかどうか
     Type *type;
 };
 typedef struct DefinedType DefinedType;
@@ -257,6 +258,8 @@ int size_from_type(Type *type);
 
 void program();
 Node *function_gval();
+Node *define_enum();
+Node *define_struct();
 Node *stmt();
 Node *expr();
 Node *comma();
