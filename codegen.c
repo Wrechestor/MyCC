@@ -80,6 +80,8 @@ void gen(Node *node) {
     Type *type = NULL;
     int i;
     Node *nownode;
+    int is_inloop_old;
+    int is_inswitch_old;
 
     if (node == NULL) {
         printf("  push rax\n");
@@ -243,7 +245,7 @@ void gen(Node *node) {
         int caseid = 0;
         gen(node->lhs);
         printf("  pop rax\n");
-
+        is_inswitch_old = is_inswitch;
         is_inswitch = 1;
         nownode = node->rhs;
         while (nownode) {
@@ -273,7 +275,7 @@ void gen(Node *node) {
             }
             nownode = nownode->rhs;
         }
-        is_inswitch = 0;
+        is_inswitch = is_inswitch_old;
         printf(".Lend%d:\n", id);
         printf("  push rax\n");
         return;
@@ -289,10 +291,11 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
+        is_inloop_old = is_inloop;
         is_inloop = 1;
         gen(node->rhs);
         printf("  pop rax\n");
-        is_inloop = 0;
+        is_inloop = is_inloop_old;
         current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
@@ -315,11 +318,12 @@ void gen(Node *node) {
             printf("  cmp rax, 0\n");
             printf("  je  .Lend%d\n", id);
         }
+        is_inloop_old = is_inloop;
         is_inloop = 1;
         gen(node->rhs->rhs->rhs); // D
         printf(".Lcontinue%d:\n", id);
         gen(node->rhs->rhs->lhs); // C
-        is_inloop = 0;
+        is_inloop = is_inloop_old;
         current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
