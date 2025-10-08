@@ -1,0 +1,5 @@
+・bool → int, true → 1, false → 0, NULL → 0
+・error(), error_at() → exit()
+・グローバル変数宣言は関数宣言より前に
+・extern宣言は消す
+・tokenizeのheadをcallocに

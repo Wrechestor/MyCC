@@ -278,11 +278,20 @@ int size_from_type(Type *type) {
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
     char *p = user_input;
-    Token head;
-    head.next = NULL;
-    Token *cur = &head;
+    Token *head = calloc(1, sizeof(Token));
+    head->next = NULL;
+    Token *cur = head;
 
+    int is_linehead = 1;
+    int linenumber = 1;
     while (*p) {
+        if (*p == '\n') {
+            is_linehead = 1;
+            linenumber++;
+            p++;
+            continue;
+        }
+
         // 空白文字をスキップ
         if (isspace(*p)) {
             p++;
@@ -321,6 +330,9 @@ void tokenize() {
             }
             cur = new_token(TK_QUOTE, cur, p + 1);
             cur->len = q - p - 1;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p = q + 1;
             continue;
         }
@@ -328,6 +340,9 @@ void tokenize() {
         if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_RETURN, cur, p);
             cur->len = 6;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 6;
             continue;
         }
@@ -335,6 +350,9 @@ void tokenize() {
         if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
             cur = new_token(TK_IF, cur, p);
             cur->len = 2;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 2;
             continue;
         }
@@ -342,6 +360,9 @@ void tokenize() {
         if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
             cur = new_token(TK_ELSE, cur, p);
             cur->len = 4;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 4;
             continue;
         }
@@ -349,6 +370,9 @@ void tokenize() {
         if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
             cur = new_token(TK_WHILE, cur, p);
             cur->len = 5;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 5;
             continue;
         }
@@ -356,6 +380,9 @@ void tokenize() {
         if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
             cur = new_token(TK_FOR, cur, p);
             cur->len = 3;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 3;
             continue;
         }
@@ -363,6 +390,9 @@ void tokenize() {
         if (strncmp(p, "break", 5) == 0 && !is_alnum(p[5])) {
             cur = new_token(TK_BREAK, cur, p);
             cur->len = 5;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 5;
             continue;
         }
@@ -370,6 +400,9 @@ void tokenize() {
         if (strncmp(p, "continue", 8) == 0 && !is_alnum(p[8])) {
             cur = new_token(TK_CONTINUE, cur, p);
             cur->len = 8;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 8;
             continue;
         }
@@ -377,6 +410,9 @@ void tokenize() {
         if (strncmp(p, "switch", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_SWITCH, cur, p);
             cur->len = 6;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 6;
             continue;
         }
@@ -384,6 +420,9 @@ void tokenize() {
         if (strncmp(p, "case", 4) == 0 && !is_alnum(p[4])) {
             cur = new_token(TK_CASE, cur, p);
             cur->len = 4;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 4;
             continue;
         }
@@ -391,6 +430,9 @@ void tokenize() {
         if (strncmp(p, "default", 7) == 0 && !is_alnum(p[7])) {
             cur = new_token(TK_DEFAULT, cur, p);
             cur->len = 7;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 7;
             continue;
         }
@@ -398,6 +440,9 @@ void tokenize() {
         if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 3;
             continue;
         }
@@ -405,6 +450,9 @@ void tokenize() {
         if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
             cur = new_token(TK_CHAR, cur, p);
             cur->len = 4;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 4;
             continue;
         }
@@ -412,6 +460,9 @@ void tokenize() {
         if (strncmp(p, "void", 4) == 0 && !is_alnum(p[4])) {
             cur = new_token(TK_VOID, cur, p);
             cur->len = 4;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 4;
             continue;
         }
@@ -419,6 +470,9 @@ void tokenize() {
         if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_SIZEOF, cur, p);
             cur->len = 6;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 6;
             continue;
         }
@@ -426,6 +480,9 @@ void tokenize() {
         if (strncmp(p, "enum", 4) == 0 && !is_alnum(p[4])) {
             cur = new_token(TK_ENUM, cur, p);
             cur->len = 4;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 4;
             continue;
         }
@@ -433,6 +490,9 @@ void tokenize() {
         if (strncmp(p, "struct", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_STRUCT, cur, p);
             cur->len = 6;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 6;
             continue;
         }
@@ -440,6 +500,9 @@ void tokenize() {
         if (strncmp(p, "typedef", 7) == 0 && !is_alnum(p[7])) {
             cur = new_token(TK_TYPEDEF, cur, p);
             cur->len = 7;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 7;
             continue;
         }
@@ -447,6 +510,9 @@ void tokenize() {
         if (strncmp(p, "extern", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_EXTERN, cur, p);
             cur->len = 6;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 6;
             continue;
         }
@@ -455,6 +521,9 @@ void tokenize() {
             strncmp(p, "<<=", 3) == 0) {
             cur = new_token(TK_RESERVED, cur, p);
             cur->len = 3;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 3;
             continue;
         }
@@ -480,6 +549,9 @@ void tokenize() {
             strncmp(p, "->", 2) == 0) {
             cur = new_token(TK_RESERVED, cur, p);
             cur->len = 2;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p += 2;
             continue;
         }
@@ -499,6 +571,9 @@ void tokenize() {
             *p == '.') {
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             continue;
         }
 
@@ -522,6 +597,9 @@ void tokenize() {
                     error_at(p, "不正な文字リテラルです");
                 p += 3;
             }
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             continue;
         }
 
@@ -533,6 +611,9 @@ void tokenize() {
         if (q > p) {
             cur = new_token(TK_IDENT, cur, p);
             cur->len = q - p;
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             p = q;
             continue;
         }
@@ -540,6 +621,9 @@ void tokenize() {
         if (isdigit(*p)) {
             cur = new_token(TK_NUM, cur, p);
             cur->val = strtol(p, &p, 10);
+            cur->is_linehead = is_linehead;
+            cur->linenumber = linenumber;
+            is_linehead = 0;
             continue;
         }
 
@@ -550,7 +634,7 @@ void tokenize() {
     }
 
     new_token(TK_EOF, cur, p);
-    token = head.next;
+    token = head->next;
 }
 
 /*
@@ -636,6 +720,7 @@ DefinedType *find_dtype(Token *tok) {
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Node *node = calloc(1, sizeof(Node));
+    node->srctoken = token;
     Type *now;
     node->kind = kind;
     node->lhs = lhs;
@@ -665,6 +750,16 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
     node->type = ltype ? ltype : rtype;
+
+    // TODO:配列がバグってた?(ポインタにキャストされるため)
+    // TODO:
+    if (ltype && ltype->ty == ARRAY && (node->kind == ND_ADD || node->kind == ND_SUB)) {
+        Type *new = calloc(1, sizeof(Type));
+        new->ty = PTR;
+        new->ptr_to = ltype->ptr_to;
+        node->type = new;
+    }
+
     if (kind == ND_DEREF)
         node->type = node->type->ptr_to;
     if (kind == ND_ADDR) {
@@ -678,6 +773,7 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
 
 Node *new_node_num(int val) {
     Node *node = calloc(1, sizeof(Node));
+    node->srctoken = token;
     node->kind = ND_NUM;
     node->val = val;
 
@@ -721,6 +817,7 @@ void program() {
 Node *define_enum() {
     Node *node;
     node = calloc(1, sizeof(Node));
+    node->srctoken = token;
     if (consume_kind(TK_ENUM)) { // TODO:enum
         node->kind = ND_ENUM;
         int num = 0;
@@ -780,6 +877,7 @@ Node *define_enum() {
 Node *define_struct() {
     Node *node;
     node = calloc(1, sizeof(Node));
+    node->srctoken = token;
     if (consume_kind(TK_STRUCT)) { // TODO:struct
         node->kind = ND_STRUCT;
         int num = 0;
@@ -840,6 +938,7 @@ Node *define_struct() {
 Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
+    node->srctoken = token;
 
     Type *type;
 
@@ -994,6 +1093,7 @@ Node *function_gval() {
 
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->srctoken = token;
             tmp2->kind = ND_VALDEF;
             tmp2->name = argname->str;
             tmp2->val = argname->len;
@@ -1030,6 +1130,7 @@ Node *function_gval() {
 
         expect("{");
         Node *tmp = calloc(1, sizeof(Node));
+        tmp->srctoken = token;
         tmp->kind = ND_BLOCK;
         node->rhs = tmp;
         for (;;) {
@@ -1043,6 +1144,7 @@ Node *function_gval() {
                 break; // 要らないけどツリーを整理するため
 
             Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->srctoken = token;
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
             tmp = tmp2;
@@ -1121,6 +1223,7 @@ Node *function_gval() {
         // グローバル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->srctoken = token;
             tmp2->kind = ND_GVALDEF;
 
             node->rhs = tmp2;
@@ -1135,6 +1238,7 @@ Node *function_gval() {
                     int nowval = expect_number();
                     while (consume(",")) {
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_GVALDEF;
 
                         tmp2->val = nowval;
@@ -1197,6 +1301,7 @@ Node *function_gval() {
                     char *nowchr = tokquo->str;
                     while (nowindex < tokquo->len) {
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_GVALDEF;
 
                         tmp2->val = *nowchr;
@@ -1241,6 +1346,7 @@ Node *stmt() {
 
     if (consume("{")) { // Block
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_BLOCK;
         Node *tmp = node;
         for (;;) {
@@ -1254,6 +1360,7 @@ Node *stmt() {
                 break; // 要らないけどツリーを整理するため
 
             Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->srctoken = token;
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
             tmp = tmp2;
@@ -1261,6 +1368,7 @@ Node *stmt() {
 
     } else if (is_type()) { // ローカル変数定義
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_VALDEF;
 
         Type *type = consume_type();
@@ -1319,12 +1427,14 @@ Node *stmt() {
         // ローカル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->srctoken = token;
             tmp2->kind = ND_BLOCK;
             tmp2->lhs = node;
 
             Node *top = tmp2;
 
             Node *lval = calloc(1, sizeof(Node));
+            lval->srctoken = token;
             lval->kind = ND_LVAR;
             lval->offset = offset;
             lval->name = tok->str;
@@ -1337,6 +1447,7 @@ Node *stmt() {
                 if (consume("}")) {
                     while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_BLOCK;
                         assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                         tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
@@ -1352,6 +1463,7 @@ Node *stmt() {
                     Node *nownode = assign();
                     while (consume(",")) {
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_BLOCK;
                         assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                         tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
@@ -1364,6 +1476,7 @@ Node *stmt() {
                     }
                     while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_BLOCK;
                         assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                         tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
@@ -1411,6 +1524,7 @@ Node *stmt() {
                     char *nowchr = tokquo->str;
                     while (nowindex < tokquo->len) {
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_BLOCK;
                         assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                         tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(*nowchr));
@@ -1423,6 +1537,7 @@ Node *stmt() {
                     }
                     while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
                         Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->srctoken = token;
                         tmp3->kind = ND_BLOCK;
                         assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                         tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
@@ -1466,6 +1581,7 @@ Node *stmt() {
         expect(";");
     } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_RETURN;
         if (consume(";"))
             node->lhs = new_node_num(0); // return;はreturn 0;と等価
@@ -1475,15 +1591,18 @@ Node *stmt() {
         }
     } else if (consume_kind(TK_BREAK)) {
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_BREAK;
         expect(";");
     } else if (consume_kind(TK_CONTINUE)) {
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_CONTINUE;
         expect(";");
     } else if (consume_kind(TK_IF)) {
         expect("(");
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_IF;
         node->lhs = expr();
         expect(")");
@@ -1495,6 +1614,7 @@ Node *stmt() {
     } else if (consume_kind(TK_SWITCH)) {
         expect("(");
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_SWITCH;
         node->lhs = expr();
         expect(")");
@@ -1507,15 +1627,18 @@ Node *stmt() {
 
             if (consume_kind(TK_CASE)) {
                 tmp = calloc(1, sizeof(Node));
+                tmp->srctoken = token;
                 tmp->kind = ND_CASE;
                 tmp->val = expect_number();
                 expect(":");
             } else if (consume_kind(TK_DEFAULT)) {
                 tmp = calloc(1, sizeof(Node));
+                tmp->srctoken = token;
                 tmp->kind = ND_DEFAULT;
                 expect(":");
             } else {
                 tmp = calloc(1, sizeof(Node));
+                tmp->srctoken = token;
                 tmp->kind = ND_BLOCK;
                 tmp->lhs = stmt();
             }
@@ -1526,6 +1649,7 @@ Node *stmt() {
     } else if (consume_kind(TK_WHILE)) {
         expect("(");
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_WHILE;
         node->lhs = expr();
         expect(")");
@@ -1533,6 +1657,7 @@ Node *stmt() {
     } else if (consume_kind(TK_FOR)) {
         expect("(");
         node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_FOR;
         if (consume(";")) {
             node->lhs = NULL;
@@ -1542,6 +1667,7 @@ Node *stmt() {
         }
 
         Node *tmp = calloc(1, sizeof(Node));
+        tmp->srctoken = token;
         tmp->kind = ND_FORSUP;
         if (consume(";")) {
             tmp->lhs = NULL;
@@ -1552,6 +1678,7 @@ Node *stmt() {
         node->rhs = tmp;
 
         Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->srctoken = token;
         tmp2->kind = ND_FORSUP;
         if (consume(")")) {
             tmp2->lhs = NULL;
@@ -1815,6 +1942,7 @@ Node *postpos() {
                 error_at(tok->str, "メンバ名が識別子でありません");
 
             Node *membername = calloc(1, sizeof(Node));
+            membername->srctoken = token;
             membername->kind = ND_MEMBER;
             membername->name = tok->str;
             membername->val = tok->len;
@@ -1847,6 +1975,7 @@ Node *primary() {
     Token *tok = consume_kind(TK_QUOTE);
     if (tok) { // 文字列リテラル
         Node *node = calloc(1, sizeof(Node));
+        node->srctoken = token;
         node->kind = ND_QUOTE;
         node->val = strsnum;
 
@@ -1875,6 +2004,7 @@ Node *primary() {
         if (consume("(")) { // 関数呼び出し
             // TODO: postpos()内に移す(関数名or関数ポインタを評価→関数呼び出し)
             Node *node = calloc(1, sizeof(Node));
+            node->srctoken = token;
             node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
@@ -1889,12 +2019,14 @@ Node *primary() {
 
             // ここで逆順にしておく
             Node *tmp = calloc(1, sizeof(Node));
+            tmp->srctoken = token;
             tmp->kind = ND_ARG;
             tmp->lhs = assign();
 
             Node *now = tmp;
             while (consume(",")) {
                 tmp = calloc(1, sizeof(Node));
+                tmp->srctoken = token;
                 tmp->kind = ND_ARG;
                 tmp->lhs = assign();
                 tmp->rhs = now;
@@ -1906,6 +2038,7 @@ Node *primary() {
             return node;
         } else { // 変数
             Node *node = calloc(1, sizeof(Node));
+            node->srctoken = token;
             node->kind = ND_LVAR;
 
             LVar *lvar = find_lvar(tok);

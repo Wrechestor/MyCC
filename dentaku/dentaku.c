@@ -72,7 +72,7 @@ Token *token;
 // 入力プログラム
 char *user_input;
 
-Node *code[100];
+Node *code[256];
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
@@ -141,7 +141,7 @@ void tokenize() {
     Token *cur = head;
 
     while (*p) {
-        printf("### %c \n", *p);
+        // printf("### %c\n", *p);
         // 空白文字をスキップ
         if (isspace(*p)) {
             p++;
@@ -297,7 +297,6 @@ Node *unary() {
 }
 
 Node *primary() {
-    printf("### prim %s \n", token->str);
     Node *node;
     // 次のトークンが"("なら、"(" expr ")"のはず
     if (consume("(")) {
@@ -402,19 +401,18 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    printf("### input = '%s'\n", argv[1]);
-
     // トークナイズしてパースする
     // 結果はcodeに保存される
     user_input = argv[1];
-    tokenize(user_input);
+    // tokenize(user_input);
+    tokenize();
 
-    Token *now = token;
-    printf("### toke oareroi ");
-    while (now) {
-        printf(" %d", now->kind);
-        now = now->next;
-    }
+    // Token *now = token;
+    // printf("### toke oareroi ");
+    // while (now) {
+    //     printf(" %d", now->kind);
+    //     now = now->next;
+    // }
     // printf("a \n"); // TODO:これあるとSEGV!!(アライメントの問題?)
 
     program();

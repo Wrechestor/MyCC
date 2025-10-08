@@ -88,6 +88,17 @@ void gen(Node *node) {
         return;
     }
 
+    if (node->srctoken && node->srctoken->is_linehead) {
+        printf("### %d    ", node->srctoken->linenumber);
+        char *p = node->srctoken->str;
+        while (*p) {
+            putchar(*p);
+            if (*p == '\n')
+                break;
+            p++;
+        }
+    }
+
     if (node->kind == ND_VALDEF) {
         printf("  push rax\n");
         return;
@@ -151,7 +162,6 @@ void gen(Node *node) {
         return;
     }
     if (node->kind == ND_FUNCDEF) {
-        printf("###  .nodename %d %p\n", node->val, node->name);
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("  .globl %s\n", name);
@@ -162,7 +172,7 @@ void gen(Node *node) {
         printf("  push rbp\n");
         printf("  mov rbp, rsp\n");
 
-        nownode = node;
+        nownode = node->lhs;
         i = 0;
         while (nownode) {
             switch (i) {
@@ -197,8 +207,14 @@ void gen(Node *node) {
         // TODO:8より大きいローカル変数(配列,構造体)
         printf("  sub rsp, %d\n", (localsnum - i) * 8);
 
+        // // アライメントを元に戻すため
+        // printf("  push r15\n");
+
         gen(node->rhs);
         printf("  pop rax\n");
+
+        // // アライメントを元に戻すため
+        // printf("  pop r15\n");
 
         // エピローグ
         // 最後の式の結果がRAXに残っているのでそれが返り値になる
@@ -490,7 +506,7 @@ void gen(Node *node) {
 
         nownode = node;
 
-        // アライメントを元に戻すため
+        // アライメントを元に戻すため // TODO:アライメント
         printf("  push r15\n");
 
         i = 0;
@@ -527,7 +543,7 @@ void gen(Node *node) {
         }
 
         // ALに引数の浮動小数点数の数を入れる
-        printf("  mov eax, 0\n");
+        printf("  mov rax, 0\n");
 
         // TODO:アライメントの状況をr15に保存しておく
         // スタックアライメント
@@ -544,7 +560,7 @@ void gen(Node *node) {
         // rspを元に戻す
         printf("  or rsp, r15\n");
 
-        // アライメントを元に戻すため
+        // アライメントを元に戻すため // TODO:アライメント
         printf("  pop r15\n");
 
         printf("  push rax\n");
@@ -616,34 +632,47 @@ void gen(Node *node) {
 
     if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
         gen_lval(node->lhs);
-
-        printf("  pop rax\n");
-        printf("  mov rdi, [rax]\n");
-        if (node->kind == ND_POSTINCR) {
-            printf("  add rdi, 1\n");
-        } else {
-            printf("  sub rdi, 1\n");
-        }
-
         type = estimate_type(node->lhs);
+
         if (type) {
             if (type->ty == ARRAY) {
                 error("配列には代入できません");
             }
             if (type->ty == CHAR) {
                 // char型のときは1バイト書きこむ
-                printf("  push [rax]\n");
-                printf("  mov [rax], dil\n");
+                printf("  pop rax\n");
+                printf("  movzx edx, BYTE PTR [rax]\n");
+                printf("  push rdi\n");
+                if (node->kind == ND_POSTINCR) {
+                    printf("  add rdi, 1\n");
+                } else {
+                    printf("  sub rdi, 1\n");
+                }
+                printf("  mov BYTE PTR [rax], dil\n");
                 return;
             }
             if (type->ty == INT) {
                 // int型のときは4バイト書きこむ
-                printf("  push [rax]\n");
+                printf("  pop rax\n");
+                printf("  mov edi, DWORD PTR [rax]\n");
+                printf("  push rdi\n");
+                if (node->kind == ND_POSTINCR) {
+                    printf("  add rdi, 1\n");
+                } else {
+                    printf("  sub rdi, 1\n");
+                }
                 printf("  mov DWORD PTR [rax], edi\n");
                 return;
             }
         }
-        printf("  push [rax]\n");
+        printf("  pop rax\n");
+        printf("  mov rdi, [rax]\n");
+        printf("  push rdi\n");
+        if (node->kind == ND_POSTINCR) {
+            printf("  add rdi, 1\n");
+        } else {
+            printf("  sub rdi, 1\n");
+        }
         printf("  mov [rax], rdi\n");
         return;
     }

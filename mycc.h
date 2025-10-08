@@ -43,6 +43,8 @@ struct Token {
     int val;            // kindがTK_NUMの場合、その数値
     char *str;          // トークン文字列
     int len;            // トークンの長さ
+    int is_linehead;    // 行頭かどうか
+    int linenumber;     // 行数
 };
 typedef struct Token Token;
 
@@ -127,12 +129,13 @@ typedef struct Type Type;
 
 // 抽象構文木のノードの型
 struct Node {
-    NodeKind kind;    // ノードの型
-    struct Node *lhs; // 左辺
-    struct Node *rhs; // 右辺
-    int val;          // kindがND_NUMの場合のみ使う
-    int offset;       // kindがND_LVARの場合のみ使う
-    char *name;       // kindがND_FUMCの場合のみ,valにnameの長さを入れる
+    NodeKind kind;          // ノードの型
+    struct Node *lhs;       // 左辺
+    struct Node *rhs;       // 右辺
+    int val;                // kindがND_NUMの場合のみ使う
+    int offset;             // kindがND_LVARの場合のみ使う
+    char *name;             // kindがND_FUMCの場合のみ,valにnameの長さを入れる
+    struct Token *srctoken; // Nodeの元の場所
     struct Type *type;
 };
 typedef struct Node Node;
