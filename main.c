@@ -273,44 +273,16 @@ int main(int argc, char **argv) {
         // printf(".bss\n");
     }
 
-    int last_gloval_index = -1;
-    for (int i = 0; code[i]; i++) {
-        if (code[i]->kind == ND_GVALDEF)
-            last_gloval_index = i;
-    }
-
-    if (-1 == last_gloval_index) {
-        // .textは最後のグローバル変数の後ろにのみ入れる
-        printf(".text\n");
-    }
-
     // 先頭の式から順にコード生成
     for (int i = 0; code[i]; i++) {
         localsnum = localsnums[i];
         locals = LocalsList[i];
         gen(code[i]);
-        if (i == last_gloval_index) {
-            // .textは最後のグローバル変数の後ろにのみ入れる
+        if (!code[i + 1] || code[i + 1]->kind != ND_GVALDEF) {
+            // .textは次がグローバル変数でないときに入れる
             printf(".text\n");
         }
     }
-
-    // // TODO:グローバル変数を先に処理する
-    // for (int i = 0; code[i]; i++) {
-    //     if (code[i]->kind == ND_GVALDEF) {
-    //         gen(code[i]);
-    //     }
-    // }
-    // printf(".text\n");
-
-    // // 先頭の式から順にコード生成
-    // for (int i = 0; code[i]; i++) {
-    //     if (code[i]->kind != ND_GVALDEF) {
-    //         localsnum = localsnums[i];
-    //         locals = LocalsList[i];
-    //         gen(code[i]);
-    //     }
-    // }
 
     return 0;
 }

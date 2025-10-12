@@ -9,8 +9,6 @@ typedef enum {
     TK_FOR,      // for
     TK_IDENT,    // 識別子
     TK_NUM,      // 整数トークン
-    TK_INT,      // int
-    TK_SIZEOF,   // sizeof
     TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
@@ -35,7 +33,6 @@ typedef enum {
     ND_EQ,      // ==
     ND_NEQ,     // !=
     ND_ASSIGN,  // =
-    ND_SIZEOF,  // sizeof
     ND_RETURN,  // return
     ND_IF,      // if
     ND_ELSE,    // else
@@ -47,9 +44,6 @@ typedef enum {
     ND_FUNC,    // 関数呼び出し
     ND_FUNCDEF, // 関数定義
     ND_ARG,     // 関数の引数
-    ND_ADDR,    // unary &
-    ND_DEREF,   // unary *
-    ND_VALDEF,  // 変数定義 TODO
     ND_NUM,     // 整数
 } NodeKind;
 
@@ -64,26 +58,12 @@ struct Node {
 };
 typedef struct Node Node;
 
-typedef enum { INT,
-    PTR,
-    ARRAY
-} Type_ty;
-
-// 変数の型
-struct Type {
-    Type_ty ty;
-    struct Type *ptr_to;
-    int array_size; // 配列のときの要素数
-};
-typedef struct Type Type;
-
 // ローカル変数の型
 struct LVar {
     struct LVar *next; // 次の変数か0
     char *name;        // 変数の名前
     int len;           // 名前の長さ
     int offset;        // RBPからのオフセット
-    Type *type;        // 変数の型
 };
 typedef struct LVar LVar;
 
@@ -108,8 +88,6 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 
-Type *estimate_type(Node *node);
-
 void program();
 Node *function();
 Node *stmt();
@@ -120,7 +98,6 @@ Node *relational();
 Node *add();
 Node *mul();
 Node *unary();
-Node *brackets();
 Node *primary();
 
 void gen_lval(Node *node);
@@ -131,9 +108,15 @@ Token *token;
 
 // 入力プログラム
 char *user_input;
+
+LVar *locals;
 int branch_label = 0;
 
 int rsp_aligned = 1;
+
+Node *code[100];
+int localsnums[100];
+int localsnum;
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
@@ -163,7 +146,7 @@ void expect(char *op) {
     if (token->kind != TK_RESERVED ||
         strlen(op) != token->len ||
         memcmp(token->str, op, token->len))
-        exit(1);
+        exit(3);
     token = token->next;
 }
 
@@ -171,7 +154,7 @@ void expect(char *op) {
 // それ以外の場合にはエラーを報告する。
 int expect_number() {
     if (token->kind != TK_NUM)
-        exit(1);
+        exit(4);
     int val = token->val;
     token = token->next;
     return val;
@@ -247,20 +230,6 @@ void tokenize() {
             continue;
         }
 
-        if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
-            cur = new_token(TK_INT, cur, p);
-            cur->len = 3;
-            p += 3;
-            continue;
-        }
-
-        if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_SIZEOF, cur, p);
-            cur->len = 6;
-            p += 6;
-            continue;
-        }
-
         if (strncmp(p, ">=", 2) == 0 ||
             strncmp(p, "<=", 2) == 0 ||
             strncmp(p, "==", 2) == 0 ||
@@ -277,8 +246,7 @@ void tokenize() {
             *p == '<' || *p == '>' ||
             *p == ';' || *p == '=' ||
             *p == '{' || *p == '}' ||
-            *p == ',' || *p == '&' ||
-            *p == '[' || *p == ']') {
+            *p == ',') {
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;
             continue;
@@ -303,14 +271,12 @@ void tokenize() {
             continue;
         }
 
-        exit(1);
+        exit(5);
     }
 
     new_token(TK_EOF, cur, p);
     token = head->next;
 }
-
-LVar *locals;
 
 // 変数を名前で検索する。見つからなかった場合は0を返す。
 LVar *find_lvar(Token *tok) {
@@ -336,19 +302,16 @@ Node *new_node_num(int val) {
     return node;
 }
 
-Node *code[100];
-int localsnums[100];
-int localsnum;
-
 void program() {
     int i = 0;
+    LVar *var;
     while (!at_eof()) {
         // TODO:変数スコープ
         locals = 0;
-        localsnum = 0;
         code[i] = function();
-        localsnums[i] = localsnum;
-        // for (LVar *var = locals; var; var = var->next)localsnums[i]++;
+        localsnums[i] = 0;
+        for (var = locals; var; var = var->next)
+            localsnums[i]++;
         // ↑TODO:1多いかも
         i++;
     }
@@ -356,19 +319,14 @@ void program() {
 }
 
 Node *function() {
-    // function = "int" ident "(" ("int" ident)* ")" "{" stmt* "}"
+    // function = ident "(" ident* ")" "{" stmt* "}"
     Node *node;
     node = calloc(1, sizeof(Node));
-
-    Token *ret_type = consume_type(TK_INT);
-    if (!ret_type) {
-        exit(1);
-    }
 
     Token *funcname;
     funcname = consume_type(TK_IDENT);
     if (!funcname) {
-        exit(1);
+        exit(6);
     }
 
     node->kind = ND_FUNCDEF;
@@ -377,47 +335,29 @@ Node *function() {
 
     expect("(");
     Token *argname;
-    Token *argtype;
     Node *tmparg = node;
     Node *tmp2;
     while (!consume(")")) {
-        argtype = consume_type(TK_INT);
-        if (!argtype) {
-            exit(1);
-        }
-
-        // ポインタ型に対応
-        Type *type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        while (consume("*")) {
-            Type *t = calloc(1, sizeof(Type));
-            t->ty = PTR;
-            t->ptr_to = type;
-            type = t;
-        }
-
         argname = consume_type(TK_IDENT);
         if (!argname) {
-            exit(1);
+            exit(7);
         }
 
         // 引数はローカル変数として扱う
         tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_VALDEF;
+        tmp2->kind = ND_LVAR;
         LVar *lvar = find_lvar(argname);
         if (lvar) {
-            // tmp2->offset = lvar->offset;
+            tmp2->offset = lvar->offset;
         } else {
+            // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
             lvar = calloc(1, sizeof(LVar));
             lvar->next = locals;
             lvar->name = argname->str;
             lvar->len = argname->len;
             lvar->offset = (locals ? locals->offset : 0) + 8;
-            lvar->type = type;
             tmp2->offset = lvar->offset;
             locals = lvar;
-
-            localsnum += 1;
         }
         tmparg->lhs = tmp2;
         tmparg = tmp2;
@@ -434,7 +374,7 @@ Node *function() {
     node->rhs = tmp;
     while (1) {
         if (token->next == 0) {
-            exit(1);
+            exit(8);
         }
         if (consume("}")) {
             break;
@@ -450,17 +390,9 @@ Node *function() {
 }
 
 Node *stmt() {
-    // stmt = { stmt* }
-    //        | "int" ident ("[" num "]")? ";"
-    //        | "return" expr ";"
-    //        | "if" "(" expr ")" stmt ("else" stmt)?
-    //        | "while" "(" expr ")" stmt
-    //        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
-    //        | expr ";"
     Node *node;
     Node *tmp;
     Node *tmp2;
-    Type *t;
 
     if (consume("{")) { // Block
         node = calloc(1, sizeof(Node));
@@ -468,7 +400,7 @@ Node *stmt() {
         tmp = node;
         while (1) {
             if (token->next == 0) {
-                exit(1);
+                exit(9);
             }
             if (consume("}")) {
                 break;
@@ -481,58 +413,6 @@ Node *stmt() {
             }
         }
 
-    } else if (consume_type(TK_INT)) { // 変数定義
-        node = calloc(1, sizeof(Node));
-        node->kind = ND_VALDEF;
-
-        // ポインタ型に対応
-        Type *type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        while (consume("*")) {
-            t = calloc(1, sizeof(Type));
-            t->ty = PTR;
-            t->ptr_to = type;
-            type = t;
-        }
-
-        Token *tok = consume_type(TK_IDENT);
-        if (tok) {
-            tmp = calloc(1, sizeof(Node));
-            tmp->kind = ND_VALDEF;
-
-            LVar *lvar = find_lvar(tok);
-            if (lvar) {
-                // node->offset = lvar->offset;
-                exit(1);
-            } else {
-                int size = 1;
-                if (consume("[")) { // 配列型
-                    size = expect_number();
-                    expect("]");
-                    t = calloc(1, sizeof(Type));
-                    t->ty = ARRAY;
-                    t->array_size = size;
-                    t->ptr_to = type;
-                    type = t;
-                }
-
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                lvar = calloc(1, sizeof(LVar));
-                lvar->next = locals;
-                lvar->name = tok->str;
-                lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8 * size;
-                lvar->type = type;
-                tmp->offset = lvar->offset;
-                locals = lvar;
-
-                localsnum += size;
-            }
-            node->lhs = tmp;
-        } else {
-            exit(1);
-        }
-        expect(";");
     } else if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
@@ -666,85 +546,12 @@ Node *mul() {
     }
 }
 
-// TODO:型推定
-Type *estimate_type(Node *node) {
-    if (node == 0)
-        return 0;
-    Type *type;
-    if (node->kind == ND_DEREF) {
-        type = estimate_type(node->lhs);
-        return type->ptr_to;
-    }
-    if (node->kind == ND_LVAR) {
-        LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
-        LVar *var;
-        for (var = locals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                lvar = var;
-        if (lvar) {
-            type = lvar->type;
-            return type;
-            // if (type->ty == INT) {
-            //     size = 4;
-            //     // printf("### val %s is int\n", node->lhs->name);
-            // } else if (type->ty == PTR) {
-            //     size = 8;
-            //     // printf("### val %s is ptr\n", node->lhs->name);
-            // }
-        } else {
-            // exit(1);
-        }
-    }
-    if (node->kind == ND_FUNC) {
-        // TODO:関数の戻り値をポインタ型に対応
-        type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        return type;
-    }
-    Type *ltype = estimate_type(node->lhs);
-    Type *rtype = estimate_type(node->rhs);
-    // TODO:↓でより深いほうの型を返す or 型一致チェック
-    return (ltype ? ltype : rtype);
-}
-
 Node *unary() {
-    if (consume_type(TK_SIZEOF)) {
-        Node *node = unary();
-        Type *type = estimate_type(node);
-        int size = 4;
-        if (type == 0) {
-            // size = 4;
-        } else if (type->ty == INT) {
-            // size = 4;
-        } else if (type->ty == PTR) {
-            size = 8;
-        } else if (type->ty == ARRAY) {
-            int arrsize = type->array_size;
-            size = 8 * arrsize;
-        }
-        return new_node_num(size);
-    }
     if (consume("+"))
-        return brackets();
+        return primary();
     if (consume("-"))
-        return new_node(ND_SUB, new_node_num(0), brackets());
-    if (consume("&"))
-        return new_node(ND_ADDR, unary(), 0);
-    if (consume("*"))
-        return new_node(ND_DEREF, unary(), 0);
-    return brackets();
-}
-
-Node *brackets() { // TODO:配列アクセス(優先順位は?)
-    // brackets = primary ("[" expr "]")?
-    Node *node = primary();
-
-    if (consume("[")) {
-        // x[y] -> *(x+y)
-        node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
-        expect("]");
-    }
-    return node;
+        return new_node(ND_SUB, new_node_num(0), primary());
+    return primary();
 }
 
 Node *primary() {
@@ -787,10 +594,15 @@ Node *primary() {
             LVar *lvar = find_lvar(tok);
             if (lvar) {
                 node->offset = lvar->offset;
-                node->val = lvar->len;
-                node->name = lvar->name;
             } else {
-                exit(1);
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                lvar = calloc(1, sizeof(LVar));
+                lvar->next = locals;
+                lvar->name = tok->str;
+                lvar->len = tok->len;
+                lvar->offset = (locals ? locals->offset : 0) + 8;
+                node->offset = lvar->offset;
+                locals = lvar;
             }
             return node;
         }
@@ -801,40 +613,20 @@ Node *primary() {
 }
 
 void gen_lval(Node *node) {
-    if (node->kind == ND_DEREF) {
-        // ポインタ対応 TODO
-        gen(node->lhs);
-        return;
-    }
-
     if (node->kind != ND_LVAR)
-        exit(1);
+        exit(10);
 
     printf("  mov rax, rbp\n");
     printf("  sub rax, %d\n", node->offset);
     printf("  push rax\n");
     rsp_aligned = !rsp_aligned;
 }
-
 void gen(Node *node) {
     char name[255];
     int i = 0;
-    int k = 0;
+    int k;
     if (node == 0)
         return;
-    if (node->kind == ND_VALDEF) {
-        // TODO:初期化代入
-        // gen_lval(node->lhs);
-        // gen(node->rhs);
-
-        // printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
-        // printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-        // printf("  mov [rax], rdi\n");
-        // printf("  push rdi\n");rsp_aligned=!rsp_aligned;
-        printf("  push rax\n");
-        rsp_aligned = !rsp_aligned;
-        return;
-    }
     if (node->kind == ND_FUNCDEF) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
@@ -857,12 +649,6 @@ void gen(Node *node) {
             case 5:
                 printf("  push r9\n");
                 break;
-                // case 0:printf("  push edi\n");break;
-                // case 1:printf("  push esi\n");break;
-                // case 2:printf("  push edx\n");break;
-                // case 3:printf("  push ecx\n");break;
-                // case 4:printf("  push r8d\n"); break;
-                // case 5:printf("  push r9d\n"); break;
                 // default:printf("  push rax\n");break; // TODO:pushは逆順
             }
             tmparg = tmparg->lhs;
@@ -961,29 +747,13 @@ void gen(Node *node) {
         return;
     }
 
-    Type *type = 0;
-
     switch (node->kind) {
-    case ND_ADDR:
-        gen_lval(node->lhs);
-        return;
-    case ND_DEREF:
-        gen(node->lhs);
-        printf("  pop rax\n");
-        printf("  mov rax, [rax]\n");
-        printf("  push rax\n");
-        return;
     case ND_NUM:
         printf("  push %d\n", node->val);
         rsp_aligned = !rsp_aligned;
         return;
     case ND_LVAR:
-        type = estimate_type(node);
         gen_lval(node);
-        if (type != 0 && type->ty == ARRAY) {
-            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-            return;
-        }
         printf("  pop rax\n");
         rsp_aligned = !rsp_aligned;
         printf("  mov rax, [rax]\n");
@@ -1019,21 +789,15 @@ void gen(Node *node) {
             rsp_aligned = !rsp_aligned;
             switch (k - 1) {
             // TODO:eax(raxの下位32bit)
-            // case 0:printf("  mov edi, eax\n");break;
-            // case 1:printf("  mov esi, eax\n");break;
-            // case 2:printf("  mov edx, eax\n");break;
-            // case 3:printf("  mov ecx, eax\n");break;
-            // case 4:printf("  mov r8d, eax\n");break;
-            // case 5:printf("  mov r9d, eax\n");break;
-            case 0: printf("  mov rdi, rax\n"); break;
-            case 1: printf("  mov rsi, rax\n"); break;
-            case 2: printf("  mov rdx, rax\n"); break;
-            case 3: printf("  mov rcx, rax\n"); break;
-            case 4: printf("  mov r8, rax\n"); break;
+            case 0: printf("  mov edi, eax\n"); break;
+            case 1: printf("  mov esi, eax\n"); break;
+            case 2: printf("  mov edx, eax\n"); break;
+            case 3: printf("  mov ecx, eax\n"); break;
+            case 4: printf("  mov r8d, eax\n"); break;
             case 5:
-                printf("  mov r9, rax\n");
+                printf("  mov r9d, eax\n");
                 break;
-                // default:printf("  push rax\n");break; // TODO:7個目以降
+                // default:printf("  push rax\n");break; // TODO:pushは逆順
             }
         }
         printf("  mov eax, 0\n");
@@ -1057,38 +821,11 @@ void gen(Node *node) {
     printf("  pop rax\n");
     rsp_aligned = !rsp_aligned;
 
-    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
-    type = estimate_type(node->lhs);
-    if (type == 0) {
-        addsize = 1;
-    } else if (type->ty == INT) {
-        addsize = 1;
-    } else if (type->ty == PTR) {
-        type = type->ptr_to;
-        if (type->ty == INT) {
-            addsize = 4;
-        } else if (type->ty == PTR) {
-            addsize = 8;
-        }
-    } else if (type->ty == ARRAY) {
-        int arrsize = type->array_size;
-        type = type->ptr_to;
-        if (type->ty == INT) {
-            addsize = 4;
-        } else if (type->ty == PTR) {
-            addsize = 8;
-        }
-    }
-
     switch (node->kind) {
     case ND_ADD:
-        if (addsize != 1)
-            printf("  imul rdi, %d\n", addsize);
         printf("  add rax, rdi\n");
         break;
     case ND_SUB:
-        if (addsize != 1)
-            printf("  imul rdi, %d\n", addsize);
         printf("  sub rax, rdi\n");
         break;
     case ND_MUL:
@@ -1123,7 +860,6 @@ void gen(Node *node) {
     printf("  push rax\n");
     rsp_aligned = !rsp_aligned;
 }
-
 int main(int argc, char **argv) {
     if (argc != 2) {
         exit(11);
