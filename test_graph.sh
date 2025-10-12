@@ -6,7 +6,9 @@ assert() {
 
     echo "$input" > tmpc
     ./mycc tmpc -g > tmp.dot
-    dot -Tpdf tmp.dot -o tmp.pdf
+    # dot -Tpdf tmp.dot -o tmp.pdf
+    dot -Tsvg tmp.dot -Nfontname="Ubuntu Mono" -Efontname="Ubuntu Mono"\
+        -Gfontname="Ubuntu Mono" -o tmp.svg
     okular tmp.pdf
 }
 

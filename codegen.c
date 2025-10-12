@@ -686,10 +686,16 @@ void gen(Node *node) {
     printf("  pop rdi\n");
     printf("  pop rax\n");
 
-    int addsize = 1;
+    int addsize = 1, addsize_tmp = 1;
     type = estimate_type(node->lhs);
     if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
         addsize = size_from_type(type->ptr_to);
+    }
+
+    type = estimate_type(node->rhs);
+    if (type != NULL && (type->ty == PTR || type->ty == ARRAY)) {
+        addsize_tmp = size_from_type(type->ptr_to);
+        addsize = (addsize_tmp > addsize ? addsize_tmp : addsize);
     }
 
     switch (node->kind) {

@@ -730,14 +730,14 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
         Type *lhstype = estimate_type(lhs);
         // if (!lhstype || lhstype->ty != STRUCT) error_at(node->name, "左辺がstructではありません");
         if (!lhstype || lhstype->ty != STRUCT)
-            error("左辺がstructではありません");
+            error_at(node->srctoken->str, "左辺がstructではありません");
 
         now = lhstype->member;
         for (;;) {
             if (!now)
-                error("structのメンバ名が存在しません");
+                error_at(node->srctoken->str, "structのメンバ名が存在しません");
             if (now->ty != MEMBER)
-                error("不正な構文木:member");
+                error_at(node->srctoken->str, "不正な構文木:member");
             if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
                 break;
             now = now->member;
@@ -748,21 +748,40 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
 
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
-    // TODO:3項演算子の時はltypeではない!!!!
-    // TODO:↑ほかの演算子の場合は?
+
+    // 3項演算子の時はltypeではない
     if (kind == ND_COND) {
         node->type = rtype;
         return node;
     }
-    // TODO:ここで型のチェックorキャスト(char→intなど)
-    node->type = ltype ? ltype : rtype;
 
-    // TODO:配列がバグってた?(ポインタにキャストされるため)
-    // TODO:ここ合ってなさそう?(ローカル変数の場合など)
-    if (ltype && ltype->ty == ARRAY && (node->kind == ND_ADD || node->kind == ND_SUB)) {
+    if (!ltype) {
+        node->type = rtype;
+    } else if (!rtype) {
+        node->type = ltype;
+    } else {
+        node->type = ltype;
+        // TODO:ここで型のチェックorキャスト
+        if (ltype->ty != rtype->ty) {
+            if (ltype->ty == PTR || ltype->ty == ARRAY)
+                ;
+            else if (ltype->ty == INT) {
+                if (rtype->ty == PTR || rtype->ty == ARRAY)
+                    node->type = rtype;
+            } else if (ltype->ty == CHAR) {
+                if (rtype->ty == PTR || rtype->ty == ARRAY || rtype->ty == INT)
+                    node->type = rtype;
+            } else {
+                error_at(node->srctoken->str, "両辺の型が一致しません");
+            }
+        }
+    }
+
+    // 配列の暗黙ポインタキャスト
+    if (node->type && node->type->ty == ARRAY && (node->kind == ND_ADD || node->kind == ND_SUB)) {
         Type *new = calloc(1, sizeof(Type));
         new->ty = PTR;
-        new->ptr_to = ltype->ptr_to;
+        new->ptr_to = node->type->ptr_to;
         node->type = new;
     }
 

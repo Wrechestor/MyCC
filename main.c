@@ -129,21 +129,18 @@ char *nodeToStr(Node *node) {
             }
             nowstr = nowstr->next;
         }
-        // sprintf(ret, "\\\"%s\\\"", namebuf);
-
-        sprintf(ret, "\\\"");
+        sprintf(ret, "\"");
         while (*namebuf) {
             switch (*namebuf) {
 
-            case '&': sprintf(ret, "&amp;"); break;
-            case '<': sprintf(ret, "&lt;"); break;
-            case '>': sprintf(ret, "&gt;"); break;
-            default: sprintf(ret, "%c", *namebuf); break;
+            case '&': strcat(ret, "&amp;"); break;
+            case '<': strcat(ret, "&lt;"); break;
+            case '>': strcat(ret, "&gt;"); break;
+            default: strncat(ret, namebuf, 1); break;
             }
             namebuf++;
         }
-        sprintf(ret, "\\\"");
-        // sprintf(ret, "\\\"%s\\\"", namebuf);
+        strcat(ret, "\"");
         return ret;
     case ND_NUM:
         sprintf(ret, "%d", node->val);
@@ -201,7 +198,7 @@ int gengraph(Node *node, int nodeid) {
 
     printf(" node%d [label=<%s", nowid, nodeToStr(node));
     if (node->type)
-        printf("<br/><FONT COLOR='BLUE' POINT-SIZE='8.0'>%s</FONT>", typeToStr(node->type));
+        printf("<br/><FONT COLOR='BLUE' POINT-SIZE='9.0'><B>%s</B></FONT>", typeToStr(node->type));
     printf(">");
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
