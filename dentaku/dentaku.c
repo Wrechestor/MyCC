@@ -3,6 +3,10 @@
 typedef enum {
     TK_RESERVED, // 記号
     TK_RETURN,   // return
+    TK_IF,       // if
+    TK_ELSE,     // else
+    TK_WHILE,    // while
+    TK_FOR,      // for
     TK_IDENT,    // 識別子
     TK_NUM,      // 整数トークン
     TK_EOF,      // 入力の終わりを表すトークン
@@ -30,6 +34,12 @@ typedef enum {
     ND_NEQ,    // !=
     ND_ASSIGN, // =
     ND_RETURN, // return
+    ND_IF,     // if
+    ND_ELSE,   // else
+    ND_WHILE,  // while
+    ND_FOR1,   // for
+    ND_FOR2,   // for
+    ND_FOR3,   // for
     ND_LVAR,   // ローカル変数
     ND_NUM,    // 整数
 } NodeKind;
@@ -151,6 +161,7 @@ char *user_input;
 Node *code[100];
 
 LVar *locals;
+int branch_label = 0;
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
 int consume(char *op) {
@@ -228,12 +239,40 @@ void tokenize() {
             continue;
         }
 
-        // if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
-        //     cur = new_token(TK_RETURN, cur, p);
-        //     cur->len = 6;
-        //     p += 6;
-        //     continue;
-        // }
+        if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_RETURN, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
+            cur = new_token(TK_IF, cur, p);
+            cur->len = 2;
+            p += 2;
+            continue;
+        }
+
+        if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_ELSE, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
+            cur = new_token(TK_WHILE, cur, p);
+            cur->len = 5;
+            p += 5;
+            continue;
+        }
+
+        if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
+            cur = new_token(TK_FOR, cur, p);
+            cur->len = 3;
+            p += 3;
+            continue;
+        }
 
         if (strncmp(p, ">=", 2) == 0 ||
             strncmp(p, "<=", 2) == 0 ||
@@ -316,16 +355,71 @@ void program() {
 
 Node *stmt() {
     Node *node;
+    Node *tmp;
 
     if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
+        expect(";");
+    } else if (consume_type(TK_IF)) {
+        // "if" "(" expr ")" stmt ("else" stmt)?
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_IF;
+        node->lhs = expr();
+        expect(")");
+        tmp = stmt();
+        if (consume_type(TK_ELSE)) {
+            tmp = new_node(ND_ELSE, tmp, stmt());
+        }
+        node->rhs = tmp;
+    } else if (consume_type(TK_WHILE)) {
+        // "while" "(" expr ")" stmt
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_WHILE;
+        node->lhs = expr();
+        expect(")");
+    } else if (consume_type(TK_FOR)) {
+        // "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_FOR1;
+        if (consume(";")) {
+            node->lhs = 0;
+        } else {
+            node->lhs = expr();
+            expect(";");
+        }
+
+        tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_FOR2;
+        if (consume(";")) {
+            tmp->lhs = 0;
+        } else {
+            tmp->lhs = expr();
+            expect(";");
+        }
+        node->rhs = tmp;
+        node = tmp;
+
+        tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_FOR3;
+        if (consume(")")) {
+            tmp->lhs = 0;
+        } else {
+            tmp->lhs = expr();
+            expect(")");
+        }
+        node->rhs = tmp;
+        node = tmp;
+        node->rhs = stmt();
     } else {
         node = expr();
+        expect(";");
     }
 
-    expect(";");
     return node;
 }
 
@@ -450,6 +544,25 @@ void gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
+    if (node->kind == ND_IF) {
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        if (node->rhs->kind == ND_ELSE) {
+            printf("  je  .Lelse%d\n", branch_label);
+            gen(node->rhs->lhs);
+            printf("  jmp .Lend%d\n", branch_label);
+            printf(".Lelse%d:\n", branch_label);
+            gen(node->rhs->rhs);
+        } else {
+            printf("  je  .Lend%d\n", branch_label);
+            gen(node->rhs);
+        }
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
+        return;
+    }
+
     if (node->kind == ND_RETURN) {
         gen(node->lhs);
         printf("  pop rax\n");
