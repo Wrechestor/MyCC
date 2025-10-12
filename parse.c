@@ -1237,22 +1237,28 @@ Node *function_gval() {
                 t->array_size = size;
             }
 
-            if (!already && !undefsize) {
+            if (!undefsize) {
                 int totalbytesize = 4;
                 totalbytesize = size_from_type(type);
 
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                gvar = calloc(1, sizeof(GVar));
-                gvar->next = globals;
-                gvar->name = tok->str;
-                gvar->len = tok->len;
-                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                gvar->addr = totalbytesize;
-                gvar->type = type;
-                node->offset = gvar->addr;
-                node->type = type;
-                node->variabletype = GLOBALVAL;
-                globals = gvar;
+                if (!already) {
+                    gvar = calloc(1, sizeof(GVar));
+                    gvar->next = globals;
+                    gvar->name = tok->str;
+                    gvar->len = tok->len;
+                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    node->type = type;
+                    node->variabletype = GLOBALVAL;
+                    globals = gvar;
+                } else {
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    node->type = type;
+                }
             }
         }
 
@@ -1293,18 +1299,24 @@ Node *function_gval() {
                         int totalbytesize = 4;
                         totalbytesize = size_from_type(type);
 
-                        // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                        gvar = calloc(1, sizeof(GVar));
-                        gvar->next = globals;
-                        gvar->name = tok->str;
-                        gvar->len = tok->len;
-                        // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                        gvar->addr = totalbytesize;
-                        gvar->type = type;
-                        node->offset = gvar->addr;
-                        node->type = type;
-                        node->variabletype = GLOBALVAL;
-                        globals = gvar;
+                        if (!already) {
+                            gvar = calloc(1, sizeof(GVar));
+                            gvar->next = globals;
+                            gvar->name = tok->str;
+                            gvar->len = tok->len;
+                            // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                            gvar->addr = totalbytesize;
+                            gvar->type = type;
+                            node->offset = gvar->addr;
+                            node->type = type;
+                            node->variabletype = GLOBALVAL;
+                            globals = gvar;
+                        } else {
+                            gvar->addr = totalbytesize;
+                            gvar->type = type;
+                            node->offset = gvar->addr;
+                            node->type = type;
+                        }
                     }
 
                     expect("}");
@@ -1357,17 +1369,24 @@ Node *function_gval() {
                         int totalbytesize = 4;
                         totalbytesize = size_from_type(type);
 
-                        gvar = calloc(1, sizeof(GVar));
-                        gvar->next = globals;
-                        gvar->name = tok->str;
-                        gvar->len = tok->len;
-
-                        gvar->addr = totalbytesize;
-                        gvar->type = type;
-                        node->offset = gvar->addr;
-                        node->type = type;
-                        node->variabletype = GLOBALVAL;
-                        globals = gvar;
+                        if (!already) {
+                            gvar = calloc(1, sizeof(GVar));
+                            gvar->next = globals;
+                            gvar->name = tok->str;
+                            gvar->len = tok->len;
+                            // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                            gvar->addr = totalbytesize;
+                            gvar->type = type;
+                            node->offset = gvar->addr;
+                            node->type = type;
+                            node->variabletype = GLOBALVAL;
+                            globals = gvar;
+                        } else {
+                            gvar->addr = totalbytesize;
+                            gvar->type = type;
+                            node->offset = gvar->addr;
+                            node->type = type;
+                        }
                     }
                 } else {
                     tmp2->val = expect_number();

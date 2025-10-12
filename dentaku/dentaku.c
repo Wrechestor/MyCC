@@ -136,6 +136,22 @@ Node *primary();
 
 void gen_lval(Node *node);
 void gen(Node *node);
+// グローバル変数
+extern GVar *globals;
+
+// 現在着目しているトークン
+extern Token *token;
+
+// 入力プログラム
+extern char *user_input;
+
+extern Node *code[100];
+
+// 制御命令のラベル用の通し番号
+extern int branch_label;
+
+// // rspが16の倍数になっているか
+extern int rsp_aligned;
 
 // 現在着目しているトークン
 Token *token;
@@ -1143,7 +1159,8 @@ void gen(Node *node) {
             if (now == 0)
                 break;
         }
-        int k;for (k = i; k > 0; k--) {
+        int k;
+        for (k = i; k > 0; k--) {
             printf("  pop rax\n");
             rsp_aligned = !rsp_aligned;
             switch (k - 1) {
@@ -1272,7 +1289,8 @@ int main(int argc, char **argv) {
 
     int doing_gloval = 1;
     // 先頭の式から順にコード生成
-    int i;for (i = 0; code[i]; i++) {
+    int i;
+    for (i = 0; code[i]; i++) {
         rsp_aligned = 1;
         localsnum = localsnums[i];
         if (doing_gloval && code[i]->kind != ND_GVALDEF) {

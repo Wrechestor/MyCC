@@ -8,9 +8,6 @@ sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
 # ・プリプロセッサは消す
 sed -i -e "/#include/d" -e "/#define/d" dentaku/dentaku.c
 
-# ・extern宣言は消す
-sed -i "/extern/d" dentaku/dentaku.c
-
 # ・tokenizeのheadをcallocに
 sed -i "s/Token head;/Token *head = calloc(1, sizeof(Token));/g" dentaku/dentaku.c
 sed -i "s/head.next = 0;/head->next = 0;/g" dentaku/dentaku.c
