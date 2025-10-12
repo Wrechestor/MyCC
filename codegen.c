@@ -4,7 +4,9 @@ int branch_label = 0;
 int is_inloop = 0;
 int is_inswitch = 0;
 int current_loop_id = 0;
+int last_loop_id = 0;
 int current_switch_id = 0;
+int last_switch_id = 0;
 
 int gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
@@ -89,6 +91,7 @@ void gen(Node *node) {
     }
 
     if (node->srctoken && node->srctoken->is_linehead) {
+        // 元のCコードをコメントで表示
         printf("### %d    ", node->srctoken->linenumber);
         char *p = node->srctoken->str;
         while (*p) {
@@ -256,14 +259,14 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_SWITCH) {
+        last_switch_id = current_switch_id;
         id = branch_label;
         current_switch_id = id;
         branch_label++;
         int caseid = 0;
         gen(node->lhs);
         printf("  pop rax\n");
-        is_inswitch_old = is_inswitch;
-        is_inswitch = 1;
+        is_inswitch++;
         nownode = node->rhs;
         while (nownode) {
             if (nownode->kind == ND_CASE) {
@@ -287,18 +290,19 @@ void gen(Node *node) {
                 printf(".Ldefault%d:\n", id);
             } else if (nownode->kind == ND_BLOCK) {
                 gen(nownode->lhs);
-                current_switch_id = id;
                 printf("  pop rax\n");
             }
             nownode = nownode->rhs;
         }
-        is_inswitch = is_inswitch_old;
+        is_inswitch--;
         printf(".Lend%d:\n", id);
         printf("  push rax\n");
+        current_switch_id = last_switch_id;
         return;
     }
 
     if (node->kind == ND_WHILE) {
+        last_loop_id = current_loop_id;
         id = branch_label;
         current_loop_id = id;
         branch_label++;
@@ -308,19 +312,19 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
-        is_inloop_old = is_inloop;
-        is_inloop = 1;
+        is_inloop++;
         gen(node->rhs);
         printf("  pop rax\n");
-        is_inloop = is_inloop_old;
-        current_loop_id = id;
+        is_inloop--;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
         printf("  push rax\n");
+        current_loop_id = last_loop_id;
         return;
     }
 
     if (node->kind == ND_FOR) {
+        last_loop_id = current_loop_id;
         id = branch_label;
         current_loop_id = id;
         branch_label++;
@@ -335,15 +339,14 @@ void gen(Node *node) {
             printf("  cmp rax, 0\n");
             printf("  je  .Lend%d\n", id);
         }
-        is_inloop_old = is_inloop; // TODO:これis_inloop++と--でいいかも?
-        is_inloop = 1;
+        is_inloop++;
         gen(node->rhs->rhs->rhs); // D
         printf(".Lcontinue%d:\n", id);
         gen(node->rhs->rhs->lhs); // C
-        is_inloop = is_inloop_old;
-        current_loop_id = id;
+        is_inloop--;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
+        current_loop_id = last_loop_id;
         return;
     }
 

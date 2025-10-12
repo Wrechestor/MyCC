@@ -60,6 +60,7 @@ TYPE       = ("int" | "char" | ("struct" ident) | ("enum" ident)
 # TODO:グローバル変数はまとめて最初に置かなければだめ
 # TODO:ローカル変数に配列やstructを使えない(ポインタのみ)
 # TODO:プリプロセッサ処理(#include,#define)
+# TODO:定数はパーサ時に計算できる(両辺がNUMなら計算結果をノードに)
 
 # TODO:ブロックスコープ
 # BLOCKまたは関数定義のNodeにLVar *localsを持たせ, 変数が使われるときは

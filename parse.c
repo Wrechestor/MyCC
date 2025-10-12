@@ -752,7 +752,7 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     node->type = ltype ? ltype : rtype;
 
     // TODO:配列がバグってた?(ポインタにキャストされるため)
-    // TODO:
+    // TODO:ここ合ってなさそう?(ローカル変数の場合など)
     if (ltype && ltype->ty == ARRAY && (node->kind == ND_ADD || node->kind == ND_SUB)) {
         Type *new = calloc(1, sizeof(Type));
         new->ty = PTR;
@@ -1192,6 +1192,7 @@ Node *function_gval() {
                 type = t;
 
                 if (consume("]")) { // 配列要素数省略
+                    // TODO: 正しくは char a[][10]; (最初のみ省略)
                     undefsize = 1;
                     break;
                 }
@@ -1397,6 +1398,7 @@ Node *stmt() {
             type = t;
 
             if (consume("]")) { // 配列要素数省略
+                // TODO: 正しくは char a[][10]; (最初のみ省略)
                 undefsize = 1;
                 break;
             }

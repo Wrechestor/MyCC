@@ -7,7 +7,7 @@
         "/usr/include",
         "/usr/local/include",
         "/usr/include/x86_64-linux-gnu",
-        "/usr/lib/gcc/x86_64-linux-gnu/13/include"
+        "/usr/lib/gcc/x86_64-linux-gnu/11/include"
       ],
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",

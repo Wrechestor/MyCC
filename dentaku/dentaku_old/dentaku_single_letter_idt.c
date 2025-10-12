@@ -2,10 +2,9 @@
 // トークンの種類
 typedef enum {
     TK_RESERVED, // 記号
-    TK_RETURN,   // return
     TK_IDENT,    // 識別子
     TK_NUM,      // 整数トークン
-    TK_EOF,      // 入力の終わりを表すトークン
+    TK_EOF       // 入力の終わりを表すトークン
 } TokenKind;
 
 // トークン型
@@ -29,9 +28,8 @@ typedef enum {
     ND_EQ,     // ==
     ND_NEQ,    // !=
     ND_ASSIGN, // =
-    ND_RETURN, // return
     ND_LVAR,   // ローカル変数
-    ND_NUM,    // 整数
+    ND_NUM     // 整数
 } NodeKind;
 
 // 抽象構文木のノードの型
@@ -44,81 +42,8 @@ struct Node {
 };
 typedef struct Node Node;
 
-// ローカル変数の型
-struct LVar {
-    struct LVar *next; // 次の変数か0
-    char *name;        // 変数の名前
-    int len;           // 名前の長さ
-    int offset;        // RBPからのオフセット
-};
-typedef struct LVar LVar;
-
-// TODO:typedefを先に!
-// // トークンの種類
-// typedef enum {
-//     TK_RESERVED, // 記号
-//     TK_RETURN,   // return
-//     TK_IDENT,    // 識別子
-//     TK_NUM,      // 整数トークン
-//     TK_EOF,      // 入力の終わりを表すトークン
-// } TokenKind;
-
-// typedef struct Token Token;
-
-// // トークン型
-// struct Token {
-//     TokenKind kind; // トークンの型
-//     Token *next;    // 次の入力トークン
-//     int val;        // kindがTK_NUMの場合、その数値
-//     char *str;      // トークン文字列
-//     int len;        // トークンの長さ
-// };
-
-// // 抽象構文木のノードの種類
-// typedef enum {
-//     ND_ADD,    // +
-//     ND_SUB,    // -
-//     ND_MUL,    // *
-//     ND_DIV,    // /
-//     ND_LES,    // <
-//     ND_LEQ,    // <=
-//     ND_EQ,     // ==
-//     ND_NEQ,    // !=
-//     ND_ASSIGN, // =
-//     ND_RETURN, // return
-//     ND_LVAR,   // ローカル変数
-//     ND_NUM,    // 整数
-// } NodeKind;
-
-// typedef struct Node Node;
-
-// // 抽象構文木のノードの型
-// struct Node {
-//     NodeKind kind; // ノードの型
-//     Node *lhs;     // 左辺
-//     Node *rhs;     // 右辺
-//     int val;       // kindがND_NUMの場合のみ使う
-//     int offset;    // kindがND_LVARの場合のみ使う
-// };
-
-// typedef struct LVar LVar;
-
-// // ローカル変数の型
-// struct LVar {
-//     LVar *next; // 次の変数か0
-//     char *name; // 変数の名前
-//     int len;    // 名前の長さ
-//     int offset; // RBPからのオフセット
-// };
-
-// ローカル変数
-
-// 現在着目しているトークン
-
-// 入力プログラム
-
 int consume(char *op);
-Token *consume_type(TokenKind tkind);
+Token *consume_ident();
 void expect(char *op);
 int expect_number();
 int at_eof();
@@ -126,7 +51,6 @@ Token *new_token(TokenKind kind, Token *cur, char *str);
 void tokenize();
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
-LVar *find_lvar(Token *tok);
 
 void program();
 Node *stmt();
@@ -148,9 +72,8 @@ Token *token;
 // 入力プログラム
 char *user_input;
 
-Node *code[100];
+Node *code[256];
 
-LVar *locals;
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
 int consume(char *op) {
@@ -162,15 +85,13 @@ int consume(char *op) {
     return 1;
 }
 
-// consume_ident
-Token *consume_type(TokenKind tkind) {
-    if (token->kind != tkind)
+// 次のトークンが識別子のときには、トークンを1つ読み進めて
+// トークンを返す。それ以外の場合には0を返す。
+Token *consume_ident() {
+    if (token->kind != TK_IDENT)
         return 0;
-
-    // 識別子の時は識別子自体を返せるようにする(次のトークンを返さない)
-    Token *old = token;
     token = token->next;
-    return old;
+    return token;
 }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
@@ -179,14 +100,17 @@ void expect(char *op) {
     if (token->kind != TK_RESERVED ||
         strlen(op) != token->len ||
         memcmp(token->str, op, token->len))
-        exit(7);
+        // error_at(token->str,"'%c'ではありません", op);
+        exit(1);
     token = token->next;
 }
 
 // 次のトークンが数値の場合、トークンを1つ読み進めてその数値を返す。
 // それ以外の場合にはエラーを報告する。
 int expect_number() {
+    // printf("###saddsa %s\n", token->str);
     if (token->kind != TK_NUM)
+        // error_at(token->str,"数ではありません");
         exit(2);
     int val = token->val;
     token = token->next;
@@ -206,34 +130,23 @@ Token *new_token(TokenKind kind, Token *cur, char *str) {
     return tok;
 }
 
-// トークンを構成する文字かどうか
-int is_alnum(char c) {
-    return ('a' <= c && c <= 'z') ||
-        ('A' <= c && c <= 'Z') ||
-        ('0' <= c && c <= '9') ||
-        (c == '_');
-}
-
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
     char *p = user_input;
+    // Token head;
+    // head.next = 0;
+    // Token *cur = &head;
     Token *head = calloc(1, sizeof(Token));
     head->next = 0;
     Token *cur = head;
-    char *q;
+
     while (*p) {
+        // printf("### %c\n", *p);
         // 空白文字をスキップ
         if (isspace(*p)) {
             p++;
             continue;
         }
-
-        // if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
-        //     cur = new_token(TK_RETURN, cur, p);
-        //     cur->len = 6;
-        //     p += 6;
-        //     continue;
-        // }
 
         if (strncmp(p, ">=", 2) == 0 ||
             strncmp(p, "<=", 2) == 0 ||
@@ -256,14 +169,9 @@ void tokenize() {
         }
 
         // 識別子
-        q = p;
-        while (is_alnum(*q) && !(q == p && '0' <= *q && *q <= '9')) {
-            q++;
-        }
-        if (q > p) {
-            cur = new_token(TK_IDENT, cur, p);
-            cur->len = q - p;
-            p = q;
+        if ('a' <= *p && *p <= 'z') {
+            cur = new_token(TK_IDENT, cur, p++);
+            cur->len = 1;
             continue;
         }
 
@@ -274,22 +182,12 @@ void tokenize() {
             continue;
         }
 
+        // error_at(token->str,"トークナイズできません");
         exit(3);
     }
 
     new_token(TK_EOF, cur, p);
     token = head->next;
-}
-
-// 変数を名前で検索する。見つからなかった場合は0を返す。
-LVar *find_lvar(Token *tok) {
-    // TODO:forで宣言
-    // for (LVar *var = locals; var; var = var->next)
-    LVar *var;
-    for (var = locals; var; var = var->next)
-        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
-            return var;
-    return 0;
 }
 
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
@@ -309,22 +207,15 @@ Node *new_node_num(int val) {
 
 void program() {
     int i = 0;
-    while (!at_eof())
+    int ef = at_eof();
+    while (!at_eof()) {
         code[i++] = stmt();
+    }
     code[i] = 0;
 }
 
 Node *stmt() {
-    Node *node;
-
-    if (consume_type(TK_RETURN)) {
-        node = calloc(1, sizeof(Node));
-        node->kind = ND_RETURN;
-        node->lhs = expr();
-    } else {
-        node = expr();
-    }
-
+    Node *node = expr();
     expect(";");
     return node;
 }
@@ -415,24 +306,11 @@ Node *primary() {
     }
 
     // 次のトークンが識別子なら
-    Token *tok = consume_type(TK_IDENT);
+    Token *tok = consume_ident();
     if (tok) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_LVAR;
-
-        LVar *lvar = find_lvar(tok);
-        if (lvar) {
-            node->offset = lvar->offset;
-        } else {
-            printf("### NEWIDT %s:len=%d\n", tok->str, tok->len);
-            lvar = calloc(1, sizeof(LVar));
-            lvar->next = locals;
-            lvar->name = tok->str;
-            lvar->len = tok->len;
-            lvar->offset = (locals ? locals->offset : 0) + 8;
-            node->offset = lvar->offset;
-            locals = lvar;
-        }
+        node->offset = (tok->str[0] - 'a' + 1) * 8;
         return node;
     }
 
@@ -442,6 +320,7 @@ Node *primary() {
 
 void gen_lval(Node *node) {
     if (node->kind != ND_LVAR)
+        // error("代入の左辺値が変数ではありません");
         exit(4);
 
     printf("  mov rax, rbp\n");
@@ -450,15 +329,6 @@ void gen_lval(Node *node) {
 }
 
 void gen(Node *node) {
-    if (node->kind == ND_RETURN) {
-        gen(node->lhs);
-        printf("  pop rax\n");
-        printf("  mov rsp, rbp\n");
-        printf("  pop rbp\n");
-        printf("  ret\n");
-        return;
-    }
-
     switch (node->kind) {
     case ND_NUM:
         printf("  push %d\n", node->val);
@@ -524,10 +394,9 @@ void gen(Node *node) {
 
     printf("  push rax\n");
 }
-
 int main(int argc, char **argv) {
     if (argc != 2) {
-        // exit(1);
+        // error("引数の個数が正しくありません");
         exit(5);
         return 1;
     }
