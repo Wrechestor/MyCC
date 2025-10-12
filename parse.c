@@ -1321,7 +1321,7 @@ Node *function_gval() {
                 // .quad b + 3
 
                 Token *tokquo = consume_kind(TK_QUOTE);
-                if (tokquo) { // 文字列リテラル
+                if (tokquo) { // 文字列での初期化
                     int nowindex = 0;
 
                     char *nowchr = tokquo->str;
@@ -1544,7 +1544,7 @@ Node *stmt() {
                 }
             } else {
                 Token *tokquo = consume_kind(TK_QUOTE);
-                if (tokquo) { // 文字列リテラル
+                if (tokquo) { // 文字列での初期化
                     int nowindex = 0;
                     Node *assignsubj;
 
@@ -2004,16 +2004,29 @@ Node *primary() {
         Node *node = calloc(1, sizeof(Node));
         node->srctoken = token;
         node->kind = ND_QUOTE;
-        node->val = strsnum;
 
-        Strs *str = calloc(1, sizeof(Strs));
-        str->next = strs;
-        str->text = tok->str;
-        str->len = tok->len;
-        str->id = strsnum;
-        strs = str;
+        Strs *str = strs;
+        while (str) {
+            if (str->len == tok->len &&
+                strncmp(str->text, tok->str, tok->len) == 0) {
+                // すでに同じリテラルがあったら取得
+                node->val = str->id;
+                break;
+            }
+            str = str->next;
+        }
 
-        strsnum += 1;
+        if (!str) { // なかったら新しく登録
+            str = calloc(1, sizeof(Strs));
+            str->next = strs;
+            str->text = tok->str;
+            str->len = tok->len;
+            str->id = strsnum;
+            strs = str;
+
+            node->val = strsnum;
+            strsnum += 1;
+        }
 
         Type *strtype = calloc(1, sizeof(Type));
         strtype->ty = PTR;
