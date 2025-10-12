@@ -1411,7 +1411,7 @@ Node *stmt() {
 
         // 静的スコープ:BLOCKから出るときに現在のlocalsと階層を元に戻す
         scopelayer_now--;
-        localsnum_max = (localsnumtmp > localsnum_max ? localsnumtmp : localsnum_max);
+        localsnum_max = (localsnum > localsnum_max ? localsnum : localsnum_max);
         localsnum = localsnumtmp;
         locals = localstmp;
     } else if (is_type()) { // ローカル変数定義
@@ -1714,7 +1714,7 @@ Node *stmt() {
 
         // 静的スコープ:BLOCKから出るときに現在のlocalsと階層を元に戻す
         scopelayer_now--;
-        localsnum_max = (localsnumtmp > localsnum_max ? localsnumtmp : localsnum_max);
+        localsnum_max = (localsnum > localsnum_max ? localsnum : localsnum_max);
         localsnum = localsnumtmp;
         locals = localstmp;
     } else if (consume_kind(TK_WHILE)) {

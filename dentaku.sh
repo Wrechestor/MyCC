@@ -34,6 +34,7 @@ assert() {
         echo "$input => $actual"
     else
         echo "$input => $expected expected, but got $actual"
+        echo -e "\e[31mFAIL\e[m"
         exit 1
     fi
 }
@@ -47,6 +48,7 @@ assert() {
 # assert 40 '-50+90'
 # assert 1 '1+1==2'
 # assert 0 '3*3<8'
+
 assert 42   'int main(){return 42;}'
 assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
 assert 4    'int main(){int a; if(2*3<5)a=6; else a=4; return a;}'
@@ -58,7 +60,7 @@ assert 3    'int main(){int x; int *y; y = &x; *y = 3; return x;}'
 assert 6    'int main(){int p[4]; *(p+0)=2; *(p+1)=4; *(p+2)=6; *(p+3)=8; return *(p+2);}'
 assert 3    'int main(){int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p + *(p + 1);}'
 assert 3    'int main(){int a[2]; a[0] = 1; a[1] = 2; int *p; p = a; return *p + p[1];}'
-
+assert 8    'int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}'
 
 
 cd ../
