@@ -746,9 +746,15 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
         return node;
     }
 
-    // TODO:ここで型のチェックorキャスト
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
+    // TODO:3項演算子の時はltypeではない!!!!
+    // TODO:↑ほかの演算子の場合は?
+    if (kind == ND_COND) {
+        node->type = rtype;
+        return node;
+    }
+    // TODO:ここで型のチェックorキャスト(char→intなど)
     node->type = ltype ? ltype : rtype;
 
     // TODO:配列がバグってた?(ポインタにキャストされるため)

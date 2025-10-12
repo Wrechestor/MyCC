@@ -24,27 +24,24 @@ typedef struct Token Token;
 
 // 抽象構文木のノードの種類
 typedef enum {
-    ND_ADD,     // +
-    ND_SUB,     // -
-    ND_MUL,     // *
-    ND_DIV,     // /
-    ND_LES,     // <
-    ND_LEQ,     // <=
-    ND_EQ,      // ==
-    ND_NEQ,     // !=
-    ND_ASSIGN,  // =
-    ND_RETURN,  // return
-    ND_IF,      // if
-    ND_ELSE,    // else
-    ND_WHILE,   // while
-    ND_FOR,     // for
-    ND_FORSUP,  // for内部のの2つ目以降の文
-    ND_BLOCK,   // {}
-    ND_LVAR,    // ローカル変数
-    ND_FUNC,    // 関数呼び出し
-    ND_FUNCDEF, // 関数定義
-    ND_ARG,     // 関数の引数
-    ND_NUM,     // 整数
+    ND_ADD,    // +
+    ND_SUB,    // -
+    ND_MUL,    // *
+    ND_DIV,    // /
+    ND_LES,    // <
+    ND_LEQ,    // <=
+    ND_EQ,     // ==
+    ND_NEQ,    // !=
+    ND_ASSIGN, // =
+    ND_RETURN, // return
+    ND_IF,     // if
+    ND_ELSE,   // else
+    ND_WHILE,  // while
+    ND_FOR1,   // for
+    ND_FOR2,   // for
+    ND_FOR3,   // for
+    ND_LVAR,   // ローカル変数
+    ND_NUM,    // 整数
 } NodeKind;
 
 // 抽象構文木のノードの型
@@ -54,7 +51,6 @@ struct Node {
     struct Node *rhs; // 右辺
     int val;          // kindがND_NUMの場合のみ使う
     int offset;       // kindがND_LVARの場合のみ使う
-    char *name;       // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
 typedef struct Node Node;
 
@@ -67,15 +63,69 @@ struct LVar {
 };
 typedef struct LVar LVar;
 
+// TODO:typedefを先に!
+// // トークンの種類
+// typedef enum {
+//     TK_RESERVED, // 記号
+//     TK_RETURN,   // return
+//     TK_IDENT,    // 識別子
+//     TK_NUM,      // 整数トークン
+//     TK_EOF,      // 入力の終わりを表すトークン
+// } TokenKind;
+
+// typedef struct Token Token;
+
+// // トークン型
+// struct Token {
+//     TokenKind kind; // トークンの型
+//     Token *next;    // 次の入力トークン
+//     int val;        // kindがTK_NUMの場合、その数値
+//     char *str;      // トークン文字列
+//     int len;        // トークンの長さ
+// };
+
+// // 抽象構文木のノードの種類
+// typedef enum {
+//     ND_ADD,    // +
+//     ND_SUB,    // -
+//     ND_MUL,    // *
+//     ND_DIV,    // /
+//     ND_LES,    // <
+//     ND_LEQ,    // <=
+//     ND_EQ,     // ==
+//     ND_NEQ,    // !=
+//     ND_ASSIGN, // =
+//     ND_RETURN, // return
+//     ND_LVAR,   // ローカル変数
+//     ND_NUM,    // 整数
+// } NodeKind;
+
+// typedef struct Node Node;
+
+// // 抽象構文木のノードの型
+// struct Node {
+//     NodeKind kind; // ノードの型
+//     Node *lhs;     // 左辺
+//     Node *rhs;     // 右辺
+//     int val;       // kindがND_NUMの場合のみ使う
+//     int offset;    // kindがND_LVARの場合のみ使う
+// };
+
+// typedef struct LVar LVar;
+
+// // ローカル変数の型
+// struct LVar {
+//     LVar *next; // 次の変数か0
+//     char *name; // 変数の名前
+//     int len;    // 名前の長さ
+//     int offset; // RBPからのオフセット
+// };
+
 // ローカル変数
 
 // 現在着目しているトークン
 
 // 入力プログラム
-
-// 制御命令のラベル用の通し番号
-
-// rspが16の倍数になっているか
 
 int consume(char *op);
 Token *consume_type(TokenKind tkind);
@@ -89,7 +139,6 @@ Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 
 void program();
-Node *function();
 Node *stmt();
 Node *expr();
 Node *assign();
@@ -109,15 +158,10 @@ Token *token;
 // 入力プログラム
 char *user_input;
 
+Node *code[100];
+
 LVar *locals;
 int branch_label = 0;
-
-int rsp_aligned = 1;
-
-Node *code[100];
-int localsnums[100];
-int localsnum;
-
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
 int consume(char *op) {
@@ -146,7 +190,7 @@ void expect(char *op) {
     if (token->kind != TK_RESERVED ||
         strlen(op) != token->len ||
         memcmp(token->str, op, token->len))
-        exit(3);
+        exit(7);
     token = token->next;
 }
 
@@ -154,7 +198,7 @@ void expect(char *op) {
 // それ以外の場合にはエラーを報告する。
 int expect_number() {
     if (token->kind != TK_NUM)
-        exit(4);
+        exit(2);
     int val = token->val;
     token = token->next;
     return val;
@@ -187,7 +231,7 @@ void tokenize() {
     Token *head = calloc(1, sizeof(Token));
     head->next = 0;
     Token *cur = head;
-
+    char *q;
     while (*p) {
         // 空白文字をスキップ
         if (isspace(*p)) {
@@ -244,16 +288,14 @@ void tokenize() {
             *p == '*' || *p == '/' ||
             *p == '(' || *p == ')' ||
             *p == '<' || *p == '>' ||
-            *p == ';' || *p == '=' ||
-            *p == '{' || *p == '}' ||
-            *p == ',') {
+            *p == ';' || *p == '=') {
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;
             continue;
         }
 
         // 識別子
-        char *q = p;
+        q = p;
         while (is_alnum(*q) && !(q == p && '0' <= *q && *q <= '9')) {
             q++;
         }
@@ -271,7 +313,7 @@ void tokenize() {
             continue;
         }
 
-        exit(5);
+        exit(3);
     }
 
     new_token(TK_EOF, cur, p);
@@ -280,6 +322,8 @@ void tokenize() {
 
 // 変数を名前で検索する。見つからなかった場合は0を返す。
 LVar *find_lvar(Token *tok) {
+    // TODO:forで宣言
+    // for (LVar *var = locals; var; var = var->next)
     LVar *var;
     for (var = locals; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
@@ -304,116 +348,16 @@ Node *new_node_num(int val) {
 
 void program() {
     int i = 0;
-    LVar *var;
-    while (!at_eof()) {
-        // TODO:変数スコープ
-        locals = 0;
-        code[i] = function();
-        localsnums[i] = 0;
-        for (var = locals; var; var = var->next)
-            localsnums[i]++;
-        // ↑TODO:1多いかも
-        i++;
-    }
+    while (!at_eof())
+        code[i++] = stmt();
     code[i] = 0;
-}
-
-Node *function() {
-    // function = ident "(" ident* ")" "{" stmt* "}"
-    Node *node;
-    node = calloc(1, sizeof(Node));
-
-    Token *funcname;
-    funcname = consume_type(TK_IDENT);
-    if (!funcname) {
-        exit(6);
-    }
-
-    node->kind = ND_FUNCDEF;
-    node->name = funcname->str;
-    node->val = funcname->len;
-
-    expect("(");
-    Token *argname;
-    Node *tmparg = node;
-    Node *tmp2;
-    while (!consume(")")) {
-        argname = consume_type(TK_IDENT);
-        if (!argname) {
-            exit(7);
-        }
-
-        // 引数はローカル変数として扱う
-        tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_LVAR;
-        LVar *lvar = find_lvar(argname);
-        if (lvar) {
-            tmp2->offset = lvar->offset;
-        } else {
-            // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-            lvar = calloc(1, sizeof(LVar));
-            lvar->next = locals;
-            lvar->name = argname->str;
-            lvar->len = argname->len;
-            lvar->offset = (locals ? locals->offset : 0) + 8;
-            tmp2->offset = lvar->offset;
-            locals = lvar;
-        }
-        tmparg->lhs = tmp2;
-        tmparg = tmp2;
-
-        if (!consume(",")) {
-            expect(")");
-            break;
-        }
-    }
-
-    expect("{");
-    Node *tmp = calloc(1, sizeof(Node));
-    tmp->kind = ND_BLOCK;
-    node->rhs = tmp;
-    while (1) {
-        if (token->next == 0) {
-            exit(8);
-        }
-        if (consume("}")) {
-            break;
-        }
-        tmp->lhs = stmt();
-        tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_BLOCK;
-        tmp->rhs = tmp2;
-        tmp = tmp2;
-    }
-
-    return node;
 }
 
 Node *stmt() {
     Node *node;
     Node *tmp;
-    Node *tmp2;
 
-    if (consume("{")) { // Block
-        node = calloc(1, sizeof(Node));
-        node->kind = ND_BLOCK;
-        tmp = node;
-        while (1) {
-            if (token->next == 0) {
-                exit(9);
-            }
-            if (consume("}")) {
-                break;
-            } else {
-                tmp->lhs = stmt();
-                tmp2 = calloc(1, sizeof(Node));
-                tmp2->kind = ND_BLOCK;
-                tmp->rhs = tmp2;
-                tmp = tmp2;
-            }
-        }
-
-    } else if (consume_type(TK_RETURN)) {
+    if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
@@ -437,12 +381,11 @@ Node *stmt() {
         node->kind = ND_WHILE;
         node->lhs = expr();
         expect(")");
-        node->rhs = stmt();
     } else if (consume_type(TK_FOR)) {
         // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
-        node->kind = ND_FOR;
+        node->kind = ND_FOR1;
         if (consume(";")) {
             node->lhs = 0;
         } else {
@@ -451,7 +394,7 @@ Node *stmt() {
         }
 
         tmp = calloc(1, sizeof(Node));
-        tmp->kind = ND_FORSUP;
+        tmp->kind = ND_FOR2;
         if (consume(";")) {
             tmp->lhs = 0;
         } else {
@@ -459,17 +402,19 @@ Node *stmt() {
             expect(";");
         }
         node->rhs = tmp;
+        node = tmp;
 
-        tmp2 = calloc(1, sizeof(Node));
-        tmp2->kind = ND_FORSUP;
+        tmp = calloc(1, sizeof(Node));
+        tmp->kind = ND_FOR3;
         if (consume(")")) {
-            tmp2->lhs = 0;
+            tmp->lhs = 0;
         } else {
-            tmp2->lhs = expr();
+            tmp->lhs = expr();
             expect(")");
         }
-        tmp->rhs = tmp2;
-        tmp2->rhs = stmt();
+        node->rhs = tmp;
+        node = tmp;
+        node->rhs = stmt();
     } else {
         node = expr();
         expect(";");
@@ -566,46 +511,23 @@ Node *primary() {
     // 次のトークンが識別子なら
     Token *tok = consume_type(TK_IDENT);
     if (tok) {
-        if (consume("(")) { // TODO:関数呼び出し
-            node = calloc(1, sizeof(Node));
-            node->kind = ND_FUNC;
-            node->name = tok->str;
-            node->val = tok->len;
-            // TODO:引数の個数チェック
-            if (consume(")")) {
-                return node;
-            } else {
-                node->lhs = expr();
-                Node *now = node;
-                while (consume(",")) {
-                    Node *tmp = calloc(1, sizeof(Node));
-                    tmp->kind = ND_ARG;
-                    tmp->lhs = expr();
-                    now->rhs = tmp;
-                    now = tmp;
-                }
-                expect(")");
-            }
-            return node;
-        } else { // 変数
-            node = calloc(1, sizeof(Node));
-            node->kind = ND_LVAR;
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_LVAR;
 
-            LVar *lvar = find_lvar(tok);
-            if (lvar) {
-                node->offset = lvar->offset;
-            } else {
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                lvar = calloc(1, sizeof(LVar));
-                lvar->next = locals;
-                lvar->name = tok->str;
-                lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8;
-                node->offset = lvar->offset;
-                locals = lvar;
-            }
-            return node;
+        LVar *lvar = find_lvar(tok);
+        if (lvar) {
+            node->offset = lvar->offset;
+        } else {
+            printf("### NEWIDT %s:len=%d\n", tok->str, tok->len);
+            lvar = calloc(1, sizeof(LVar));
+            lvar->next = locals;
+            lvar->name = tok->str;
+            lvar->len = tok->len;
+            lvar->offset = (locals ? locals->offset : 0) + 8;
+            node->offset = lvar->offset;
+            locals = lvar;
         }
+        return node;
     }
 
     // そうでなければ数値のはず
@@ -614,80 +536,17 @@ Node *primary() {
 
 void gen_lval(Node *node) {
     if (node->kind != ND_LVAR)
-        exit(10);
+        exit(4);
 
     printf("  mov rax, rbp\n");
     printf("  sub rax, %d\n", node->offset);
     printf("  push rax\n");
-    rsp_aligned = !rsp_aligned;
 }
+
 void gen(Node *node) {
-    char name[255];
-    int i = 0;
-    int k;
-    if (node == 0)
-        return;
-    if (node->kind == ND_FUNCDEF) {
-        strncpy(name, node->name, node->val);
-        name[node->val] = '\0';
-        printf("%s:\n", name);
-
-        // プロローグ
-        printf("  push rbp\n");
-        rsp_aligned = !rsp_aligned;
-        printf("  mov rbp, rsp\n");
-        // TODO:引数をスタックに展開
-        Node *tmparg = node;
-        while (tmparg->lhs) {
-            switch (i) {
-            // TODO:eax(raxの下位32bit)
-            case 0: printf("  push rdi\n"); break;
-            case 1: printf("  push rsi\n"); break;
-            case 2: printf("  push rdx\n"); break;
-            case 3: printf("  push rcx\n"); break;
-            case 4: printf("  push r8\n"); break;
-            case 5:
-                printf("  push r9\n");
-                break;
-                // default:printf("  push rax\n");break; // TODO:pushは逆順
-            }
-            tmparg = tmparg->lhs;
-            i++;
-        }
-        // ローカル変数用のスタックを確保
-        printf("  sub rsp, %d\n", (localsnum - i) * 8);
-        if ((localsnum / 8) % 2 == 1)
-            rsp_aligned = !rsp_aligned;
-
-        gen(node->rhs);
-        if (node->rhs != 0) {
-            printf("  pop rax\n");
-            rsp_aligned = !rsp_aligned;
-        }
-
-        // エピローグ
-        // 最後の式の結果がRAXに残っているのでそれが返り値になる
-        printf("  mov rsp, rbp\n");
-        printf("  pop rbp\n");
-        rsp_aligned = !rsp_aligned;
-        printf("  ret\n");
-        return;
-    }
-
-    if (node->kind == ND_BLOCK) {
-        gen(node->lhs);
-        if (node->lhs != 0) {
-            printf("  pop rax\n");
-            rsp_aligned = !rsp_aligned;
-        }
-        gen(node->rhs);
-        return;
-    }
-
     if (node->kind == ND_IF) {
         gen(node->lhs);
         printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
         printf("  cmp rax, 0\n");
         if (node->rhs->kind == ND_ELSE) {
             printf("  je  .Lelse%d\n", branch_label);
@@ -704,45 +563,11 @@ void gen(Node *node) {
         return;
     }
 
-    if (node->kind == ND_WHILE) {
-        printf(".Lbegin%d:\n", branch_label);
-        gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
-        printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", branch_label);
-        gen(node->rhs);
-        printf("  jmp .Lbegin%d\n", branch_label);
-        printf(".Lend%d:\n", branch_label);
-        branch_label++;
-        return;
-    }
-
-    if (node->kind == ND_FOR) {
-        // for (A; B; C) D
-        gen(node->lhs); // A
-        printf(".Lbegin%d:\n", branch_label);
-        gen(node->rhs->lhs); // B
-        printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
-        printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", branch_label);
-        gen(node->rhs->rhs->rhs); // D
-        gen(node->rhs->rhs->lhs); // C
-        printf("  jmp .Lbegin%d\n", branch_label);
-        printf(".Lend%d:\n", branch_label);
-        branch_label++;
-        return;
-    }
-
     if (node->kind == ND_RETURN) {
         gen(node->lhs);
-        // TODO:ここでrsp_alignedは不正になる
         printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
         printf("  mov rsp, rbp\n");
         printf("  pop rbp\n");
-        rsp_aligned = !rsp_aligned;
         printf("  ret\n");
         return;
     }
@@ -750,66 +575,21 @@ void gen(Node *node) {
     switch (node->kind) {
     case ND_NUM:
         printf("  push %d\n", node->val);
-        rsp_aligned = !rsp_aligned;
         return;
     case ND_LVAR:
         gen_lval(node);
         printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
         printf("  mov rax, [rax]\n");
         printf("  push rax\n");
-        rsp_aligned = !rsp_aligned;
         return;
     case ND_ASSIGN:
         gen_lval(node->lhs);
         gen(node->rhs);
 
         printf("  pop rdi\n");
-        rsp_aligned = !rsp_aligned;
         printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
-        rsp_aligned = !rsp_aligned;
-        return;
-    case ND_FUNC: // TODO:関数呼び出し
-        strncpy(name, node->name, node->val);
-        name[node->val] = '\0';
-        // 引数
-        Node *now = node;
-        while (now->lhs) { // TODO:変数は逆順
-            i++;
-            gen(now->lhs);
-            now = now->rhs;
-            if (now == 0)
-                break;
-        }
-        for (k = i; k > 0; k--) {
-            printf("  pop rax\n");
-            rsp_aligned = !rsp_aligned;
-            switch (k - 1) {
-            // TODO:eax(raxの下位32bit)
-            case 0: printf("  mov edi, eax\n"); break;
-            case 1: printf("  mov esi, eax\n"); break;
-            case 2: printf("  mov edx, eax\n"); break;
-            case 3: printf("  mov ecx, eax\n"); break;
-            case 4: printf("  mov r8d, eax\n"); break;
-            case 5:
-                printf("  mov r9d, eax\n");
-                break;
-                // default:printf("  push rax\n");break; // TODO:pushは逆順
-            }
-        }
-        printf("  mov eax, 0\n");
-
-        // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
-        // if (!rsp_aligned) {
-        //     printf("  sub rsp, 8\n");
-        //     rsp_aligned=!rsp_aligned;
-        // }
-        printf("  call %s\n", name);
-        printf("  push rax\n");
-        rsp_aligned = !rsp_aligned;
         return;
     }
 
@@ -817,9 +597,7 @@ void gen(Node *node) {
     gen(node->rhs);
 
     printf("  pop rdi\n");
-    rsp_aligned = !rsp_aligned;
     printf("  pop rax\n");
-    rsp_aligned = !rsp_aligned;
 
     switch (node->kind) {
     case ND_ADD:
@@ -858,46 +636,57 @@ void gen(Node *node) {
     }
 
     printf("  push rax\n");
-    rsp_aligned = !rsp_aligned;
 }
+
 int main(int argc, char **argv) {
     if (argc != 2) {
-        exit(11);
+        // exit(1);
+        exit(5);
         return 1;
     }
 
     // トークナイズしてパースする
     // 結果はcodeに保存される
     user_input = argv[1];
-    tokenize(user_input);
+    // tokenize(user_input);
+    tokenize();
+
+    // Token *now = token;
+    // printf("### toke oareroi ");
+    // while (now) {
+    //     printf(" %d", now->kind);
+    //     now = now->next;
+    // }
+    // printf("a \n");
+
     program();
 
     // アセンブリの前半部分を出力
     printf(".intel_syntax noprefix\n");
-    printf(".globl ");
+    printf(".globl main\n");
+    printf("main:\n");
 
-    char name[255];
-    int is_first = 1;
-    int i;
-    for (i = 0; code[i]; i++) {
-        if (code[i] && code[i]->kind == ND_FUNCDEF) {
-            if (!is_first)
-                printf(", ");
-            else
-                is_first = 0;
-            strncpy(name, code[i]->name, code[i]->val);
-            name[code[i]->val] = '\0';
-            printf("%s", name);
-        }
-    }
-    printf("\n");
+    // プロローグ
+    // 変数26個分の領域を確保する
+    printf("  push rbp\n");
+    printf("  mov rbp, rsp\n");
+    printf("  sub rsp, 208\n");
 
     // 先頭の式から順にコード生成
+    // for (int i = 0; code[i]; i++) {
+    int i;
     for (i = 0; code[i]; i++) {
-        rsp_aligned = 1;
-        localsnum = localsnums[i];
         gen(code[i]);
+
+        // 式の評価結果としてスタックに一つの値が残っている
+        // はずなので、スタックが溢れないようにポップしておく
+        printf("  pop rax\n");
     }
 
+    // エピローグ
+    // 最後の式の結果がRAXに残っているのでそれが返り値になる
+    printf("  mov rsp, rbp\n");
+    printf("  pop rbp\n");
+    printf("  ret\n");
     return 0;
 }

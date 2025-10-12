@@ -2,6 +2,8 @@
 *.o
 *.png
 *.pdf
+*.svg
+*.dot
 tmp*
 a.out
 mycc

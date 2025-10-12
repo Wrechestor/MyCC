@@ -129,7 +129,21 @@ char *nodeToStr(Node *node) {
             }
             nowstr = nowstr->next;
         }
-        sprintf(ret, "\\\"%s\\\"", namebuf);
+        // sprintf(ret, "\\\"%s\\\"", namebuf);
+
+        sprintf(ret, "\\\"");
+        while (*namebuf) {
+            switch (*namebuf) {
+
+            case '&': sprintf(ret, "&amp;"); break;
+            case '<': sprintf(ret, "&lt;"); break;
+            case '>': sprintf(ret, "&gt;"); break;
+            default: sprintf(ret, "%c", *namebuf); break;
+            }
+            namebuf++;
+        }
+        sprintf(ret, "\\\"");
+        // sprintf(ret, "\\\"%s\\\"", namebuf);
         return ret;
     case ND_NUM:
         sprintf(ret, "%d", node->val);

@@ -47,12 +47,15 @@ assert() {
 # assert 40 '-50+90'
 # assert 1 '1+1==2'
 # assert 0 '3*3<8'
-assert 42 '42;'
-assert 2 'a=b=2;'
-assert 1 'a=1;a;'
-assert 6 'foo = 1; bar = 2 + 3; return foo + bar;'
-assert 14 'a = 3; b = 5 * 6 - 8; return a + b / 2;'
-assert 4 'if(2*3<5)a=6;else a=4;return a;'
+assert 42 'main(){return 42;}'
+assert 6 'main(){foo = 1; bar = 2 + 3; return foo + bar;}'
+assert 4 'main(){if(2*3<5)a=6; else a=4; return a;}'
+assert 11 'eight(){return 8;}main(){a = 3; return a + eight();}'
+assert 5 'add(x,y){return x+y;}main(){return add(2,3);}'
+assert 13 'mul(x,y){return x*y;}add(x,y){return x+y;}main(){return add(mul(3,4),1);}'
+assert 42 'mul(x,y){return x*y;}add(x,y){return x+y;}main(){return add(mul(3,4),mul(5,6));}'
+assert 233 'fibo(x){if(x<=2)return 1; else return fibo(x-1)+fibo(x-2);}main(){return fibo(13);}'
+
 
 
 
