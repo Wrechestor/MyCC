@@ -127,15 +127,21 @@ struct Type {
 };
 typedef struct Type Type;
 
+enum variabletype_t {
+    NOVAL,
+    LOCALVAL,
+    GLOBALVAL,
+};
 // 抽象構文木のノードの型
 struct Node {
-    NodeKind kind;          // ノードの型
-    struct Node *lhs;       // 左辺
-    struct Node *rhs;       // 右辺
-    int val;                // kindがND_NUMの場合のみ使う
-    int offset;             // kindがND_LVARの場合のみ使う
-    char *name;             // kindがND_FUMCの場合のみ,valにnameの長さを入れる
-    struct Token *srctoken; // Nodeの元の場所
+    NodeKind kind;                    // ノードの型
+    struct Node *lhs;                 // 左辺
+    struct Node *rhs;                 // 右辺
+    int val;                          // kindがND_NUMの場合のみ使う
+    int offset;                       // kindがND_LVARの場合のみ使う
+    char *name;                       // kindがND_FUMCの場合のみ,valにnameの長さを入れる
+    enum variabletype_t variabletype; // TODO:変数の場合,LValなら1,GValなら2
+    struct Token *srctoken;           // Nodeの元の場所
     struct Type *type;
 };
 typedef struct Node Node;
@@ -146,14 +152,20 @@ struct LVar {
     char *name;        // 変数の名前
     int len;           // 名前の長さ
     int offset;        // RBPからのオフセット
+    int scopelayer;    // TODO:スコープの階層
     Type *type;        // 変数の型
 };
 typedef struct LVar LVar;
+
 // ローカル変数
 extern LVar *locals;
 extern LVar *LocalsList[100];
 extern int localsnums[100];
 extern int localsnum;
+
+// TODO:スコープ用
+extern int scopelayer_now;
+extern int localsnum_max;
 
 // グローバル変数の型
 struct GVar {

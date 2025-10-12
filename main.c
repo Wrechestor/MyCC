@@ -99,7 +99,7 @@ char *nodeToStr(Node *node) {
         sprintf(ret, "EXTERN(%s)", namebuf);
         return ret;
     case ND_LVAR:
-        sprintf(ret, "%s", namebuf);
+        sprintf(ret, "%s @%d", namebuf, node->offset);
         return ret;
     case ND_FUNCCALL:
         sprintf(ret, "CALL(%s)", namebuf);

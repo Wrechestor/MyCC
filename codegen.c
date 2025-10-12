@@ -21,16 +21,16 @@ int gen_lval(Node *node) {
         Type *lhstype = estimate_type(node->lhs);
 
         if (!lhstype || lhstype->ty != STRUCT)
-            error_at(node->name, "左辺がstructではありません");
+            error_at(node->srctoken->str, "左辺がstructではありません");
 
         int offset = 0;
 
         Type *now = lhstype->member;
         for (;;) {
             if (!now)
-                error("structのメンバ名が存在しません");
+                error_at(node->srctoken->str, "structのメンバ名が存在しません");
             if (now->ty != MEMBER)
-                error("不正な構文木:member");
+                error_at(node->srctoken->str, "不正な構文木:member");
             if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
                 break;
             offset += size_from_type(now->ptr_to);
@@ -46,24 +46,16 @@ int gen_lval(Node *node) {
     }
 
     if (node->kind != ND_LVAR)
-        error("代入の左辺値が変数ではありません");
+        error_at(node->srctoken->str, "代入の左辺値が変数ではありません");
 
-    Token *tok = calloc(1, sizeof(Token));
-    tok->str = node->name;
-    tok->len = node->val;
-    LVar *lvar = find_lvar(tok);
-    if (lvar) { // ローカル変数
+    if (node->variabletype == LOCALVAL) {
         printf("  mov rax, rbp\n");
         printf("  sub rax, %d\n", node->offset);
         printf("  push rax\n");
         return 0;
     }
 
-    tok = calloc(1, sizeof(Token));
-    tok->str = node->name;
-    tok->len = node->val;
-    GVar *gvar = find_gvar(tok);
-    if (gvar) { // グローバル変数
+    if (node->variabletype == GLOBALVAL) {
         char *name = calloc(256, sizeof(char));
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
@@ -73,7 +65,8 @@ int gen_lval(Node *node) {
         printf("  push rax\n");
         return 0;
     }
-    error("代入の左辺の変数がありません");
+
+    error_at(node->srctoken->str, "代入の左辺の変数がありません");
 }
 
 void gen(Node *node) {
@@ -357,7 +350,7 @@ void gen(Node *node) {
                 id = current_switch_id;
             printf("  jmp .Lend%d\n", id);
         } else {
-            error("breakの位置が不正です");
+            error_at(node->srctoken->str, "breakの位置が不正です");
         }
         return;
     }
@@ -365,7 +358,7 @@ void gen(Node *node) {
         if (is_inloop) {
             printf("  jmp .Lcontinue%d\n", current_loop_id);
         } else {
-            error("continueの位置が不正です");
+            error_at(node->srctoken->str, "continueの位置が不正です");
         }
         return;
     }
@@ -479,7 +472,7 @@ void gen(Node *node) {
         type = estimate_type(node->lhs);
         if (type) {
             if (type->ty == ARRAY) {
-                error("配列には代入できません");
+                error_at(node->srctoken->str, "配列には代入できません");
             }
             if (type->ty == CHAR) {
                 // char型のときは1バイト書きこむ
@@ -639,7 +632,7 @@ void gen(Node *node) {
 
         if (type) {
             if (type->ty == ARRAY) {
-                error("配列には代入できません");
+                error_at(node->srctoken->str, "配列には代入できません");
             }
             if (type->ty == CHAR) {
                 // char型のときは1バイト書きこむ

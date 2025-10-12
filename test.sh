@@ -15,6 +15,7 @@ assert() {
         echo "$input => $expected expected, but got $actual"
         # exit 1
         echo -e "\e[31mFAIL\e[m"
+        exit 1
     fi
 }
 
@@ -70,9 +71,12 @@ assert 5    'int main(){return sizeof(int)+sizeof(char);}'
 assert 3    'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
 assert 3    'int x=3; int y=5; int ww=7; int uu=1; int main(){ int *z; z=&y-1; return *z;}'
 assert 7    'typedef struct MyStruct {int a;int b;int c;} MyStrc; MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
+assert 3    'int main(){int a=3;{int a=6;{ int a=8; {a++;} printf("$%d$ ",a);}printf("@%d@ ",a); }printf("#%d# ",a); return 3;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
+
+
 
 
 echo -e "\e[32mOK\e[m"

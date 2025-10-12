@@ -61,9 +61,4 @@ TYPE       = ("int" | "char" | ("struct" ident) | ("enum" ident)
 # TODO:プリプロセッサ処理(#include,#define)
 # TODO:定数はパーサ時に計算できる(両辺がNUMなら計算結果をノードに)
 
-# TODO:ブロックスコープ
-# BLOCKまたは関数定義のNodeにLVar *localsを持たせ, 変数が使われるときは
-# Nodeのツリーを上向きに遡ってローカル変数定義を探す
-# →①Nodeのツリーに親へのポインタを持たせる
-# ②変数定義(Rspを下げる,localsへの登録等)はパース時ではなくgenで行う
 # TODO:for内での宣言 for(int i=0; ...)

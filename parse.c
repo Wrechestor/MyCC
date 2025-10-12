@@ -15,6 +15,8 @@ LVar *locals;
 LVar *LocalsList[100];
 int localsnum;
 int localsnums[100];
+int scopelayer_now;
+int localsnum_max;
 
 // 文字列リテラルのリスト
 Strs *strs;
@@ -831,8 +833,10 @@ void program() {
     while (!at_eof()) {
         locals = NULL;
         localsnum = 0;
+        scopelayer_now = 0;
+        localsnum_max = 0;
         code[i] = function_gval();
-        localsnums[i] = localsnum;
+        localsnums[i] = (localsnum_max > localsnum ? localsnum_max : localsnum);
         LocalsList[i] = locals;
         i++;
     }
@@ -1017,6 +1021,7 @@ Node *function_gval() {
                 gvar->is_extern = 1;
                 node->offset = gvar->addr;
                 node->type = type;
+                node->variabletype = GLOBALVAL;
                 globals = gvar;
             }
         }
@@ -1131,9 +1136,13 @@ Node *function_gval() {
                 lvar->name = argname->str;
                 lvar->len = argname->len;
                 lvar->type = argtype;
+                lvar->scopelayer = scopelayer_now;
 
                 lvar->offset = (locals ? locals->offset : 0) + 8;
                 tmp2->offset = lvar->offset;
+                tmp2->type = argtype;
+                tmp2->val = 1; // TODO:ローカル変数のサイズ
+                tmp2->variabletype = LOCALVAL;
                 locals = lvar;
 
                 localsnum += 1;
@@ -1242,6 +1251,7 @@ Node *function_gval() {
                 gvar->type = type;
                 node->offset = gvar->addr;
                 node->type = type;
+                node->variabletype = GLOBALVAL;
                 globals = gvar;
             }
         }
@@ -1293,6 +1303,7 @@ Node *function_gval() {
                         gvar->type = type;
                         node->offset = gvar->addr;
                         node->type = type;
+                        node->variabletype = GLOBALVAL;
                         globals = gvar;
                     }
 
@@ -1355,6 +1366,7 @@ Node *function_gval() {
                         gvar->type = type;
                         node->offset = gvar->addr;
                         node->type = type;
+                        node->variabletype = GLOBALVAL;
                         globals = gvar;
                     }
                 } else {
@@ -1370,7 +1382,12 @@ Node *function_gval() {
 Node *stmt() {
     Node *node;
 
-    if (consume("{")) { // Block
+    if (consume("{")) { // 複文 Block
+        // 静的スコープ:BLOCKに入るときに現在のlocalsと階層を保存
+        LVar *localstmp = locals;
+        int localsnumtmp = localsnum;
+        scopelayer_now++;
+
         node = calloc(1, sizeof(Node));
         node->srctoken = token;
         node->kind = ND_BLOCK;
@@ -1392,6 +1409,11 @@ Node *stmt() {
             tmp = tmp2;
         }
 
+        // 静的スコープ:BLOCKから出るときに現在のlocalsと階層を元に戻す
+        scopelayer_now--;
+        localsnum_max = (localsnumtmp > localsnum_max ? localsnumtmp : localsnum_max);
+        localsnum = localsnumtmp;
+        locals = localstmp;
     } else if (is_type()) { // ローカル変数定義
         node = calloc(1, sizeof(Node));
         node->srctoken = token;
@@ -1410,7 +1432,7 @@ Node *stmt() {
 
         LVar *lvar;
         lvar = find_lvar(tok);
-        if (lvar)
+        if (lvar && lvar->scopelayer == scopelayer_now)
             error_at(tok->str, "重複定義されたローカル変数です");
 
         node->name = tok->str;
@@ -1445,8 +1467,11 @@ Node *stmt() {
             lvar->len = tok->len;
             lvar->offset = offset;
             lvar->type = type;
+            lvar->scopelayer = scopelayer_now;
             node->offset = offset;
             node->type = type;
+            node->val = totalsize; // TODO:ローカル変数のサイズ
+            node->variabletype = LOCALVAL;
             locals = lvar;
 
             localsnum += totalsize;
@@ -1467,6 +1492,7 @@ Node *stmt() {
             lval->name = tok->str;
             lval->val = tok->len;
             lval->type = type;
+            lval->variabletype = LOCALVAL;
             if (consume("{")) { // 配列の初期化
                 int nowindex = 0;
                 Node *assignsubj;
@@ -1533,8 +1559,11 @@ Node *stmt() {
                         lvar->len = tok->len;
                         lvar->offset = offset;
                         lvar->type = type;
+                        lvar->scopelayer = scopelayer_now;
                         node->offset = offset;
                         node->type = type;
+                        node->val = totalsize; // TODO:ローカル変数のサイズ
+                        node->variabletype = LOCALVAL;
                         locals = lvar;
 
                         localsnum += totalsize;
@@ -1593,8 +1622,11 @@ Node *stmt() {
                         lvar->len = tok->len;
                         lvar->offset = offset;
                         lvar->type = type;
+                        lvar->scopelayer = scopelayer_now;
                         node->offset = offset;
                         node->type = type;
+                        node->val = totalsize; // TODO:ローカル変数のサイズ
+                        node->variabletype = LOCALVAL;
                         locals = lvar;
 
                         localsnum += totalsize;
@@ -1646,6 +1678,12 @@ Node *stmt() {
         node->lhs = expr();
         expect(")");
         expect("{");
+
+        // 静的スコープ:BLOCKに入るときに現在のlocalsと階層を保存
+        LVar *localstmp = locals;
+        int localsnumtmp = localsnum;
+        scopelayer_now++;
+
         Node *tmp;
         Node *top = node;
         for (;;) {
@@ -1673,6 +1711,12 @@ Node *stmt() {
             node = tmp;
         }
         node = top;
+
+        // 静的スコープ:BLOCKから出るときに現在のlocalsと階層を元に戻す
+        scopelayer_now--;
+        localsnum_max = (localsnumtmp > localsnum_max ? localsnumtmp : localsnum_max);
+        localsnum = localsnumtmp;
+        locals = localstmp;
     } else if (consume_kind(TK_WHILE)) {
         expect("(");
         node = calloc(1, sizeof(Node));
@@ -2087,6 +2131,7 @@ Node *primary() {
                 node->val = lvar->len;
                 node->name = lvar->name;
                 node->type = lvar->type;
+                node->variabletype = LOCALVAL;
             } else {
                 GVar *gvar = find_gvar(tok);
                 if (gvar) {
@@ -2094,6 +2139,7 @@ Node *primary() {
                     node->val = gvar->len;
                     node->name = gvar->name;
                     node->type = gvar->type;
+                    node->variabletype = GLOBALVAL;
                 } else { // enum
                     token = tok;
                     return new_node_num(expect_number());
