@@ -188,66 +188,67 @@ Node *consume_typed_ident(Type *prevtype) {
     // strncpy(name, token->str, 20);
     // fprintf(stderr, "### %s %p\n", name, prevtype);
 
+    Token *first = token;
     Node *node = calloc(1, sizeof(Node));
     node->srctoken = token;
     node->kind = ND_TYPEDIDENT;
 
-    Type *type;
-    if (prevtype)
-        type = prevtype;
-    else
-        type = calloc(1, sizeof(Type));
-    Token *first = token;
-
     // 1.ベースの型
-    int is_typefound = 0;
-    if (consume_kind(TK_INT)) {
-        type->ty = INT;
-        is_typefound = 1;
-    }
-    if (consume_kind(TK_CHAR)) {
-        type->ty = CHAR;
-        is_typefound = 1;
-    }
-    if (consume_kind(TK_VOID)) {
-        type->ty = VOID;
-        is_typefound = 1;
-    }
-
-    if (consume_kind(TK_ENUM)) {
-        EnumName *ename = find_enum(token);
-        if (ename) {
-            token = token->next;
+    Type *type;
+    Type *subtype = NULL;
+    if (prevtype) // ネストした型の場合
+        type = prevtype;
+    else {
+        type = calloc(1, sizeof(Type));
+        int is_typefound = 0;
+        if (consume_kind(TK_INT)) {
             type->ty = INT;
             is_typefound = 1;
-        } else {
-            token = first;
-            return NULL;
         }
-    }
-
-    if (consume_kind(TK_STRUCT)) {
-        StructDef *strc = find_struct(token);
-        if (strc) {
-            token = token->next;
-            type = strc->type;
+        if (consume_kind(TK_CHAR)) {
+            type->ty = CHAR;
             is_typefound = 1;
-        } else {
+        }
+        if (consume_kind(TK_VOID)) {
+            type->ty = VOID;
+            is_typefound = 1;
+        }
+
+        if (consume_kind(TK_ENUM)) {
+            EnumName *ename = find_enum(token);
+            if (ename) {
+                token = token->next;
+                type->ty = INT;
+                is_typefound = 1;
+            } else {
+                token = first;
+                return NULL;
+            }
+        }
+
+        if (consume_kind(TK_STRUCT)) {
+            StructDef *strc = find_struct(token);
+            if (strc) {
+                token = token->next;
+                type = strc->type;
+                is_typefound = 1;
+            } else {
+                token = first;
+                return NULL;
+            }
+        }
+
+        DefinedType *dtype = find_dtype(token);
+        if (dtype != NULL) {
+            token = token->next;
+            type = dtype->type;
+            is_typefound = 1;
+        }
+
+        if (!is_typefound) {
             token = first;
             return NULL;
         }
-    }
-
-    DefinedType *dtype = find_dtype(token);
-    if (dtype != NULL) {
-        token = token->next;
-        type = dtype->type;
-        is_typefound = 1;
-    }
-
-    if (!is_typefound) {
-        token = first;
-        return NULL;
     }
 
     // 2.ポインタを表すアスタリスク
@@ -258,12 +259,15 @@ Node *consume_typed_ident(Type *prevtype) {
         type = t;
     }
 
+    node->type = NULL;
     // 3.識別子か、カッコでくくられたネストした型
     if (consume("(")) {
-        Node *nestednode = consume_typed_ident(type);
-        if (!type)
+        subtype = calloc(1, sizeof(Type));
+        Node *nestednode = consume_typed_ident(subtype);
+        if (!nestednode)
             error_at(token->str, "不正な型です");
-        type = nestednode->type;
+        // type = nestednode->type;
+        node->type = nestednode->type;
         node->name = nestednode->name;
         node->val = nestednode->val;
         consume(")");
@@ -299,10 +303,26 @@ Node *consume_typed_ident(Type *prevtype) {
         // totalsize *= size;
     }
 
-    node->type = type;
+    if (subtype) {
+        subtype->ty = type->ty;
+        subtype->ptr_to = type->ptr_to;
+        subtype->array_size = type->array_size;
+    }
+
+    if (!node->type)
+        node->type = type;
 
     // TODO:複数宣言に対応 int *x, *y;
     // fprintf(stderr, "### %d\n", node->type->ty);
+
+    Type *now = node->type;
+    while (now) {
+        // fprintf(stderr, "### %d\n", now->ty);
+        now = now->ptr_to;
+    }
+    // char name[100];
+    // strncpy(name, first->str, 6);
+    // fprintf(stderr, "### END %s\n", name);
     return node;
 }
 
@@ -1162,7 +1182,7 @@ Node *function_gval() {
         } else {
             type = typedidentnode->type;
         }
-        if (!type) // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
+        if (!type)
             error_at(token->str, "存在しない型です");
 
         if (typedidentnode && typedidentnode->name) {
