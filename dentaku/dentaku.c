@@ -14,15 +14,15 @@ typedef enum {
     TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
+typedef struct Token Token;
 // トークン型
 struct Token {
-    TokenKind kind;     // トークンの型
-    struct Token *next; // 次の入力トークン
-    int val;            // kindがTK_NUMの場合、その数値
-    char *str;          // トークン文字列
-    int len;            // トークンの長さ
+    TokenKind kind; // トークンの型
+    Token *next;    // 次の入力トークン
+    int val;        // kindがTK_NUMの場合、その数値
+    char *str;      // トークン文字列
+    int len;        // トークンの長さ
 };
-typedef struct Token Token;
 
 // 抽象構文木のノードの種類
 typedef enum {
@@ -54,48 +54,49 @@ typedef enum {
     ND_NUM,     // 整数
 } NodeKind;
 
+typedef struct Node Node;
 // 抽象構文木のノードの型
 struct Node {
-    NodeKind kind;    // ノードの型
-    struct Node *lhs; // 左辺
-    struct Node *rhs; // 右辺
-    int val;          // kindがND_NUMの場合のみ使う
-    int offset;       // kindがND_LVARの場合のみ使う
-    char *name;       // kindがND_FUMCの場合のみ,valにnameの長さを入れる
+    NodeKind kind; // ノードの型
+    Node *lhs;     // 左辺
+    Node *rhs;     // 右辺
+    int val;       // kindがND_NUMの場合のみ使う
+    int offset;    // kindがND_LVARの場合のみ使う
+    char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
-typedef struct Node Node;
 
 typedef enum { INT,
     PTR,
     ARRAY } ty_t;
+
+typedef struct Type Type;
 // 変数の型
 struct Type {
     ty_t ty;
-    struct Type *ptr_to;
+    Type *ptr_to;
     int array_size; // 配列のときの要素数
 };
-typedef struct Type Type;
 
+typedef struct LVar LVar;
 // ローカル変数の型
 struct LVar {
-    struct LVar *next; // 次の変数か0
-    char *name;        // 変数の名前
-    int len;           // 名前の長さ
-    int offset;        // RBPからのオフセット
-    Type *type;        // 変数の型
+    LVar *next; // 次の変数か0
+    char *name; // 変数の名前
+    int len;    // 名前の長さ
+    int offset; // RBPからのオフセット
+    Type *type; // 変数の型
 };
-typedef struct LVar LVar;
 // ローカル変数
 
+typedef struct GVar GVar;
 // グローバル変数の型
 struct GVar {
-    struct GVar *next; // 次の変数か0
-    char *name;        // 変数の名前
-    int len;           // 名前の長さ
-    int addr;          // アドレス
-    Type *type;        // 変数の型
+    GVar *next; // 次の変数か0
+    char *name; // 変数の名前
+    int len;    // 名前の長さ
+    int addr;   // アドレス
+    Type *type; // 変数の型
 };
-typedef struct GVar GVar;
 
 // グローバル変数
 

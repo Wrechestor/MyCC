@@ -62,5 +62,3 @@ TYPE       = ("int" | "char" | ("struct" ident) | ("enum" ident)
 # TODO:プリプロセッサ処理(#include,#define)
 # TODO:定数はパーサ時に計算できる(両辺がNUMなら計算結果をノードに)
 # TODO:for内での宣言 for(int i=0; ...)
-
-# TODO:typedef 構造体に元の名前とundefinedフラグを入れて先にtypedefできるように(空のtypeを登録→あとで定義時に中身を埋める)

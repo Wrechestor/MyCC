@@ -917,6 +917,7 @@ void program() {
 }
 
 Node *define_enum() {
+    Token *first = token;
     Node *node;
     node = calloc(1, sizeof(Node));
     node->srctoken = token;
@@ -934,8 +935,12 @@ Node *define_enum() {
             node->val = tok->len;
 
             EnumName *ename = find_enum(tok);
-            if (ename)
-                error_at(tok->str, "重複定義されたenumです");
+            if (ename) {
+                // TODO:enumの前方宣言
+                // error_at(tok->str, "重複定義されたenumです");
+                token = first;
+                return NULL;
+            }
 
             ename = calloc(1, sizeof(EnumName));
             ename->next = enumnames;
@@ -977,6 +982,7 @@ Node *define_enum() {
 }
 
 Node *define_struct() {
+    Token *first = token;
     Node *node;
     node = calloc(1, sizeof(Node));
     node->srctoken = token;
@@ -988,28 +994,39 @@ Node *define_struct() {
         type->ty = STRUCT;
 
         Token *tok = consume_kind(TK_IDENT);
-        if (!tok) {
+        if (!tok)
             // TODO:無名struct,未検証
             error_at(token->str, "structの名前がありません");
 
-        } else {
-            node->name = tok->str;
-            node->val = tok->len;
-            StructDef *strc = find_struct(tok);
-            if (strc)
-                error_at(tok->str, "重複定義されたstructです");
+        node->name = tok->str;
+        node->val = tok->len;
+        StructDef *strc = find_struct(tok);
+        if (strc && strc->is_defined) {
+            // error_at(tok->str, "重複定義されたstructです");
+            token = first;
+            return NULL;
+        }
 
+        if (!strc) {
             strc = calloc(1, sizeof(StructDef));
             strc->next = structdefs;
             strc->name = tok->str;
             strc->len = tok->len;
             strc->type = type;
+            strc->is_defined = 1;
             structdefs = strc;
+        } else {               // structの前方宣言(typedefを先に置く)
+            type = strc->type; // 既存のtypeにmember情報を追加
+            strc->is_defined = 1;
         }
 
         node->type = type;
 
-        expect("{");
+        if (!consume("{")) { // structの前方宣言(typedefを先に置く)
+            strc->is_defined = 0;
+            return node;
+        }
+
         for (;;) { // TODO:char等があったときアライメントする
             if (consume("}"))
                 break;
@@ -1107,90 +1124,84 @@ Node *function_gval() {
         return node;
     }
 
-    // 関数の戻り値orグローバル変数の型
-    Node *typedidentnode = consume_typed_ident(NULL);
+    // if (!typedidentnode) {
+    // 存在しない型の場合→enum or struct or エラー
 
-    if (!typedidentnode) {
-        // 存在しない型の場合→enum or struct or エラー
+    // enum定義
+    Node *deftmp = define_enum();
+    if (deftmp) {
+        expect(";");
+        return deftmp;
+    }
 
-        // enum定義
-        Node *deftmp = define_enum();
-        if (deftmp) {
-            expect(";");
-            return deftmp;
-        }
+    // struct定義
+    deftmp = define_struct();
+    if (deftmp) {
+        expect(";");
+        return deftmp;
+    }
 
-        // struct定義
-        deftmp = define_struct();
-        if (deftmp) {
-            expect(";");
-            return deftmp;
-        }
+    if (consume_kind(TK_TYPEDEF)) {
+        node->kind = ND_TYPEDEF;
 
-        if (consume_kind(TK_TYPEDEF)) {
-            node->kind = ND_TYPEDEF;
+        Node *typedidentnode = consume_typed_ident(NULL);
+        Token *tok;
 
-            Node *typedidentnode = consume_typed_ident(NULL);
-            Token *tok;
-
-            if (!typedidentnode) {
-                deftmp = define_enum();
+        if (!typedidentnode) {
+            deftmp = define_enum();
+            if (deftmp) {
+                type = deftmp->type;
+                tok = consume_kind(TK_IDENT);
+            } else {
+                deftmp = define_struct();
                 if (deftmp) {
                     type = deftmp->type;
                     tok = consume_kind(TK_IDENT);
-                } else {
-                    deftmp = define_struct();
-                    if (deftmp) {
-                        type = deftmp->type;
-                        tok = consume_kind(TK_IDENT);
-                    }
                 }
-            } else {
-                type = typedidentnode->type;
             }
-            if (!type) // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
-                error_at(token->str, "存在しない型です");
-
-            if (typedidentnode && typedidentnode->name) {
-                tok = calloc(1, sizeof(Token));
-                tok->str = typedidentnode->name;
-                tok->len = typedidentnode->val;
-            }
-            if (!tok)
-                error_at(token->str, "typedefの名前がありません");
-
-            node->name = tok->str;
-            node->val = tok->len;
-            int num = 0;
-            DefinedType *dtype;
-
-            dtype = find_dtype(tok);
-            if (dtype)
-                error_at(tok->str, "重複定義されたtypedefです");
-
-            // while (consume("[")) { // TODO:配列型のtypedef
-            //     Type *t = calloc(1, sizeof(Type));
-            //     t->ty = ARRAY;
-            //     t->ptr_to = type;
-            //     type = t;
-            //     size = expect_number();
-            //     expect("]");
-            //     t->array_size = size;
-            //     totalsize *= size;
-            // }
-
-            dtype = calloc(1, sizeof(DefinedType));
-            dtype->next = definedtypes;
-            dtype->name = tok->str;
-            dtype->len = tok->len;
-            dtype->type = type;
-            definedtypes = dtype;
-            expect(";");
-            return node;
+        } else {
+            type = typedidentnode->type;
         }
+        if (!type) // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
+            error_at(token->str, "存在しない型です");
 
-        error_at(token->str, "関数の返り値またはグローバル変数の型がありません");
+        if (typedidentnode && typedidentnode->name) {
+            tok = calloc(1, sizeof(Token));
+            tok->str = typedidentnode->name;
+            tok->len = typedidentnode->val;
+        }
+        if (!tok)
+            error_at(token->str, "typedefの名前がありません");
+
+        node->name = tok->str;
+        node->val = tok->len;
+        int num = 0;
+        DefinedType *dtype;
+
+        dtype = find_dtype(tok);
+        if (dtype)
+            error_at(tok->str, "重複定義されたtypedefです");
+
+        // TODO:配列型のtypedef
+
+        dtype = calloc(1, sizeof(DefinedType));
+        dtype->next = definedtypes;
+        dtype->name = tok->str;
+        dtype->len = tok->len;
+        dtype->type = type;
+        definedtypes = dtype;
+        expect(";");
+        return node;
     }
+
+    // 関数の戻り値orグローバル変数の型
+    Node *typedidentnode = consume_typed_ident(NULL);
+
+    //     error_at(token->str, "関数の返り値またはグローバル変数の型がありません");
+    // }
+    if (!typedidentnode)
+        error_at(token->str, "関数の返り値またはグローバル変数の型がありません");
+
     type = typedidentnode->type;
 
     if (typedidentnode->name == NULL)

@@ -219,6 +219,7 @@ struct StructDef {
     struct StructDef *next;
     char *name;
     int len;
+    int is_defined; // 型定義がすでにあるかどうか
     Type *type;
 };
 typedef struct StructDef StructDef;
