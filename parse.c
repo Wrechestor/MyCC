@@ -269,10 +269,15 @@ Node *consume_typed_ident(Type *prevtype) {
         consume(")");
     } else {
         Token *tok = consume_kind(TK_IDENT);
-        if (!tok)
-            error_at(token->str, "変数名がありません");
-        node->name = tok->str;
-        node->val = tok->len;
+        // if (!tok) // 識別子がない→(sizeof()などの)型名としては正当
+        //     error_at(token->str, "変数名がありません");
+        if (tok) {
+            node->name = tok->str;
+            node->val = tok->len;
+        } else {
+            node->name = NULL;
+            node->val = 0;
+        }
     }
 
     int size = 1;
@@ -299,77 +304,6 @@ Node *consume_typed_ident(Type *prevtype) {
     // TODO:複数宣言に対応 int *x, *y;
     // fprintf(stderr, "### %d\n", node->type->ty);
     return node;
-}
-
-Type *consume_type() {
-    Type *type = calloc(1, sizeof(Type));
-    Token *first = token;
-
-    int is_typefound = 0;
-    if (consume_kind(TK_INT)) {
-        type->ty = INT;
-        is_typefound = 1;
-    }
-    if (consume_kind(TK_CHAR)) {
-        type->ty = CHAR;
-        is_typefound = 1;
-    }
-    if (consume_kind(TK_VOID)) {
-        type->ty = VOID;
-        is_typefound = 1;
-    }
-
-    if (consume_kind(TK_ENUM)) {
-        EnumName *ename = find_enum(token);
-        if (ename) {
-            token = token->next;
-            type->ty = INT;
-            is_typefound = 1;
-        } else {
-            token = first;
-            return NULL;
-        }
-    }
-
-    if (consume_kind(TK_STRUCT)) {
-        StructDef *strc = find_struct(token);
-        if (strc) {
-            token = token->next;
-            type = strc->type;
-            is_typefound = 1;
-        } else {
-            token = first;
-            return NULL;
-        }
-    }
-
-    DefinedType *dtype = find_dtype(token);
-    if (dtype != NULL) {
-        token = token->next;
-        type = dtype->type;
-        is_typefound = 1;
-    }
-
-    if (!is_typefound) {
-        token = first;
-        return NULL;
-    }
-
-    while (consume("*")) {
-        Type *t = calloc(1, sizeof(Type));
-        t->ty = PTR;
-        t->ptr_to = type;
-        type = t;
-    }
-
-    return type;
-}
-
-int is_type() {
-    Token *first = token;
-    Type *type = consume_type();
-    token = first;
-    return type != NULL;
 }
 
 int is_typed_ident() {
@@ -1080,13 +1014,16 @@ Node *define_struct() {
             if (consume("}"))
                 break;
 
-            Type *membertype = consume_type();
-            if (!membertype)
-                error_at(token->str, "存在しない型です");
+            Node *typedidentnode = consume_typed_ident(NULL);
 
-            tok = consume_kind(TK_IDENT);
-            if (!tok)
+            Type *membertype = typedidentnode->type;
+
+            if (typedidentnode->name == NULL)
                 error_at(token->str, "structのメンバ名が識別子ではありません");
+
+            tok = calloc(1, sizeof(Token));
+            tok->str = typedidentnode->name;
+            tok->len = typedidentnode->val;
 
             Type *member = calloc(1, sizeof(Type));
             member->ty = MEMBER;
@@ -1111,14 +1048,16 @@ Node *function_gval() {
     Type *type;
 
     if (consume_kind(TK_EXTERN)) { // externグローバル変数定義
-        type = consume_type();
-        if (!type)
-            error_at(token->str, "extern変数の型がありません");
+        Node *typedidentnode = consume_typed_ident(NULL);
 
-        Token *externname;
-        externname = consume_kind(TK_IDENT);
-        if (!externname)
+        type = typedidentnode->type;
+
+        if (typedidentnode->name == NULL)
             error_at(token->str, "extern変数の名前がありません");
+
+        Token *externname = calloc(1, sizeof(Token));
+        externname->str = typedidentnode->name;
+        externname->len = typedidentnode->val;
 
         node->kind = ND_EXTERN;
         node->name = externname->str;
@@ -1169,15 +1108,19 @@ Node *function_gval() {
     }
 
     // 関数の戻り値orグローバル変数の型
-    type = consume_type();
-    if (!type) { // 存在しない型の場合→enum or struct or エラー
+    Node *typedidentnode = consume_typed_ident(NULL);
 
+    if (!typedidentnode) {
+        // 存在しない型の場合→enum or struct or エラー
+
+        // enum定義
         Node *deftmp = define_enum();
         if (deftmp) {
             expect(";");
             return deftmp;
         }
 
+        // struct定義
         deftmp = define_struct();
         if (deftmp) {
             expect(";");
@@ -1187,21 +1130,32 @@ Node *function_gval() {
         if (consume_kind(TK_TYPEDEF)) {
             node->kind = ND_TYPEDEF;
 
-            type = consume_type();
-            if (!type) {
+            Node *typedidentnode = consume_typed_ident(NULL);
+            Token *tok;
+
+            if (!typedidentnode) {
                 deftmp = define_enum();
-                if (deftmp)
+                if (deftmp) {
                     type = deftmp->type;
-                else {
+                    tok = consume_kind(TK_IDENT);
+                } else {
                     deftmp = define_struct();
-                    if (deftmp)
+                    if (deftmp) {
                         type = deftmp->type;
+                        tok = consume_kind(TK_IDENT);
+                    }
                 }
+            } else {
+                type = typedidentnode->type;
             }
             if (!type) // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
                 error_at(token->str, "存在しない型です");
 
-            Token *tok = consume_kind(TK_IDENT);
+            if (typedidentnode && typedidentnode->name) {
+                tok = calloc(1, sizeof(Token));
+                tok->str = typedidentnode->name;
+                tok->len = typedidentnode->val;
+            }
             if (!tok)
                 error_at(token->str, "typedefの名前がありません");
 
@@ -1234,13 +1188,17 @@ Node *function_gval() {
             expect(";");
             return node;
         }
+
         error_at(token->str, "関数の返り値またはグローバル変数の型がありません");
     }
+    type = typedidentnode->type;
 
-    Token *funcgvalname;
-    funcgvalname = consume_kind(TK_IDENT);
-    if (!funcgvalname)
+    if (typedidentnode->name == NULL)
         error_at(token->str, "関数またはグローバル変数の名前がありません");
+
+    Token *funcgvalname = calloc(1, sizeof(Token));
+    funcgvalname->str = typedidentnode->name;
+    funcgvalname->len = typedidentnode->val;
 
     if (consume("(")) { // 関数定義
         node->kind = ND_FUNCDEF;
@@ -1252,13 +1210,15 @@ Node *function_gval() {
         Node *tmparg = node;
         int argsnum = 0;
         while (!consume(")")) {
-            argtype = consume_type();
-            if (!argtype)
-                error_at(token->str, "引数の型がありません");
+            Node *typedidentnode = consume_typed_ident(NULL);
 
-            argname = consume_kind(TK_IDENT);
-            if (!argname)
-                error_at(token->str, "引数が不正です");
+            argtype = typedidentnode->type;
+
+            if (typedidentnode->name == NULL)
+                error_at(token->str, "変数名がありません");
+            argname = calloc(1, sizeof(Token));
+            argname->str = typedidentnode->name;
+            argname->len = typedidentnode->val;
 
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
@@ -1580,6 +1540,9 @@ Node *stmt() {
         node->kind = ND_VALDEF;
 
         Type *type = typedidentnode->type;
+
+        if (typedidentnode->name == NULL)
+            error_at(token->str, "変数名がありません");
 
         Token *tok = calloc(1, sizeof(Token));
         tok->str = typedidentnode->name;
@@ -2064,7 +2027,9 @@ Node *unary() {
         int parens = 0;
         Type *type = NULL;
         if (consume("(")) {
-            type = consume_type();
+            Node *nd = consume_typed_ident(NULL);
+            if (nd)
+                type = nd->type;
             parens = 1;
         }
         if (!type) {

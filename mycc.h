@@ -268,7 +268,6 @@ EnumName *find_enum(Token *tok);
 StructDef *find_struct(Token *tok);
 DefinedType *find_dtype(Token *tok);
 
-extern int estimate_isglobal;
 Type *estimate_type(Node *node);
 int size_from_type(Type *type);
 
