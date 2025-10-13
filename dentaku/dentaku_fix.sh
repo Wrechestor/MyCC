@@ -2,10 +2,10 @@
 
 # ・bool → int, true → 1, false → 0, NULL → 0
 sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
-    -e 's/false/0/g' -e 's/true/1/g' \
-    -e 's/MAX_IDENT_LEN/255/g' dentaku/dentaku.c
+    -e 's/false/0/g' -e 's/true/1/g' dentaku/dentaku.c
 
 # ・プリプロセッサは消す
+sed -i -e 's/MAX_IDENT_LEN/255/g' dentaku/dentaku.c
 sed -i -e "/#include/d" -e "/#define/d" dentaku/dentaku.c
 
 # ・tokenizeのheadをcallocに
@@ -30,5 +30,4 @@ sed -i "s/for (int i/int i;for (i/g" dentaku/dentaku.c
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentaku/dentaku.c
 
 
-# ローカル変数の重複(スコープがないため) →しなくてok?
 # typedefの順番

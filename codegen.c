@@ -14,7 +14,7 @@ int gen_lval(Node *node) {
         return 0;
     }
 
-    if (node->kind == ND_STRREF) { // TODO:struct
+    if (node->kind == ND_STRREF) {
         // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
 
         gen_lval(node->lhs);
@@ -38,7 +38,7 @@ int gen_lval(Node *node) {
         }
         int ty = now->ptr_to->ty; // typeの本体はnow->ptr_to
         printf("  pop rax\n");
-        printf("  add rax, %d\n", offset); // TODO:offsetが大きすぎると?
+        printf("  add rax, %d\n", offset);
         printf("  push rax\n");
 
         // printf("### end strref\n");
@@ -193,7 +193,6 @@ void gen(Node *node) {
             }
             if (i >= 6) {
                 // アライメントの状況はr15
-                // TODO:ここ違う?
                 printf("  push [rbp+r15+%d]\n", 16 + (i - 6) * 8);
             }
             nownode = nownode->lhs;
@@ -502,7 +501,7 @@ void gen(Node *node) {
 
         nownode = node;
 
-        // アライメントを元に戻すため // TODO:アライメント
+        // アライメントを元に戻すため
         printf("  push r15\n");
 
         i = 0;
@@ -541,10 +540,9 @@ void gen(Node *node) {
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov rax, 0\n");
 
-        // TODO:アライメントの状況をr15に保存しておく
         // スタックアライメント
         // (call時にrspが16の倍数でないとセグフォで落ちる)
-        // rspの8の位を保存
+        // アライメントの状況(rspの8の位)をr15に保存しておく
         printf("  mov r15, rsp\n");
         printf("  and r15, 0xF\n");
         // rspを16の倍数にする
@@ -556,7 +554,7 @@ void gen(Node *node) {
         // rspを元に戻す
         printf("  or rsp, r15\n");
 
-        // アライメントを元に戻すため // TODO:アライメント
+        // アライメントを元に戻すため
         printf("  pop r15\n");
 
         printf("  push rax\n");

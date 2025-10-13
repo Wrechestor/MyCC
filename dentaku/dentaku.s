@@ -574,7 +574,6 @@ consume_type:
   push rax
   pop rax
 ### 183    Token *old = token;
-### 183    Token *old = token;
   push rax
   pop rax
   mov rax, rbp
@@ -847,7 +846,6 @@ expect_number:
   push rax
   pop rax
 ### 203    int val = token->val;
-### 203    int val = token->val;
   push rax
   pop rax
   mov rax, rbp
@@ -953,7 +951,6 @@ new_token:
   push rsi
   push rdx
   sub rsp, 8
-### 214    Token *tok = calloc(1, sizeof(Token));
 ### 214    Token *tok = calloc(1, sizeof(Token));
   push rax
   pop rax
@@ -1255,7 +1252,6 @@ tokenize:
   mov rbp, rsp
   sub rsp, 32
 ### 231    char *p = user_input;
-### 231    char *p = user_input;
   push rax
   pop rax
   mov rax, rbp
@@ -1271,7 +1267,6 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 232    Token *head = calloc(1, sizeof(Token));
 ### 232    Token *head = calloc(1, sizeof(Token));
   push rax
   pop rax
@@ -1314,7 +1309,6 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 234    Token *cur = head;
 ### 234    Token *cur = head;
   push rax
   pop rax
@@ -3276,7 +3270,6 @@ tokenize:
   push rax
   pop rax
 ### 316    char *q = p;
-### 316    char *q = p;
   push rax
   pop rax
   mov rax, rbp
@@ -3740,7 +3733,6 @@ find_lvar:
   push rdi
   sub rsp, 8
 ### 345    LVar *var;
-### 345    LVar *var;
   push rax
   pop rax
 ### 346    for (var = locals; var; var = var->next)
@@ -3932,7 +3924,6 @@ find_gvar:
   push rdi
   sub rsp, 8
 ### 356    GVar *var;
-### 356    GVar *var;
   push rax
   pop rax
 ### 357    for (var = globals; var; var = var->next)
@@ -4121,7 +4112,6 @@ new_node:
   push rdx
   sub rsp, 8
 ### 364    Node *node = calloc(1, sizeof(Node));
-### 364    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -4237,7 +4227,6 @@ new_node_num:
   push rdi
   sub rsp, 8
 ### 372    Node *node = calloc(1, sizeof(Node));
-### 372    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -4340,7 +4329,6 @@ program:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 383    int i = 0;
 ### 383    int i = 0;
   push rax
   pop rax
@@ -4495,7 +4483,6 @@ function_gval:
   mov rbp, rsp
   sub rsp, 80
 ### 400    Node *node;
-### 400    Node *node;
   push rax
   pop rax
 ### 401    node = calloc(1, sizeof(Node));
@@ -4522,7 +4509,6 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 403    Token *ret_type = consume_type(TK_INT);
 ### 403    Token *ret_type = consume_type(TK_INT);
   push rax
   pop rax
@@ -4582,7 +4568,6 @@ function_gval:
 .Lendif63:
   push rax
   pop rax
-### 409    Type *Rtype = calloc(1, sizeof(Type));
 ### 409    Type *Rtype = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -4644,7 +4629,6 @@ function_gval:
   pop rax
   cmp rax, 0
   je  .Lend64
-### 412    Type *t = calloc(1, sizeof(Type));
 ### 412    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -4729,7 +4713,6 @@ function_gval:
 .Lend64:
   push rax
   pop rax
-### 418    Token *funcname;
 ### 418    Token *funcname;
   push rax
   pop rax
@@ -4878,14 +4861,11 @@ function_gval:
   push rdi
   pop rax
 ### 429    Token *argname;
-### 429    Token *argname;
   push rax
   pop rax
 ### 430    Token *argtype;
-### 430    Token *argtype;
   push rax
   pop rax
-### 431    Node *tmparg = node;
 ### 431    Node *tmparg = node;
   push rax
   pop rax
@@ -4987,7 +4967,6 @@ function_gval:
   push rax
   pop rax
 ### 439    Type *type = calloc(1, sizeof(Type));
-### 439    Type *type = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -5048,7 +5027,6 @@ function_gval:
   pop rax
   cmp rax, 0
   je  .Lend69
-### 442    Type *t = calloc(1, sizeof(Type));
 ### 442    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -5191,7 +5169,6 @@ function_gval:
   push rax
   pop rax
 ### 454    Node *tmp2 = calloc(1, sizeof(Node));
-### 454    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -5233,7 +5210,6 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 456    LVar *lvar = find_lvar(argname);
 ### 456    LVar *lvar = find_lvar(argname);
   push rax
   pop rax
@@ -5610,7 +5586,6 @@ function_gval:
   push rax
   pop rax
 ### 481    Node *tmp = calloc(1, sizeof(Node));
-### 481    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -5771,7 +5746,6 @@ function_gval:
   push rdi
   pop rax
 ### 492    Node *tmp2 = calloc(1, sizeof(Node));
-### 492    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -5930,7 +5904,6 @@ function_gval:
   push rdi
   pop rax
 ### 502    Token *tok = funcname;
-### 502    Token *tok = funcname;
   push rax
   pop rax
   mov rax, rbp
@@ -5957,7 +5930,6 @@ function_gval:
   pop rax
   cmp rax, 0
   je  .Lendif77
-### 504    GVar *gvar = find_gvar(tok);
 ### 504    GVar *gvar = find_gvar(tok);
   push rax
   pop rax
@@ -6014,7 +5986,6 @@ function_gval:
   pop rax
   jmp .Lendif78
 .Lelse78:
-### 509    int arrsize = 1;
 ### 509    int arrsize = 1;
   push rax
   pop rax
@@ -6077,7 +6048,6 @@ function_gval:
   pop r15
   push rax
   pop rax
-### 514    Type *t = calloc(1, sizeof(Type));
 ### 514    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -6182,7 +6152,6 @@ function_gval:
 .Lendif79:
   push rax
   pop rax
-### 521    int size = 4;
 ### 521    int size = 4;
   push rax
   pop rax
@@ -6658,7 +6627,6 @@ stmt:
   mov rbp, rsp
   sub rsp, 56
 ### 566    Node *node;
-### 566    Node *node;
   push rax
   pop rax
 ### 568    if (consume("{")) { // Block
@@ -6718,7 +6686,6 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 571    Node *tmp = node;
 ### 571    Node *tmp = node;
   push rax
   pop rax
@@ -6832,7 +6799,6 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 580    Node *tmp2 = calloc(1, sizeof(Node));
 ### 580    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
@@ -6982,7 +6948,6 @@ stmt:
   push rdi
   pop rax
 ### 592    Type *type = calloc(1, sizeof(Type));
-### 592    Type *type = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -7043,7 +7008,6 @@ stmt:
   pop rax
   cmp rax, 0
   je  .Lend91
-### 595    Type *t = calloc(1, sizeof(Type));
 ### 595    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -7129,7 +7093,6 @@ stmt:
   push rax
   pop rax
 ### 601    Token *tok = consume_type(TK_IDENT);
-### 601    Token *tok = consume_type(TK_IDENT);
   push rax
   pop rax
   mov rax, rbp
@@ -7162,7 +7125,6 @@ stmt:
   pop rax
   cmp rax, 0
   je  .Lelse92
-### 603    Node *tmp = calloc(1, sizeof(Node));
 ### 603    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
@@ -7205,7 +7167,6 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 606    LVar *lvar = find_lvar(tok);
 ### 606    LVar *lvar = find_lvar(tok);
   push rax
   pop rax
@@ -7262,7 +7223,6 @@ stmt:
   pop rax
   jmp .Lendif93
 .Lelse93:
-### 611    int size = 1;
 ### 611    int size = 1;
   push rax
   pop rax
@@ -7325,7 +7285,6 @@ stmt:
   pop r15
   push rax
   pop rax
-### 615    Type *t = calloc(1, sizeof(Type));
 ### 615    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
@@ -7942,7 +7901,6 @@ stmt:
   push rax
   pop rax
 ### 651    Node *tmp = stmt();
-### 651    Node *tmp = stmt();
   push rax
   pop rax
   mov rax, rbp
@@ -8337,7 +8295,6 @@ stmt:
   push rax
   pop rax
 ### 676    Node *tmp = calloc(1, sizeof(Node));
-### 676    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -8481,7 +8438,6 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 686    Node *tmp2 = calloc(1, sizeof(Node));
 ### 686    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
@@ -8761,7 +8717,6 @@ assign:
   mov rbp, rsp
   sub rsp, 8
 ### 709    Node *node = equality();
-### 709    Node *node = equality();
   push rax
   pop rax
   mov rax, rbp
@@ -8865,7 +8820,6 @@ equality:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 717    Node *node = relational();
 ### 717    Node *node = relational();
   push rax
   pop rax
@@ -9042,7 +8996,6 @@ relational:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 730    Node *node = add();
 ### 730    Node *node = add();
   push rax
   pop rax
@@ -9340,7 +9293,6 @@ add:
   mov rbp, rsp
   sub rsp, 8
 ### 747    Node *node = mul();
-### 747    Node *node = mul();
   push rax
   pop rax
   mov rax, rbp
@@ -9516,7 +9468,6 @@ mul:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 760    Node *node = unary();
 ### 760    Node *node = unary();
   push rax
   pop rax
@@ -9721,7 +9672,6 @@ estimate_type:
   push rax
   pop rax
 ### 776    Type *type;
-### 776    Type *type;
   push rax
   pop rax
 ### 777    if (node->kind == ND_DEREF) {
@@ -9826,7 +9776,6 @@ estimate_type:
   cmp rax, 0
   je  .Lendif121
 ### 782    LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
-### 782    LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
   push rax
   pop rax
   mov rax, rbp
@@ -9838,7 +9787,6 @@ estimate_type:
   mov [rax], rdi
   push rdi
   pop rax
-### 783    LVar *var;
 ### 783    LVar *var;
   push rax
   pop rax
@@ -10055,7 +10003,6 @@ estimate_type:
   jmp .Lendif125
 .Lelse125:
 ### 798    GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
-### 798    GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
   push rax
   pop rax
   mov rax, rbp
@@ -10067,7 +10014,6 @@ estimate_type:
   mov [rax], rdi
   push rdi
   pop rax
-### 799    GVar *var;
 ### 799    GVar *var;
   push rax
   pop rax
@@ -10382,7 +10328,6 @@ estimate_type:
   push rax
   pop rax
 ### 817    Type *ltype = estimate_type(node->lhs);
-### 817    Type *ltype = estimate_type(node->lhs);
   push rax
   pop rax
   mov rax, rbp
@@ -10416,7 +10361,6 @@ estimate_type:
   mov [rax], rdi
   push rdi
   pop rax
-### 818    Type *rtype = estimate_type(node->rhs);
 ### 818    Type *rtype = estimate_type(node->rhs);
   push rax
   pop rax
@@ -10511,7 +10455,6 @@ unary:
   cmp rax, 0
   je  .Lendif132
 ### 825    Node *node = unary();
-### 825    Node *node = unary();
   push rax
   pop rax
   mov rax, rbp
@@ -10531,7 +10474,6 @@ unary:
   mov [rax], rdi
   push rdi
   pop rax
-### 826    Type *type = estimate_type(node);
 ### 826    Type *type = estimate_type(node);
   push rax
   pop rax
@@ -10560,7 +10502,6 @@ unary:
   mov [rax], rdi
   push rdi
   pop rax
-### 827    int size = 4;
 ### 827    int size = 4;
   push rax
   pop rax
@@ -10684,7 +10625,6 @@ unary:
   pop rax
   cmp rax, 0
   je  .Lendif136
-### 835    int arrsize = type->array_size;
 ### 835    int arrsize = type->array_size;
   push rax
   pop rax
@@ -10997,7 +10937,6 @@ brackets:
   mov rbp, rsp
   sub rsp, 8
 ### 853    Node *node = primary();
-### 853    Node *node = primary();
   push rax
   pop rax
   mov rax, rbp
@@ -11154,7 +11093,6 @@ primary:
   cmp rax, 0
   je  .Lendif142
 ### 866    Node *node = expr();
-### 866    Node *node = expr();
   push rax
   pop rax
   mov rax, rbp
@@ -11207,7 +11145,6 @@ primary:
   push rax
   pop rax
 ### 872    Token *tok = consume_type(TK_IDENT);
-### 872    Token *tok = consume_type(TK_IDENT);
   push rax
   pop rax
   mov rax, rbp
@@ -11257,7 +11194,6 @@ primary:
   pop rax
   cmp rax, 0
   je  .Lelse144
-### 875    Node *node = calloc(1, sizeof(Node));
 ### 875    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
@@ -11412,7 +11348,6 @@ primary:
   push rdi
   pop rax
 ### 884    Node *now = node;
-### 884    Node *now = node;
   push rax
   pop rax
   mov rax, rbp
@@ -11448,7 +11383,6 @@ primary:
   pop rax
   cmp rax, 0
   je  .Lend146
-### 886    Node *tmp = calloc(1, sizeof(Node));
 ### 886    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
@@ -11594,7 +11528,6 @@ primary:
   jmp .Lendif144
 .Lelse144:
 ### 896    Node *node = calloc(1, sizeof(Node));
-### 896    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -11636,7 +11569,6 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 899    LVar *lvar = find_lvar(tok);
 ### 899    LVar *lvar = find_lvar(tok);
   push rax
   pop rax
@@ -11760,7 +11692,6 @@ primary:
   pop rax
   jmp .Lendif147
 .Lelse147:
-### 905    GVar *gvar = find_gvar(tok);
 ### 905    GVar *gvar = find_gvar(tok);
   push rax
   pop rax
@@ -12071,7 +12002,6 @@ gen_lval:
   push rax
   pop rax
 ### 932    Token *tok = calloc(1, sizeof(Token));
-### 932    Token *tok = calloc(1, sizeof(Token));
   push rax
   pop rax
   mov rax, rbp
@@ -12152,7 +12082,6 @@ gen_lval:
   push rdi
   pop rax
 ### 935    GVar *gvar = find_gvar(tok);
-### 935    GVar *gvar = find_gvar(tok);
   push rax
   pop rax
   mov rax, rbp
@@ -12190,7 +12119,6 @@ gen_lval:
   pop rax
   cmp rax, 0
   je  .Lelse151
-### 937    char name[255];
 ### 937    char name[255];
   push rax
   pop rax
@@ -12421,7 +12349,6 @@ gen:
   mov rbp, rsp
   push rdi
   sub rsp, 2088
-### 952    char name[255];
 ### 952    char name[255];
   push rax
   pop rax
@@ -12882,7 +12809,6 @@ gen:
   push rax
   pop rax
 ### 988    Node *tmparg = node;
-### 988    Node *tmparg = node;
   push rax
   pop rax
   mov rax, rbp
@@ -12899,7 +12825,6 @@ gen:
   mov [rax], rdi
   push rdi
   pop rax
-### 989    int i = 0;
 ### 989    int i = 0;
   push rax
   pop rax
@@ -14558,7 +14483,6 @@ gen:
   push rax
   pop rax
 ### 1105    Type *type = 0;
-### 1105    Type *type = 0;
   push rax
   pop rax
   mov rax, rbp
@@ -14571,10 +14495,8 @@ gen:
   push rdi
   pop rax
 ### 1107    Token *tok;
-### 1107    Token *tok;
   push rax
   pop rax
-### 1108    GVar *gvar;
 ### 1108    GVar *gvar;
   push rax
   pop rax
@@ -15195,7 +15117,6 @@ gen:
   mov [rax], dil
   push rdi
   pop rax
-### 1153    Node *now = node;
   push rax
   pop rax
   mov rax, rbp
@@ -15212,7 +15133,6 @@ gen:
   mov [rax], rdi
   push rdi
   pop rax
-### 1154    int i = 0;
   push rax
   pop rax
   mov rax, rbp
@@ -15325,7 +15245,6 @@ gen:
 .Lend170:
   push rax
   pop rax
-### 1162    int k;
   push rax
   pop rax
   mov rax, rbp
@@ -15734,7 +15653,6 @@ gen:
   push rdi
   pop rax
 ### 1206    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
-### 1206    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
   push rax
   pop rax
   mov rax, rbp
@@ -15991,7 +15909,6 @@ gen:
   pop rax
   cmp rax, 0
   je  .Lendif179
-### 1220    int arrsize = type->array_size;
 ### 1220    int arrsize = type->array_size;
   push rax
   pop rax
@@ -16695,7 +16612,6 @@ main:
   push rax
   pop rax
 ### 1290    int doing_gloval = 1;
-### 1290    int doing_gloval = 1;
   push rax
   pop rax
   mov rax, rbp
@@ -16707,7 +16623,6 @@ main:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1292    int i;
 ### 1292    int i;
   push rax
   pop rax
