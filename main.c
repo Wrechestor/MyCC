@@ -167,10 +167,13 @@ char *typeToStr(Type *type) {
             strcat(ret, "void");
             break;
         case PTR:
-            strcat(ret, "*");
+            strcat(ret, "* ");
             break;
         case ARRAY:
-            sprintf(buf, "[%d]", type->array_size);
+            if (type->array_size)
+                sprintf(buf, "[%d] ", type->array_size);
+            else
+                sprintf(buf, "[] ");
             strcat(ret, buf);
             break;
         case STRUCT:
@@ -178,6 +181,21 @@ char *typeToStr(Type *type) {
             break;
         case MEMBER:
             strcat(ret, "MEMBER");
+            break;
+        case FUNC:
+            strcat(ret, "func(");
+            Type *argtmp = type->member;
+            int isfirst = 1;
+            while (argtmp) {
+                if (isfirst)
+                    isfirst = 0;
+                else
+                    strcat(ret, ",");
+                buf = typeToStr(argtmp);
+                strcat(ret, buf);
+                argtmp = argtmp->member;
+            }
+            strcat(ret, ") ");
             break;
         default:
             break;
@@ -193,6 +211,7 @@ int gengraph(Node *node, int nodeid) {
     if (node->kind == ND_ENUM ||
         node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
         node->kind == ND_EXTERN || node->kind == ND_PROTO) {
+        // node->kind == ND_EXTERN) { // ↑だと関数型と判断されると非表示
         return nodeid;
     }
 

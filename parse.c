@@ -286,21 +286,50 @@ Node *consume_typed_ident(Type *prevtype) {
 
     int size = 1;
     // 4.関数や配列を表すカッコ
-    while (consume("[")) { // 配列型
+
+    if (consume("(")) { // 関数型
         Type *t = calloc(1, sizeof(Type));
-        t->ty = ARRAY;
+        t->ty = FUNC;
         t->ptr_to = type;
         type = t;
 
-        if (consume("]")) { // 配列要素数省略
-            // TODO: 正しくは char a[][10]; (最初のみ省略)
-            size = 0;
-        } else {
-            size = expect_number();
-            expect("]");
+        // while (!consume(")")) {
+        for (;;) {
+            if (token->next == NULL)
+                error("関数の引数リストが閉じていません");
+            if (consume(")"))
+                break;
+            Node *argnode = consume_typed_ident(subtype);
+            Type *t2 = calloc(1, sizeof(Type));
+            t2->ty = FUNCARG;
+            t2->ptr_to = argnode->type;
+            t2->name = argnode->name;
+            t2->len = argnode->val;
+            t->member = t2;
+            t = t2;
+
+            if (consume(")"))
+                break;
+            else
+                expect(",");
         }
-        t->array_size = size;
-        // totalsize *= size;
+    } else {
+        while (consume("[")) { // 配列型
+            Type *t = calloc(1, sizeof(Type));
+            t->ty = ARRAY;
+            t->ptr_to = type;
+            type = t;
+
+            if (consume("]")) { // 配列要素数省略
+                // TODO: 正しくは char a[][10]; (最初のみ省略)
+                size = 0;
+            } else {
+                size = expect_number();
+                expect("]");
+            }
+            t->array_size = size;
+            // totalsize *= size;
+        }
     }
 
     if (subtype) {
@@ -844,6 +873,12 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
 
+    // 関数型は返り値の型に暗黙キャスト
+    if (ltype && ltype->ty == FUNC)
+        ltype = ltype->ptr_to;
+    if (rtype && rtype->ty == FUNC)
+        rtype = rtype->ptr_to;
+
     // 3項演算子の時はltypeではない
     if (kind == ND_COND) {
         node->type = rtype;
@@ -867,7 +902,10 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
                 if (rtype->ty == PTR || rtype->ty == ARRAY || rtype->ty == INT)
                     node->type = rtype;
             } else {
-                error_at(node->srctoken->str, "両辺の型が一致しません");
+                char name[100];
+                sprintf(name, "両辺の型が一致しません:%d,%d  ", ltype->ty, rtype->ty);
+                error_at(node->srctoken->str, name);
+                // error_at(node->srctoken->str, "両辺の型が一致しません");
             }
         }
     }
@@ -1144,9 +1182,6 @@ Node *function_gval() {
         return node;
     }
 
-    // if (!typedidentnode) {
-    // 存在しない型の場合→enum or struct or エラー
-
     // enum定義
     Node *deftmp = define_enum();
     if (deftmp) {
@@ -1231,25 +1266,26 @@ Node *function_gval() {
     funcgvalname->str = typedidentnode->name;
     funcgvalname->len = typedidentnode->val;
 
-    if (consume("(")) { // 関数定義
+    if (type->ty == FUNC) { // 関数定義
         node->kind = ND_FUNCDEF;
         node->name = funcgvalname->str;
         node->val = funcgvalname->len;
 
         Token *argname;
+        Type *arg;
         Type *argtype;
         Node *tmparg = node;
         int argsnum = 0;
-        while (!consume(")")) {
-            Node *typedidentnode = consume_typed_ident(NULL);
 
-            argtype = typedidentnode->type;
+        arg = type->member;
+        while (arg) {
+            argtype = arg->ptr_to;
 
-            if (typedidentnode->name == NULL)
+            if (arg->name == NULL)
                 error_at(token->str, "変数名がありません");
             argname = calloc(1, sizeof(Token));
-            argname->str = typedidentnode->name;
-            argname->len = typedidentnode->val;
+            argname->str = arg->name;
+            argname->len = arg->len;
 
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
@@ -1280,15 +1316,13 @@ Node *function_gval() {
             tmparg->lhs = tmp2;
             tmparg = tmp2;
 
-            if (!consume(",")) {
-                expect(")");
-                break;
-            }
             argsnum++;
+            arg = arg->member;
         }
 
         if (consume(";")) { // プロトタイプ宣言
             node->kind = ND_PROTO;
+            node->type = type;
             return node;
         }
 

@@ -115,13 +115,17 @@ enum type_t {
     PTR,
     ARRAY,
     STRUCT,
-    MEMBER
+    MEMBER,
+    FUNC,
+    FUNCARG,
 };
 // 変数の型
 struct Type {
     enum type_t ty;
     struct Type *ptr_to;
-    int array_size;      // 配列のときの要素数
+    int array_size; // 配列のときの要素数
+
+    // ↓3つは関数型の引数としても使う
     struct Type *member; // structのときの型リスト
     char *name;          // structのときのメンバの名前
     int len;             // 名前の長さ
