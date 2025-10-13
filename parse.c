@@ -8,13 +8,13 @@ char *user_input;
 
 // プログラム全体の構文木(各要素は関数,グローバル変数,
 //                  enum,struct,typedefの定義)
-Node *code[100];
+Node *code[1000];
 
 // 現在の関数内のローカル変数及びプログラム全体でのリスト
 LVar *locals;
-LVar *LocalsList[100];
+LVar *LocalsList[1000];
 int localsnum;
-int localsnums[100];
+int localsnums[1000];
 int scopelayer_now;
 int localsnum_max;
 
@@ -1089,6 +1089,9 @@ Node *define_struct() {
                 break;
 
             Node *typedidentnode = consume_typed_ident(NULL);
+
+            if (typedidentnode == NULL)
+                error_at(token->str, "structのメンバ名がありません");
 
             Type *membertype = typedidentnode->type;
 
@@ -2229,7 +2232,13 @@ Node *primary() {
         node->kind = ND_QUOTE;
 
         Strs *str = strs;
+        int i = 0;
+
         while (str) {
+            // fprintf(stderr, "### %d %p, strs=%p", i++, str, strs);
+            // char name[200];
+            // strncpy(name, str->text, 7);
+            // fprintf(stderr, "### %s  %d\n", name, tok->linenumber);
             if (str->len == tok->len &&
                 strncmp(str->text, tok->str, tok->len) == 0) {
                 // すでに同じリテラルがあったら取得
@@ -2241,6 +2250,7 @@ Node *primary() {
 
         if (!str) { // なかったら新しく登録
             str = calloc(1, sizeof(Strs));
+            // fprintf(stderr, "###$$$ %p, strs=%p\n", str, strs);
             str->next = strs;
             str->text = tok->str;
             str->len = tok->len;

@@ -9,15 +9,6 @@ int strncmp();
 int strtol();
 int strncpy();
 
-int free();
-int snprintf();
-char *strstr();
-void *fopen();
-int fseek();
-int ftell();
-int fread();
-int fclose();
-
 // トークンの種類
 typedef enum {
     TK_RESERVED, // 記号
@@ -29,14 +20,11 @@ typedef enum {
     TK_IDENT,    // 識別子
     TK_NUM,      // 整数トークン
     TK_INT,      // int
-    TK_CHAR,     // char
     TK_SIZEOF,   // sizeof
-    TK_QUOTE,    // 文字列リテラル
     TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
 typedef struct Token Token;
-
 // トークン型
 struct Token {
     TokenKind kind; // トークンの型
@@ -71,14 +59,12 @@ typedef enum {
     ND_ARG,     // 関数の引数
     ND_ADDR,    // unary &
     ND_DEREF,   // unary *
-    ND_VALDEF,  // ローカル変数定義
-    ND_GVALDEF, // グローバル変数定義
-    ND_QUOTE,   // 文字列リテラル
+    ND_VALDEF,  // 変数定義 TODO
+    ND_GVALDEF, // グローバル変数定義 TODO
     ND_NUM,     // 整数
 } NodeKind;
 
 typedef struct Node Node;
-
 // 抽象構文木のノードの型
 struct Node {
     NodeKind kind; // ノードの型
@@ -89,23 +75,19 @@ struct Node {
     char *name;    // kindがND_FUMCの場合のみ,valにnameの長さを入れる
 };
 
-typedef struct Type Type;
-
-typedef enum {
-    INT,
-    CHAR,
+typedef enum { INT,
     PTR,
-    ARRAY
-} ty_t;
+    ARRAY } ty_t;
+
+typedef struct Type Type;
 // 変数の型
 struct Type {
     ty_t ty;
-    struct Type *ptr_to;
+    Type *ptr_to;
     int array_size; // 配列のときの要素数
 };
 
 typedef struct LVar LVar;
-
 // ローカル変数の型
 struct LVar {
     LVar *next; // 次の変数か0
@@ -114,15 +96,9 @@ struct LVar {
     int offset; // RBPからのオフセット
     Type *type; // 変数の型
 };
-
 // ローカル変数
-extern LVar *locals;
-extern LVar *LocalsList[100];
-extern int localsnums[100];
-extern int localsnum;
 
 typedef struct GVar GVar;
-
 // グローバル変数の型
 struct GVar {
     GVar *next; // 次の変数か0
@@ -133,38 +109,14 @@ struct GVar {
 };
 
 // グローバル変数
-extern GVar *globals;
-
-typedef struct Strs Strs;
-
-// 文字列リテラルの型
-struct Strs {
-    Strs *next; // 次の変数か0
-    char *text; // 内容
-    int len;    // 長さ
-    int id;     // 連番のID
-};
-
-// 文字列リテラルのリスト
-extern Strs *strs;
-extern int strsnum;
 
 // 現在着目しているトークン
-extern Token *token;
 
 // 入力プログラム
-extern char *user_input;
-
-extern Node *code[100];
 
 // 制御命令のラベル用の通し番号
-extern int branch_label;
 
 // rspが16の倍数になっているか
-extern int rsp_aligned;
-
-// 入力ファイル名
-extern char *filename;
 
 int consume(char *op);
 Token *consume_type(TokenKind tkind);
@@ -178,9 +130,7 @@ Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
 
-extern int estimate_isglobal;
 Type *estimate_type(Node *node);
-int size_from_type(Type *type);
 
 void program();
 Node *function_gval();
@@ -197,6 +147,22 @@ Node *primary();
 
 void gen_lval(Node *node);
 void gen(Node *node);
+// グローバル変数
+extern GVar *globals;
+
+// 現在着目しているトークン
+extern Token *token;
+
+// 入力プログラム
+extern char *user_input;
+
+extern Node *code[100];
+
+// 制御命令のラベル用の通し番号
+extern int branch_label;
+
+// // rspが16の倍数になっているか
+extern int rsp_aligned;
 
 // 現在着目しているトークン
 Token *token;
@@ -204,19 +170,9 @@ Token *token;
 // 入力プログラム
 char *user_input;
 
-// // エラー箇所を報告する
-// void error_at(char *loc, char *fmt, ...) {
-// 	va_list ap;
-// 	va_start(ap, fmt);
+int branch_label = 0;
 
-// 	int pos = loc - user_input;
-// 	fprintf(stderr, "%s\n", user_input);
-// 	fprintf(stderr, "%*s", pos, " "); // pos個の空白を出力
-// 	fprintf(stderr, "^ ");
-// 	vfprintf(stderr, fmt, ap);
-// 	fprintf(stderr, "\n");
-// 	exit(1);
-// }
+int rsp_aligned = 1;
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
@@ -240,34 +196,13 @@ Token *consume_type(TokenKind tkind) {
     return old;
 }
 
-Type *consume_typeword() {
-    Type *type = calloc(1, sizeof(Type));
-    if (consume_type(TK_INT))
-        type->ty = INT;
-    else if (consume_type(TK_CHAR))
-        type->ty = CHAR;
-    else {
-        free(type);
-        return 0;
-    }
-    return type;
-}
-
-int is_typeword() {
-    return token->kind == TK_INT || token->kind == TK_CHAR;
-}
-
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
 // それ以外の場合にはエラーを報告する。
-// TODO:↓フォーマット
-char errmsgbuf[100] = "     ではありません";
 void expect(char *op) {
     if (token->kind != TK_RESERVED ||
         strlen(op) != token->len ||
-        memcmp(token->str, op, token->len)) {
-        snprintf(errmsgbuf, sizeof(errmsgbuf), "'%s'ではありません", op);
+        memcmp(token->str, op, token->len))
         exit(1);
-    }
     token = token->next;
 }
 
@@ -316,36 +251,6 @@ void tokenize() {
             continue;
         }
 
-        // 行コメントをスキップ
-        if (strncmp(p, "//", 2) == 0) {
-            p += 2;
-            while (*p != '\n')
-                p++;
-            continue;
-        }
-
-        // ブロックコメントをスキップ
-        if (strncmp(p, "/*", 2) == 0) {
-            char *q = strstr(p + 2, "*/");
-            if (!q)
-                exit(1);
-            p = q + 2;
-            continue;
-        }
-
-        if (*p == '"') { // 文字列リテラル
-            char *q = p + 1;
-            while (*q != '"') {
-                if (!*q)
-                    exit(1);
-                q++;
-            }
-            cur = new_token(TK_QUOTE, cur, p + 1);
-            cur->len = q - p - 1;
-            p = q + 1;
-            continue;
-        }
-
         if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
             cur = new_token(TK_RETURN, cur, p);
             cur->len = 6;
@@ -385,13 +290,6 @@ void tokenize() {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
             p += 3;
-            continue;
-        }
-
-        if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_CHAR, cur, p);
-            cur->len = 4;
-            p += 4;
             continue;
         }
 
@@ -444,9 +342,6 @@ void tokenize() {
             continue;
         }
 
-        if (token == 0) {
-            exit(1);
-        }
         exit(1);
     }
 
@@ -455,7 +350,6 @@ void tokenize() {
 }
 
 LVar *locals;
-LVar *LocalsList[100];
 
 // 変数を名前で検索する。見つからなかった場合は0を返す。
 LVar *find_lvar(Token *tok) {
@@ -496,9 +390,6 @@ Node *code[100];
 int localsnums[100];
 int localsnum;
 
-Strs *strs;
-int strsnum;
-
 void program() {
     int i = 0;
     while (!at_eof()) {
@@ -507,7 +398,6 @@ void program() {
         localsnum = 0;
         code[i] = function_gval();
         localsnums[i] = localsnum;
-        LocalsList[i] = locals;
         // LVar *var;for (var = locals; var; var = var->next)localsnums[i]++;
         // ↑TODO:1多いかも
         i++;
@@ -521,12 +411,14 @@ Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
 
-    // 戻り値の型
-    Type *Rtype = consume_typeword();
-    if (!Rtype) {
+    Token *ret_type = consume_type(TK_INT);
+    if (!ret_type) {
         exit(1);
     }
 
+    // TODO:戻り値の型 ポインタ型に対応
+    Type *Rtype = calloc(1, sizeof(Type));
+    Rtype->ty = INT;
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
         t->ty = PTR;
@@ -546,20 +438,22 @@ Node *function_gval() {
         node->val = funcname->len;
 
         Token *argname;
-        Type *argtype;
+        Token *argtype;
         Node *tmparg = node;
         while (!consume(")")) {
-            argtype = consume_typeword();
+            argtype = consume_type(TK_INT);
             if (!argtype) {
                 exit(1);
             }
 
             // ポインタ型に対応
+            Type *type = calloc(1, sizeof(Type));
+            type->ty = INT;
             while (consume("*")) {
                 Type *t = calloc(1, sizeof(Type));
                 t->ty = PTR;
-                t->ptr_to = argtype;
-                argtype = t;
+                t->ptr_to = type;
+                type = t;
             }
 
             argname = consume_type(TK_IDENT);
@@ -579,7 +473,7 @@ Node *function_gval() {
                 lvar->name = argname->str;
                 lvar->len = argname->len;
                 lvar->offset = (locals ? locals->offset : 0) + 8;
-                lvar->type = argtype;
+                lvar->type = type;
                 tmp2->offset = lvar->offset;
                 locals = lvar;
 
@@ -624,7 +518,7 @@ Node *function_gval() {
                 exit(1);
             } else {
                 int arrsize = 1;
-                while (consume("[")) { // 配列型
+                if (consume("[")) { // 配列型
                     arrsize = expect_number();
                     // printf("#### arrsize=%d\n", arrsize);
                     expect("]");
@@ -636,7 +530,21 @@ Node *function_gval() {
                 }
 
                 int size = 4;
-                size = size_from_type(Rtype);
+                if (Rtype == 0) {
+                    size = 4;
+                } else if (Rtype->ty == INT) {
+                    size = 4;
+                } else if (Rtype->ty == PTR) {
+                    size = 8;
+                } else if (Rtype->ty == ARRAY) {
+                    // int arrsize = Rtype->array_size;
+                    // Rtype = Rtype->ptr_to;
+                    if (Rtype->ty == INT) {
+                        size = 4;
+                    } else if (Rtype->ty == PTR) {
+                        size = 8;
+                    }
+                }
 
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
                 gvar = calloc(1, sizeof(GVar));
@@ -644,7 +552,7 @@ Node *function_gval() {
                 gvar->name = tok->str;
                 gvar->len = tok->len;
                 // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                gvar->addr = size;
+                gvar->addr = size * arrsize;
                 gvar->type = Rtype;
                 node->offset = gvar->addr;
                 globals = gvar;
@@ -687,13 +595,13 @@ Node *stmt() {
             }
         }
 
-    } else if (is_typeword()) { // 変数定義
+    } else if (consume_type(TK_INT)) { // 変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
         // ポインタ型に対応
-        Type *type = consume_typeword();
-
+        Type *type = calloc(1, sizeof(Type));
+        type->ty = INT;
         while (consume("*")) {
             Type *t = calloc(1, sizeof(Type));
             t->ty = PTR;
@@ -711,9 +619,8 @@ Node *stmt() {
                 // node->offset = lvar->offset;
                 exit(1);
             } else {
-                int totalsize = 1;
                 int size = 1;
-                while (consume("[")) { // 配列型
+                if (consume("[")) { // 配列型
                     size = expect_number();
                     expect("]");
                     Type *t = calloc(1, sizeof(Type));
@@ -721,8 +628,6 @@ Node *stmt() {
                     t->array_size = size;
                     t->ptr_to = type;
                     type = t;
-
-                    totalsize *= size;
                 }
 
                 // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
@@ -730,7 +635,7 @@ Node *stmt() {
                 lvar->next = locals;
                 lvar->name = tok->str;
                 lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8 * totalsize;
+                lvar->offset = (locals ? locals->offset : 0) + 8 * size;
                 lvar->type = type;
                 tmp->offset = lvar->offset;
                 locals = lvar;
@@ -876,9 +781,7 @@ Node *mul() {
 }
 
 // TODO:型推定
-int estimate_isglobal;
 Type *estimate_type(Node *node) {
-    estimate_isglobal = 1;
     if (node == 0)
         return 0;
     Type *type;
@@ -894,8 +797,14 @@ Type *estimate_type(Node *node) {
                 lvar = var;
         if (lvar) {
             type = lvar->type;
-            estimate_isglobal = 0;
             return type;
+            // if (type->ty == INT) {
+            //     size = 4;
+            //     // printf("### val %s is int\n", node->lhs->name);
+            // } else if (type->ty == PTR) {
+            //     size = 8;
+            //     // printf("### val %s is ptr\n", node->lhs->name);
+            // }
         } else {
             GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
             GVar *var;
@@ -922,29 +831,21 @@ Type *estimate_type(Node *node) {
     return (ltype ? ltype : rtype);
 }
 
-int size_from_type(Type *type) {
-    int size = 4;
-    if (type == 0) {
-        size = 4;
-    } else if (type->ty == INT) {
-        size = 4;
-    } else if (type->ty == CHAR) {
-        size = 1;
-    } else if (type->ty == PTR) {
-        size = 8;
-    } else if (type->ty == ARRAY) {
-        int arrsize = type->array_size;
-        Type *t = type->ptr_to;
-        size = size_from_type(t) * arrsize;
-    }
-    return size;
-}
-
 Node *unary() {
     if (consume_type(TK_SIZEOF)) {
         Node *node = unary();
         Type *type = estimate_type(node);
-        int size = size_from_type(type);
+        int size = 4;
+        if (type == 0) {
+            // size = 4;
+        } else if (type->ty == INT) {
+            // size = 4;
+        } else if (type->ty == PTR) {
+            size = 8;
+        } else if (type->ty == ARRAY) {
+            int arrsize = type->array_size;
+            size = 8 * arrsize;
+        }
         return new_node_num(size);
     }
     if (consume("+"))
@@ -959,10 +860,10 @@ Node *unary() {
 }
 
 Node *brackets() { // TODO:配列アクセス(優先順位は?)
-    // brackets = primary ("[" expr "]")*
+    // brackets = primary ("[" expr "]")?
     Node *node = primary();
 
-    while (consume("[")) {
+    if (consume("[")) {
         // x[y] -> *(x+y)
         node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
         expect("]");
@@ -978,25 +879,8 @@ Node *primary() {
         return node;
     }
 
-    Token *tok = consume_type(TK_QUOTE);
-    if (tok) { // 文字列リテラル
-        Node *node = calloc(1, sizeof(Node));
-        node->kind = ND_QUOTE;
-        node->val = strsnum;
-
-        Strs *str = calloc(1, sizeof(Strs));
-        str->next = strs;
-        str->text = tok->str;
-        str->len = tok->len;
-        str->id = strsnum;
-        strs = str;
-
-        strsnum += 1;
-        return node;
-    }
-
     // 次のトークンが識別子なら
-    tok = consume_type(TK_IDENT);
+    Token *tok = consume_type(TK_IDENT);
     if (tok) {
         if (consume("(")) { // TODO:関数呼び出し
             Node *node = calloc(1, sizeof(Node));
@@ -1046,7 +930,7 @@ Node *primary() {
     return new_node_num(expect_number());
 }
 
-void gen_lval(Node *node) {
+void gen_lval(Node *node) { // TODO:評価値がグローバル変数のときは何か返す
     if (node->kind == ND_DEREF) {
         // ポインタ対応 TODO
         gen(node->lhs);
@@ -1059,35 +943,21 @@ void gen_lval(Node *node) {
     Token *tok = calloc(1, sizeof(Token));
     tok->str = node->name;
     tok->len = node->val;
-    LVar *lvar = find_lvar(tok);
-    if (lvar) { // ローカル変数
-        printf("  mov rax, rbp\n");
-        printf("  sub rax, %d\n", node->offset);
-        printf("  push rax\n");
-        rsp_aligned = !rsp_aligned;
-        return;
-    }
-
-    tok = calloc(1, sizeof(Token));
-    tok->str = node->name;
-    tok->len = node->val;
     GVar *gvar = find_gvar(tok);
     if (gvar) { // グローバル変数
         char name[255];
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
-
-        printf("  lea rax, QWORD PTR %s[rip]\n", name);
+        printf("  lea rax, QWORD PTR %s[rip]\n", name); // TODO:配列インデックス
         printf("  push rax\n");
         rsp_aligned = !rsp_aligned;
-        return;
+    } else { // ローカル変数
+        printf("  mov rax, rbp\n");
+        printf("  sub rax, %d\n", node->offset);
+        printf("  push rax\n");
+        rsp_aligned = !rsp_aligned;
     }
-    exit(1);
 }
-
-int branch_label = 0;
-
-int rsp_aligned = 1;
 
 void gen(Node *node) {
     char name[255];
@@ -1112,6 +982,7 @@ void gen(Node *node) {
         printf("  .globl %s\n", name);
         printf("%s:\n", name);
         printf("  .zero %d\n", node->offset);
+        // printf("  .text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
         return;
     }
     if (node->kind == ND_FUNCDEF) {
@@ -1150,9 +1021,8 @@ void gen(Node *node) {
             i++;
         }
         // ローカル変数用のスタックを確保
-        // printf("  sub rsp, %d\n", (localsnum - i) * 8);
-        printf("  sub rsp, %d\n", 320); // TODO:仮
-        if ((localsnum) % 2 == 1)
+        printf("  sub rsp, %d\n", (localsnum - i) * 8);
+        if ((localsnum / 8) % 2 == 1)
             rsp_aligned = !rsp_aligned;
 
         gen(node->rhs);
@@ -1181,56 +1051,53 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_IF) {
-        int id = branch_label;
-        branch_label++;
         gen(node->lhs);
         printf("  pop rax\n");
         rsp_aligned = !rsp_aligned;
         printf("  cmp rax, 0\n");
         if (node->rhs->kind == ND_ELSE) {
-            printf("  je  .Lelse%d\n", id);
+            printf("  je  .Lelse%d\n", branch_label);
             gen(node->rhs->lhs);
-            printf("  jmp .Lend%d\n", id);
-            printf(".Lelse%d:\n", id);
+            printf("  jmp .Lend%d\n", branch_label);
+            printf(".Lelse%d:\n", branch_label);
             gen(node->rhs->rhs);
         } else {
-            printf("  je  .Lend%d\n", id);
+            printf("  je  .Lend%d\n", branch_label);
             gen(node->rhs);
         }
-        printf(".Lend%d:\n", id);
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
         return;
     }
 
     if (node->kind == ND_WHILE) {
-        int id = branch_label;
-        branch_label++;
-        printf(".Lbegin%d:\n", id);
+        printf(".Lbegin%d:\n", branch_label);
         gen(node->lhs);
         printf("  pop rax\n");
         rsp_aligned = !rsp_aligned;
         printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", id);
+        printf("  je  .Lend%d\n", branch_label);
         gen(node->rhs);
-        printf("  jmp .Lbegin%d\n", id);
-        printf(".Lend%d:\n", id);
+        printf("  jmp .Lbegin%d\n", branch_label);
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
         return;
     }
 
     if (node->kind == ND_FOR) {
-        int id = branch_label;
-        branch_label++;
         // for (A; B; C) D
         gen(node->lhs); // A
-        printf(".Lbegin%d:\n", id);
+        printf(".Lbegin%d:\n", branch_label);
         gen(node->rhs->lhs); // B
         printf("  pop rax\n");
         rsp_aligned = !rsp_aligned;
         printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", id);
+        printf("  je  .Lend%d\n", branch_label);
         gen(node->rhs->rhs->rhs); // D
         gen(node->rhs->rhs->lhs); // C
-        printf("  jmp .Lbegin%d\n", id);
-        printf(".Lend%d:\n", id);
+        printf("  jmp .Lbegin%d\n", branch_label);
+        printf(".Lend%d:\n", branch_label);
+        branch_label++;
         return;
     }
 
@@ -1248,73 +1115,29 @@ void gen(Node *node) {
 
     Type *type = 0;
 
+    Token *tok;
+    GVar *gvar;
+
     switch (node->kind) {
     case ND_ADDR:
         gen_lval(node->lhs);
         return;
     case ND_DEREF:
         gen(node->lhs);
-        type = estimate_type(node->lhs);
-        if (type) {
-            type = type->ptr_to;
-        }
-        if (type) {
-            if (type->ty == ARRAY) {
-                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
-                printf("  pop rax\n");
-                rsp_aligned = !rsp_aligned;
-                printf("  movzx eax, BYTE PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_aligned = !rsp_aligned;
-                return;
-            }
-            // if (type->ty == INT && estimate_isglobal) {
-            if (type->ty == INT) {
-                // int型のときは4バイト読み込む
-                printf("  pop rax\n");
-                rsp_aligned = !rsp_aligned;
-                printf("  mov eax, DWORD PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_aligned = !rsp_aligned;
-                return;
-            }
-        }
         printf("  pop rax\n");
-        rsp_aligned = !rsp_aligned;
-        printf("  mov rax, QWORD PTR [rax]\n");
+        printf("  mov rax, [rax]\n");
         printf("  push rax\n");
-        rsp_aligned = !rsp_aligned;
         return;
     case ND_NUM:
         printf("  push %d\n", node->val);
         rsp_aligned = !rsp_aligned;
         return;
-    case ND_QUOTE:
-        printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
-        // printf("  lea	rax, .LC%d[rip]\n", node->val);
-        printf("  push rax\n");
-        return;
     case ND_LVAR:
         type = estimate_type(node);
         gen_lval(node);
-        if (type) {
-            if (type->ty == ARRAY) {
-                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
-                printf("  pop rax\n");
-                rsp_aligned = !rsp_aligned;
-                printf("  movzx eax, BYTE PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_aligned = !rsp_aligned;
-                return;
-            }
+        if (type != 0 && type->ty == ARRAY) {
+            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+            return;
         }
         printf("  pop rax\n");
         rsp_aligned = !rsp_aligned;
@@ -1326,32 +1149,6 @@ void gen(Node *node) {
         gen_lval(node->lhs);
         gen(node->rhs);
 
-        type = estimate_type(node->lhs);
-        if (type) {
-            if (type->ty == ARRAY) {
-                exit(1);
-            }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
-                printf("  pop rdi\n");
-                rsp_aligned = !rsp_aligned;
-                printf("  pop rax\n");
-                rsp_aligned = !rsp_aligned;
-                printf("  mov [rax], dil\n");
-                printf("  push rdi\n");
-                rsp_aligned = !rsp_aligned;
-                return;
-            }
-            // if (type->ty == INT && estimate_isglobal) {
-            // if (type->ty == INT) {
-            //     // int型のときは4バイト読み込む
-            //     printf("  pop rdi\n");rsp_aligned=!rsp_aligned;
-            //     printf("  pop rax\n");rsp_aligned=!rsp_aligned;
-            //     printf("  mov DWORD PTR [rax], edi\n");
-            //     printf("  push rdi\n");rsp_aligned=!rsp_aligned;
-            //     return;
-            // }
-        }
         printf("  pop rdi\n");
         rsp_aligned = !rsp_aligned;
         printf("  pop rax\n");
@@ -1396,8 +1193,6 @@ void gen(Node *node) {
                 // default:printf("  push rax\n");break; // TODO:7個目以降
             }
         }
-
-        // ALに引数の浮動小数点数の数を入れる
         printf("  mov eax, 0\n");
 
         // TODO:RSPが16の倍数でないと落ちる? ←これのせいでバグってた
@@ -1419,11 +1214,27 @@ void gen(Node *node) {
     printf("  pop rax\n");
     rsp_aligned = !rsp_aligned;
 
-    int addsize = 1;
+    int addsize = 1; // intへのポインタのとき4, ポインタへのポインタのとき8
     type = estimate_type(node->lhs);
-    if (type != 0 && (type->ty == PTR || type->ty == ARRAY)) {
-        addsize = size_from_type(type->ptr_to);
-        printf("### left is ptr size=%d\n", addsize);
+    if (type == 0) {
+        addsize = 1;
+    } else if (type->ty == INT) {
+        addsize = 1;
+    } else if (type->ty == PTR) {
+        type = type->ptr_to;
+        if (type->ty == INT) {
+            addsize = 4;
+        } else if (type->ty == PTR) {
+            addsize = 8;
+        }
+    } else if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        type = type->ptr_to;
+        if (type->ty == INT) {
+            addsize = 4;
+        } else if (type->ty == PTR) {
+            addsize = 8;
+        }
     }
 
     switch (node->kind) {
@@ -1469,78 +1280,32 @@ void gen(Node *node) {
     printf("  push rax\n");
     rsp_aligned = !rsp_aligned;
 }
-char *filename;
-
-// 指定されたファイルの内容を返す
-char *read_file(char *path) {
-    // ファイルを開く
-    void *fp = fopen(path, "r");
-    if (!fp)
-        exit(1);
-
-    // ファイルの長さを調べる
-    if (fseek(fp, 0, 2) == -1)
-        exit(1);
-    int size = ftell(fp);
-    if (fseek(fp, 0, 0) == -1)
-        exit(1);
-
-    // ファイル内容を読み込む
-    char *buf = calloc(1, size + 2);
-    fread(buf, size, 1, fp);
-
-    // ファイルが必ず"\n\0"で終わっているようにする
-    if (size == 0 || buf[size - 1] != '\n')
-        buf[size++] = '\n';
-    buf[size] = '\0';
-    fclose(fp);
-    return buf;
-}
-
 int main(int argc, char **argv) {
     if (argc != 2) {
         exit(1);
         return 1;
     }
 
-    filename = argv[1];
-
     // トークナイズしてパースする
     // 結果はcodeに保存される
-    user_input = read_file(filename);
+    user_input = argv[1];
     tokenize(user_input);
     program();
 
     // アセンブリの前半部分を出力
     printf(".intel_syntax noprefix\n");
-    printf(".text\n");
-
-    // 文字列リテラル
-    Strs *strsptr = strs;
-    int i;
-    for (i = 0; i < strsnum; i++) {
-        char name[255];
-        strncpy(name, strsptr->text, strsptr->len);
-        name[strsptr->len] = '\0';
-        printf(".LC%d:\n", strsptr->id);
-        printf("  .string \"%s\"\n", name);
-        printf(".text\n");
-
-        strsptr = strsptr->next;
-    }
-
     if (globals) {
         printf(".bss\n");
     }
 
     int doing_gloval = 1;
     // 先頭の式から順にコード生成
+    int i;
     for (i = 0; code[i]; i++) {
         rsp_aligned = 1;
         localsnum = localsnums[i];
-        locals = LocalsList[i];
         if (doing_gloval && code[i]->kind != ND_GVALDEF) {
-            printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
+            printf(".text\n");
             doing_gloval = 0;
         }
         gen(code[i]);

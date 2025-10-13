@@ -162,10 +162,11 @@ struct LVar {
 };
 typedef struct LVar LVar;
 
+// TODO:ここの1000が切れるとSEGV
 // ローカル変数
 extern LVar *locals;
-extern LVar *LocalsList[100];
-extern int localsnums[100];
+extern LVar *LocalsList[1000];
+extern int localsnums[1000];
 extern int localsnum;
 
 // スコープ用
@@ -248,7 +249,8 @@ extern Token *token;
 // 入力プログラム
 extern char *user_input;
 
-extern Node *code[100];
+// TODO:ここの1000が切れるとSEGV
+extern Node *code[1000];
 
 // 制御命令のラベル用の通し番号
 extern int branch_label;

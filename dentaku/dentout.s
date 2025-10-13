@@ -1,4 +1,5 @@
 .intel_syntax noprefix
+.text
 .bss
   .globl x
 x:
@@ -11,7 +12,7 @@ y:
 main:
   push rbp
   mov rbp, rsp
-  sub rsp, 0
+  sub rsp, 320
   lea rax, QWORD PTR x[rip]
   push rax
   push 3
@@ -25,6 +26,7 @@ main:
   push 5
   pop rdi
   pop rax
+### left is ptr size=4
   imul rdi, 4
   add rax, rdi
   push rax
@@ -44,11 +46,12 @@ main:
   push 5
   pop rdi
   pop rax
+### left is ptr size=4
   imul rdi, 4
   add rax, rdi
   push rax
   pop rax
-  mov rax, [rax]
+  mov eax, DWORD PTR [rax]
   push rax
   pop rdi
   pop rax
