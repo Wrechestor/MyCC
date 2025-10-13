@@ -76,7 +76,8 @@
     "dentaku_sup": "c",
     "concepts": "c",
     "cmath": "c",
-    "dentaku_if_done_temp": "c"
+    "dentaku_if_done_temp": "c",
+    "tmpc": "c"
   },
   "C_Cpp.default.compilerPath": "/usr/bin/gcc"
 }

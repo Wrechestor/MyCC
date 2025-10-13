@@ -169,8 +169,7 @@ int is_alnum(char c) {
  * ##        #######  ##    ##  ######   ######
  */
 
-// TODO:型定義の形が違うので修正!
-
+// https://www.sigbus.info/compilerbook#type
 // Cの型は、先頭から次の4つの部分に分解することができます。
 // 1.ベースの型
 // 2.ポインタを表すアスタリスク
@@ -299,7 +298,7 @@ Node *consume_typed_ident(Type *prevtype) {
                 error("関数の引数リストが閉じていません");
             if (consume(")"))
                 break;
-            Node *argnode = consume_typed_ident(subtype);
+            Node *argnode = consume_typed_ident(NULL);
             Type *t2 = calloc(1, sizeof(Type));
             t2->ty = FUNCARG;
             t2->ptr_to = argnode->type;
@@ -1320,6 +1319,29 @@ Node *function_gval() {
             arg = arg->member;
         }
 
+        // 関数もグローバル変数の領域に登録する(→関数ポインタ可能)
+        GVar *gvar = find_gvar(funcgvalname);
+        if (!gvar) {
+            int totalbytesize = 4;
+            totalbytesize = size_from_type(type);
+
+            // char name[200];
+            // strncpy(name, funcgvalname->str, 7);
+            // fprintf(stderr, "###FUNCDEF %s  %d\n", name, funcgvalname->len);
+
+            gvar = calloc(1, sizeof(GVar));
+            gvar->next = globals;
+            gvar->name = funcgvalname->str;
+            gvar->len = funcgvalname->len;
+            gvar->addr = totalbytesize;
+            gvar->type = type;
+            node->offset = gvar->addr;
+            node->type = type;
+            globals = gvar;
+        } else {
+            // ↓プロトタイプ宣言の時はエラーなし
+            // error_at(funcgvalname->str, "重複定義された関数です");
+        }
         if (consume(";")) { // プロトタイプ宣言
             node->kind = ND_PROTO;
             node->type = type;
@@ -1348,20 +1370,6 @@ Node *function_gval() {
             tmp = tmp2;
         }
 
-        // TODO:関数もグローバル変数の領域に登録する
-        GVar *gvar;
-        int totalbytesize = 4;
-        totalbytesize = size_from_type(type);
-
-        gvar = calloc(1, sizeof(GVar));
-        gvar->next = globals;
-        gvar->name = funcgvalname->str;
-        gvar->len = funcgvalname->len;
-        gvar->addr = totalbytesize;
-        gvar->type = type;
-        node->offset = gvar->addr;
-        node->type = type;
-        globals = gvar;
     } else { // グローバル変数定義
         node->kind = ND_GVALDEF;
         node->name = funcgvalname->str;
@@ -2137,10 +2145,11 @@ Node *postpos() {
     int is_strderef;
     for (;;) {
         is_strderef = 0;
-        if (consume("[")) {
+        if (consume("[")) { // 配列インデックス
             node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), NULL);
             expect("]");
         } else if (consume(".") || (is_strderef = consume("->"))) {
+            // メンバ演算子
             Token *tok = consume_kind(TK_IDENT);
             if (!tok)
                 error_at(tok->str, "メンバ名が識別子でありません");
@@ -2157,6 +2166,44 @@ Node *postpos() {
             node = new_node(ND_STRREF, node, membername);
             node->name = tok->str; // for debug
             node->val = tok->len;
+        } else if (consume("(")) { // 関数呼び出し
+            // 関数名or関数ポインタを評価→関数呼び出し
+            Token *tok = calloc(1, sizeof(Token));
+            tok->str = node->name;
+            tok->len = node->val;
+
+            node = new_node(ND_FUNCCALL, node, NULL);
+            // node = calloc(1, sizeof(Node));
+            // node->srctoken = token;
+            // node->kind = ND_FUNCCALL;
+            node->name = tok->str;
+            node->val = tok->len;
+
+            // 返り値の型
+            GVar *gvar = find_gvar(tok);
+            if (gvar)
+                node->type = gvar->type;
+
+            if (consume(")"))
+                return node;
+
+            // ここで逆順にしておく
+            Node *tmp = calloc(1, sizeof(Node));
+            tmp->srctoken = token;
+            tmp->kind = ND_ARG;
+            tmp->lhs = assign();
+
+            Node *now = tmp;
+            while (consume(",")) {
+                tmp = calloc(1, sizeof(Node));
+                tmp->srctoken = token;
+                tmp->kind = ND_ARG;
+                tmp->lhs = assign();
+                tmp->rhs = now;
+                now = tmp;
+            }
+            node->rhs = now;
+            expect(")");
         } else
             break;
     }
@@ -2164,8 +2211,8 @@ Node *postpos() {
         node = new_node(ND_POSTINCR, node, NULL);
     } else if (consume("--")) {
         node = new_node(ND_POSTDECR, node, NULL);
-    } else
-        return node;
+    }
+    return node;
 }
 
 Node *primary() {
@@ -2217,68 +2264,35 @@ Node *primary() {
     // 次のトークンが識別子なら
     tok = consume_kind(TK_IDENT);
     if (tok) {
-        if (consume("(")) { // 関数呼び出し
-            // TODO: postpos()内に移す(関数名or関数ポインタを評価→関数呼び出し)
-            Node *node = calloc(1, sizeof(Node));
-            node->srctoken = token;
-            node->kind = ND_FUNCCALL;
-            node->name = tok->str;
-            node->val = tok->len;
+        // char name[200];
+        // strncpy(name, tok->str, 7);
+        // fprintf(stderr, "### %s  %d\n", name, tok->len);
 
-            // 返り値の型
+        Node *node = calloc(1, sizeof(Node));
+        node->srctoken = token;
+        node->kind = ND_LVAR;
+
+        LVar *lvar = find_lvar(tok);
+        if (lvar) {
+            node->offset = lvar->offset;
+            node->val = lvar->len;
+            node->name = lvar->name;
+            node->type = lvar->type;
+            node->variabletype = LOCALVAL;
+        } else {
             GVar *gvar = find_gvar(tok);
-            if (gvar)
+            if (gvar) {
+                node->offset = gvar->addr;
+                node->val = gvar->len;
+                node->name = gvar->name;
                 node->type = gvar->type;
-
-            if (consume(")"))
-                return node;
-
-            // ここで逆順にしておく
-            Node *tmp = calloc(1, sizeof(Node));
-            tmp->srctoken = token;
-            tmp->kind = ND_ARG;
-            tmp->lhs = assign();
-
-            Node *now = tmp;
-            while (consume(",")) {
-                tmp = calloc(1, sizeof(Node));
-                tmp->srctoken = token;
-                tmp->kind = ND_ARG;
-                tmp->lhs = assign();
-                tmp->rhs = now;
-                now = tmp;
+                node->variabletype = GLOBALVAL;
+            } else { // enum
+                token = tok;
+                return new_node_num(expect_number());
             }
-            node->rhs = now;
-            expect(")");
-
-            return node;
-        } else { // 変数
-            Node *node = calloc(1, sizeof(Node));
-            node->srctoken = token;
-            node->kind = ND_LVAR;
-
-            LVar *lvar = find_lvar(tok);
-            if (lvar) {
-                node->offset = lvar->offset;
-                node->val = lvar->len;
-                node->name = lvar->name;
-                node->type = lvar->type;
-                node->variabletype = LOCALVAL;
-            } else {
-                GVar *gvar = find_gvar(tok);
-                if (gvar) {
-                    node->offset = gvar->addr;
-                    node->val = gvar->len;
-                    node->name = gvar->name;
-                    node->type = gvar->type;
-                    node->variabletype = GLOBALVAL;
-                } else { // enum
-                    token = tok;
-                    return new_node_num(expect_number());
-                }
-            }
-            return node;
         }
+        return node;
     }
 
     // そうでなければ数値のはず

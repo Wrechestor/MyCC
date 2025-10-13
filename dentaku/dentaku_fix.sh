@@ -30,4 +30,14 @@ sed -i "s/for (int i/int i;for (i/g" dentaku/dentaku.c
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentaku/dentaku.c
 
 
-# typedefの順番
+# プロトタイプ宣言の追加
+# int strlen();
+# int printf();
+# int memcmp();
+# int exit();
+# void *calloc();
+# int isspace();
+# int isdigit();
+# int strncmp();
+# int strtol();
+# int strncpy();

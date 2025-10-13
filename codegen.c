@@ -386,6 +386,10 @@ void gen(Node *node) {
                 // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
                 return;
             }
+            if (type->ty == FUNC) {
+                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                return;
+            }
             if (type->ty == CHAR) {
                 // char型のときは1バイト読み込む
                 printf("  pop rax\n");
@@ -409,6 +413,10 @@ void gen(Node *node) {
         int ty = gen_lval(node);
         if (ty == ARRAY) {
             // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+            return;
+        }
+        if (ty == FUNC) {
+            // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
             return;
         }
         if (ty == CHAR) {
@@ -443,6 +451,10 @@ void gen(Node *node) {
         if (type) {
             if (type->ty == ARRAY) {
                 // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                return;
+            }
+            if (type->ty == FUNC) {
+                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
                 return;
             }
             if (type->ty == CHAR) {
@@ -496,8 +508,8 @@ void gen(Node *node) {
         printf("  push rdi\n");
         return;
     case ND_FUNCCALL: // 関数呼び出し
-        strncpy(name, node->name, node->val);
-        name[node->val] = '\0';
+        // strncpy(name, node->name, node->val);
+        // name[node->val] = '\0';
 
         nownode = node;
 
@@ -510,6 +522,10 @@ void gen(Node *node) {
             nownode = nownode->rhs;
             gen(nownode->lhs);
         }
+
+        // 関数のアドレス計算
+        gen(node->lhs);
+        printf("  pop r11\n");
 
         // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れるだけ
         int k;
@@ -548,7 +564,8 @@ void gen(Node *node) {
         // rspを16の倍数にする
         printf("  and rsp, -16\n");
 
-        printf("  call %s\n", name);
+        // printf("  call %s\n", name);
+        printf("  call r11\n");
 
         // スタックアライメント
         // rspを元に戻す

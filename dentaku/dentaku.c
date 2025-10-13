@@ -1,3 +1,13 @@
+int strlen();
+int printf();
+int memcmp();
+int exit();
+void *calloc();
+int isspace();
+int isdigit();
+int strncmp();
+int strtol();
+int strncpy();
 
 // トークンの種類
 typedef enum {
