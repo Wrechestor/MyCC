@@ -37,11 +37,19 @@ char *read_file(char *path) {
     return buf;
 }
 
+char namebuf[200];
+char ret[300]; // sizeof(ret) must be >= sizeof(namebuf) + some
 char *nodeToStr(Node *node) {
-    char *namebuf = calloc(1, sizeof(char) * 100);
-    if (node->name)
+    int i = 0;
+    for (i = 0; i < 200; i++)
+        namebuf[i] = 0;
+    for (i = 0; i < 300; i++)
+        ret[i] = 0;
+
+    if (node->name) {
         strncpy(namebuf, node->name, node->val);
-    char *ret = calloc(1, sizeof(char) * 100);
+        namebuf[node->val] = 0;
+    }
     switch (node->kind) {
     case ND_ADD: return "+";
     case ND_SUB: return "-";
@@ -130,15 +138,16 @@ char *nodeToStr(Node *node) {
             nowstr = nowstr->next;
         }
         sprintf(ret, "\"");
-        while (*namebuf) {
-            switch (*namebuf) {
+        char *namebuftmp = namebuf;
+        while (*namebuftmp) {
+            switch (*namebuftmp) {
 
             case '&': strcat(ret, "&amp;"); break;
             case '<': strcat(ret, "&lt;"); break;
             case '>': strcat(ret, "&gt;"); break;
-            default: strncat(ret, namebuf, 1); break;
+            default: strncat(ret, namebuftmp, 1); break;
             }
-            namebuf++;
+            namebuftmp++;
         }
         strcat(ret, "\"");
         return ret;
@@ -150,10 +159,15 @@ char *nodeToStr(Node *node) {
 }
 
 char *typeToStr(Type *type) {
-    char *namebuf = calloc(1, sizeof(char) * 100);
+    int i = 0;
+    for (i = 0; i < 200; i++)
+        namebuf[i] = 0;
+    // for (i = 0; i < 300; i++)
+    //     ret[i] = 0;
+    // char *namebuf = calloc(1, sizeof(char) * 100);
     // if(node->name) strncpy(namebuf, node->name, node->val);
     char *ret = calloc(1, sizeof(char) * 100);
-    char *buf = calloc(1, sizeof(char) * 100);
+    // char *buf = calloc(1, sizeof(char) * 100);
 
     while (type) {
         switch (type->ty) {
@@ -167,14 +181,14 @@ char *typeToStr(Type *type) {
             strcat(ret, "void");
             break;
         case PTR:
-            strcat(ret, "* ");
+            strcat(ret, "*");
             break;
         case ARRAY:
             if (type->array_size)
-                sprintf(buf, "[%d] ", type->array_size);
+                sprintf(namebuf, "[%d]", type->array_size);
             else
-                sprintf(buf, "[] ");
-            strcat(ret, buf);
+                sprintf(namebuf, "[]");
+            strcat(ret, namebuf);
             break;
         case STRUCT:
             strcat(ret, "struct");
@@ -186,6 +200,7 @@ char *typeToStr(Type *type) {
             strcat(ret, "func(");
             Type *argtmp = type->member;
             int isfirst = 1;
+            char *buf;
             while (argtmp) {
                 if (isfirst)
                     isfirst = 0;
@@ -193,6 +208,7 @@ char *typeToStr(Type *type) {
                     strcat(ret, ",");
                 buf = typeToStr(argtmp);
                 strcat(ret, buf);
+                free(buf);
                 argtmp = argtmp->member;
             }
             strcat(ret, ") ");

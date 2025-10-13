@@ -343,13 +343,15 @@ Node *consume_typed_ident(Type *prevtype) {
     // TODO:複数宣言に対応 int *x, *y;
     // fprintf(stderr, "### %d\n", node->type->ty);
 
-    Type *now = node->type;
-    while (now) {
-        // fprintf(stderr, "### %d\n", now->ty);
-        now = now->ptr_to;
-    }
+    // Type *now = node->type;
+    // while (now) {
+    //     fprintf(stderr, "### %d\n", now->ty);
+    //     now = now->ptr_to;
+    // }
+
     // char name[100];
-    // strncpy(name, first->str, 6);
+    // strncpy(name, node->name, node->val);
+    // name[node->val] = 0;
     // fprintf(stderr, "### END %s\n", name);
     return node;
 }
@@ -1639,6 +1641,11 @@ Node *stmt() {
 
         node->name = tok->str;
         node->val = tok->len;
+        // char name[100];
+        // strncpy(name, node->name, node->val);
+        // name[node->val] = 0;
+        // fprintf(stderr, "### END %s\n", name);
+        // fprintf(stderr, "### END %d\n", node->val);
 
         // TODO:ローカル変数の時の配列サイズ
         Type *tmp = type;
@@ -1670,7 +1677,7 @@ Node *stmt() {
 
             lvar->offset = offset;
             node->offset = offset;
-            node->val = totalsize; // TODO:ローカル変数のサイズ
+            // node->val = totalsize; // TODO:ローカル変数のサイズ
 
             localsnum += totalsize;
             locals = lvar;
@@ -1773,7 +1780,7 @@ Node *stmt() {
                 lvar->offset = offset;
                 lvar->type = type;
                 node->offset = offset;
-                node->val = totalsize; // TODO:ローカル変数のサイズ
+                // node->val = totalsize; // TODO:ローカル変数のサイズ
 
                 localsnum += totalsize;
                 locals = lvar;
