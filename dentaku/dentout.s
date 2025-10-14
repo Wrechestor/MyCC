@@ -1,66 +1,126 @@
 .intel_syntax noprefix
 .text
-.bss
-  .globl x
-x:
-  .zero 32
 .text
-  .globl add3
-add3:
+  .globl foo
+foo:
   push rbp
   mov rbp, rsp
   push rdi
   push rsi
-  sub rsp, 320
+  push rdx
+  push rcx
+  push r8
+  push r9
+  push [rbp+rbx+16]
+  push [rbp+rbx+24]
+  push [rbp+rbx+32]
+  push [rbp+rbx+40]
+  push [rbp+rbx+48]
+  sub rsp, 0
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
-  mov rax, [rax]
+  movslq rax, DWORD PTR [rax]
   push rax
   mov rax, rbp
   sub rax, 16
   push rax
   pop rax
-  mov rax, [rax]
+  movslq rax, DWORD PTR [rax]
   push rax
   pop rdi
   pop rax
-### left is ptr size=4
-  imul rdi, 4
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
   add rax, rdi
   push rax
   mov rax, rbp
-  sub rax, 8
+  sub rax, 48
   push rax
   pop rax
-  mov rax, [rax]
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
   push rax
   mov rax, rbp
-  sub rax, 16
+  sub rax, 56
   push rax
   pop rax
-  mov rax, [rax]
+  movslq rax, DWORD PTR [rax]
   push rax
-  pop rdi
-  pop rax
-### left is ptr size=4
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  mov eax, DWORD PTR [rax]
-  push rax
-  push 3
   pop rdi
   pop rax
   add rax, rdi
   push rax
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
   pop rdi
   pop rax
-  mov [rax], rdi
-  push rdi
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
   pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  push rax
   pop rax
   mov rsp, rbp
   pop rbp
@@ -69,50 +129,45 @@ add3:
 main:
   push rbp
   mov rbp, rsp
-  sub rsp, 320
-  lea rax, QWORD PTR x[rip]
-  push rax
-  push 3
-  pop rdi
-  pop rax
-### left is ptr size=4
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  mov [rax], rdi
   push rdi
-  pop rax
-  lea rax, QWORD PTR x[rip]
-  push rax
+  sub rsp, 0
+  push 10
+  push 9
+  push 8
+  push 7
+  push 6
+  push 5
+  push 4
   push 3
+  push 2
+  push 1
+  pop rax
+  mov rdi, rax
   pop rax
   mov rsi, rax
   pop rax
-  mov rdi, rax
+  mov rdx, rax
+  pop rax
+  mov rcx, rax
+  pop rax
+  mov r8, rax
+  pop rax
+  mov r9, rax
   mov eax, 0
-  call add3
-  push rax
-  pop rax
-  lea rax, QWORD PTR x[rip]
-  push rax
-  push 3
-  pop rdi
-  pop rax
-### left is ptr size=4
-  imul rdi, 4
-  add rax, rdi
-  push rax
-  pop rax
-  mov eax, DWORD PTR [rax]
+  mov rbx, rsp
+  and rbx, 0xF
+  and rsp, -16
+  call foo
+  or rsp, rbx
   push rax
   pop rax
   mov rsp, rbp
   pop rbp
   ret
   pop rax
+  push rax
+  pop rax
+  push rax
   pop rax
   mov rsp, rbp
   pop rbp
