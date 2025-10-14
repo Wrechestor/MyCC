@@ -17,6 +17,9 @@ int ftell();
 int fread();
 int fclose();
 
+int sprintf();
+int strcmp();
+
 // トークンの種類
 typedef enum {
     TK_RESERVED, // 記号
@@ -47,33 +50,48 @@ struct Token {
 
 // 抽象構文木のノードの種類
 typedef enum {
-    ND_ADD,     // +
-    ND_SUB,     // -
-    ND_MUL,     // *
-    ND_DIV,     // /
-    ND_LES,     // <
-    ND_LEQ,     // <=
-    ND_EQ,      // ==
-    ND_NEQ,     // !=
-    ND_ASSIGN,  // =
-    ND_SIZEOF,  // sizeof
-    ND_RETURN,  // return
-    ND_IF,      // if
-    ND_ELSE,    // else
-    ND_WHILE,   // while
-    ND_FOR,     // for
-    ND_FORSUP,  // for内部のの2つ目以降の文
-    ND_BLOCK,   // {}
-    ND_LVAR,    // ローカル変数
-    ND_FUNC,    // 関数呼び出し
-    ND_FUNCDEF, // 関数定義
-    ND_ARG,     // 関数の引数
-    ND_ADDR,    // unary &
-    ND_DEREF,   // unary *
-    ND_VALDEF,  // ローカル変数定義
-    ND_GVALDEF, // グローバル変数定義
-    ND_QUOTE,   // 文字列リテラル
-    ND_NUM,     // 整数
+    ND_ADD,      // +
+    ND_SUB,      // -
+    ND_MUL,      // *
+    ND_DIV,      // /
+    ND_LES,      // <
+    ND_LEQ,      // <=
+    ND_EQ,       // ==
+    ND_NEQ,      // !=
+    ND_ASSIGN,   // =
+    ND_LOGICOR,  // ||
+    ND_LOGICAND, // &&
+    ND_BITOR,    // |
+    ND_BITXOR,   // ^
+    ND_BITAND,   // &
+    ND_COMMA,    // ,
+    ND_REM,      // %
+    ND_LSHIFT,   // <<
+    ND_RSHIFT,   // >>
+    ND_LOGICNOT, // !
+    ND_BITNOT,   // ~
+    ND_COND,     // ?
+    ND_COLON,    // :
+    ND_POSTINCR, // 後置++
+    ND_POSTDECR, // 後置--
+    ND_SIZEOF,   // sizeof
+    ND_RETURN,   // return
+    ND_IF,       // if
+    ND_ELSE,     // else
+    ND_WHILE,    // while
+    ND_FOR,      // for
+    ND_FORSUP,   // for内部のの2つ目以降の文
+    ND_BLOCK,    // {}
+    ND_LVAR,     // ローカル変数
+    ND_FUNCCALL, // 関数呼び出し
+    ND_FUNCDEF,  // 関数定義
+    ND_ARG,      // 関数の引数
+    ND_ADDR,     // unary &
+    ND_DEREF,    // unary *
+    ND_VALDEF,   // ローカル変数定義
+    ND_GVALDEF,  // グローバル変数定義
+    ND_QUOTE,    // 文字列リテラル
+    ND_NUM,      // 整数
 } NodeKind;
 
 typedef struct Node Node;
@@ -182,13 +200,21 @@ void program();
 Node *function_gval();
 Node *stmt();
 Node *expr();
+Node *comma();
 Node *assign();
+Node *condition();
+Node *logicOR();
+Node *logicAND();
+Node *bitOR();
+Node *bitXOR();
+Node *bitAND();
 Node *equality();
 Node *relational();
+Node *shift();
 Node *add();
 Node *mul();
 Node *unary();
-Node *brackets();
+Node *postpos();
 Node *primary();
 
 void gen_lval(Node *node);
@@ -397,10 +423,32 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, ">>=", 3) == 0 ||
+            strncmp(p, "<<=", 3) == 0) {
+            cur = new_token(TK_RESERVED, cur, p);
+            cur->len = 3;
+            p += 3;
+            continue;
+        }
+
         if (strncmp(p, ">=", 2) == 0 ||
             strncmp(p, "<=", 2) == 0 ||
             strncmp(p, "==", 2) == 0 ||
-            strncmp(p, "!=", 2) == 0) {
+            strncmp(p, "!=", 2) == 0 ||
+            strncmp(p, "||", 2) == 0 ||
+            strncmp(p, "&&", 2) == 0 ||
+            strncmp(p, "<<", 2) == 0 ||
+            strncmp(p, ">>", 2) == 0 ||
+            strncmp(p, "+=", 2) == 0 ||
+            strncmp(p, "-=", 2) == 0 ||
+            strncmp(p, "*=", 2) == 0 ||
+            strncmp(p, "/=", 2) == 0 ||
+            strncmp(p, "%=", 2) == 0 ||
+            strncmp(p, "&=", 2) == 0 ||
+            strncmp(p, "^=", 2) == 0 ||
+            strncmp(p, "|=", 2) == 0 ||
+            strncmp(p, "++", 2) == 0 ||
+            strncmp(p, "--", 2) == 0) {
             cur = new_token(TK_RESERVED, cur, p);
             cur->len = 2;
             p += 2;
@@ -414,9 +462,22 @@ void tokenize() {
             *p == ';' || *p == '=' ||
             *p == '{' || *p == '}' ||
             *p == ',' || *p == '&' ||
-            *p == '[' || *p == ']') {
+            *p == '[' || *p == ']' ||
+            *p == '|' || *p == '^' ||
+            *p == '&' || *p == '%' ||
+            *p == '!' || *p == '~' ||
+            *p == '?' || *p == ':') {
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;
+            continue;
+        }
+
+        if (*p == '\'') { // 文字リテラル
+            cur = new_token(TK_NUM, cur, p);
+            cur->val = *(p + 1);
+            if (*(p + 2) != '\'')
+                exit(1);
+            p += 2;
             continue;
         }
 
@@ -486,6 +547,68 @@ Node *new_node_num(int val) {
     return node;
 }
 
+// TODO:型推定
+Type *estimate_type(Node *node) {
+    if (node == 0)
+        return 0;
+    Type *type;
+    if (node->kind == ND_DEREF) {
+        type = estimate_type(node->lhs);
+        return type->ptr_to;
+    }
+    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
+        LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
+        LVar *var;
+        for (var = locals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                lvar = var;
+        if (lvar) {
+            type = lvar->type;
+            return type;
+        } else {
+            GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
+            GVar *var;
+            for (var = globals; var; var = var->next)
+                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                    gvar = var;
+            if (gvar) {
+                type = gvar->type;
+                return type;
+            } else {
+                // exit(1);
+            }
+        }
+    }
+    if (node->kind == ND_FUNCCALL) {
+        // TODO:関数の戻り値をポインタ型に対応
+        type = calloc(1, sizeof(Type));
+        type->ty = INT;
+        return type;
+    }
+    Type *ltype = estimate_type(node->lhs);
+    Type *rtype = estimate_type(node->rhs);
+    // TODO:↓でより深いほうの型を返す or 型一致チェック
+    return (ltype ? ltype : rtype);
+}
+
+int size_from_type(Type *type) {
+    int size = 4;
+    if (type == 0) {
+        size = 4;
+    } else if (type->ty == INT) {
+        size = 4;
+    } else if (type->ty == CHAR) {
+        size = 1;
+    } else if (type->ty == PTR) {
+        size = 8;
+    } else if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        Type *t = type->ptr_to;
+        size = size_from_type(t) * arrsize;
+    }
+    return size;
+}
+
 Node *code[100];
 int localsnums[100];
 int localsnum;
@@ -507,22 +630,20 @@ void program() {
 }
 
 Node *function_gval() {
-    // function_gval = "int" "*"* ident "(" ("int" "*"* ident)* ")" "{" stmt* "}"
-    // | "int" "*"* ident ("[" num "]")? ";"
     Node *node;
     node = calloc(1, sizeof(Node));
 
     // 戻り値の型
-    Type *Rtype = consume_typeword();
-    if (!Rtype) {
+    Type *type = consume_typeword();
+    if (!type) {
         exit(1);
     }
 
     while (consume("*")) {
         Type *t = calloc(1, sizeof(Type));
         t->ty = PTR;
-        t->ptr_to = Rtype;
-        Rtype = t;
+        t->ptr_to = type;
+        type = t;
     }
 
     Token *funcname;
@@ -562,6 +683,8 @@ Node *function_gval() {
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_VALDEF;
+            tmp2->name = argname->str;
+            tmp2->val = argname->len;
             LVar *lvar = find_lvar(argname);
             if (lvar) {
                 // tmp2->offset = lvar->offset;
@@ -600,6 +723,9 @@ Node *function_gval() {
                 break;
             }
             tmp->lhs = stmt();
+            if (consume("}")) { // 要らないけどツリーを整理するため
+                break;
+            }
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
@@ -611,39 +737,161 @@ Node *function_gval() {
         node->val = funcname->len;
 
         Token *tok = funcname;
+        int undefsize = 0; // sizeを省略したとき1
+        int size = 1;
+        GVar *gvar;
         if (tok) {
-            GVar *gvar = find_gvar(tok);
+            gvar = find_gvar(tok);
             if (gvar) {
-                // node->offset = gvar->offset;
                 exit(1);
             } else {
-                int arrsize = 1;
                 while (consume("[")) { // 配列型
-                    arrsize = expect_number();
-                    // printf("#### arrsize=%d\n", arrsize);
-                    expect("]");
                     Type *t = calloc(1, sizeof(Type));
                     t->ty = ARRAY;
-                    t->array_size = arrsize;
-                    t->ptr_to = Rtype;
-                    Rtype = t;
+                    t->ptr_to = type;
+                    type = t;
+
+                    if (consume("]")) { // TODO:配列要素数省略
+                        undefsize = 1;
+                        break;
+                    }
+
+                    size = expect_number();
+                    expect("]");
+
+                    t->array_size = size;
                 }
 
-                int size = 4;
-                size = size_from_type(Rtype);
+                if (!undefsize) {
+                    int totalbytesize = 4;
+                    totalbytesize = size_from_type(type);
 
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                gvar = calloc(1, sizeof(GVar));
-                gvar->next = globals;
-                gvar->name = tok->str;
-                gvar->len = tok->len;
-                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                gvar->addr = size;
-                gvar->type = Rtype;
-                node->offset = gvar->addr;
-                globals = gvar;
+                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                    gvar = calloc(1, sizeof(GVar));
+                    gvar->next = globals;
+                    gvar->name = tok->str;
+                    gvar->len = tok->len;
+                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    globals = gvar;
+                }
             }
         }
+
+        // TODO:グローバル変数の初期化
+        if (consume("=")) {
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_GVALDEF;
+
+            node->rhs = tmp2;
+
+            if (consume("{")) { // 配列の初期化
+                int nowindex = 0;
+                Node *assignsubj;
+
+                if (consume("}")) {
+                    // do nothing
+                } else {
+                    int nowval = expect_number();
+                    while (consume(",")) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_GVALDEF;
+
+                        tmp2->val = nowval;
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowval = expect_number();
+                        nowindex++;
+                    }
+                    tmp2->val = nowval;
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+
+                        int totalbytesize = 4;
+                        totalbytesize = size_from_type(type);
+
+                        // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                        gvar = calloc(1, sizeof(GVar));
+                        gvar->next = globals;
+                        gvar->name = tok->str;
+                        gvar->len = tok->len;
+                        // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                        gvar->addr = totalbytesize;
+                        gvar->type = type;
+                        node->offset = gvar->addr;
+                        globals = gvar;
+                    }
+
+                    expect("}");
+                }
+            } else {
+                // TODO:グローバル変数や関数のアドレス(に定数を足したもの)で初期化
+                // int a = 3;
+                // char b[] = "foobar";
+                // int *c = &a;
+                // char *d = b + 3;
+                // ↓
+                // a:
+                // .long 3
+                // b:
+                // .byte 0x66 // 'f'
+                // .byte 0x6f // 'o'
+                // .byte 0x6f // 'o'
+                // .byte 0x62 // 'b'
+                // .byte 0x61 // 'a'
+                // .byte 0x72 // 'r'
+                // .byte 0    // '\0'
+                // c:
+                // .quad a
+                // d:
+                // .quad b + 3
+
+                Token *tokquo = consume_type(TK_QUOTE);
+                if (tokquo) { // 文字列リテラル
+                    int nowindex = 0;
+
+                    char *nowchr = tokquo->str;
+                    while (nowindex < tokquo->len) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_GVALDEF;
+
+                        tmp2->val = *nowchr;
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowchr++;
+                        nowindex++;
+                    }
+                    tmp2->val = 0;
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+
+                        int totalbytesize = 4;
+                        totalbytesize = size_from_type(type);
+
+                        gvar = calloc(1, sizeof(GVar));
+                        gvar->next = globals;
+                        gvar->name = tok->str;
+                        gvar->len = tok->len;
+
+                        gvar->addr = totalbytesize;
+                        gvar->type = type;
+                        node->offset = gvar->addr;
+                        globals = gvar;
+                    }
+                } else {
+                    tmp2->val = expect_number();
+                }
+            }
+        }
+
         expect(";");
     }
 
@@ -651,13 +899,6 @@ Node *function_gval() {
 }
 
 Node *stmt() {
-    // stmt = { stmt* }
-    //        | "int" ident ("[" num "]")? ";"
-    //        | "return" expr ";"
-    //        | "if" "(" expr ")" stmt ("else" stmt)?
-    //        | "while" "(" expr ")" stmt
-    //        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
-    //        | expr ";"
     Node *node;
 
     if (consume("{")) { // Block
@@ -670,16 +911,18 @@ Node *stmt() {
             }
             if (consume("}")) {
                 break;
-            } else {
-                tmp->lhs = stmt();
-                Node *tmp2 = calloc(1, sizeof(Node));
-                tmp2->kind = ND_BLOCK;
-                tmp->rhs = tmp2;
-                tmp = tmp2;
             }
+            tmp->lhs = stmt();
+            if (consume("}")) { // 要らないけどツリーを整理するため
+                break;
+            }
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_BLOCK;
+            tmp->rhs = tmp2;
+            tmp = tmp2;
         }
 
-    } else if (is_typeword()) { // 変数定義
+    } else if (is_typeword()) { // ローカル変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
@@ -694,45 +937,202 @@ Node *stmt() {
         }
 
         Token *tok = consume_type(TK_IDENT);
+        int offset;
+        int undefsize = 0; // sizeを省略したとき1
+        int totalsize = 1;
+        int size = 1;
+        LVar *lvar;
         if (tok) {
-            Node *tmp = calloc(1, sizeof(Node));
-            tmp->kind = ND_VALDEF;
-
-            LVar *lvar = find_lvar(tok);
+            lvar = find_lvar(tok);
             if (lvar) {
-                // node->offset = lvar->offset;
                 exit(1);
             } else {
-                int totalsize = 1;
-                int size = 1;
+                node->name = tok->str;
+                node->val = tok->len;
+
                 while (consume("[")) { // 配列型
-                    size = expect_number();
-                    expect("]");
                     Type *t = calloc(1, sizeof(Type));
                     t->ty = ARRAY;
-                    t->array_size = size;
                     t->ptr_to = type;
                     type = t;
+
+                    if (consume("]")) { // TODO:配列要素数省略
+                        undefsize = 1;
+                        break;
+                    }
+
+                    size = expect_number();
+                    expect("]");
+
+                    t->array_size = size;
 
                     totalsize *= size;
                 }
 
-                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                lvar = calloc(1, sizeof(LVar));
-                lvar->next = locals;
-                lvar->name = tok->str;
-                lvar->len = tok->len;
-                lvar->offset = (locals ? locals->offset : 0) + 8 * totalsize;
-                lvar->type = type;
-                tmp->offset = lvar->offset;
-                locals = lvar;
+                if (!undefsize) {
+                    // TODO:offsetの設定バグありそう?(配列の場所)
+                    offset = (locals ? locals->offset : 0) + 8 * totalsize;
 
-                localsnum += totalsize;
+                    lvar = calloc(1, sizeof(LVar));
+                    lvar->next = locals;
+                    lvar->name = tok->str;
+                    lvar->len = tok->len;
+                    lvar->offset = offset;
+                    lvar->type = type;
+                    node->offset = offset;
+                    locals = lvar;
+
+                    localsnum += totalsize;
+                }
             }
-            node->lhs = tmp;
         } else {
             exit(1);
         }
+        // TODO:ローカル変数の初期化
+        if (consume("=")) {
+            Node *tmp2 = calloc(1, sizeof(Node));
+            tmp2->kind = ND_BLOCK;
+            tmp2->lhs = node;
+
+            Node *top = tmp2;
+
+            Node *lval = calloc(1, sizeof(Node));
+            lval->kind = ND_LVAR;
+            lval->offset = offset;
+            lval->name = tok->str;
+            lval->val = tok->len;
+            if (consume("{")) { // 配列の初期化
+                int nowindex = 0;
+                Node *assignsubj;
+
+                if (consume("}")) {
+                    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowindex++;
+                    }
+                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+                } else {
+                    Node *nownode = assign();
+                    while (consume(",")) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nownode = assign();
+                        nowindex++;
+                    }
+                    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nownode = new_node_num(0);
+                        nowindex++;
+                    }
+                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+                        totalsize *= size;
+
+                        // TODO:offsetの設定バグありそう?(配列の場所)
+                        offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+                        lval->offset = offset;
+
+                        lvar = calloc(1, sizeof(LVar));
+                        lvar->next = locals;
+                        lvar->name = tok->str;
+                        lvar->len = tok->len;
+                        lvar->offset = offset;
+                        lvar->type = type;
+                        node->offset = offset;
+                        locals = lvar;
+
+                        localsnum += totalsize;
+                    }
+
+                    expect("}");
+                }
+            } else {
+                Token *tokquo = consume_type(TK_QUOTE);
+                if (tokquo) { // 文字列リテラル
+                    int nowindex = 0;
+                    Node *assignsubj;
+
+                    char *nowchr = tokquo->str;
+                    while (nowindex < tokquo->len) {
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(*nowchr));
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowchr++;
+                        nowindex++;
+                    }
+                    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+                        Node *tmp3 = calloc(1, sizeof(Node));
+                        tmp3->kind = ND_BLOCK;
+                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                        tmp2->rhs = tmp3;
+                        tmp2 = tmp3;
+
+                        nowindex++;
+                    }
+                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+                    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                    if (undefsize) {
+                        int size = (nowindex + 1);
+                        type->array_size = size;
+                        totalsize *= size;
+
+                        // TODO:offsetの設定バグありそう?(配列の場所)
+                        offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+                        lval->offset = offset;
+
+                        lvar = calloc(1, sizeof(LVar));
+                        lvar->next = locals;
+                        lvar->name = tok->str;
+                        lvar->len = tok->len;
+                        lvar->offset = offset;
+                        lvar->type = type;
+                        node->offset = offset;
+                        locals = lvar;
+
+                        localsnum += totalsize;
+                    }
+                } else {
+                    tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+                }
+            }
+            node = top;
+        }
+
         expect(";");
     } else if (consume_type(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
@@ -791,6 +1191,9 @@ Node *stmt() {
         }
         tmp->rhs = tmp2;
         tmp2->rhs = stmt();
+    } else if (consume(";")) {
+        // 空文 do nothing
+        return 0;
     } else {
         node = expr();
         expect(";");
@@ -800,15 +1203,109 @@ Node *stmt() {
 }
 
 Node *expr() {
-    return assign();
+    return comma();
+}
+
+Node *comma() {
+    Node *node = assign();
+    for (;;) {
+        if (consume(","))
+            node = new_node(ND_COMMA, node, assign());
+        else
+            return node;
+    }
 }
 
 Node *assign() {
-    Node *node = equality();
+    Node *node = condition();
 
     if (consume("="))
         node = new_node(ND_ASSIGN, node, assign());
+    else if (consume("+="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_ADD, node, assign()));
+    else if (consume("-="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_SUB, node, assign()));
+    else if (consume("*="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_MUL, node, assign()));
+    else if (consume("/="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_DIV, node, assign()));
+    else if (consume("%="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_REM, node, assign()));
+    else if (consume("&="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITAND, node, assign()));
+    else if (consume("^="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITXOR, node, assign()));
+    else if (consume("|="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_BITOR, node, assign()));
+    else if (consume("<<="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_LSHIFT, node, assign()));
+    else if (consume(">>="))
+        node = new_node(ND_ASSIGN, node, new_node(ND_RSHIFT, node, assign()));
+
     return node;
+}
+
+Node *condition() { // TODO:優先順位
+    Node *node = logicOR();
+
+    if (consume("?")) {
+        node = new_node(ND_COND, node, 0);
+        Node *b = logicOR();
+        expect(":");
+        Node *tmp = new_node(ND_COLON, b, condition());
+        node->rhs = tmp;
+    }
+    return node;
+}
+
+Node *logicOR() {
+    Node *node = logicAND();
+    for (;;) {
+        if (consume("||"))
+            node = new_node(ND_LOGICOR, node, logicAND());
+        else
+            return node;
+    }
+}
+
+Node *logicAND() {
+    Node *node = bitOR();
+    for (;;) {
+        if (consume("&&"))
+            node = new_node(ND_LOGICAND, node, bitOR());
+        else
+            return node;
+    }
+}
+
+Node *bitOR() {
+    Node *node = bitXOR();
+    for (;;) {
+        if (consume("|"))
+            node = new_node(ND_BITOR, node, bitXOR());
+        else
+            return node;
+    }
+}
+
+Node *bitXOR() {
+    Node *node = bitAND();
+    for (;;) {
+        if (consume("^"))
+            node = new_node(ND_BITXOR, node, bitAND());
+        else
+            return node;
+    }
+}
+
+Node *bitAND() {
+    Node *node = equality();
+    for (;;) {
+        if (consume("&"))
+            node = new_node(ND_BITAND, node, equality());
+        else
+            return node;
+    }
 }
 
 Node *equality() {
@@ -825,17 +1322,30 @@ Node *equality() {
 }
 
 Node *relational() {
-    Node *node = add();
+    Node *node = shift();
 
     for (;;) {
         if (consume("<"))
-            node = new_node(ND_LES, node, add());
+            node = new_node(ND_LES, node, shift());
         else if (consume("<="))
-            node = new_node(ND_LEQ, node, add());
+            node = new_node(ND_LEQ, node, shift());
         else if (consume(">"))
-            node = new_node(ND_LES, add(), node);
+            node = new_node(ND_LES, shift(), node);
         else if (consume(">="))
-            node = new_node(ND_LEQ, add(), node);
+            node = new_node(ND_LEQ, shift(), node);
+        else
+            return node;
+    }
+}
+
+Node *shift() {
+    Node *node = add();
+
+    for (;;) {
+        if (consume("<<"))
+            node = new_node(ND_LSHIFT, node, add());
+        else if (consume(">>"))
+            node = new_node(ND_RSHIFT, node, add());
         else
             return node;
     }
@@ -862,71 +1372,11 @@ Node *mul() {
             node = new_node(ND_MUL, node, unary());
         else if (consume("/"))
             node = new_node(ND_DIV, node, unary());
+        else if (consume("%"))
+            node = new_node(ND_REM, node, unary());
         else
             return node;
     }
-}
-
-// TODO:型推定
-Type *estimate_type(Node *node) {
-    if (node == 0)
-        return 0;
-    Type *type;
-    if (node->kind == ND_DEREF) {
-        type = estimate_type(node->lhs);
-        return type->ptr_to;
-    }
-    if (node->kind == ND_LVAR) {
-        LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
-        LVar *var;
-        for (var = locals; var; var = var->next)
-            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                lvar = var;
-        if (lvar) {
-            type = lvar->type;
-            return type;
-        } else {
-            GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
-            GVar *var;
-            for (var = globals; var; var = var->next)
-                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                    gvar = var;
-            if (gvar) {
-                type = gvar->type;
-                return type;
-            } else {
-                // exit(1);
-            }
-        }
-    }
-    if (node->kind == ND_FUNC) {
-        // TODO:関数の戻り値をポインタ型に対応
-        type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        return type;
-    }
-    Type *ltype = estimate_type(node->lhs);
-    Type *rtype = estimate_type(node->rhs);
-    // TODO:↓でより深いほうの型を返す or 型一致チェック
-    return (ltype ? ltype : rtype);
-}
-
-int size_from_type(Type *type) {
-    int size = 4;
-    if (type == 0) {
-        size = 4;
-    } else if (type->ty == INT) {
-        size = 4;
-    } else if (type->ty == CHAR) {
-        size = 1;
-    } else if (type->ty == PTR) {
-        size = 8;
-    } else if (type->ty == ARRAY) {
-        int arrsize = type->array_size;
-        Type *t = type->ptr_to;
-        size = size_from_type(t) * arrsize;
-    }
-    return size;
 }
 
 Node *unary() {
@@ -936,27 +1386,54 @@ Node *unary() {
         int size = size_from_type(type);
         return new_node_num(size);
     }
+
+    // 前置++ --は+=1 -=1と同じ
+    if (consume("++")) {
+        Node *node = unary();
+        return new_node(ND_ASSIGN, node, new_node(ND_ADD, node, new_node_num(1)));
+    }
+    if (consume("--")) {
+        Node *node = unary();
+        return new_node(ND_ASSIGN, node, new_node(ND_SUB, node, new_node_num(1)));
+    }
+    if (consume("!"))
+        return new_node(ND_LOGICNOT, unary(), 0);
+    if (consume("~"))
+        return new_node(ND_BITNOT, unary(), 0);
+
     if (consume("+"))
-        return brackets();
+        return postpos();
     if (consume("-"))
-        return new_node(ND_SUB, new_node_num(0), brackets());
+        return new_node(ND_SUB, new_node_num(0), postpos());
     if (consume("&"))
         return new_node(ND_ADDR, unary(), 0);
     if (consume("*"))
         return new_node(ND_DEREF, unary(), 0);
-    return brackets();
+    return postpos();
 }
 
-Node *brackets() { // TODO:配列アクセス(優先順位は?)
-    // brackets = primary ("[" expr "]")*
+Node *postpos() { // TODO:配列アクセス(優先順位は?)
     Node *node = primary();
 
-    while (consume("[")) {
-        // x[y] -> *(x+y)
-        node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
-        expect("]");
+    for (;;) {
+        if (consume("[")) {
+            // x[y] -> *(x+y)
+            node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
+            expect("]");
+        }
+        // else if (consume("."))
+        // node = new_node(ND_, node, unary());
+        // else if (consume("->"))
+        // node = new_node(ND_, node, unary());
+        else
+            break;
     }
-    return node;
+    if (consume("++")) {
+        node = new_node(ND_POSTINCR, node, new_node(ND_ADD, node, new_node_num(1)));
+    } else if (consume("--")) {
+        node = new_node(ND_POSTDECR, node, new_node(ND_SUB, node, new_node_num(1)));
+    } else
+        return node;
 }
 
 Node *primary() {
@@ -989,7 +1466,7 @@ Node *primary() {
     if (tok) {
         if (consume("(")) { // 関数呼び出し
             Node *node = calloc(1, sizeof(Node));
-            node->kind = ND_FUNC;
+            node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
             // TODO:引数の個数チェック
@@ -999,13 +1476,13 @@ Node *primary() {
                 // ここで逆順にしておく
                 Node *tmp = calloc(1, sizeof(Node));
                 tmp->kind = ND_ARG;
-                tmp->lhs = expr();
+                tmp->lhs = assign();
 
                 Node *now = tmp;
                 while (consume(",")) {
                     tmp = calloc(1, sizeof(Node));
                     tmp->kind = ND_ARG;
-                    tmp->lhs = expr();
+                    tmp->lhs = assign();
                     tmp->rhs = now;
                     now = tmp;
                 }
@@ -1093,8 +1570,53 @@ void gen(Node *node) {
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         printf("  .globl %s\n", name);
+        printf("  .data\n");
         printf("%s:\n", name);
-        printf("  .zero %d\n", node->offset);
+
+        Type *type = estimate_type(node);
+        if (type && type->ptr_to) {
+            type = type->ptr_to;
+        }
+
+        int size = 4;
+        // if (type->ty == ARRAY) { // TODO
+        //     return;
+        // }
+        if (type) {
+            if (type->ty == CHAR) {
+                size = 1;
+            }
+            if (type->ty == INT) {
+                size = 4;
+            }
+            if (type->ty == PTR) {
+                size = 8;
+            }
+        }
+
+        Node *initval = node->rhs;
+        int nowindex = 0;
+        int remainsize = node->offset;
+        while (initval) {
+            switch (size) {
+            case 1:
+                printf("  .byte %d\n", initval->val);
+                remainsize -= 1;
+                break;
+            case 4:
+                printf("  .long %d\n", initval->val);
+                remainsize -= 4;
+                break;
+            case 8:
+                printf("  .quad %d\n", initval->val);
+                remainsize -= 8;
+                break;
+            }
+            initval = initval->rhs;
+            nowindex++;
+        }
+        if (remainsize > 0)
+            printf("  .zero %d\n", remainsize);
         return;
     }
     if (node->kind == ND_FUNCDEF) {
@@ -1308,7 +1830,7 @@ void gen(Node *node) {
         printf("  mov [rax], rdi\n");
         printf("  push rdi\n");
         return;
-    case ND_FUNC: // 関数呼び出し
+    case ND_FUNCCALL: // 関数呼び出し
         strncpy(name, node->name, node->val);
         name[node->val] = '\0';
         // 引数
@@ -1355,6 +1877,102 @@ void gen(Node *node) {
         return;
     }
 
+    if (node->kind == ND_COND) {
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je .Lcond1_%d\n", id);
+        gen(node->rhs->lhs);
+        printf("  jmp .Lcond2_%d\n", id);
+        printf(".Lcond1_%d:\n", id);
+        gen(node->rhs->rhs);
+        printf(".Lcond2_%d:\n", id);
+        return;
+    }
+
+    if (node->kind == ND_LOGICOR) {
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  jne .Lor1_%d\n", id);
+        gen(node->rhs);
+        printf("  pop rdi\n");
+        printf("  cmp rdi, 0\n");
+        printf("  je .Lor2_%d\n", id);
+        printf(".Lor1_%d:\n", id);
+        printf("  mov rax, 1\n");
+        printf("  jmp .Lorend_%d\n", id);
+        printf(".Lor2_%d:\n", id);
+        printf("  mov rax, 0\n");
+        printf(".Lorend_%d:\n", id);
+        printf("  push rax\n");
+        return;
+    }
+
+    if (node->kind == ND_LOGICAND) {
+        int id = branch_label;
+        branch_label++;
+        gen(node->lhs);
+        printf("  pop rax\n");
+        printf("  cmp rax, 0\n");
+        printf("  je .Lor1_%d\n", id);
+        gen(node->rhs);
+        printf("  pop rdi\n");
+        printf("  cmp rdi, 0\n");
+        printf("  je .Lor1_%d\n", id);
+        printf("  mov rax, 1\n");
+        printf("  jmp .Lorend_%d\n", id);
+        printf(".Lor1_%d:\n", id);
+        printf("  mov rax, 0\n");
+        printf(".Lorend_%d:\n", id);
+        printf("  push rax\n");
+        return;
+    }
+
+    if (node->kind == ND_COMMA) {
+        gen(node->lhs);
+        printf("  pop rax\n");
+        gen(node->rhs);
+        return;
+    }
+
+    if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
+        gen_lval(node->lhs);
+        gen(node->rhs);
+
+        type = estimate_type(node->lhs);
+        if (type) {
+            if (type->ty == ARRAY) {
+                exit(1);
+            }
+            if (type->ty == CHAR) {
+                // char型のときは1バイト書きこむ
+                printf("  pop rdi\n");
+                printf("  pop rax\n");
+                printf("  push [rax]\n");
+                printf("  mov [rax], dil\n");
+                return;
+            }
+            if (type->ty == INT) {
+                // int型のときは4バイト書きこむ
+                printf("  pop rdi\n");
+                printf("  pop rax\n");
+                printf("  push [rax]\n");
+                printf("  mov DWORD PTR [rax], edi\n");
+                return;
+            }
+        }
+        printf("  pop rdi\n");
+        printf("  pop rax\n");
+        printf("  push [rax]\n");
+        printf("  mov [rax], rdi\n");
+        return;
+    }
+
     gen(node->lhs);
     gen(node->rhs);
 
@@ -1384,6 +2002,37 @@ void gen(Node *node) {
     case ND_DIV:
         printf("  cqo\n");
         printf("  idiv rdi\n");
+        break;
+    case ND_REM:
+        printf("  cqo\n");
+        printf("  idiv rdi\n");
+        printf("  push rdx\n");
+        return;
+        break;
+    case ND_LSHIFT:
+        printf("  mov rcx, rdi\n");
+        printf("  shl rax, cl\n");
+        break;
+    case ND_RSHIFT: // TODO:符号拡張
+        printf("  mov rcx, rdi\n");
+        printf("  shr rax, cl\n");
+        break;
+    case ND_BITOR:
+        printf("  or rax, rdi\n");
+        break;
+    case ND_BITXOR:
+        printf("  xor rax, rdi\n");
+        break;
+    case ND_BITAND:
+        printf("  and rax, rdi\n");
+        break;
+    case ND_BITNOT:
+        printf("  not rax\n");
+        break;
+    case ND_LOGICNOT:
+        printf("  cmp rax, 0\n");
+        printf("  setne al\n");
+        printf("  movzb rax, al\n");
         break;
     case ND_EQ:
         printf("  cmp rax, rdi\n");
@@ -1437,8 +2086,101 @@ char *read_file(char *path) {
     return buf;
 }
 
+char *nodeToStr(Node *node) {
+    char *namebuf = calloc(1, sizeof(char) * 100);
+    if (node->name)
+        strncpy(namebuf, node->name, node->val);
+    char *ret = calloc(1, sizeof(char) * 100);
+    switch (node->kind) {
+    case ND_ADD: return "+";
+    case ND_SUB: return "-";
+    case ND_MUL: return "*";
+    case ND_DIV: return "/";
+    case ND_LES: return "<";
+    case ND_LEQ: return "<=";
+    case ND_EQ: return "==";
+    case ND_NEQ: return "!=";
+    case ND_ASSIGN: return "=";
+    case ND_LOGICOR: return "||";
+    case ND_LOGICAND: return "&&";
+    case ND_BITOR: return "|";
+    case ND_BITXOR: return "^";
+    case ND_BITAND: return "&";
+    case ND_COMMA: return ",";
+    case ND_REM: return "%";
+    case ND_LSHIFT: return "<<";
+    case ND_RSHIFT: return ">>";
+    case ND_LOGICNOT: return "!";
+    case ND_BITNOT: return "~";
+    case ND_POSTINCR: return "(POST)++";
+    case ND_POSTDECR: return "(POST)--";
+    case ND_COND: return "?";
+    case ND_COLON: return ":";
+    case ND_SIZEOF: return "sizeof";
+    case ND_RETURN: return "return";
+    case ND_IF: return "if";
+    case ND_ELSE: return "then | else";
+    case ND_WHILE: return "while";
+    case ND_FOR: return "for";
+    case ND_FORSUP: return "FORSUP";
+    case ND_BLOCK: return "BLOCK";
+    case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
+    case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
+    case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf); return ret;
+    case ND_ARG: return "ARG";
+    case ND_ADDR: return "ADDR";
+    case ND_DEREF: return "DEREF";
+    case ND_VALDEF: sprintf(ret, "LVAL(%s) @%d", namebuf, node->offset); return ret;
+    case ND_GVALDEF: sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset); return ret;
+    case ND_QUOTE:
+
+        int strid = node->val;
+        Strs *nowstr = strs;
+        while (nowstr) {
+            if (nowstr->id == strid) {
+                strncpy(namebuf, nowstr->text, nowstr->len);
+                break;
+            }
+            nowstr = nowstr->next;
+        }
+        sprintf(ret, "\\\"%s\\\"", namebuf);
+
+        return ret;
+    case ND_NUM: sprintf(ret, "%d", node->val); return ret;
+    }
+    return "";
+}
+
+int gengraph(Node *node, int nodeid) {
+    int nowid = nodeid;
+
+    printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
+    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF || node->kind == ND_FUNCDEF) {
+        printf(" shape = box");
+    }
+    if (node->kind == ND_BLOCK) {
+        printf(" shape = point");
+    }
+    printf("];\n");
+    if (node->lhs) {
+        nodeid = nodeid + 1;
+        printf(" node%d -- node%d;\n", nowid, nodeid);
+        nodeid = gengraph(node->lhs, nodeid);
+    }
+    if (node->rhs) {
+        nodeid = nodeid + 1;
+        printf(" node%d -- node%d;\n", nowid, nodeid);
+        nodeid = gengraph(node->rhs, nodeid);
+    }
+    return nodeid;
+}
+
 int main(int argc, char **argv) {
-    if (argc != 2) {
+    // if (argc != 2) {
+    // 	exit(1);
+    // 	return 1;
+    // }
+    if (argc < 2) {
         exit(1);
         return 1;
     }
@@ -1451,9 +2193,22 @@ int main(int argc, char **argv) {
     tokenize(user_input);
     program();
 
+    // TODO:グラフを出力
+    if (argc == 3 && strcmp(argv[2], "-g") == 0) {
+        // グラフを出力
+        int nodeid = 1;
+        printf("graph parsegraph {\n");
+        int i;
+        for (i = 0; code[i]; i++) {
+            nodeid = gengraph(code[i], nodeid) + 1;
+        }
+        printf("}\n");
+        return 0;
+    }
+
     // アセンブリの前半部分を出力
     printf(".intel_syntax noprefix\n");
-    printf(".text\n");
+    // printf(".text\n");
 
     // 文字列リテラル
     Strs *strsptr = strs;

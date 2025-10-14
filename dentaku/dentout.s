@@ -1,171 +1,46 @@
 .intel_syntax noprefix
 .text
-.text
-  .globl foo
-foo:
-  push rbp
-  mov rbp, rsp
-  push rdi
-  push rsi
-  push rdx
-  push rcx
-  push r8
-  push r9
-  push [rbp+rbx+16]
-  push [rbp+rbx+24]
-  push [rbp+rbx+32]
-  push [rbp+rbx+40]
-  push [rbp+rbx+48]
-  sub rsp, 0
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 40
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 56
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 64
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 72
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, rbp
-  sub rax, 80
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
   .globl main
 main:
   push rbp
   mov rbp, rsp
   push rdi
   sub rsp, 0
-  push 10
-  push 9
-  push 8
-  push 7
-  push 6
-  push 5
-  push 4
-  push 3
-  push 2
   push 1
+  push 2
+  pop rdi
   pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  pop rax
-  mov rcx, rax
-  pop rax
-  mov r8, rax
-  pop rax
-  mov r9, rax
-  mov eax, 0
-  mov rbx, rsp
-  and rbx, 0xF
-  and rsp, -16
-  call foo
-  or rsp, rbx
+  cmp rax, rdi
+  sete al
+  movzb rax, al
   push rax
+  pop rax
+  cmp rax, 0
+  je .Lcond1_0
+  push 5
+  jmp .Lcond2_0
+.Lcond1_0:
+  push 1
+  push 2
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcond1_1
+  push 55
+  jmp .Lcond2_1
+.Lcond1_1:
+  push 107
+.Lcond2_1:
+.Lcond2_0:
   pop rax
   mov rsp, rbp
   pop rbp
   ret
-  pop rax
-  push rax
   pop rax
   push rax
   pop rax

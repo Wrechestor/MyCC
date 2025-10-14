@@ -60,10 +60,21 @@ assert 4    'int x[8];int add3(int *k, int n){k[n] = k[n] + 3;}int main(){x[3] =
 assert 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
 assert 28   'int foo(int a,int b,int c,int d,int e,int f,int g){return a+b+c+d+e+f+g;}int main(){return foo(1,2,3,4,5,6,7);}'
 assert 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j){return a+b+c+d+e+f+g+h+i+j;}int main(){return foo(1,2,3,4,5,6,7,8,9,10);}'
-
-
-
-
+assert 13   'int add(int x, int y){return x+y;}int main(){int a[] = {1,4,add(3,6)}; return a[1] + a[2];}'
+assert 1   'int main(){int a[5] = {1}; return a[0] + a[1];}'
+assert 0   'int main(){int a[5] = {}; return a[0] + a[1];}'
+assert 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
+assert 13   'char a[] = {1,4,9};int main(){return a[1] + a[2];}'
+assert 2   'char a[] = "ABCDEF!";int main(){printf("%s", a);return a[3] - a[1];}'
+assert 2   'int main(){char a[] = "ABCDEF!";printf("%s", a);return a[3] - a[1];}'
+assert 0   'int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf("%d ",i);}return 0;}'
+assert 45   'int main(){int s=0;int i;for(i=0;i<10;s+=i,i+=1);return s;}'
+assert 0   'int main(){int i;for(i=0;i<20;++i){printf("%d ",i % 5);}return 0;}'
+assert 0   'int main(){int i;for(i=0;i<8;++i){printf("%d,%d ",1<<i,1710581>>i);}return 0;}'
+assert 0   'int main(){int i;for(i=0;i<10;++i){if(!(i%5))printf("%d ",i);}return 0;}'
+assert 0   'int main(){int i=0;printf("%d ",i++);printf("%d ",++i);return 0;}'
+assert 0   'int main(){int i;for(i=0;i<10;++i){printf("%s ",(i%3==0?"Fizz":"Buzz"));}return 0;}'
+assert 55   'int main(){return 1==2 ? 5 : 1<2 ? 55 : 107;}'
 
 
 

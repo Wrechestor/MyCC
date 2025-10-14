@@ -79,3 +79,5 @@ sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentak
 # int ftell();
 # int fread();
 # int fclose();
+# int sprintf();
+# int strcmp();

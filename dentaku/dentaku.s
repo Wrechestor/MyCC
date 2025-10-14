@@ -1,270 +1,489 @@
 .intel_syntax noprefix
-.LC100:
+.LC173:
   .string ".bss\n"
 .text
-.LC99:
-  .string "  .string \"%s\"\n"
-.text
-.LC98:
-  .string ".LC%d:\n"
-.text
-.LC97:
+.LC172:
   .string ".text\n"
 .text
-.LC96:
+.LC171:
+  .string "  .string \"%s\"\n"
+.text
+.LC170:
+  .string ".LC%d:\n"
+.text
+.LC169:
   .string ".intel_syntax noprefix\n"
 .text
-.LC95:
+.LC168:
+  .string "}\n"
+.text
+.LC167:
+  .string "graph parsegraph {\n"
+.text
+.LC166:
+  .string "-g"
+.text
+.LC165:
+  .string " node%d -- node%d;\n"
+.text
+.LC164:
+  .string "];\n"
+.text
+.LC163:
+  .string " shape = point"
+.text
+.LC162:
+  .string " shape = box"
+.text
+.LC161:
+  .string " node%d [label=\"%s\""
+.text
+.LC160:
+  .string ""
+.text
+.LC159:
+  .string "%d"
+.text
+.LC158:
+  .string "\\\"%s\\\""
+.text
+.LC157:
+  .string "GVAL(%s) @%d"
+.text
+.LC156:
+  .string "LVAL(%s) @%d"
+.text
+.LC155:
+  .string "DEREF"
+.text
+.LC154:
+  .string "ADDR"
+.text
+.LC153:
+  .string "ARG"
+.text
+.LC152:
+  .string "FUNC(%s)"
+.text
+.LC151:
+  .string "CALL(%s)"
+.text
+.LC150:
+  .string "%s"
+.text
+.LC149:
+  .string "BLOCK"
+.text
+.LC148:
+  .string "FORSUP"
+.text
+.LC147:
+  .string "then | else"
+.text
+.LC146:
+  .string "(POST)--"
+.text
+.LC145:
+  .string "(POST)++"
+.text
+.LC144:
   .string "r"
 .text
-.LC94:
+.LC143:
   .string "  setle al\n"
 .text
-.LC93:
+.LC142:
   .string "  setl al\n"
 .text
-.LC92:
-  .string "  setne al\n"
-.text
-.LC91:
-  .string "  movzb rax, al\n"
-.text
-.LC90:
+.LC141:
   .string "  sete al\n"
 .text
-.LC89:
+.LC140:
   .string "  cmp rax, rdi\n"
 .text
-.LC88:
+.LC139:
+  .string "  movzb rax, al\n"
+.text
+.LC138:
+  .string "  setne al\n"
+.text
+.LC137:
+  .string "  not rax\n"
+.text
+.LC136:
+  .string "  and rax, rdi\n"
+.text
+.LC135:
+  .string "  xor rax, rdi\n"
+.text
+.LC134:
+  .string "  or rax, rdi\n"
+.text
+.LC133:
+  .string "  shr rax, cl\n"
+.text
+.LC132:
+  .string "  shl rax, cl\n"
+.text
+.LC131:
+  .string "  mov rcx, rdi\n"
+.text
+.LC130:
   .string "  idiv rdi\n"
 .text
-.LC87:
+.LC129:
   .string "  cqo\n"
 .text
-.LC86:
+.LC128:
   .string "  imul rax, rdi\n"
 .text
-.LC85:
+.LC127:
   .string "  sub rax, rdi\n"
 .text
-.LC84:
+.LC126:
   .string "  add rax, rdi\n"
 .text
-.LC83:
+.LC125:
   .string "  imul rdi, %d\n"
 .text
-.LC82:
+.LC124:
+  .string "  push [rax]\n"
+.text
+.LC123:
+  .string "  je .Lor1_%d\n"
+.text
+.LC122:
+  .string ".Lorend_%d:\n"
+.text
+.LC121:
+  .string "  mov rax, 0\n"
+.text
+.LC120:
+  .string ".Lor2_%d:\n"
+.text
+.LC119:
+  .string "  jmp .Lorend_%d\n"
+.text
+.LC118:
+  .string "  mov rax, 1\n"
+.text
+.LC117:
+  .string ".Lor1_%d:\n"
+.text
+.LC116:
+  .string "  je .Lor2_%d\n"
+.text
+.LC115:
+  .string "  cmp rdi, 0\n"
+.text
+.LC114:
+  .string "  jne .Lor1_%d\n"
+.text
+.LC113:
+  .string ".Lcond2_%d:\n"
+.text
+.LC112:
+  .string ".Lcond1_%d:\n"
+.text
+.LC111:
+  .string "  jmp .Lcond2_%d\n"
+.text
+.LC110:
+  .string "  je .Lcond1_%d\n"
+.text
+.LC109:
   .string "  or rsp, rbx\n"
 .text
-.LC81:
+.LC108:
   .string "  call %s\n"
 .text
-.LC80:
+.LC107:
   .string "  and rsp, -16\n"
 .text
-.LC79:
+.LC106:
   .string "  and rbx, 0xF\n"
 .text
-.LC78:
+.LC105:
   .string "  mov rbx, rsp\n"
 .text
-.LC77:
+.LC104:
   .string "  mov eax, 0\n"
 .text
-.LC76:
+.LC103:
   .string "  mov r9, rax\n"
 .text
-.LC75:
+.LC102:
   .string "  mov r8, rax\n"
 .text
-.LC74:
+.LC101:
   .string "  mov rcx, rax\n"
 .text
-.LC73:
+.LC100:
   .string "  mov rdx, rax\n"
 .text
-.LC72:
+.LC99:
   .string "  mov rsi, rax\n"
 .text
-.LC71:
+.LC98:
   .string "  mov rdi, rax\n"
 .text
-.LC70:
+.LC97:
   .string "  mov [rax], rdi\n"
 .text
-.LC69:
+.LC96:
   .string "  mov DWORD PTR [rax], edi\n"
 .text
-.LC68:
+.LC95:
   .string "  mov [rax], dil\n"
 .text
-.LC67:
+.LC94:
   .string "  pop rdi\n"
 .text
-.LC66:
+.LC93:
   .string "  mov rax, [rax]\n"
 .text
-.LC65:
+.LC92:
   .string "  mov rax, OFFSET FLAT:.LC%d\n"
 .text
-.LC64:
+.LC91:
   .string "  push %d\n"
 .text
-.LC63:
+.LC90:
   .string "  mov rax, QWORD PTR [rax]\n"
 .text
-.LC62:
+.LC89:
   .string "  movslq rax, DWORD PTR [rax]\n"
 .text
-.LC61:
+.LC88:
   .string "  movzx eax, BYTE PTR [rax]\n"
 .text
-.LC60:
+.LC87:
   .string "  jmp .Lbegin%d\n"
 .text
-.LC59:
+.LC86:
   .string ".Lbegin%d:\n"
 .text
-.LC58:
+.LC85:
   .string ".Lend%d:\n"
 .text
-.LC57:
+.LC84:
   .string "  je  .Lend%d\n"
 .text
-.LC56:
+.LC83:
   .string ".Lelse%d:\n"
 .text
-.LC55:
+.LC82:
   .string "  jmp .Lend%d\n"
 .text
-.LC54:
+.LC81:
   .string "  je  .Lelse%d\n"
 .text
-.LC53:
+.LC80:
   .string "  cmp rax, 0\n"
 .text
-.LC52:
+.LC79:
   .string "  ret\n"
 .text
-.LC51:
+.LC78:
   .string "  pop rbp\n"
 .text
-.LC50:
+.LC77:
   .string "  mov rsp, rbp\n"
 .text
-.LC49:
+.LC76:
   .string "  pop rax\n"
 .text
-.LC48:
+.LC75:
   .string "  sub rsp, %d\n"
 .text
-.LC47:
+.LC74:
   .string "  push [rbp+rbx+%d]\n"
 .text
-.LC46:
+.LC73:
   .string "  push r9\n"
 .text
-.LC45:
+.LC72:
   .string "  push r8\n"
 .text
-.LC44:
+.LC71:
   .string "  push rcx\n"
 .text
-.LC43:
+.LC70:
   .string "  push rdx\n"
 .text
-.LC42:
+.LC69:
   .string "  push rsi\n"
 .text
-.LC41:
+.LC68:
   .string "  push rdi\n"
 .text
-.LC40:
+.LC67:
   .string "  mov rbp, rsp\n"
 .text
-.LC39:
+.LC66:
   .string "  push rbp\n"
 .text
-.LC38:
+.LC65:
   .string "  .zero %d\n"
 .text
-.LC37:
+.LC64:
+  .string "  .quad %d\n"
+.text
+.LC63:
+  .string "  .long %d\n"
+.text
+.LC62:
+  .string "  .byte %d\n"
+.text
+.LC61:
   .string "%s:\n"
 .text
-.LC36:
+.LC60:
+  .string "  .data\n"
+.text
+.LC59:
   .string "  .globl %s\n"
 .text
-.LC35:
+.LC58:
   .string "  mov rax, OFFSET FLAT:%s\n"
 .text
-.LC34:
+.LC57:
   .string "  push rax\n"
 .text
-.LC33:
+.LC56:
   .string "  sub rax, %d\n"
 .text
-.LC32:
+.LC55:
   .string "  mov rax, rbp\n"
 .text
-.LC31:
-  .string "&"
+.LC54:
+  .string "~"
 .text
-.LC30:
+.LC53:
+  .string "!"
+.text
+.LC52:
+  .string "%"
+.text
+.LC51:
   .string "/"
 .text
-.LC29:
+.LC50:
   .string "-"
 .text
-.LC28:
+.LC49:
   .string "+"
 .text
-.LC27:
+.LC48:
   .string ">"
 .text
-.LC26:
+.LC47:
   .string "<"
 .text
-.LC25:
-  .string "="
+.LC46:
+  .string "&"
 .text
-.LC24:
+.LC45:
+  .string "^"
+.text
+.LC44:
+  .string "|"
+.text
+.LC43:
+  .string ":"
+.text
+.LC42:
+  .string "?"
+.text
+.LC41:
   .string ";"
 .text
-.LC23:
+.LC40:
+  .string "="
+.text
+.LC39:
   .string "]"
 .text
-.LC22:
+.LC38:
   .string "["
 .text
-.LC21:
+.LC37:
   .string "}"
 .text
-.LC20:
+.LC36:
   .string "{"
 .text
-.LC19:
+.LC35:
   .string ","
 .text
-.LC18:
+.LC34:
   .string ")"
 .text
-.LC17:
+.LC33:
   .string "("
 .text
-.LC16:
+.LC32:
   .string "*"
 .text
-.LC15:
+.LC31:
+  .string "--"
+.text
+.LC30:
+  .string "++"
+.text
+.LC29:
+  .string "|="
+.text
+.LC28:
+  .string "^="
+.text
+.LC27:
+  .string "&="
+.text
+.LC26:
+  .string "%="
+.text
+.LC25:
+  .string "/="
+.text
+.LC24:
+  .string "*="
+.text
+.LC23:
+  .string "-="
+.text
+.LC22:
+  .string "+="
+.text
+.LC21:
+  .string ">>"
+.text
+.LC20:
+  .string "<<"
+.text
+.LC19:
+  .string "&&"
+.text
+.LC18:
+  .string "||"
+.text
+.LC17:
   .string "!="
 .text
-.LC14:
+.LC16:
   .string "=="
 .text
-.LC13:
+.LC15:
   .string "<="
 .text
-.LC12:
+.LC14:
   .string ">="
+.text
+.LC13:
+  .string "<<="
+.text
+.LC12:
+  .string ">>="
 .text
 .LC11:
   .string "sizeof"
@@ -338,127 +557,147 @@
 .text
 ### 18    int fclose();
 .text
-### 21    typedef enum {
+### 20    int sprintf();
 .text
-### 37    typedef struct Token Token;
+### 21    int strcmp();
 .text
-### 40    struct Token {
+### 24    typedef enum {
 .text
-### 49    typedef enum {
+### 40    typedef struct Token Token;
 .text
-### 79    typedef struct Node Node;
+### 43    struct Token {
 .text
-### 82    struct Node {
+### 52    typedef enum {
 .text
-### 91    typedef struct Type Type;
+### 97    typedef struct Node Node;
 .text
-### 93    typedef enum {
+### 100    struct Node {
 .text
-### 100    struct Type {
+### 109    typedef struct Type Type;
 .text
-### 106    typedef struct LVar LVar;
+### 111    typedef enum {
 .text
-### 109    struct LVar {
+### 118    struct Type {
 .text
-### 118    extern LVar *locals;
+### 124    typedef struct LVar LVar;
 .text
-### 119    extern LVar *LocalsList[100];
+### 127    struct LVar {
 .text
-### 120    extern int localsnums[100];
+### 136    extern LVar *locals;
 .text
-### 121    extern int localsnum;
+### 137    extern LVar *LocalsList[100];
 .text
-### 123    typedef struct GVar GVar;
+### 138    extern int localsnums[100];
 .text
-### 126    struct GVar {
+### 139    extern int localsnum;
 .text
-### 135    extern GVar *globals;
+### 141    typedef struct GVar GVar;
 .text
-### 137    typedef struct Strs Strs;
+### 144    struct GVar {
 .text
-### 140    struct Strs {
+### 153    extern GVar *globals;
 .text
-### 148    extern Strs *strs;
+### 155    typedef struct Strs Strs;
 .text
-### 149    extern int strsnum;
+### 158    struct Strs {
 .text
-### 152    extern Token *token;
+### 166    extern Strs *strs;
 .text
-### 155    extern char *user_input;
+### 167    extern int strsnum;
 .text
-### 157    extern Node *code[100];
+### 170    extern Token *token;
 .text
-### 160    extern int branch_label;
+### 173    extern char *user_input;
 .text
-### 163    extern char *filename;
+### 175    extern Node *code[100];
 .text
-### 165    int consume(char *op);
+### 178    extern int branch_label;
 .text
-### 166    Token *consume_type(TokenKind tkind);
+### 181    extern char *filename;
 .text
-### 167    void expect(char *op);
+### 183    int consume(char *op);
 .text
-### 168    int expect_number();
+### 184    Token *consume_type(TokenKind tkind);
 .text
-### 169    int at_eof();
+### 185    void expect(char *op);
 .text
-### 170    Token *new_token(TokenKind kind, Token *cur, char *str);
+### 186    int expect_number();
 .text
-### 171    void tokenize();
+### 187    int at_eof();
 .text
-### 172    Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
+### 188    Token *new_token(TokenKind kind, Token *cur, char *str);
 .text
-### 173    Node *new_node_num(int val);
+### 189    void tokenize();
 .text
-### 174    LVar *find_lvar(Token *tok);
+### 190    Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 .text
-### 175    GVar *find_gvar(Token *tok);
+### 191    Node *new_node_num(int val);
 .text
-### 177    extern int estimate_isglobal;
+### 192    LVar *find_lvar(Token *tok);
 .text
-### 178    Type *estimate_type(Node *node);
+### 193    GVar *find_gvar(Token *tok);
 .text
-### 179    int size_from_type(Type *type);
+### 195    extern int estimate_isglobal;
 .text
-### 181    void program();
+### 196    Type *estimate_type(Node *node);
 .text
-### 182    Node *function_gval();
+### 197    int size_from_type(Type *type);
 .text
-### 183    Node *stmt();
+### 199    void program();
 .text
-### 184    Node *expr();
+### 200    Node *function_gval();
 .text
-### 185    Node *assign();
+### 201    Node *stmt();
 .text
-### 186    Node *equality();
+### 202    Node *expr();
 .text
-### 187    Node *relational();
+### 203    Node *comma();
 .text
-### 188    Node *add();
+### 204    Node *assign();
 .text
-### 189    Node *mul();
+### 205    Node *condition();
 .text
-### 190    Node *unary();
+### 206    Node *logicOR();
 .text
-### 191    Node *brackets();
+### 207    Node *logicAND();
 .text
-### 192    Node *primary();
+### 208    Node *bitOR();
 .text
-### 194    void gen_lval(Node *node);
+### 209    Node *bitXOR();
 .text
-### 195    void gen(Node *node);
-### 198    Token *token;
+### 210    Node *bitAND();
+.text
+### 211    Node *equality();
+.text
+### 212    Node *relational();
+.text
+### 213    Node *shift();
+.text
+### 214    Node *add();
+.text
+### 215    Node *mul();
+.text
+### 216    Node *unary();
+.text
+### 217    Node *postpos();
+.text
+### 218    Node *primary();
+.text
+### 220    void gen_lval(Node *node);
+.text
+### 221    void gen(Node *node);
+### 224    Token *token;
   .globl token
   .data
 token:
   .zero 8
-### 201    char *user_input;
+### 227    char *user_input;
   .globl user_input
   .data
 user_input:
   .zero 8
 .text
-### 219    int consume(char *op) {
+### 245    int consume(char *op) {
   .globl consume
   .type consume, @function
 consume:
@@ -466,7 +705,7 @@ consume:
   mov rbp, rsp
   push rdi
   sub rsp, 0
-### 220    if (token->kind != TK_RESERVED ||
+### 246    if (token->kind != TK_RESERVED ||
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -606,7 +845,7 @@ consume:
 .Lendif0:
   push rax
   pop rax
-### 224    token = token->next;
+### 250    token = token->next;
   mov rax, OFFSET FLAT:token
   push rax
   mov rax, OFFSET FLAT:token
@@ -625,7 +864,7 @@ consume:
   mov [rax], rdi
   push rdi
   pop rax
-### 225    return 1;
+### 251    return 1;
   push 1
   pop rax
   mov rsp, rbp
@@ -638,7 +877,7 @@ consume:
   pop rbp
   ret
 .text
-### 229    Token *consume_type(TokenKind tkind) {
+### 255    Token *consume_type(TokenKind tkind) {
   .globl consume_type
   .type consume_type, @function
 consume_type:
@@ -646,7 +885,7 @@ consume_type:
   mov rbp, rsp
   push rdi
   sub rsp, 8
-### 230    if (token->kind != tkind)
+### 256    if (token->kind != tkind)
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -682,7 +921,7 @@ consume_type:
 .Lendif3:
   push rax
   pop rax
-### 234    Token *old = token;
+### 260    Token *old = token;
   push rax
   pop rax
   mov rax, rbp
@@ -698,7 +937,7 @@ consume_type:
   mov [rax], rdi
   push rdi
   pop rax
-### 235    token = token->next;
+### 261    token = token->next;
   mov rax, OFFSET FLAT:token
   push rax
   mov rax, OFFSET FLAT:token
@@ -717,7 +956,7 @@ consume_type:
   mov [rax], rdi
   push rdi
   pop rax
-### 236    return old;
+### 262    return old;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -735,14 +974,14 @@ consume_type:
   pop rbp
   ret
 .text
-### 239    Type *consume_typeword() {
+### 265    Type *consume_typeword() {
   .globl consume_typeword
   .type consume_typeword, @function
 consume_typeword:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 240    Type *type = calloc(1, sizeof(Type));
+### 266    Type *type = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -771,7 +1010,7 @@ consume_typeword:
   mov [rax], rdi
   push rdi
   pop rax
-### 241    if (consume_type(TK_INT))
+### 267    if (consume_type(TK_INT))
   push r15
   push 8
   mov rax, OFFSET FLAT:consume_type
@@ -842,7 +1081,7 @@ consume_typeword:
   pop rax
   jmp .Lendif5
 .Lelse5:
-### 246    free(type);
+### 272    free(type);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -864,7 +1103,7 @@ consume_typeword:
   pop r15
   push rax
   pop rax
-### 247    return 0;
+### 273    return 0;
   push 0
   pop rax
   mov rsp, rbp
@@ -879,7 +1118,7 @@ consume_typeword:
 .Lendif4:
   push rax
   pop rax
-### 249    return type;
+### 275    return type;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -897,14 +1136,14 @@ consume_typeword:
   pop rbp
   ret
 .text
-### 252    int is_typeword() {
+### 278    int is_typeword() {
   .globl is_typeword
   .type is_typeword, @function
 is_typeword:
   push rbp
   mov rbp, rsp
   sub rsp, 0
-### 253    return token->kind == TK_INT || token->kind == TK_CHAR;
+### 279    return token->kind == TK_INT || token->kind == TK_CHAR;
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -964,13 +1203,13 @@ is_typeword:
   mov rsp, rbp
   pop rbp
   ret
-### 258    char errmsgbuf[100];
+### 284    char errmsgbuf[100];
   .globl errmsgbuf
   .data
 errmsgbuf:
   .zero 100
 .text
-### 259    void expect(char *op) {
+### 285    void expect(char *op) {
   .globl expect
   .type expect, @function
 expect:
@@ -978,7 +1217,7 @@ expect:
   mov rbp, rsp
   push rdi
   sub rsp, 0
-### 260    if (token->kind != TK_RESERVED ||
+### 286    if (token->kind != TK_RESERVED ||
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -1109,7 +1348,7 @@ expect:
   pop rax
   cmp rax, 0
   je  .Lendif7
-### 263    snprintf(errmsgbuf, sizeof(errmsgbuf), "'%s'ではありません", op);
+### 289    snprintf(errmsgbuf, sizeof(errmsgbuf), "'%s'ではありません", op);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -1142,7 +1381,7 @@ expect:
   pop r15
   push rax
   pop rax
-### 264    exit(1);
+### 290    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -1164,7 +1403,7 @@ expect:
 .Lendif7:
   push rax
   pop rax
-### 266    token = token->next;
+### 292    token = token->next;
   mov rax, OFFSET FLAT:token
   push rax
   mov rax, OFFSET FLAT:token
@@ -1189,14 +1428,14 @@ expect:
   pop rbp
   ret
 .text
-### 271    int expect_number() {
+### 297    int expect_number() {
   .globl expect_number
   .type expect_number, @function
 expect_number:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 272    if (token->kind != TK_NUM)
+### 298    if (token->kind != TK_NUM)
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -1237,7 +1476,7 @@ expect_number:
 .Lendif10:
   push rax
   pop rax
-### 274    int val = token->val;
+### 300    int val = token->val;
   push rax
   pop rax
   mov rax, rbp
@@ -1259,7 +1498,7 @@ expect_number:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 275    token = token->next;
+### 301    token = token->next;
   mov rax, OFFSET FLAT:token
   push rax
   mov rax, OFFSET FLAT:token
@@ -1278,7 +1517,7 @@ expect_number:
   mov [rax], rdi
   push rdi
   pop rax
-### 276    return val;
+### 302    return val;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1296,14 +1535,14 @@ expect_number:
   pop rbp
   ret
 .text
-### 279    int at_eof() {
+### 305    int at_eof() {
   .globl at_eof
   .type at_eof, @function
 at_eof:
   push rbp
   mov rbp, rsp
   sub rsp, 0
-### 280    return token->kind == TK_EOF;
+### 306    return token->kind == TK_EOF;
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -1333,7 +1572,7 @@ at_eof:
   pop rbp
   ret
 .text
-### 284    Token *new_token(TokenKind kind, Token *cur, char *str) {
+### 310    Token *new_token(TokenKind kind, Token *cur, char *str) {
   .globl new_token
   .type new_token, @function
 new_token:
@@ -1343,7 +1582,7 @@ new_token:
   push rsi
   push rdx
   sub rsp, 8
-### 285    Token *tok = calloc(1, sizeof(Token));
+### 311    Token *tok = calloc(1, sizeof(Token));
   push rax
   pop rax
   mov rax, rbp
@@ -1372,7 +1611,7 @@ new_token:
   mov [rax], rdi
   push rdi
   pop rax
-### 286    tok->kind = kind;
+### 312    tok->kind = kind;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -1393,7 +1632,7 @@ new_token:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 287    tok->str = str;
+### 313    tok->str = str;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -1414,7 +1653,7 @@ new_token:
   mov [rax], rdi
   push rdi
   pop rax
-### 288    cur->next = tok;
+### 314    cur->next = tok;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -1435,7 +1674,7 @@ new_token:
   mov [rax], rdi
   push rdi
   pop rax
-### 289    return tok;
+### 315    return tok;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -1453,7 +1692,7 @@ new_token:
   pop rbp
   ret
 .text
-### 293    int is_alnum(char c) {
+### 319    int is_alnum(char c) {
   .globl is_alnum
   .type is_alnum, @function
 is_alnum:
@@ -1461,7 +1700,7 @@ is_alnum:
   mov rbp, rsp
   push rdi
   sub rsp, 0
-### 294    return ('a' <= c && c <= 'z') ||
+### 320    return ('a' <= c && c <= 'z') ||
   push 97
   mov rax, rbp
   sub rax, 8
@@ -1639,14 +1878,14 @@ is_alnum:
   pop rbp
   ret
 .text
-### 301    void tokenize() {
+### 327    void tokenize() {
   .globl tokenize
   .type tokenize, @function
 tokenize:
   push rbp
   mov rbp, rsp
   sub rsp, 32
-### 302    char *p = user_input;
+### 328    char *p = user_input;
   push rax
   pop rax
   mov rax, rbp
@@ -1662,7 +1901,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 303    Token *head = calloc(1, sizeof(Token));
+### 329    Token *head = calloc(1, sizeof(Token));
   push rax
   pop rax
   mov rax, rbp
@@ -1691,7 +1930,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 304    head->next = 0;
+### 330    head->next = 0;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -1707,7 +1946,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 305    Token *cur = head;
+### 331    Token *cur = head;
   push rax
   pop rax
   mov rax, rbp
@@ -1724,7 +1963,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 307    while (*p) {
+### 333    while (*p) {
 .Lbegin17:
 .Lcontinue17:
   mov rax, rbp
@@ -1739,7 +1978,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lend17
-### 309    if (isspace(*p)) {
+### 335    if (isspace(*p)) {
   push r15
   mov rax, rbp
   sub rax, 8
@@ -1766,7 +2005,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif18
-### 310    p++;
+### 336    p++;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1776,7 +2015,7 @@ tokenize:
   add rdi, 1
   mov [rax], rdi
   pop rax
-### 311    continue;
+### 337    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -1784,7 +2023,7 @@ tokenize:
 .Lendif18:
   push rax
   pop rax
-### 315    if (strncmp(p, "//", 2) == 0) {
+### 341    if (strncmp(p, "//", 2) == 0) {
   push r15
   push 2
   mov rax, OFFSET FLAT:.LC1
@@ -1822,7 +2061,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif19
-### 316    p += 2;
+### 342    p += 2;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -1842,7 +2081,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 317    while (*p != '\n')
+### 343    while (*p != '\n')
 .Lbegin20:
 .Lcontinue20:
   mov rax, rbp
@@ -1877,7 +2116,7 @@ tokenize:
 .Lend20:
   push rax
   pop rax
-### 319    continue;
+### 345    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -1885,7 +2124,7 @@ tokenize:
 .Lendif19:
   push rax
   pop rax
-### 323    if (strncmp(p, "/*", 2) == 0) {
+### 349    if (strncmp(p, "/*", 2) == 0) {
   push r15
   push 2
   mov rax, OFFSET FLAT:.LC2
@@ -1923,7 +2162,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif21
-### 324    char *q = strstr(p + 2, "*/");
+### 350    char *q = strstr(p + 2, "*/");
   push rax
   pop rax
   mov rax, rbp
@@ -1963,7 +2202,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 325    if (!q)
+### 351    if (!q)
   mov rax, rbp
   sub rax, 32
   push rax
@@ -1999,7 +2238,7 @@ tokenize:
 .Lendif22:
   push rax
   pop rax
-### 327    p = q + 2;
+### 353    p = q + 2;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2019,7 +2258,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 328    continue;
+### 354    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2027,7 +2266,7 @@ tokenize:
 .Lendif21:
   push rax
   pop rax
-### 331    if (*p == '"') { // 文字列リテラル
+### 357    if (*p == '"') { // 文字列リテラル
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2047,7 +2286,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif23
-### 332    char *q = p + 1;
+### 358    char *q = p + 1;
   push rax
   pop rax
   mov rax, rbp
@@ -2069,7 +2308,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 333    while (*q != '"') {
+### 359    while (*q != '"') {
 .Lbegin24:
 .Lcontinue24:
   mov rax, rbp
@@ -2091,7 +2330,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lend24
-### 334    if (!*q)
+### 360    if (!*q)
   mov rax, rbp
   sub rax, 32
   push rax
@@ -2130,7 +2369,7 @@ tokenize:
 .Lendif25:
   push rax
   pop rax
-### 336    q++;
+### 362    q++;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -2146,7 +2385,7 @@ tokenize:
 .Lend24:
   push rax
   pop rax
-### 338    cur = new_token(TK_QUOTE, cur, p + 1);
+### 364    cur = new_token(TK_QUOTE, cur, p + 1);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2191,7 +2430,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 339    cur->len = q - p - 1;
+### 365    cur->len = q - p - 1;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2227,7 +2466,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 340    p = q + 1;
+### 366    p = q + 1;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2247,7 +2486,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 341    continue;
+### 367    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2255,7 +2494,7 @@ tokenize:
 .Lendif23:
   push rax
   pop rax
-### 344    if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
+### 370    if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
   push r15
   push 6
   mov rax, OFFSET FLAT:.LC4
@@ -2340,7 +2579,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif26
-### 345    cur = new_token(TK_RETURN, cur, p);
+### 371    cur = new_token(TK_RETURN, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2380,7 +2619,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 346    cur->len = 6;
+### 372    cur->len = 6;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2396,7 +2635,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 347    p += 6;
+### 373    p += 6;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2416,7 +2655,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 348    continue;
+### 374    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2424,7 +2663,7 @@ tokenize:
 .Lendif26:
   push rax
   pop rax
-### 351    if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
+### 377    if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
   push r15
   push 2
   mov rax, OFFSET FLAT:.LC5
@@ -2509,7 +2748,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif28
-### 352    cur = new_token(TK_IF, cur, p);
+### 378    cur = new_token(TK_IF, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2549,7 +2788,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 353    cur->len = 2;
+### 379    cur->len = 2;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2565,7 +2804,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 354    p += 2;
+### 380    p += 2;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2585,7 +2824,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 355    continue;
+### 381    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2593,7 +2832,7 @@ tokenize:
 .Lendif28:
   push rax
   pop rax
-### 358    if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
+### 384    if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
   push r15
   push 4
   mov rax, OFFSET FLAT:.LC6
@@ -2678,7 +2917,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif30
-### 359    cur = new_token(TK_ELSE, cur, p);
+### 385    cur = new_token(TK_ELSE, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2718,7 +2957,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 360    cur->len = 4;
+### 386    cur->len = 4;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2734,7 +2973,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 361    p += 4;
+### 387    p += 4;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2754,7 +2993,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 362    continue;
+### 388    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2762,7 +3001,7 @@ tokenize:
 .Lendif30:
   push rax
   pop rax
-### 365    if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
+### 391    if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
   push r15
   push 5
   mov rax, OFFSET FLAT:.LC7
@@ -2847,7 +3086,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif32
-### 366    cur = new_token(TK_WHILE, cur, p);
+### 392    cur = new_token(TK_WHILE, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2887,7 +3126,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 367    cur->len = 5;
+### 393    cur->len = 5;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -2903,7 +3142,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 368    p += 5;
+### 394    p += 5;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -2923,7 +3162,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 369    continue;
+### 395    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -2931,7 +3170,7 @@ tokenize:
 .Lendif32:
   push rax
   pop rax
-### 372    if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
+### 398    if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
   push r15
   push 3
   mov rax, OFFSET FLAT:.LC8
@@ -3016,7 +3255,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif34
-### 373    cur = new_token(TK_FOR, cur, p);
+### 399    cur = new_token(TK_FOR, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3056,7 +3295,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 374    cur->len = 3;
+### 400    cur->len = 3;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3072,7 +3311,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 375    p += 3;
+### 401    p += 3;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -3092,7 +3331,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 376    continue;
+### 402    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -3100,7 +3339,7 @@ tokenize:
 .Lendif34:
   push rax
   pop rax
-### 379    if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
+### 405    if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
   push r15
   push 3
   mov rax, OFFSET FLAT:.LC9
@@ -3185,7 +3424,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif36
-### 380    cur = new_token(TK_INT, cur, p);
+### 406    cur = new_token(TK_INT, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3225,7 +3464,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 381    cur->len = 3;
+### 407    cur->len = 3;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3241,7 +3480,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 382    p += 3;
+### 408    p += 3;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -3261,7 +3500,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 383    continue;
+### 409    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -3269,7 +3508,7 @@ tokenize:
 .Lendif36:
   push rax
   pop rax
-### 386    if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
+### 412    if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
   push r15
   push 4
   mov rax, OFFSET FLAT:.LC10
@@ -3354,7 +3593,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif38
-### 387    cur = new_token(TK_CHAR, cur, p);
+### 413    cur = new_token(TK_CHAR, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3394,7 +3633,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 388    cur->len = 4;
+### 414    cur->len = 4;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3410,7 +3649,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 389    p += 4;
+### 415    p += 4;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -3430,7 +3669,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 390    continue;
+### 416    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -3438,7 +3677,7 @@ tokenize:
 .Lendif38:
   push rax
   pop rax
-### 393    if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
+### 419    if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
   push r15
   push 6
   mov rax, OFFSET FLAT:.LC11
@@ -3523,7 +3762,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif40
-### 394    cur = new_token(TK_SIZEOF, cur, p);
+### 420    cur = new_token(TK_SIZEOF, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3563,7 +3802,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 395    cur->len = 6;
+### 421    cur->len = 6;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3579,7 +3818,7 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 396    p += 6;
+### 422    p += 6;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -3599,7 +3838,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 397    continue;
+### 423    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -3607,9 +3846,9 @@ tokenize:
 .Lendif40:
   push rax
   pop rax
-### 400    if (strncmp(p, ">=", 2) == 0 ||
+### 426    if (strncmp(p, ">>=", 3) == 0 ||
   push r15
-  push 2
+  push 3
   mov rax, OFFSET FLAT:.LC12
   push rax
   mov rax, rbp
@@ -3644,104 +3883,10 @@ tokenize:
   push rax
   pop rax
   cmp rax, 0
-  jne .Lor1_45
-  push r15
-  push 2
-  mov rax, OFFSET FLAT:.LC13
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:strncmp
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor2_45
-.Lor1_45:
-  mov rax, 1
-  jmp .Lorend_45
-.Lor2_45:
-  mov rax, 0
-.Lorend_45:
-  push rax
-  pop rax
-  cmp rax, 0
-  jne .Lor1_44
-  push r15
-  push 2
-  mov rax, OFFSET FLAT:.LC14
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:strncmp
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor2_44
-.Lor1_44:
-  mov rax, 1
-  jmp .Lorend_44
-.Lor2_44:
-  mov rax, 0
-.Lorend_44:
-  push rax
-  pop rax
-  cmp rax, 0
   jne .Lor1_43
   push r15
-  push 2
-  mov rax, OFFSET FLAT:.LC15
+  push 3
+  mov rax, OFFSET FLAT:.LC13
   push rax
   mov rax, rbp
   sub rax, 8
@@ -3786,7 +3931,7 @@ tokenize:
   pop rax
   cmp rax, 0
   je  .Lendif42
-### 404    cur = new_token(TK_RESERVED, cur, p);
+### 428    cur = new_token(TK_RESERVED, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3826,7 +3971,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 405    cur->len = 2;
+### 429    cur->len = 3;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -3836,13 +3981,13 @@ tokenize:
   pop rax
   add rax, 24
   push rax
-  push 2
+  push 3
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 406    p += 2;
+### 430    p += 3;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -3852,7 +3997,7 @@ tokenize:
   pop rax
   mov rax, [rax]
   push rax
-  push 2
+  push 3
   pop rdi
   pop rax
   add rax, rdi
@@ -3862,7 +4007,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 407    continue;
+### 431    continue;
   jmp .Lcontinue17
   pop rax
   push rax
@@ -3870,17 +4015,35 @@ tokenize:
 .Lendif42:
   push rax
   pop rax
-### 410    if (*p == '+' || *p == '-' ||
+### 434    if (strncmp(p, ">=", 2) == 0 ||
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC14
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 43
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -3890,16 +4053,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_61
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC15
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 45
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -3919,16 +4100,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_60
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC16
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 42
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -3948,16 +4147,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_59
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC17
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 47
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -3977,16 +4194,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_58
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC18
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 40
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4006,16 +4241,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_57
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC19
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 41
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4035,16 +4288,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_56
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC20
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 60
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4064,16 +4335,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_55
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC21
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 62
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4093,16 +4382,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_54
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC22
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 59
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4122,16 +4429,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_53
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC23
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 61
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4151,16 +4476,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_52
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC24
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 123
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4180,16 +4523,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_51
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC25
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 125
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4209,16 +4570,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_50
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC26
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 44
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4238,16 +4617,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_49
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC27
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 38
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4267,16 +4664,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_48
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC28
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 91
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4296,16 +4711,34 @@ tokenize:
   pop rax
   cmp rax, 0
   jne .Lor1_47
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC29
+  push rax
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
   push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
+  mov rax, OFFSET FLAT:strncmp
   push rax
-  push 93
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4324,8 +4757,873 @@ tokenize:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif46
-### 418    cur = new_token(TK_RESERVED, cur, p++);
+  jne .Lor1_46
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC30
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:strncmp
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_46
+.Lor1_46:
+  mov rax, 1
+  jmp .Lorend_46
+.Lor2_46:
+  mov rax, 0
+.Lorend_46:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_45
+  push r15
+  push 2
+  mov rax, OFFSET FLAT:.LC31
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:strncmp
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_45
+.Lor1_45:
+  mov rax, 1
+  jmp .Lorend_45
+.Lor2_45:
+  mov rax, 0
+.Lorend_45:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif44
+### 452    cur = new_token(TK_RESERVED, cur, p);
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_token
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 453    cur->len = 2;
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 454    p += 2;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 455    continue;
+  jmp .Lcontinue17
+  pop rax
+  push rax
+  pop rax
+.Lendif44:
+  push rax
+  pop rax
+### 458    if (*p == '+' || *p == '-' ||
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 43
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_85
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 45
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_85
+.Lor1_85:
+  mov rax, 1
+  jmp .Lorend_85
+.Lor2_85:
+  mov rax, 0
+.Lorend_85:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_84
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 42
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_84
+.Lor1_84:
+  mov rax, 1
+  jmp .Lorend_84
+.Lor2_84:
+  mov rax, 0
+.Lorend_84:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_83
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 47
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_83
+.Lor1_83:
+  mov rax, 1
+  jmp .Lorend_83
+.Lor2_83:
+  mov rax, 0
+.Lorend_83:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_82
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 40
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_82
+.Lor1_82:
+  mov rax, 1
+  jmp .Lorend_82
+.Lor2_82:
+  mov rax, 0
+.Lorend_82:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_81
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 41
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_81
+.Lor1_81:
+  mov rax, 1
+  jmp .Lorend_81
+.Lor2_81:
+  mov rax, 0
+.Lorend_81:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_80
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 60
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_80
+.Lor1_80:
+  mov rax, 1
+  jmp .Lorend_80
+.Lor2_80:
+  mov rax, 0
+.Lorend_80:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_79
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 62
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_79
+.Lor1_79:
+  mov rax, 1
+  jmp .Lorend_79
+.Lor2_79:
+  mov rax, 0
+.Lorend_79:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_78
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 59
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_78
+.Lor1_78:
+  mov rax, 1
+  jmp .Lorend_78
+.Lor2_78:
+  mov rax, 0
+.Lorend_78:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_77
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 61
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_77
+.Lor1_77:
+  mov rax, 1
+  jmp .Lorend_77
+.Lor2_77:
+  mov rax, 0
+.Lorend_77:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_76
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 123
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_76
+.Lor1_76:
+  mov rax, 1
+  jmp .Lorend_76
+.Lor2_76:
+  mov rax, 0
+.Lorend_76:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_75
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 125
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_75
+.Lor1_75:
+  mov rax, 1
+  jmp .Lorend_75
+.Lor2_75:
+  mov rax, 0
+.Lorend_75:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_74
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 44
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_74
+.Lor1_74:
+  mov rax, 1
+  jmp .Lorend_74
+.Lor2_74:
+  mov rax, 0
+.Lorend_74:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_73
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 38
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_73
+.Lor1_73:
+  mov rax, 1
+  jmp .Lorend_73
+.Lor2_73:
+  mov rax, 0
+.Lorend_73:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_72
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 91
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_72
+.Lor1_72:
+  mov rax, 1
+  jmp .Lorend_72
+.Lor2_72:
+  mov rax, 0
+.Lorend_72:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_71
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 93
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_71
+.Lor1_71:
+  mov rax, 1
+  jmp .Lorend_71
+.Lor2_71:
+  mov rax, 0
+.Lorend_71:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_70
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 124
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_70
+.Lor1_70:
+  mov rax, 1
+  jmp .Lorend_70
+.Lor2_70:
+  mov rax, 0
+.Lorend_70:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_69
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 94
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_69
+.Lor1_69:
+  mov rax, 1
+  jmp .Lorend_69
+.Lor2_69:
+  mov rax, 0
+.Lorend_69:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_68
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 38
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_68
+.Lor1_68:
+  mov rax, 1
+  jmp .Lorend_68
+.Lor2_68:
+  mov rax, 0
+.Lorend_68:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_67
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 37
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_67
+.Lor1_67:
+  mov rax, 1
+  jmp .Lorend_67
+.Lor2_67:
+  mov rax, 0
+.Lorend_67:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_66
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 33
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_66
+.Lor1_66:
+  mov rax, 1
+  jmp .Lorend_66
+.Lor2_66:
+  mov rax, 0
+.Lorend_66:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_65
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 126
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_65
+.Lor1_65:
+  mov rax, 1
+  jmp .Lorend_65
+.Lor2_65:
+  mov rax, 0
+.Lorend_65:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_64
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 63
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_64
+.Lor1_64:
+  mov rax, 1
+  jmp .Lorend_64
+.Lor2_64:
+  mov rax, 0
+.Lorend_64:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_63
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 58
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_63
+.Lor1_63:
+  mov rax, 1
+  jmp .Lorend_63
+.Lor2_63:
+  mov rax, 0
+.Lorend_63:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif62
+### 470    cur = new_token(TK_RESERVED, cur, p++);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -4367,7 +5665,7 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 419    cur->len = 1;
+### 471    cur->len = 1;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -4383,37 +5681,17 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 420    continue;
+### 472    continue;
   jmp .Lcontinue17
   pop rax
   push rax
   pop rax
-.Lendif46:
+.Lendif62:
   push rax
   pop rax
-### 424    char *q = p;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
+### 475    if (*p == '\'') { // 文字リテラル
   mov rax, rbp
   sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 425    while (is_alnum(*q) && !(q == p && '0' <= *q && *q <= '9')) {
-.Lbegin62:
-.Lcontinue62:
-  push r15
-  mov rax, rbp
-  sub rax, 32
   push rax
   pop rax
   mov rax, [rax]
@@ -4421,34 +5699,7 @@ tokenize:
   pop rax
   movzx eax, BYTE PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:is_alnum
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lor1_63
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
+  push 0
   pop rdi
   pop rax
   cmp rax, rdi
@@ -4457,239 +5708,8 @@ tokenize:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_65
-  push 48
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  setle al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor1_65
-  mov rax, 1
-  jmp .Lorend_65
-.Lor1_65:
-  mov rax, 0
-.Lorend_65:
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lor1_64
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
-  push rax
-  push 57
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  setle al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor1_64
-  mov rax, 1
-  jmp .Lorend_64
-.Lor1_64:
-  mov rax, 0
-.Lorend_64:
-  push rax
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, 0
-  sete al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor1_63
-  mov rax, 1
-  jmp .Lorend_63
-.Lor1_63:
-  mov rax, 0
-.Lorend_63:
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lend62
-### 426    q++;
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rdi, [rax]
-  push rdi
-  add rdi, 1
-  mov [rax], rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lbegin62
-.Lend62:
-  push rax
-  pop rax
-### 428    if (q > p) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  setl al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif66
-### 429    cur = new_token(TK_IDENT, cur, p);
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 6
-  mov rax, OFFSET FLAT:new_token
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 430    cur->len = q - p;
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 24
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  sub rax, rdi
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 431    p = q;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 432    continue;
-  jmp .Lcontinue17
-  pop rax
-  push rax
-  pop rax
-.Lendif66:
-  push rax
-  pop rax
-### 435    if (isdigit(*p)) {
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  movzx eax, BYTE PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:isdigit
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif67
-### 436    cur = new_token(TK_NUM, cur, p);
+  je  .Lendif86
+### 476    cur = new_token(TK_NUM, cur, p);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -4729,7 +5749,446 @@ tokenize:
   mov [rax], rdi
   push rdi
   pop rax
-### 437    cur->val = strtol(p, &p, 10);
+### 477    cur->val = *(p + 1);
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 478    if (*(p + 2) != '\'')
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setne al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif87
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:exit
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+.Lendif87:
+  push rax
+  pop rax
+### 480    p += 2;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 481    continue;
+  jmp .Lcontinue17
+  pop rax
+  push rax
+  pop rax
+.Lendif86:
+  push rax
+  pop rax
+### 485    char *q = p;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 486    while (is_alnum(*q) && !(q == p && '0' <= *q && *q <= '9')) {
+.Lbegin88:
+.Lcontinue88:
+  push r15
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:is_alnum
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_89
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_91
+  push 48
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setle al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_91
+  mov rax, 1
+  jmp .Lorend_91
+.Lor1_91:
+  mov rax, 0
+.Lorend_91:
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_90
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  push 57
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setle al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_90
+  mov rax, 1
+  jmp .Lorend_90
+.Lor1_90:
+  mov rax, 0
+.Lorend_90:
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_89
+  mov rax, 1
+  jmp .Lorend_89
+.Lor1_89:
+  mov rax, 0
+.Lorend_89:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend88
+### 487    q++;
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rdi, [rax]
+  push rdi
+  add rdi, 1
+  mov [rax], rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin88
+.Lend88:
+  push rax
+  pop rax
+### 489    if (q > p) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif92
+### 490    cur = new_token(TK_IDENT, cur, p);
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 6
+  mov rax, OFFSET FLAT:new_token
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 491    cur->len = q - p;
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  sub rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 492    p = q;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 493    continue;
+  jmp .Lcontinue17
+  pop rax
+  push rax
+  pop rax
+.Lendif92:
+  push rax
+  pop rax
+### 496    if (isdigit(*p)) {
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:isdigit
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif93
+### 497    cur = new_token(TK_NUM, cur, p);
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 7
+  mov rax, OFFSET FLAT:new_token
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 498    cur->val = strtol(p, &p, 10);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -4772,15 +6231,15 @@ tokenize:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 438    continue;
+### 499    continue;
   jmp .Lcontinue17
   pop rax
   push rax
   pop rax
-.Lendif67:
+.Lendif93:
   push rax
   pop rax
-### 441    if (token == 0) {
+### 502    if (token == 0) {
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -4795,8 +6254,8 @@ tokenize:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif68
-### 442    exit(1);
+  je  .Lendif94
+### 503    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -4815,10 +6274,10 @@ tokenize:
   pop rax
   push rax
   pop rax
-.Lendif68:
+.Lendif94:
   push rax
   pop rax
-### 444    exit(1);
+### 505    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -4841,7 +6300,7 @@ tokenize:
 .Lend17:
   push rax
   pop rax
-### 447    new_token(TK_EOF, cur, p);
+### 508    new_token(TK_EOF, cur, p);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -4874,7 +6333,7 @@ tokenize:
   pop r15
   push rax
   pop rax
-### 448    token = head->next;
+### 509    token = head->next;
   mov rax, OFFSET FLAT:token
   push rax
   mov rax, rbp
@@ -4899,18 +6358,18 @@ tokenize:
   mov rsp, rbp
   pop rbp
   ret
-### 451    LVar *locals;
+### 512    LVar *locals;
   .globl locals
   .data
 locals:
   .zero 8
-### 452    LVar *LocalsList[100];
+### 513    LVar *LocalsList[100];
   .globl LocalsList
   .data
 LocalsList:
   .zero 800
 .text
-### 455    LVar *find_lvar(Token *tok) {
+### 516    LVar *find_lvar(Token *tok) {
   .globl find_lvar
   .type find_lvar, @function
 find_lvar:
@@ -4918,10 +6377,10 @@ find_lvar:
   mov rbp, rsp
   push rdi
   sub rsp, 8
-### 456    LVar *var;
+### 517    LVar *var;
   push rax
   pop rax
-### 457    for (var = locals; var; var = var->next)
+### 518    for (var = locals; var; var = var->next)
   mov rax, rbp
   sub rax, 16
   push rax
@@ -4934,7 +6393,7 @@ find_lvar:
   pop rax
   mov [rax], rdi
   push rdi
-.Lbegin69:
+.Lbegin95:
   mov rax, rbp
   sub rax, 16
   push rax
@@ -4943,7 +6402,7 @@ find_lvar:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend69
+  je  .Lend95
   mov rax, rbp
   sub rax, 16
   push rax
@@ -4976,7 +6435,7 @@ find_lvar:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_71
+  je .Lor1_97
   push r15
   mov rax, rbp
   sub rax, 16
@@ -5040,16 +6499,16 @@ find_lvar:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor1_71
+  je .Lor1_97
   mov rax, 1
-  jmp .Lorend_71
-.Lor1_71:
+  jmp .Lorend_97
+.Lor1_97:
   mov rax, 0
-.Lorend_71:
+.Lorend_97:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif70
+  je  .Lendif96
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5061,9 +6520,9 @@ find_lvar:
   pop rbp
   ret
   pop rax
-.Lendif70:
+.Lendif96:
   push rax
-.Lcontinue69:
+.Lcontinue95:
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5083,10 +6542,10 @@ find_lvar:
   pop rax
   mov [rax], rdi
   push rdi
-  jmp .Lbegin69
-.Lend69:
+  jmp .Lbegin95
+.Lend95:
   pop rax
-### 460    return 0;
+### 521    return 0;
   push 0
   pop rax
   mov rsp, rbp
@@ -5098,13 +6557,13 @@ find_lvar:
   mov rsp, rbp
   pop rbp
   ret
-### 463    GVar *globals;
+### 524    GVar *globals;
   .globl globals
   .data
 globals:
   .zero 8
 .text
-### 466    GVar *find_gvar(Token *tok) {
+### 527    GVar *find_gvar(Token *tok) {
   .globl find_gvar
   .type find_gvar, @function
 find_gvar:
@@ -5112,10 +6571,10 @@ find_gvar:
   mov rbp, rsp
   push rdi
   sub rsp, 8
-### 467    GVar *var;
+### 528    GVar *var;
   push rax
   pop rax
-### 468    for (var = globals; var; var = var->next)
+### 529    for (var = globals; var; var = var->next)
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5128,7 +6587,7 @@ find_gvar:
   pop rax
   mov [rax], rdi
   push rdi
-.Lbegin72:
+.Lbegin98:
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5137,7 +6596,7 @@ find_gvar:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend72
+  je  .Lend98
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5170,7 +6629,7 @@ find_gvar:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_74
+  je .Lor1_100
   push r15
   mov rax, rbp
   sub rax, 16
@@ -5234,16 +6693,16 @@ find_gvar:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor1_74
+  je .Lor1_100
   mov rax, 1
-  jmp .Lorend_74
-.Lor1_74:
+  jmp .Lorend_100
+.Lor1_100:
   mov rax, 0
-.Lorend_74:
+.Lorend_100:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif73
+  je  .Lendif99
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5255,9 +6714,9 @@ find_gvar:
   pop rbp
   ret
   pop rax
-.Lendif73:
+.Lendif99:
   push rax
-.Lcontinue72:
+.Lcontinue98:
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5277,10 +6736,10 @@ find_gvar:
   pop rax
   mov [rax], rdi
   push rdi
-  jmp .Lbegin72
-.Lend72:
+  jmp .Lbegin98
+.Lend98:
   pop rax
-### 471    return 0;
+### 532    return 0;
   push 0
   pop rax
   mov rsp, rbp
@@ -5293,7 +6752,7 @@ find_gvar:
   pop rbp
   ret
 .text
-### 474    Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
+### 535    Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
   .globl new_node
   .type new_node, @function
 new_node:
@@ -5303,7 +6762,7 @@ new_node:
   push rsi
   push rdx
   sub rsp, 8
-### 475    Node *node = calloc(1, sizeof(Node));
+### 536    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -5332,7 +6791,7 @@ new_node:
   mov [rax], rdi
   push rdi
   pop rax
-### 476    node->kind = kind;
+### 537    node->kind = kind;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -5353,7 +6812,7 @@ new_node:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 477    node->lhs = lhs;
+### 538    node->lhs = lhs;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -5374,7 +6833,7 @@ new_node:
   mov [rax], rdi
   push rdi
   pop rax
-### 478    node->rhs = rhs;
+### 539    node->rhs = rhs;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -5395,7 +6854,7 @@ new_node:
   mov [rax], rdi
   push rdi
   pop rax
-### 479    return node;
+### 540    return node;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -5413,7 +6872,7 @@ new_node:
   pop rbp
   ret
 .text
-### 482    Node *new_node_num(int val) {
+### 543    Node *new_node_num(int val) {
   .globl new_node_num
   .type new_node_num, @function
 new_node_num:
@@ -5421,7 +6880,7 @@ new_node_num:
   mov rbp, rsp
   push rdi
   sub rsp, 8
-### 483    Node *node = calloc(1, sizeof(Node));
+### 544    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -5450,7 +6909,7 @@ new_node_num:
   mov [rax], rdi
   push rdi
   pop rax
-### 484    node->kind = ND_NUM;
+### 545    node->kind = ND_NUM;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5460,13 +6919,13 @@ new_node_num:
   pop rax
   add rax, 0
   push rax
-  push 26
+  push 41
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 485    node->val = val;
+### 546    node->val = val;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5487,7 +6946,7 @@ new_node_num:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 486    return node;
+### 547    return node;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5504,40 +6963,1185 @@ new_node_num:
   mov rsp, rbp
   pop rbp
   ret
-### 489    Node *code[100];
+.text
+### 551    Type *estimate_type(Node *node) {
+  .globl estimate_type
+  .type estimate_type, @function
+estimate_type:
+  push rbp
+  mov rbp, rsp
+  push rdi
+  sub rsp, 40
+### 552    if (node == 0)
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif101
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif101:
+  push rax
+  pop rax
+### 554    Type *type;
+  push rax
+  pop rax
+### 555    if (node->kind == ND_DEREF) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 37
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif102
+### 556    type = estimate_type(node->lhs);
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 557    return type->ptr_to;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif102:
+  push rax
+  pop rax
+### 559    if (node->kind == ND_LVAR || node->kind == ND_GVALDEF) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 32
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_104
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 39
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_104
+.Lor1_104:
+  mov rax, 1
+  jmp .Lorend_104
+.Lor2_104:
+  mov rax, 0
+.Lorend_104:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif103
+### 560    LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 561    LVar *var;
+  push rax
+  pop rax
+### 562    for (var = locals; var; var = var->next)
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+.Lbegin105:
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend105
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_107
+  push r15
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:memcmp
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_107
+  mov rax, 1
+  jmp .Lorend_107
+.Lor1_107:
+  mov rax, 0
+.Lorend_107:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif106
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+.Lendif106:
+  push rax
+.Lcontinue105:
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  jmp .Lbegin105
+.Lend105:
+  pop rax
+### 565    if (lvar) {
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse108
+### 566    type = lvar->type;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 567    return type;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif108
+.Lelse108:
+### 569    GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 570    GVar *var;
+  push rax
+  pop rax
+### 571    for (var = globals; var; var = var->next)
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  mov rax, OFFSET FLAT:globals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+.Lbegin109:
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend109
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_111
+  push r15
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:memcmp
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_111
+  mov rax, 1
+  jmp .Lorend_111
+.Lor1_111:
+  mov rax, 0
+.Lorend_111:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif110
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+.Lendif110:
+  push rax
+.Lcontinue109:
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  jmp .Lbegin109
+.Lend109:
+  pop rax
+### 574    if (gvar) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse112
+### 575    type = gvar->type;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 576    return type;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif112
+.Lelse112:
+### 579    }
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif112:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif108:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif103:
+  push rax
+  pop rax
+### 582    if (node->kind == ND_FUNCCALL) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 33
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif113
+### 584    type = calloc(1, sizeof(Type));
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  push 16
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 585    type->ty = INT;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 586    return type;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif113:
+  push rax
+  pop rax
+### 588    Type *ltype = estimate_type(node->lhs);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 589    Type *rtype = estimate_type(node->rhs);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 591    return (ltype ? ltype : rtype);
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcond1_114
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  jmp .Lcond2_114
+.Lcond1_114:
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+.Lcond2_114:
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 594    int size_from_type(Type *type) {
+  .globl size_from_type
+  .type size_from_type, @function
+size_from_type:
+  push rbp
+  mov rbp, rsp
+  push rdi
+  sub rsp, 24
+### 595    int size = 4;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push 4
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 596    if (type == 0) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse115
+### 597    size = 4;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push 4
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif115
+.Lelse115:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse116
+### 599    size = 4;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push 4
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif116
+.Lelse116:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse117
+### 601    size = 1;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif117
+.Lelse117:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse118
+### 603    size = 8;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push 8
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif118
+.Lelse118:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 3
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif119
+### 605    int arrsize = type->array_size;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 606    Type *t = type->ptr_to;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 607    size = size_from_type(t) * arrsize;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:size_from_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif119:
+  push rax
+  pop rax
+.Lendif118:
+  push rax
+  pop rax
+.Lendif117:
+  push rax
+  pop rax
+.Lendif116:
+  push rax
+  pop rax
+.Lendif115:
+  push rax
+  pop rax
+### 609    return size;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+### 612    Node *code[100];
   .globl code
   .data
 code:
   .zero 800
-### 490    int localsnums[100];
+### 613    int localsnums[100];
   .globl localsnums
   .data
 localsnums:
   .zero 400
-### 491    int localsnum;
+### 614    int localsnum;
   .globl localsnum
   .data
 localsnum:
   .zero 4
-### 493    Strs *strs;
+### 616    Strs *strs;
   .globl strs
   .data
 strs:
   .zero 8
-### 494    int strsnum;
+### 617    int strsnum;
   .globl strsnum
   .data
 strsnum:
   .zero 4
 .text
-### 496    void program() {
+### 619    void program() {
   .globl program
   .type program, @function
 program:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 497    int i = 0;
+### 620    int i = 0;
   push rax
   pop rax
   mov rax, rbp
@@ -5549,9 +8153,9 @@ program:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 498    while (!at_eof()) {
-.Lbegin75:
-.Lcontinue75:
+### 621    while (!at_eof()) {
+.Lbegin120:
+.Lcontinue120:
   push r15
   mov rax, OFFSET FLAT:at_eof
   push rax
@@ -5573,8 +8177,8 @@ program:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend75
-### 499    locals = 0;
+  je  .Lend120
+### 622    locals = 0;
   mov rax, OFFSET FLAT:locals
   push rax
   push 0
@@ -5583,7 +8187,7 @@ program:
   mov [rax], rdi
   push rdi
   pop rax
-### 500    localsnum = 0;
+### 623    localsnum = 0;
   mov rax, OFFSET FLAT:localsnum
   push rax
   push 0
@@ -5592,7 +8196,7 @@ program:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 501    code[i] = function_gval();
+### 624    code[i] = function_gval();
   mov rax, OFFSET FLAT:code
   push rax
   mov rax, rbp
@@ -5623,7 +8227,7 @@ program:
   mov [rax], rdi
   push rdi
   pop rax
-### 502    localsnums[i] = localsnum;
+### 625    localsnums[i] = localsnum;
   mov rax, OFFSET FLAT:localsnums
   push rax
   mov rax, rbp
@@ -5647,7 +8251,7 @@ program:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 503    LocalsList[i] = locals;
+### 626    LocalsList[i] = locals;
   mov rax, OFFSET FLAT:LocalsList
   push rax
   mov rax, rbp
@@ -5671,7 +8275,7 @@ program:
   mov [rax], rdi
   push rdi
   pop rax
-### 504    i++;
+### 627    i++;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -5683,11 +8287,11 @@ program:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin75
-.Lend75:
+  jmp .Lbegin120
+.Lend120:
   push rax
   pop rax
-### 506    code[i] = 0;
+### 629    code[i] = 0;
   mov rax, OFFSET FLAT:code
   push rax
   mov rax, rbp
@@ -5713,17 +8317,17 @@ program:
   pop rbp
   ret
 .text
-### 509    Node *function_gval() {
+### 632    Node *function_gval() {
   .globl function_gval
   .type function_gval, @function
 function_gval:
   push rbp
   mov rbp, rsp
-  sub rsp, 72
-### 512    Node *node;
+  sub rsp, 104
+### 633    Node *node;
   push rax
   pop rax
-### 513    node = calloc(1, sizeof(Node));
+### 634    node = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 8
   push rax
@@ -5750,7 +8354,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 516    Type *Rtype = consume_typeword();
+### 637    Type *type = consume_typeword();
   push rax
   pop rax
   mov rax, rbp
@@ -5773,7 +8377,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 517    if (!Rtype) {
+### 638    if (!type) {
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5789,8 +8393,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif76
-### 518    exit(1);
+  je  .Lendif121
+### 639    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -5809,14 +8413,14 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif76:
+.Lendif121:
   push rax
   pop rax
-### 521    while (consume("*")) {
-.Lbegin77:
-.Lcontinue77:
+### 642    while (consume("*")) {
+.Lbegin122:
+.Lcontinue122:
   push r15
-  mov rax, OFFSET FLAT:.LC16
+  mov rax, OFFSET FLAT:.LC32
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -5833,8 +8437,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend77
-### 522    Type *t = calloc(1, sizeof(Type));
+  je  .Lend122
+### 643    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -5863,7 +8467,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 523    t->ty = PTR;
+### 644    t->ty = PTR;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -5879,7 +8483,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 524    t->ptr_to = Rtype;
+### 645    t->ptr_to = type;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -5900,7 +8504,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 525    Rtype = t;
+### 646    type = t;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -5917,14 +8521,14 @@ function_gval:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin77
-.Lend77:
+  jmp .Lbegin122
+.Lend122:
   push rax
   pop rax
-### 528    Token *funcname;
+### 649    Token *funcname;
   push rax
   pop rax
-### 529    funcname = consume_type(TK_IDENT);
+### 650    funcname = consume_type(TK_IDENT);
   mov rax, rbp
   sub rax, 24
   push rax
@@ -5948,7 +8552,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 530    if (!funcname) {
+### 651    if (!funcname) {
   mov rax, rbp
   sub rax, 24
   push rax
@@ -5964,8 +8568,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif78
-### 531    exit(1);
+  je  .Lendif123
+### 652    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -5984,12 +8588,12 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif78:
+.Lendif123:
   push rax
   pop rax
-### 534    if (consume("(")) { // 関数定義
+### 655    if (consume("(")) { // 関数定義
   push r15
-  mov rax, OFFSET FLAT:.LC17
+  mov rax, OFFSET FLAT:.LC33
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -6006,8 +8610,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse79
-### 535    node->kind = ND_FUNCDEF;
+  je  .Lelse124
+### 656    node->kind = ND_FUNCDEF;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -6017,13 +8621,13 @@ function_gval:
   pop rax
   add rax, 0
   push rax
-  push 19
+  push 34
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 536    node->name = funcname->str;
+### 657    node->name = funcname->str;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -6050,7 +8654,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 537    node->val = funcname->len;
+### 658    node->val = funcname->len;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -6077,13 +8681,13 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 539    Token *argname;
+### 660    Token *argname;
   push rax
   pop rax
-### 540    Type *argtype;
+### 661    Type *argtype;
   push rax
   pop rax
-### 541    Node *tmparg = node;
+### 662    Node *tmparg = node;
   push rax
   pop rax
   mov rax, rbp
@@ -6100,7 +8704,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 542    int argsnum = 0;
+### 663    int argsnum = 0;
   push rax
   pop rax
   mov rax, rbp
@@ -6112,11 +8716,11 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 543    while (!consume(")")) {
-.Lbegin80:
-.Lcontinue80:
+### 664    while (!consume(")")) {
+.Lbegin125:
+.Lcontinue125:
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -6140,8 +8744,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend80
-### 544    argtype = consume_typeword();
+  je  .Lend125
+### 665    argtype = consume_typeword();
   mov rax, rbp
   sub rax, 40
   push rax
@@ -6162,7 +8766,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 545    if (!argtype) {
+### 666    if (!argtype) {
   mov rax, rbp
   sub rax, 40
   push rax
@@ -6178,8 +8782,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif81
-### 546    exit(1);
+  je  .Lendif126
+### 667    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -6198,14 +8802,14 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif81:
+.Lendif126:
   push rax
   pop rax
-### 550    while (consume("*")) {
-.Lbegin82:
-.Lcontinue82:
+### 671    while (consume("*")) {
+.Lbegin127:
+.Lcontinue127:
   push r15
-  mov rax, OFFSET FLAT:.LC16
+  mov rax, OFFSET FLAT:.LC32
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -6222,8 +8826,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend82
-### 551    Type *t = calloc(1, sizeof(Type));
+  je  .Lend127
+### 672    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -6252,7 +8856,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 552    t->ty = PTR;
+### 673    t->ty = PTR;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6268,7 +8872,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 553    t->ptr_to = argtype;
+### 674    t->ptr_to = argtype;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6289,7 +8893,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 554    argtype = t;
+### 675    argtype = t;
   mov rax, rbp
   sub rax, 40
   push rax
@@ -6306,11 +8910,11 @@ function_gval:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin82
-.Lend82:
+  jmp .Lbegin127
+.Lend127:
   push rax
   pop rax
-### 557    argname = consume_type(TK_IDENT);
+### 678    argname = consume_type(TK_IDENT);
   mov rax, rbp
   sub rax, 32
   push rax
@@ -6334,7 +8938,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 558    if (!argname) {
+### 679    if (!argname) {
   mov rax, rbp
   sub rax, 32
   push rax
@@ -6350,8 +8954,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif83
-### 559    exit(1);
+  je  .Lendif128
+### 680    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -6370,10 +8974,10 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif83:
+.Lendif128:
   push rax
   pop rax
-### 563    Node *tmp2 = calloc(1, sizeof(Node));
+### 684    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -6402,7 +9006,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 564    tmp2->kind = ND_VALDEF;
+### 685    tmp2->kind = ND_VALDEF;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6412,13 +9016,67 @@ function_gval:
   pop rax
   add rax, 0
   push rax
-  push 23
+  push 38
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 565    LVar *lvar = find_lvar(argname);
+### 686    tmp2->name = argname->str;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 687    tmp2->val = argname->len;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 688    LVar *lvar = find_lvar(argname);
   push rax
   pop rax
   mov rax, rbp
@@ -6449,7 +9107,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 566    if (lvar) {
+### 689    if (lvar) {
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6458,15 +9116,15 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse84
-### 568    } else {
+  je  .Lelse129
+### 691    } else {
   push rax
   pop rax
   push rax
   pop rax
-  jmp .Lendif84
-.Lelse84:
-### 569    lvar = calloc(1, sizeof(LVar));
+  jmp .Lendif129
+.Lelse129:
+### 692    lvar = calloc(1, sizeof(LVar));
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6493,7 +9151,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 570    lvar->next = locals;
+### 693    lvar->next = locals;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6513,7 +9171,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 571    lvar->name = argname->str;
+### 694    lvar->name = argname->str;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6540,7 +9198,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 572    lvar->len = argname->len;
+### 695    lvar->len = argname->len;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6567,7 +9225,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 573    lvar->type = argtype;
+### 696    lvar->type = argtype;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6588,7 +9246,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 575    lvar->offset = (locals ? locals->offset : 0) + 8;
+### 698    lvar->offset = (locals ? locals->offset : 0) + 8;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -6605,7 +9263,7 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je .Lcond1_85
+  je .Lcond1_130
   mov rax, OFFSET FLAT:locals
   push rax
   pop rax
@@ -6617,10 +9275,10 @@ function_gval:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  jmp .Lcond2_85
-.Lcond1_85:
+  jmp .Lcond2_130
+.Lcond1_130:
   push 0
-.Lcond2_85:
+.Lcond2_130:
   push 8
   pop rdi
   pop rax
@@ -6631,7 +9289,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 576    tmp2->offset = lvar->offset;
+### 699    tmp2->offset = lvar->offset;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6658,7 +9316,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 577    locals = lvar;
+### 700    locals = lvar;
   mov rax, OFFSET FLAT:locals
   push rax
   mov rax, rbp
@@ -6672,7 +9330,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 579    localsnum += 1;
+### 702    localsnum += 1;
   mov rax, OFFSET FLAT:localsnum
   push rax
   mov rax, OFFSET FLAT:localsnum
@@ -6692,10 +9350,10 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif84:
+.Lendif129:
   push rax
   pop rax
-### 581    tmparg->lhs = tmp2;
+### 704    tmparg->lhs = tmp2;
   mov rax, rbp
   sub rax, 48
   push rax
@@ -6716,7 +9374,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 582    tmparg = tmp2;
+### 705    tmparg = tmp2;
   mov rax, rbp
   sub rax, 48
   push rax
@@ -6731,9 +9389,9 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 584    if (!consume(",")) {
+### 707    if (!consume(",")) {
   push r15
-  mov rax, OFFSET FLAT:.LC19
+  mov rax, OFFSET FLAT:.LC35
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -6757,10 +9415,10 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif86
-### 585    expect(")");
+  je  .Lendif131
+### 708    expect(")");
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -6776,15 +9434,15 @@ function_gval:
   pop r15
   push rax
   pop rax
-### 586    break;
-  jmp .Lend80
+### 709    break;
+  jmp .Lend125
   pop rax
   push rax
   pop rax
-.Lendif86:
+.Lendif131:
   push rax
   pop rax
-### 588    argsnum++;
+### 711    argsnum++;
   mov rax, rbp
   sub rax, 56
   push rax
@@ -6796,13 +9454,13 @@ function_gval:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin80
-.Lend80:
+  jmp .Lbegin125
+.Lend125:
   push rax
   pop rax
-### 591    expect("{");
+### 714    expect("{");
   push r15
-  mov rax, OFFSET FLAT:.LC20
+  mov rax, OFFSET FLAT:.LC36
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -6818,7 +9476,7 @@ function_gval:
   pop r15
   push rax
   pop rax
-### 592    Node *tmp = calloc(1, sizeof(Node));
+### 715    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -6847,7 +9505,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 593    tmp->kind = ND_BLOCK;
+### 716    tmp->kind = ND_BLOCK;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6857,13 +9515,13 @@ function_gval:
   pop rax
   add rax, 0
   push rax
-  push 16
+  push 31
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 594    node->rhs = tmp;
+### 717    node->rhs = tmp;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -6884,14 +9542,14 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 595    while (1) {
-.Lbegin87:
-.Lcontinue87:
+### 718    while (1) {
+.Lbegin132:
+.Lcontinue132:
   push 1
   pop rax
   cmp rax, 0
-  je  .Lend87
-### 596    if (token->next == 0) {
+  je  .Lend132
+### 719    if (token->next == 0) {
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -6912,8 +9570,8 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif88
-### 597    exit(1);
+  je  .Lendif133
+### 720    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -6932,12 +9590,12 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif88:
+.Lendif133:
   push rax
   pop rax
-### 599    if (consume("}")) {
+### 722    if (consume("}")) {
   push r15
-  mov rax, OFFSET FLAT:.LC21
+  mov rax, OFFSET FLAT:.LC37
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -6954,16 +9612,16 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif89
-### 600    break;
-  jmp .Lend87
+  je  .Lendif134
+### 723    break;
+  jmp .Lend132
   pop rax
   push rax
   pop rax
-.Lendif89:
+.Lendif134:
   push rax
   pop rax
-### 602    tmp->lhs = stmt();
+### 725    tmp->lhs = stmt();
   mov rax, rbp
   sub rax, 64
   push rax
@@ -6990,7 +9648,35 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 603    Node *tmp2 = calloc(1, sizeof(Node));
+### 726    if (consume("}")) { // 要らないけどツリーを整理するため
+  push r15
+  mov rax, OFFSET FLAT:.LC37
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif135
+### 727    break;
+  jmp .Lend132
+  pop rax
+  push rax
+  pop rax
+.Lendif135:
+  push rax
+  pop rax
+### 729    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -7019,7 +9705,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 604    tmp2->kind = ND_BLOCK;
+### 730    tmp2->kind = ND_BLOCK;
   mov rax, rbp
   sub rax, 72
   push rax
@@ -7029,13 +9715,13 @@ function_gval:
   pop rax
   add rax, 0
   push rax
-  push 16
+  push 31
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 605    tmp->rhs = tmp2;
+### 731    tmp->rhs = tmp2;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -7056,7 +9742,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 606    tmp = tmp2;
+### 732    tmp = tmp2;
   mov rax, rbp
   sub rax, 64
   push rax
@@ -7073,15 +9759,15 @@ function_gval:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin87
-.Lend87:
+  jmp .Lbegin132
+.Lend132:
   push rax
   pop rax
   push rax
   pop rax
-  jmp .Lendif79
-.Lelse79:
-### 609    node->kind = ND_GVALDEF;
+  jmp .Lendif124
+.Lelse124:
+### 735    node->kind = ND_GVALDEF;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7091,13 +9777,13 @@ function_gval:
   pop rax
   add rax, 0
   push rax
-  push 24
+  push 39
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 610    node->name = funcname->str;
+### 736    node->name = funcname->str;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7124,7 +9810,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 611    node->val = funcname->len;
+### 737    node->val = funcname->len;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7151,7 +9837,7 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 613    Token *tok = funcname;
+### 739    Token *tok = funcname;
   push rax
   pop rax
   mov rax, rbp
@@ -7168,7 +9854,34 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 614    if (tok) {
+### 740    int undefsize = 0; // sizeを省略したとき1
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 741    int size = 1;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 742    GVar *gvar;
+  push rax
+  pop rax
+### 743    if (tok) {
   mov rax, rbp
   sub rax, 32
   push rax
@@ -7177,12 +9890,10 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif90
-### 615    GVar *gvar = find_gvar(tok);
-  push rax
-  pop rax
+  je  .Lendif136
+### 744    gvar = find_gvar(tok);
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   push r15
   mov rax, rbp
@@ -7209,17 +9920,17 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 616    if (gvar) {
+### 745    if (gvar) {
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse91
-### 618    exit(1);
+  je  .Lelse137
+### 746    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -7238,25 +9949,13 @@ function_gval:
   pop rax
   push rax
   pop rax
-  jmp .Lendif91
-.Lelse91:
-### 620    int arrsize = 1;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 621    while (consume("[")) { // 配列型
-.Lbegin92:
-.Lcontinue92:
+  jmp .Lendif137
+.Lelse137:
+### 748    while (consume("[")) { // 配列型
+.Lbegin138:
+.Lcontinue138:
   push r15
-  mov rax, OFFSET FLAT:.LC22
+  mov rax, OFFSET FLAT:.LC38
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -7273,51 +9972,12 @@ function_gval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend92
-### 622    arrsize = expect_number();
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expect_number
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 624    expect("]");
-  push r15
-  mov rax, OFFSET FLAT:.LC23
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 625    Type *t = calloc(1, sizeof(Type));
+  je  .Lend138
+### 749    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   push r15
   push 16
@@ -7342,9 +10002,9 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 626    t->ty = ARRAY;
+### 750    t->ty = ARRAY;
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -7358,30 +10018,9 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 627    t->array_size = arrsize;
+### 751    t->ptr_to = type;
   mov rax, rbp
-  sub rax, 56
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 628    t->ptr_to = Rtype;
-  mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -7400,12 +10039,12 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 629    Rtype = t;
+### 752    type = t;
   mov rax, rbp
   sub rax, 16
   push rax
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -7415,17 +10054,132 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
+### 754    if (consume("]")) { // TODO:配列要素数省略
+  push r15
+  mov rax, OFFSET FLAT:.LC39
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
   push rax
   pop rax
-  jmp .Lbegin92
-.Lend92:
+  cmp rax, 0
+  je  .Lendif139
+### 755    undefsize = 1;
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 756    break;
+  jmp .Lend138
+  pop rax
   push rax
   pop rax
-### 632    int size = 4;
+.Lendif139:
+  push rax
+  pop rax
+### 759    size = expect_number();
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expect_number
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 760    expect("]");
+  push r15
+  mov rax, OFFSET FLAT:.LC39
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 762    t->array_size = size;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin138
+.Lend138:
+  push rax
+  pop rax
+### 765    if (!undefsize) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif140
+### 766    int totalbytesize = 4;
   push rax
   pop rax
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   push 4
   pop rdi
@@ -7433,9 +10187,9 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 633    size = size_from_type(Rtype);
+### 767    totalbytesize = size_from_type(type);
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   push r15
   mov rax, rbp
@@ -7462,9 +10216,9 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 636    gvar = calloc(1, sizeof(GVar));
+### 770    gvar = calloc(1, sizeof(GVar));
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   push r15
   push 32
@@ -7489,9 +10243,9 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 637    gvar->next = globals;
+### 771    gvar->next = globals;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7509,9 +10263,9 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 638    gvar->name = tok->str;
+### 772    gvar->name = tok->str;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7536,9 +10290,9 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 639    gvar->len = tok->len;
+### 773    gvar->len = tok->len;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7563,9 +10317,9 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 641    gvar->addr = size;
+### 775    gvar->addr = totalbytesize;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7574,7 +10328,7 @@ function_gval:
   add rax, 20
   push rax
   mov rax, rbp
-  sub rax, 56
+  sub rax, 64
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
@@ -7584,9 +10338,9 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 642    gvar->type = Rtype;
+### 776    gvar->type = type;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7605,7 +10359,7 @@ function_gval:
   mov [rax], rdi
   push rdi
   pop rax
-### 643    node->offset = gvar->addr;
+### 777    node->offset = gvar->addr;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7616,7 +10370,7 @@ function_gval:
   add rax, 24
   push rax
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7632,11 +10386,11 @@ function_gval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 644    globals = gvar;
+### 778    globals = gvar;
   mov rax, OFFSET FLAT:globals
   push rax
   mov rax, rbp
-  sub rax, 40
+  sub rax, 56
   push rax
   pop rax
   mov rax, [rax]
@@ -7648,17 +10402,658 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif91:
+.Lendif140:
   push rax
   pop rax
   push rax
   pop rax
-.Lendif90:
+.Lendif137:
   push rax
   pop rax
-### 647    expect(";");
+  push rax
+  pop rax
+.Lendif136:
+  push rax
+  pop rax
+### 784    if (consume("=")) {
   push r15
-  mov rax, OFFSET FLAT:.LC24
+  mov rax, OFFSET FLAT:.LC40
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif141
+### 785    Node *tmp2 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 786    tmp2->kind = ND_GVALDEF;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 39
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 788    node->rhs = tmp2;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 790    if (consume("{")) { // 配列の初期化
+  push r15
+  mov rax, OFFSET FLAT:.LC36
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse142
+### 791    int nowindex = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 792    Node *assignsubj;
+  push rax
+  pop rax
+### 794    if (consume("}")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC37
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse143
+### 796    } else {
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif143
+.Lelse143:
+### 797    int nowval = expect_number();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expect_number
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 798    while (consume(",")) {
+.Lbegin144:
+.Lcontinue144:
+  push r15
+  mov rax, OFFSET FLAT:.LC35
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend144
+### 799    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 800    tmp3->kind = ND_GVALDEF;
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 39
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 802    tmp2->val = nowval;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 803    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 804    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 806    nowval = expect_number();
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expect_number
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 807    nowindex++;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin144
+.Lend144:
+  push rax
+  pop rax
+### 809    tmp2->val = nowval;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 811    if (undefsize) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif145
+### 812    int size = (nowindex + 1);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 813    type->array_size = size;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 815    int totalbytesize = 4;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push 4
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 816    totalbytesize = size_from_type(type);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:size_from_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 819    gvar = calloc(1, sizeof(GVar));
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  push r15
+  push 32
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 820    gvar->next = globals;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  mov rax, OFFSET FLAT:globals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 821    gvar->name = tok->str;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 822    gvar->len = tok->len;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 824    gvar->addr = totalbytesize;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 825    gvar->type = type;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 826    node->offset = gvar->addr;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 827    globals = gvar;
+  mov rax, OFFSET FLAT:globals
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif145:
+  push rax
+  pop rax
+### 830    expect("}");
+  push r15
+  mov rax, OFFSET FLAT:.LC37
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -7676,10 +11071,614 @@ function_gval:
   pop rax
   push rax
   pop rax
-.Lendif79:
+.Lendif143:
   push rax
   pop rax
-### 650    return node;
+  push rax
+  pop rax
+  jmp .Lendif142
+.Lelse142:
+### 854    Token *tokquo = consume_type(TK_QUOTE);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  push r15
+  push 11
+  mov rax, OFFSET FLAT:consume_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 855    if (tokquo) { // 文字列リテラル
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse146
+### 856    int nowindex = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 858    char *nowchr = tokquo->str;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 859    while (nowindex < tokquo->len) {
+.Lbegin147:
+.Lcontinue147:
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend147
+### 860    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 861    tmp3->kind = ND_GVALDEF;
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 39
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 863    tmp2->val = *nowchr;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 864    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 865    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 867    nowchr++;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rdi, [rax]
+  push rdi
+  add rdi, 1
+  mov [rax], rdi
+  pop rax
+### 868    nowindex++;
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin147
+.Lend147:
+  push rax
+  pop rax
+### 870    tmp2->val = 0;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 872    if (undefsize) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif148
+### 873    int size = (nowindex + 1);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 874    type->array_size = size;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 876    int totalbytesize = 4;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push 4
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 877    totalbytesize = size_from_type(type);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:size_from_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 879    gvar = calloc(1, sizeof(GVar));
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  push r15
+  push 32
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 880    gvar->next = globals;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  mov rax, OFFSET FLAT:globals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 881    gvar->name = tok->str;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 882    gvar->len = tok->len;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 884    gvar->addr = totalbytesize;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 885    gvar->type = type;
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 886    node->offset = gvar->addr;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 887    globals = gvar;
+  mov rax, OFFSET FLAT:globals
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif148:
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif146
+.Lelse146:
+### 890    tmp2->val = expect_number();
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expect_number
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif146:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif142:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif141:
+  push rax
+  pop rax
+### 895    expect(";");
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif124:
+  push rax
+  pop rax
+### 898    return node;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7697,19 +11696,19 @@ function_gval:
   pop rbp
   ret
 .text
-### 653    Node *stmt() {
+### 901    Node *stmt() {
   .globl stmt
   .type stmt, @function
 stmt:
   push rbp
   mov rbp, rsp
-  sub rsp, 64
-### 661    Node *node;
+  sub rsp, 128
+### 902    Node *node;
   push rax
   pop rax
-### 663    if (consume("{")) { // Block
+### 904    if (consume("{")) { // Block
   push r15
-  mov rax, OFFSET FLAT:.LC20
+  mov rax, OFFSET FLAT:.LC36
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -7726,8 +11725,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse93
-### 664    node = calloc(1, sizeof(Node));
+  je  .Lelse149
+### 905    node = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7754,7 +11753,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 665    node->kind = ND_BLOCK;
+### 906    node->kind = ND_BLOCK;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -7764,13 +11763,13 @@ stmt:
   pop rax
   add rax, 0
   push rax
-  push 16
+  push 31
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 666    Node *tmp = node;
+### 907    Node *tmp = node;
   push rax
   pop rax
   mov rax, rbp
@@ -7787,14 +11786,14 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 667    while (1) {
-.Lbegin94:
-.Lcontinue94:
+### 908    while (1) {
+.Lbegin150:
+.Lcontinue150:
   push 1
   pop rax
   cmp rax, 0
-  je  .Lend94
-### 668    if (token->next == 0) {
+  je  .Lend150
+### 909    if (token->next == 0) {
   mov rax, OFFSET FLAT:token
   push rax
   pop rax
@@ -7815,8 +11814,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif95
-### 669    exit(1);
+  je  .Lendif151
+### 910    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -7835,12 +11834,12 @@ stmt:
   pop rax
   push rax
   pop rax
-.Lendif95:
+.Lendif151:
   push rax
   pop rax
-### 671    if (consume("}")) {
+### 912    if (consume("}")) {
   push r15
-  mov rax, OFFSET FLAT:.LC21
+  mov rax, OFFSET FLAT:.LC37
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -7857,15 +11856,16 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse96
-### 672    break;
-  jmp .Lend94
+  je  .Lendif152
+### 913    break;
+  jmp .Lend150
   pop rax
   push rax
   pop rax
-  jmp .Lendif96
-.Lelse96:
-### 674    tmp->lhs = stmt();
+.Lendif152:
+  push rax
+  pop rax
+### 915    tmp->lhs = stmt();
   mov rax, rbp
   sub rax, 16
   push rax
@@ -7892,7 +11892,35 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 675    Node *tmp2 = calloc(1, sizeof(Node));
+### 916    if (consume("}")) { // 要らないけどツリーを整理するため
+  push r15
+  mov rax, OFFSET FLAT:.LC37
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif153
+### 917    break;
+  jmp .Lend150
+  pop rax
+  push rax
+  pop rax
+.Lendif153:
+  push rax
+  pop rax
+### 919    Node *tmp2 = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -7921,7 +11949,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 676    tmp2->kind = ND_BLOCK;
+### 920    tmp2->kind = ND_BLOCK;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -7931,13 +11959,13 @@ stmt:
   pop rax
   add rax, 0
   push rax
-  push 16
+  push 31
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 677    tmp->rhs = tmp2;
+### 921    tmp->rhs = tmp2;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -7958,7 +11986,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 678    tmp = tmp2;
+### 922    tmp = tmp2;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -7975,19 +12003,14 @@ stmt:
   pop rax
   push rax
   pop rax
-.Lendif96:
+  jmp .Lbegin150
+.Lend150:
   push rax
   pop rax
   push rax
   pop rax
-  jmp .Lbegin94
-.Lend94:
-  push rax
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif93
-.Lelse93:
+  jmp .Lendif149
+.Lelse149:
   push r15
   mov rax, OFFSET FLAT:is_typeword
   push rax
@@ -8002,8 +12025,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse97
-### 683    node = calloc(1, sizeof(Node));
+  je  .Lelse154
+### 926    node = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 8
   push rax
@@ -8030,7 +12053,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 684    node->kind = ND_VALDEF;
+### 927    node->kind = ND_VALDEF;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -8040,13 +12063,13 @@ stmt:
   pop rax
   add rax, 0
   push rax
-  push 23
+  push 38
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 687    Type *type = consume_typeword();
+### 930    Type *type = consume_typeword();
   push rax
   pop rax
   mov rax, rbp
@@ -8069,11 +12092,11 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 689    while (consume("*")) {
-.Lbegin98:
-.Lcontinue98:
+### 932    while (consume("*")) {
+.Lbegin155:
+.Lcontinue155:
   push r15
-  mov rax, OFFSET FLAT:.LC16
+  mov rax, OFFSET FLAT:.LC32
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -8090,8 +12113,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend98
-### 690    Type *t = calloc(1, sizeof(Type));
+  je  .Lend155
+### 933    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
@@ -8120,7 +12143,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 691    t->ty = PTR;
+### 934    t->ty = PTR;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -8136,7 +12159,7 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 692    t->ptr_to = type;
+### 935    t->ptr_to = type;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -8157,7 +12180,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 693    type = t;
+### 936    type = t;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -8174,11 +12197,11 @@ stmt:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin98
-.Lend98:
+  jmp .Lbegin155
+.Lend155:
   push rax
   pop rax
-### 696    Token *tok = consume_type(TK_IDENT);
+### 939    Token *tok = consume_type(TK_IDENT);
   push rax
   pop rax
   mov rax, rbp
@@ -8204,7 +12227,49 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 697    if (tok) {
+### 940    int offset;
+  push rax
+  pop rax
+### 941    int undefsize = 0; // sizeを省略したとき1
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 942    int totalsize = 1;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 943    int size = 1;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 944    LVar *lvar;
+  push rax
+  pop rax
+### 945    if (tok) {
   mov rax, rbp
   sub rax, 24
   push rax
@@ -8213,57 +12278,10 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse99
-### 698    Node *tmp = calloc(1, sizeof(Node));
-  push rax
-  pop rax
+  je  .Lelse156
+### 946    lvar = find_lvar(tok);
   mov rax, rbp
-  sub rax, 32
-  push rax
-  push r15
-  push 36
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 699    tmp->kind = ND_VALDEF;
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 23
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 701    LVar *lvar = find_lvar(tok);
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   push r15
   mov rax, rbp
@@ -8290,17 +12308,17 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 702    if (lvar) {
+### 947    if (lvar) {
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse100
-### 704    exit(1);
+  je  .Lelse157
+### 948    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -8319,37 +12337,67 @@ stmt:
   pop rax
   push rax
   pop rax
-  jmp .Lendif100
-.Lelse100:
-### 706    int totalsize = 1;
+  jmp .Lendif157
+.Lelse157:
+### 950    node->name = tok->str;
+  mov rax, rbp
+  sub rax, 8
   push rax
   pop rax
-  mov rax, rbp
-  sub rax, 48
+  mov rax, [rax]
   push rax
-  push 1
+  pop rax
+  add rax, 28
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 951    node->val = tok->len;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 707    int size = 1;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 56
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 708    while (consume("[")) { // 配列型
-.Lbegin101:
-.Lcontinue101:
+### 953    while (consume("[")) { // 配列型
+.Lbegin158:
+.Lcontinue158:
   push r15
-  mov rax, OFFSET FLAT:.LC22
+  mov rax, OFFSET FLAT:.LC38
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -8366,51 +12414,12 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend101
-### 709    size = expect_number();
-  mov rax, rbp
-  sub rax, 56
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expect_number
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 710    expect("]");
-  push r15
-  mov rax, OFFSET FLAT:.LC23
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 711    Type *t = calloc(1, sizeof(Type));
+  je  .Lend158
+### 954    Type *t = calloc(1, sizeof(Type));
   push rax
   pop rax
   mov rax, rbp
-  sub rax, 64
+  sub rax, 72
   push rax
   push r15
   push 16
@@ -8435,9 +12444,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 712    t->ty = ARRAY;
+### 955    t->ty = ARRAY;
   mov rax, rbp
-  sub rax, 64
+  sub rax, 72
   push rax
   pop rax
   mov rax, [rax]
@@ -8451,30 +12460,9 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 713    t->array_size = size;
+### 956    t->ptr_to = type;
   mov rax, rbp
-  sub rax, 64
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  mov rax, rbp
-  sub rax, 56
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 714    t->ptr_to = type;
-  mov rax, rbp
-  sub rax, 64
+  sub rax, 72
   push rax
   pop rax
   mov rax, [rax]
@@ -8493,12 +12481,12 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 715    type = t;
+### 957    type = t;
   mov rax, rbp
   sub rax, 16
   push rax
   mov rax, rbp
-  sub rax, 64
+  sub rax, 72
   push rax
   pop rax
   mov rax, [rax]
@@ -8508,7 +12496,105 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 717    totalsize *= size;
+### 959    if (consume("]")) { // TODO:配列要素数省略
+  push r15
+  mov rax, OFFSET FLAT:.LC39
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif159
+### 960    undefsize = 1;
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 961    break;
+  jmp .Lend158
+  pop rax
+  push rax
+  pop rax
+.Lendif159:
+  push rax
+  pop rax
+### 964    size = expect_number();
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expect_number
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 965    expect("]");
+  push r15
+  mov rax, OFFSET FLAT:.LC39
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 967    t->array_size = size;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 969    totalsize *= size;
   mov rax, rbp
   sub rax, 48
   push rax
@@ -8535,13 +12621,77 @@ stmt:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin101
-.Lend101:
+  jmp .Lbegin158
+.Lend158:
   push rax
   pop rax
-### 721    lvar = calloc(1, sizeof(LVar));
+### 972    if (!undefsize) {
   mov rax, rbp
   sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif160
+### 974    offset = (locals ? locals->offset : 0) + 8 * totalsize;
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcond1_161
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  jmp .Lcond2_161
+.Lcond1_161:
+  push 0
+.Lcond2_161:
+  push 8
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 976    lvar = calloc(1, sizeof(LVar));
+  mov rax, rbp
+  sub rax, 64
   push rax
   push r15
   push 32
@@ -8566,9 +12716,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 722    lvar->next = locals;
+### 977    lvar->next = locals;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -8586,9 +12736,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 723    lvar->name = tok->str;
+### 978    lvar->name = tok->str;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -8613,9 +12763,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 724    lvar->len = tok->len;
+### 979    lvar->len = tok->len;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -8640,15 +12790,1612 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 725    lvar->offset = (locals ? locals->offset : 0) + 8 * totalsize;
+### 980    lvar->offset = offset;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
   push rax
   pop rax
   add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 981    lvar->type = type;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 982    node->offset = offset;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 983    locals = lvar;
+  mov rax, OFFSET FLAT:locals
+  push rax
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 985    localsnum += totalsize;
+  mov rax, OFFSET FLAT:localsnum
+  push rax
+  mov rax, OFFSET FLAT:localsnum
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif160:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif157:
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif156
+.Lelse156:
+### 989    exit(1);
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:exit
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif156:
+  push rax
+  pop rax
+### 992    if (consume("=")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC40
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif162
+### 993    Node *tmp2 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 994    tmp2->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 995    tmp2->lhs = node;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 997    Node *top = tmp2;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 999    Node *lval = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1000    lval->kind = ND_LVAR;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 32
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1001    lval->offset = offset;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1002    lval->name = tok->str;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1003    lval->val = tok->len;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1004    if (consume("{")) { // 配列の初期化
+  push r15
+  mov rax, OFFSET FLAT:.LC36
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse163
+### 1005    int nowindex = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1006    Node *assignsubj;
+  push rax
+  pop rax
+### 1008    if (consume("}")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC37
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse164
+### 1009    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+.Lbegin165:
+.Lcontinue165:
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_166
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_166
+  mov rax, 1
+  jmp .Lorend_166
+.Lor1_166:
+  mov rax, 0
+.Lorend_166:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend165
+### 1010    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1011    tmp3->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1012    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1013    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1015    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1016    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1018    nowindex++;
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin165
+.Lend165:
+  push rax
+  pop rax
+### 1020    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1021    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif164
+.Lelse164:
+### 1023    Node *nownode = assign();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1024    while (consume(",")) {
+.Lbegin167:
+.Lcontinue167:
+  push r15
+  mov rax, OFFSET FLAT:.LC35
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend167
+### 1025    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1026    tmp3->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1027    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1028    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1030    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1031    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1033    nownode = assign();
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1034    nowindex++;
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin167
+.Lend167:
+  push rax
+  pop rax
+### 1036    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+.Lbegin168:
+.Lcontinue168:
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_169
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_169
+  mov rax, 1
+  jmp .Lorend_169
+.Lor1_169:
+  mov rax, 0
+.Lorend_169:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend168
+### 1037    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1038    tmp3->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1039    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1040    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1042    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1043    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1045    nownode = new_node_num(0);
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1046    nowindex++;
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin168
+.Lend168:
+  push rax
+  pop rax
+### 1048    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1049    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1051    if (undefsize) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif170
+### 1052    int size = (nowindex + 1);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1053    type->array_size = size;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1054    totalsize *= size;
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1057    offset = (locals ? locals->offset : 0) + 8 * totalsize;
+  mov rax, rbp
+  sub rax, 32
   push rax
   mov rax, OFFSET FLAT:locals
   push rax
@@ -8657,7 +14404,7 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je .Lcond1_102
+  je .Lcond1_171
   mov rax, OFFSET FLAT:locals
   push rax
   pop rax
@@ -8669,10 +14416,10 @@ stmt:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  jmp .Lcond2_102
-.Lcond1_102:
+  jmp .Lcond2_171
+.Lcond1_171:
   push 0
-.Lcond2_102:
+.Lcond2_171:
   push 8
   mov rax, rbp
   sub rax, 48
@@ -8693,9 +14440,152 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 726    lvar->type = type;
+### 1059    lval->offset = offset;
   mov rax, rbp
-  sub rax, 40
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1061    lvar = calloc(1, sizeof(LVar));
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  push r15
+  push 32
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1062    lvar->next = locals;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1063    lvar->name = tok->str;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1064    lvar->len = tok->len;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1065    lvar->offset = offset;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1066    lvar->type = type;
+  mov rax, rbp
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -8714,9 +14604,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 727    tmp->offset = lvar->offset;
+### 1067    node->offset = offset;
   mov rax, rbp
-  sub rax, 32
+  sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
@@ -8725,13 +14615,7 @@ stmt:
   add rax, 24
   push rax
   mov rax, rbp
-  sub rax, 40
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 20
+  sub rax, 32
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
@@ -8741,11 +14625,11 @@ stmt:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 728    locals = lvar;
+### 1068    locals = lvar;
   mov rax, OFFSET FLAT:locals
   push rax
   mov rax, rbp
-  sub rax, 40
+  sub rax, 64
   push rax
   pop rax
   mov rax, [rax]
@@ -8755,7 +14639,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 730    localsnum += totalsize;
+### 1070    localsnum += totalsize;
   mov rax, OFFSET FLAT:localsnum
   push rax
   mov rax, OFFSET FLAT:localsnum
@@ -8780,59 +14664,12 @@ stmt:
   pop rax
   push rax
   pop rax
-.Lendif100:
+.Lendif170:
   push rax
   pop rax
-### 732    node->lhs = tmp;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif99
-.Lelse99:
-### 734    exit(1);
+### 1073    expect("}");
   push r15
-  push 1
-  mov rax, OFFSET FLAT:exit
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif99:
-  push rax
-  pop rax
-### 736    expect(";");
-  push r15
-  mov rax, OFFSET FLAT:.LC24
+  mov rax, OFFSET FLAT:.LC37
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -8850,8 +14687,1230 @@ stmt:
   pop rax
   push rax
   pop rax
-  jmp .Lendif97
-.Lelse97:
+.Lendif164:
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif163
+.Lelse163:
+### 1076    Token *tokquo = consume_type(TK_QUOTE);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  push r15
+  push 11
+  mov rax, OFFSET FLAT:consume_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1077    if (tokquo) { // 文字列リテラル
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse172
+### 1078    int nowindex = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1079    Node *assignsubj;
+  push rax
+  pop rax
+### 1081    char *nowchr = tokquo->str;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1082    while (nowindex < tokquo->len) {
+.Lbegin173:
+.Lcontinue173:
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 96
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend173
+### 1083    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1084    tmp3->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1085    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1086    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(*nowchr));
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  movzx eax, BYTE PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1088    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1089    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1091    nowchr++;
+  mov rax, rbp
+  sub rax, 120
+  push rax
+  pop rax
+  mov rdi, [rax]
+  push rdi
+  add rdi, 1
+  mov [rax], rdi
+  pop rax
+### 1092    nowindex++;
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin173
+.Lend173:
+  push rax
+  pop rax
+### 1094    while ((!undefsize) && (nowindex + 1 < size)) { // 残りは0で初期化
+.Lbegin174:
+.Lcontinue174:
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, 0
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_175
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, rbp
+  sub rax, 56
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_175
+  mov rax, 1
+  jmp .Lorend_175
+.Lor1_175:
+  mov rax, 0
+.Lorend_175:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend174
+### 1095    Node *tmp3 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1096    tmp3->kind = ND_BLOCK;
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1097    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1098    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1100    tmp2->rhs = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1101    tmp2 = tmp3;
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1103    nowindex++;
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin174
+.Lend174:
+  push rax
+  pop rax
+### 1105    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), 0);
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  push r15
+  push 0
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1106    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 112
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1108    if (undefsize) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif176
+### 1109    int size = (nowindex + 1);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  mov rax, rbp
+  sub rax, 104
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1110    type->array_size = size;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1111    totalsize *= size;
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 128
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1114    offset = (locals ? locals->offset : 0) + 8 * totalsize;
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcond1_177
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  jmp .Lcond2_177
+.Lcond1_177:
+  push 0
+.Lcond2_177:
+  push 8
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1116    lval->offset = offset;
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1118    lvar = calloc(1, sizeof(LVar));
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  push r15
+  push 32
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1119    lvar->next = locals;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  mov rax, OFFSET FLAT:locals
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1120    lvar->name = tok->str;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1121    lvar->len = tok->len;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1122    lvar->offset = offset;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1123    lvar->type = type;
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1124    node->offset = offset;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1125    locals = lvar;
+  mov rax, OFFSET FLAT:locals
+  push rax
+  mov rax, rbp
+  sub rax, 64
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1127    localsnum += totalsize;
+  mov rax, OFFSET FLAT:localsnum
+  push rax
+  mov rax, OFFSET FLAT:localsnum
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 48
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif176:
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif172
+.Lelse172:
+### 1130    tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+  mov rax, rbp
+  sub rax, 72
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 88
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif172:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif163:
+  push rax
+  pop rax
+### 1133    node = top;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  mov rax, rbp
+  sub rax, 80
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif162:
+  push rax
+  pop rax
+### 1136    expect(";");
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif154
+.Lelse154:
   push r15
   push 1
   mov rax, OFFSET FLAT:consume_type
@@ -8869,8 +15928,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse103
-### 738    node = calloc(1, sizeof(Node));
+  je  .Lelse178
+### 1138    node = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 8
   push rax
@@ -8897,7 +15956,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 739    node->kind = ND_RETURN;
+### 1139    node->kind = ND_RETURN;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -8907,13 +15966,13 @@ stmt:
   pop rax
   add rax, 0
   push rax
-  push 10
+  push 25
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 740    node->lhs = expr();
+### 1140    node->lhs = expr();
   mov rax, rbp
   sub rax, 8
   push rax
@@ -8940,9 +15999,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 741    expect(";");
+### 1141    expect(";");
   push r15
-  mov rax, OFFSET FLAT:.LC24
+  mov rax, OFFSET FLAT:.LC41
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -8960,8 +16019,8 @@ stmt:
   pop rax
   push rax
   pop rax
-  jmp .Lendif103
-.Lelse103:
+  jmp .Lendif178
+.Lelse178:
   push r15
   push 2
   mov rax, OFFSET FLAT:consume_type
@@ -8979,10 +16038,10 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse104
-### 744    expect("(");
+  je  .Lelse179
+### 1144    expect("(");
   push r15
-  mov rax, OFFSET FLAT:.LC17
+  mov rax, OFFSET FLAT:.LC33
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -8998,7 +16057,7 @@ stmt:
   pop r15
   push rax
   pop rax
-### 745    node = calloc(1, sizeof(Node));
+### 1145    node = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 8
   push rax
@@ -9025,7 +16084,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 746    node->kind = ND_IF;
+### 1146    node->kind = ND_IF;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -9035,13 +16094,13 @@ stmt:
   pop rax
   add rax, 0
   push rax
-  push 11
+  push 26
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 747    node->lhs = expr();
+### 1147    node->lhs = expr();
   mov rax, rbp
   sub rax, 8
   push rax
@@ -9068,9 +16127,9 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 748    expect(")");
+### 1148    expect(")");
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -9086,7 +16145,7 @@ stmt:
   pop r15
   push rax
   pop rax
-### 749    Node *tmp = stmt();
+### 1149    Node *tmp = stmt();
   push rax
   pop rax
   mov rax, rbp
@@ -9109,7 +16168,7 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-### 750    if (consume_type(TK_ELSE)) {
+### 1150    if (consume_type(TK_ELSE)) {
   push r15
   push 3
   mov rax, OFFSET FLAT:consume_type
@@ -9127,8 +16186,8 @@ stmt:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif105
-### 751    tmp = new_node(ND_ELSE, tmp, stmt());
+  je  .Lendif180
+### 1151    tmp = new_node(ND_ELSE, tmp, stmt());
   mov rax, rbp
   sub rax, 16
   push rax
@@ -9147,6 +16206,2730 @@ stmt:
   push rax
   mov rax, rbp
   sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 27
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif180:
+  push rax
+  pop rax
+### 1153    node->rhs = tmp;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif179
+.Lelse179:
+  push r15
+  push 4
+  mov rax, OFFSET FLAT:consume_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse181
+### 1156    expect("(");
+  push r15
+  mov rax, OFFSET FLAT:.LC33
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1157    node = calloc(1, sizeof(Node));
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1158    node->kind = ND_WHILE;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 28
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1159    node->lhs = expr();
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expr
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1160    expect(")");
+  push r15
+  mov rax, OFFSET FLAT:.LC34
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1161    node->rhs = stmt();
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:stmt
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif181
+.Lelse181:
+  push r15
+  push 5
+  mov rax, OFFSET FLAT:consume_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse182
+### 1164    expect("(");
+  push r15
+  mov rax, OFFSET FLAT:.LC33
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1165    node = calloc(1, sizeof(Node));
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1166    node->kind = ND_FOR;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 29
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1167    if (consume(";")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse183
+### 1168    node->lhs = 0;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif183
+.Lelse183:
+### 1170    node->lhs = expr();
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expr
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1171    expect(";");
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif183:
+  push rax
+  pop rax
+### 1174    Node *tmp = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1175    tmp->kind = ND_FORSUP;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 30
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1176    if (consume(";")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse184
+### 1177    tmp->lhs = 0;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif184
+.Lelse184:
+### 1179    tmp->lhs = expr();
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expr
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1180    expect(";");
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif184:
+  push rax
+  pop rax
+### 1182    node->rhs = tmp;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1184    Node *tmp2 = calloc(1, sizeof(Node));
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  push 36
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1185    tmp2->kind = ND_FORSUP;
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  push 30
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1186    if (consume(")")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC34
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse185
+### 1187    tmp2->lhs = 0;
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif185
+.Lelse185:
+### 1189    tmp2->lhs = expr();
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expr
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1190    expect(")");
+  push r15
+  mov rax, OFFSET FLAT:.LC34
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif185:
+  push rax
+  pop rax
+### 1192    tmp->rhs = tmp2;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1193    tmp2->rhs = stmt();
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:stmt
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif182
+.Lelse182:
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse186
+### 1196    return 0;
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif186
+.Lelse186:
+### 1198    node = expr();
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:expr
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1199    expect(";");
+  push r15
+  mov rax, OFFSET FLAT:.LC41
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif186:
+  push rax
+  pop rax
+.Lendif182:
+  push rax
+  pop rax
+.Lendif181:
+  push rax
+  pop rax
+.Lendif179:
+  push rax
+  pop rax
+.Lendif178:
+  push rax
+  pop rax
+.Lendif154:
+  push rax
+  pop rax
+.Lendif149:
+  push rax
+  pop rax
+### 1202    return node;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1205    Node *expr() {
+  .globl expr
+  .type expr, @function
+expr:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 0
+### 1206    return comma();
+  push r15
+  mov rax, OFFSET FLAT:comma
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1209    Node *comma() {
+  .globl comma
+  .type comma, @function
+comma:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1210    Node *node = assign();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1211    for (;;) {
+  push rax
+.Lbegin187:
+  push rax
+  pop rax
+### 1212    if (consume(","))
+  push r15
+  mov rax, OFFSET FLAT:.LC35
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse188
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 14
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif188
+.Lelse188:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif188:
+  push rax
+  pop rax
+  push rax
+.Lcontinue187:
+  push rax
+  jmp .Lbegin187
+.Lend187:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1219    Node *assign() {
+  .globl assign
+  .type assign, @function
+assign:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1220    Node *node = condition();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:condition
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1222    if (consume("="))
+  push r15
+  mov rax, OFFSET FLAT:.LC40
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse189
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif189
+.Lelse189:
+  push r15
+  mov rax, OFFSET FLAT:.LC22
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse190
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif190
+.Lelse190:
+  push r15
+  mov rax, OFFSET FLAT:.LC23
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse191
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif191
+.Lelse191:
+  push r15
+  mov rax, OFFSET FLAT:.LC24
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse192
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 2
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif192
+.Lelse192:
+  push r15
+  mov rax, OFFSET FLAT:.LC25
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse193
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 3
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif193
+.Lelse193:
+  push r15
+  mov rax, OFFSET FLAT:.LC26
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse194
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 15
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif194
+.Lelse194:
+  push r15
+  mov rax, OFFSET FLAT:.LC27
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse195
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 13
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif195
+.Lelse195:
+  push r15
+  mov rax, OFFSET FLAT:.LC28
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse196
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 12
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif196
+.Lelse196:
+  push r15
+  mov rax, OFFSET FLAT:.LC29
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse197
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 11
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif197
+.Lelse197:
+  push r15
+  mov rax, OFFSET FLAT:.LC13
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse198
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 16
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif198
+.Lelse198:
+  push r15
+  mov rax, OFFSET FLAT:.LC12
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif199
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:assign
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 17
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+.Lendif199:
+  push rax
+  pop rax
+.Lendif198:
+  push rax
+  pop rax
+.Lendif197:
+  push rax
+  pop rax
+.Lendif196:
+  push rax
+  pop rax
+.Lendif195:
+  push rax
+  pop rax
+.Lendif194:
+  push rax
+  pop rax
+.Lendif193:
+  push rax
+  pop rax
+.Lendif192:
+  push rax
+  pop rax
+.Lendif191:
+  push rax
+  pop rax
+.Lendif190:
+  push rax
+  pop rax
+.Lendif189:
+  push rax
+  pop rax
+### 1245    return node;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1248    Node *condition() { // TODO:優先順位
+  .globl condition
+  .type condition, @function
+condition:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 24
+### 1249    Node *node = logicOR();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:logicOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1251    if (consume("?")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC42
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif200
+### 1252    node = new_node(ND_COND, node, 0);
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push 0
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 20
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1253    Node *b = logicOR();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:logicOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1254    expect(":");
+  push r15
+  mov rax, OFFSET FLAT:.LC43
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1255    Node *tmp = new_node(ND_COLON, b, condition());
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:condition
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 21
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1256    node->rhs = tmp;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif200:
+  push rax
+  pop rax
+### 1258    return node;
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1261    Node *logicOR() {
+  .globl logicOR
+  .type logicOR, @function
+logicOR:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1262    Node *node = logicAND();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:logicAND
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1263    for (;;) {
+  push rax
+.Lbegin201:
+  push rax
+  pop rax
+### 1264    if (consume("||"))
+  push r15
+  mov rax, OFFSET FLAT:.LC18
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse202
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:logicAND
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 9
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif202
+.Lelse202:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif202:
+  push rax
+  pop rax
+  push rax
+.Lcontinue201:
+  push rax
+  jmp .Lbegin201
+.Lend201:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1271    Node *logicAND() {
+  .globl logicAND
+  .type logicAND, @function
+logicAND:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1272    Node *node = bitOR();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:bitOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1273    for (;;) {
+  push rax
+.Lbegin203:
+  push rax
+  pop rax
+### 1274    if (consume("&&"))
+  push r15
+  mov rax, OFFSET FLAT:.LC19
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse204
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:bitOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 10
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif204
+.Lelse204:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif204:
+  push rax
+  pop rax
+  push rax
+.Lcontinue203:
+  push rax
+  jmp .Lbegin203
+.Lend203:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1281    Node *bitOR() {
+  .globl bitOR
+  .type bitOR, @function
+bitOR:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1282    Node *node = bitXOR();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:bitXOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1283    for (;;) {
+  push rax
+.Lbegin205:
+  push rax
+  pop rax
+### 1284    if (consume("|"))
+  push r15
+  mov rax, OFFSET FLAT:.LC44
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse206
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:bitXOR
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 11
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif206
+.Lelse206:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif206:
+  push rax
+  pop rax
+  push rax
+.Lcontinue205:
+  push rax
+  jmp .Lbegin205
+.Lend205:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1291    Node *bitXOR() {
+  .globl bitXOR
+  .type bitXOR, @function
+bitXOR:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1292    Node *node = bitAND();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:bitAND
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1293    for (;;) {
+  push rax
+.Lbegin207:
+  push rax
+  pop rax
+### 1294    if (consume("^"))
+  push r15
+  mov rax, OFFSET FLAT:.LC45
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse208
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:bitAND
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
@@ -9174,763 +18957,8 @@ stmt:
   mov [rax], rdi
   push rdi
   pop rax
-  push rax
-  pop rax
-.Lendif105:
-  push rax
-  pop rax
-### 753    node->rhs = tmp;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif104
-.Lelse104:
-  push r15
-  push 4
-  mov rax, OFFSET FLAT:consume_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse106
-### 756    expect("(");
-  push r15
-  mov rax, OFFSET FLAT:.LC17
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 757    node = calloc(1, sizeof(Node));
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  push r15
-  push 36
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 758    node->kind = ND_WHILE;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 13
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 759    node->lhs = expr();
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expr
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 760    expect(")");
-  push r15
-  mov rax, OFFSET FLAT:.LC18
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 761    node->rhs = stmt();
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:stmt
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif106
-.Lelse106:
-  push r15
-  push 5
-  mov rax, OFFSET FLAT:consume_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse107
-### 764    expect("(");
-  push r15
-  mov rax, OFFSET FLAT:.LC17
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 765    node = calloc(1, sizeof(Node));
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  push r15
-  push 36
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 766    node->kind = ND_FOR;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 14
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 767    if (consume(";")) {
-  push r15
-  mov rax, OFFSET FLAT:.LC24
-  push rax
-  mov rax, OFFSET FLAT:consume
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse108
-### 768    node->lhs = 0;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif108
-.Lelse108:
-### 770    node->lhs = expr();
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expr
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 771    expect(";");
-  push r15
-  mov rax, OFFSET FLAT:.LC24
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif108:
-  push rax
-  pop rax
-### 774    Node *tmp = calloc(1, sizeof(Node));
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push r15
-  push 36
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 775    tmp->kind = ND_FORSUP;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 15
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 776    if (consume(";")) {
-  push r15
-  mov rax, OFFSET FLAT:.LC24
-  push rax
-  mov rax, OFFSET FLAT:consume
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse109
-### 777    tmp->lhs = 0;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif109
-.Lelse109:
-### 779    tmp->lhs = expr();
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expr
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 780    expect(";");
-  push r15
-  mov rax, OFFSET FLAT:.LC24
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif109:
-  push rax
-  pop rax
-### 782    node->rhs = tmp;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 784    Node *tmp2 = calloc(1, sizeof(Node));
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  push r15
-  push 36
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 785    tmp2->kind = ND_FORSUP;
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 15
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 786    if (consume(")")) {
-  push r15
-  mov rax, OFFSET FLAT:.LC18
-  push rax
-  mov rax, OFFSET FLAT:consume
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse110
-### 787    tmp2->lhs = 0;
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif110
-.Lelse110:
-### 789    tmp2->lhs = expr();
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expr
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 790    expect(")");
-  push r15
-  mov rax, OFFSET FLAT:.LC18
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif110:
-  push rax
-  pop rax
-### 792    tmp->rhs = tmp2;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 793    tmp2->rhs = stmt();
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:stmt
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif107
-.Lelse107:
-### 795    node = expr();
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:expr
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 796    expect(";");
-  push r15
-  mov rax, OFFSET FLAT:.LC24
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif107:
-  push rax
-  pop rax
-.Lendif106:
-  push rax
-  pop rax
-.Lendif104:
-  push rax
-  pop rax
-.Lendif103:
-  push rax
-  pop rax
-.Lendif97:
-  push rax
-  pop rax
-.Lendif93:
-  push rax
-  pop rax
-### 799    return node;
+  jmp .Lendif208
+.Lelse208:
   mov rax, rbp
   sub rax, 8
   push rax
@@ -9941,6 +18969,15 @@ stmt:
   mov rsp, rbp
   pop rbp
   ret
+  pop rax
+.Lendif208:
+  push rax
+  pop rax
+  push rax
+.Lcontinue207:
+  push rax
+  jmp .Lbegin207
+.Lend207:
   pop rax
   push rax
   pop rax
@@ -9948,45 +18985,14 @@ stmt:
   pop rbp
   ret
 .text
-### 802    Node *expr() {
-  .globl expr
-  .type expr, @function
-expr:
-  push rbp
-  mov rbp, rsp
-  sub rsp, 0
-### 803    return assign();
-  push r15
-  mov rax, OFFSET FLAT:assign
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.text
-### 806    Node *assign() {
-  .globl assign
-  .type assign, @function
-assign:
+### 1301    Node *bitAND() {
+  .globl bitAND
+  .type bitAND, @function
+bitAND:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 807    Node *node = equality();
+### 1302    Node *node = equality();
   push rax
   pop rax
   mov rax, rbp
@@ -10009,9 +19015,14 @@ assign:
   mov [rax], rdi
   push rdi
   pop rax
-### 809    if (consume("="))
+### 1303    for (;;) {
+  push rax
+.Lbegin209:
+  push rax
+  pop rax
+### 1304    if (consume("&"))
   push r15
-  mov rax, OFFSET FLAT:.LC25
+  mov rax, OFFSET FLAT:.LC46
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10028,13 +19039,13 @@ assign:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif111
+  je  .Lelse210
   mov rax, rbp
   sub rax, 8
   push rax
   push r15
   push r15
-  mov rax, OFFSET FLAT:assign
+  mov rax, OFFSET FLAT:equality
   push rax
   pop r11
   mov rax, 0
@@ -10051,7 +19062,7 @@ assign:
   pop rax
   mov rax, [rax]
   push rax
-  push 8
+  push 13
   mov rax, OFFSET FLAT:new_node
   push rax
   pop r11
@@ -10074,10 +19085,8 @@ assign:
   mov [rax], rdi
   push rdi
   pop rax
-.Lendif111:
-  push rax
-  pop rax
-### 811    return node;
+  jmp .Lendif210
+.Lelse210:
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10089,20 +19098,29 @@ assign:
   pop rbp
   ret
   pop rax
+.Lendif210:
+  push rax
+  pop rax
+  push rax
+.Lcontinue209:
+  push rax
+  jmp .Lbegin209
+.Lend209:
+  pop rax
   push rax
   pop rax
   mov rsp, rbp
   pop rbp
   ret
 .text
-### 814    Node *equality() {
+### 1311    Node *equality() {
   .globl equality
   .type equality, @function
 equality:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 815    Node *node = relational();
+### 1312    Node *node = relational();
   push rax
   pop rax
   mov rax, rbp
@@ -10125,14 +19143,14 @@ equality:
   mov [rax], rdi
   push rdi
   pop rax
-### 817    for (;;) {
+### 1314    for (;;) {
   push rax
-.Lbegin112:
+.Lbegin211:
   push rax
   pop rax
-### 818    if (consume("=="))
+### 1315    if (consume("=="))
   push r15
-  mov rax, OFFSET FLAT:.LC14
+  mov rax, OFFSET FLAT:.LC16
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10149,7 +19167,7 @@ equality:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse113
+  je  .Lelse212
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10195,10 +19213,10 @@ equality:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif113
-.Lelse113:
+  jmp .Lendif212
+.Lelse212:
   push r15
-  mov rax, OFFSET FLAT:.LC15
+  mov rax, OFFSET FLAT:.LC17
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10215,7 +19233,7 @@ equality:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse114
+  je  .Lelse213
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10261,8 +19279,8 @@ equality:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif114
-.Lelse114:
+  jmp .Lendif213
+.Lelse213:
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10274,17 +19292,17 @@ equality:
   pop rbp
   ret
   pop rax
-.Lendif114:
+.Lendif213:
   push rax
   pop rax
-.Lendif113:
+.Lendif212:
   push rax
   pop rax
   push rax
-.Lcontinue112:
+.Lcontinue211:
   push rax
-  jmp .Lbegin112
-.Lend112:
+  jmp .Lbegin211
+.Lend211:
   pop rax
   push rax
   pop rax
@@ -10292,21 +19310,21 @@ equality:
   pop rbp
   ret
 .text
-### 827    Node *relational() {
+### 1324    Node *relational() {
   .globl relational
   .type relational, @function
 relational:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 828    Node *node = add();
+### 1325    Node *node = shift();
   push rax
   pop rax
   mov rax, rbp
   sub rax, 8
   push rax
   push r15
-  mov rax, OFFSET FLAT:add
+  mov rax, OFFSET FLAT:shift
   push rax
   pop r11
   mov rax, 0
@@ -10322,14 +19340,14 @@ relational:
   mov [rax], rdi
   push rdi
   pop rax
-### 830    for (;;) {
+### 1327    for (;;) {
   push rax
-.Lbegin115:
+.Lbegin214:
   push rax
   pop rax
-### 831    if (consume("<"))
+### 1328    if (consume("<"))
   push r15
-  mov rax, OFFSET FLAT:.LC26
+  mov rax, OFFSET FLAT:.LC47
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10346,13 +19364,13 @@ relational:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse116
+  je  .Lelse215
   mov rax, rbp
   sub rax, 8
   push rax
   push r15
   push r15
-  mov rax, OFFSET FLAT:add
+  mov rax, OFFSET FLAT:shift
   push rax
   pop r11
   mov rax, 0
@@ -10392,10 +19410,10 @@ relational:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif116
-.Lelse116:
+  jmp .Lendif215
+.Lelse215:
   push r15
-  mov rax, OFFSET FLAT:.LC13
+  mov rax, OFFSET FLAT:.LC15
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10412,13 +19430,13 @@ relational:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse117
+  je  .Lelse216
   mov rax, rbp
   sub rax, 8
   push rax
   push r15
   push r15
-  mov rax, OFFSET FLAT:add
+  mov rax, OFFSET FLAT:shift
   push rax
   pop r11
   mov rax, 0
@@ -10458,10 +19476,10 @@ relational:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif117
-.Lelse117:
+  jmp .Lendif216
+.Lelse216:
   push r15
-  mov rax, OFFSET FLAT:.LC27
+  mov rax, OFFSET FLAT:.LC48
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10478,7 +19496,7 @@ relational:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse118
+  je  .Lelse217
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10490,7 +19508,7 @@ relational:
   mov rax, [rax]
   push rax
   push r15
-  mov rax, OFFSET FLAT:add
+  mov rax, OFFSET FLAT:shift
   push rax
   pop r11
   mov rax, 0
@@ -10524,10 +19542,10 @@ relational:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif118
-.Lelse118:
+  jmp .Lendif217
+.Lelse217:
   push r15
-  mov rax, OFFSET FLAT:.LC12
+  mov rax, OFFSET FLAT:.LC14
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10544,7 +19562,7 @@ relational:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse119
+  je  .Lelse218
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10556,7 +19574,7 @@ relational:
   mov rax, [rax]
   push rax
   push r15
-  mov rax, OFFSET FLAT:add
+  mov rax, OFFSET FLAT:shift
   push rax
   pop r11
   mov rax, 0
@@ -10590,8 +19608,8 @@ relational:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif119
-.Lelse119:
+  jmp .Lendif218
+.Lelse218:
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10603,23 +19621,23 @@ relational:
   pop rbp
   ret
   pop rax
-.Lendif119:
+.Lendif218:
   push rax
   pop rax
-.Lendif118:
+.Lendif217:
   push rax
   pop rax
-.Lendif117:
+.Lendif216:
   push rax
   pop rax
-.Lendif116:
+.Lendif215:
   push rax
   pop rax
   push rax
-.Lcontinue115:
+.Lcontinue214:
   push rax
-  jmp .Lbegin115
-.Lend115:
+  jmp .Lbegin214
+.Lend214:
   pop rax
   push rax
   pop rax
@@ -10627,14 +19645,211 @@ relational:
   pop rbp
   ret
 .text
-### 844    Node *add() {
+### 1341    Node *shift() {
+  .globl shift
+  .type shift, @function
+shift:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 8
+### 1342    Node *node = add();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:add
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1344    for (;;) {
+  push rax
+.Lbegin219:
+  push rax
+  pop rax
+### 1345    if (consume("<<"))
+  push r15
+  mov rax, OFFSET FLAT:.LC20
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse220
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:add
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 16
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif220
+.Lelse220:
+  push r15
+  mov rax, OFFSET FLAT:.LC21
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse221
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:add
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 17
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif221
+.Lelse221:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif221:
+  push rax
+  pop rax
+.Lendif220:
+  push rax
+  pop rax
+  push rax
+.Lcontinue219:
+  push rax
+  jmp .Lbegin219
+.Lend219:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1354    Node *add() {
   .globl add
   .type add, @function
 add:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 845    Node *node = mul();
+### 1355    Node *node = mul();
   push rax
   pop rax
   mov rax, rbp
@@ -10657,14 +19872,14 @@ add:
   mov [rax], rdi
   push rdi
   pop rax
-### 847    for (;;) {
+### 1357    for (;;) {
   push rax
-.Lbegin120:
+.Lbegin222:
   push rax
   pop rax
-### 848    if (consume("+"))
+### 1358    if (consume("+"))
   push r15
-  mov rax, OFFSET FLAT:.LC28
+  mov rax, OFFSET FLAT:.LC49
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10681,7 +19896,7 @@ add:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse121
+  je  .Lelse223
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10727,10 +19942,10 @@ add:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif121
-.Lelse121:
+  jmp .Lendif223
+.Lelse223:
   push r15
-  mov rax, OFFSET FLAT:.LC29
+  mov rax, OFFSET FLAT:.LC50
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10747,7 +19962,7 @@ add:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse122
+  je  .Lelse224
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10793,8 +20008,8 @@ add:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif122
-.Lelse122:
+  jmp .Lendif224
+.Lelse224:
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10806,17 +20021,17 @@ add:
   pop rbp
   ret
   pop rax
-.Lendif122:
+.Lendif224:
   push rax
   pop rax
-.Lendif121:
+.Lendif223:
   push rax
   pop rax
   push rax
-.Lcontinue120:
+.Lcontinue222:
   push rax
-  jmp .Lbegin120
-.Lend120:
+  jmp .Lbegin222
+.Lend222:
   pop rax
   push rax
   pop rax
@@ -10824,14 +20039,14 @@ add:
   pop rbp
   ret
 .text
-### 857    Node *mul() {
+### 1367    Node *mul() {
   .globl mul
   .type mul, @function
 mul:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 858    Node *node = unary();
+### 1368    Node *node = unary();
   push rax
   pop rax
   mov rax, rbp
@@ -10854,14 +20069,14 @@ mul:
   mov [rax], rdi
   push rdi
   pop rax
-### 860    for (;;) {
+### 1370    for (;;) {
   push rax
-.Lbegin123:
+.Lbegin225:
   push rax
   pop rax
-### 861    if (consume("*"))
+### 1371    if (consume("*"))
   push r15
-  mov rax, OFFSET FLAT:.LC16
+  mov rax, OFFSET FLAT:.LC32
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -10878,7 +20093,7 @@ mul:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse124
+  je  .Lelse226
   mov rax, rbp
   sub rax, 8
   push rax
@@ -10924,8 +20139,315 @@ mul:
   mov [rax], rdi
   push rdi
   pop rax
-  jmp .Lendif124
-.Lelse124:
+  jmp .Lendif226
+.Lelse226:
+  push r15
+  mov rax, OFFSET FLAT:.LC51
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse227
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 3
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif227
+.Lelse227:
+  push r15
+  mov rax, OFFSET FLAT:.LC52
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse228
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 15
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  jmp .Lendif228
+.Lelse228:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif228:
+  push rax
+  pop rax
+.Lendif227:
+  push rax
+  pop rax
+.Lendif226:
+  push rax
+  pop rax
+  push rax
+.Lcontinue225:
+  push rax
+  jmp .Lbegin225
+.Lend225:
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1382    Node *unary() {
+  .globl unary
+  .type unary, @function
+unary:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 24
+### 1383    if (consume_type(TK_SIZEOF)) {
+  push r15
+  push 10
+  mov rax, OFFSET FLAT:consume_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif229
+### 1384    Node *node = unary();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1385    Type *type = estimate_type(node);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1386    int size = size_from_type(type);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:size_from_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1387    return new_node_num(size);
+  push r15
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif229:
+  push rax
+  pop rax
+### 1391    if (consume("++")) {
   push r15
   mov rax, OFFSET FLAT:.LC30
   push rax
@@ -10944,15 +20466,40 @@ mul:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse125
+  je  .Lendif230
+### 1392    Node *node = unary();
+  push rax
+  pop rax
   mov rax, rbp
   sub rax, 8
   push rax
   push r15
-  push r15
   mov rax, OFFSET FLAT:unary
   push rax
   pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1393    return new_node(ND_ASSIGN, node, new_node(ND_ADD, node, new_node_num(1)));
+  push r15
+  push r15
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
   mov rax, 0
   mov r15, rsp
   and r15, 0xF
@@ -10967,7 +20514,7 @@ mul:
   pop rax
   mov rax, [rax]
   push rax
-  push 3
+  push 0
   mov rax, OFFSET FLAT:new_node
   push rax
   pop r11
@@ -10985,1386 +20532,13 @@ mul:
   or rsp, r15
   pop r15
   push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-  jmp .Lendif125
-.Lelse125:
   mov rax, rbp
   sub rax, 8
   push rax
   pop rax
   mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-.Lendif125:
-  push rax
-  pop rax
-.Lendif124:
-  push rax
-  pop rax
-  push rax
-.Lcontinue123:
-  push rax
-  jmp .Lbegin123
-.Lend123:
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.text
-### 871    Type *estimate_type(Node *node) {
-  .globl estimate_type
-  .type estimate_type, @function
-estimate_type:
-  push rbp
-  mov rbp, rsp
-  push rdi
-  sub rsp, 40
-### 872    if (node == 0)
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif126
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-.Lendif126:
-  push rax
-  pop rax
-### 874    Type *type;
-  push rax
-  pop rax
-### 875    if (node->kind == ND_DEREF) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 22
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif127
-### 876    type = estimate_type(node->lhs);
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:estimate_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 877    return type->ptr_to;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif127:
-  push rax
-  pop rax
-### 879    if (node->kind == ND_LVAR) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 17
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif128
-### 880    LVar *lvar = 0; // 0入れておかないと初期値でおかしくなる!!
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 881    LVar *var;
-  push rax
-  pop rax
-### 882    for (var = locals; var; var = var->next)
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  mov rax, OFFSET FLAT:locals
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-.Lbegin129:
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lend129
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 20
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lor1_131
-  push r15
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 28
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:memcmp
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, 0
-  sete al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor1_131
-  mov rax, 1
-  jmp .Lorend_131
-.Lor1_131:
-  mov rax, 0
-.Lorend_131:
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif130
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-.Lendif130:
-  push rax
-.Lcontinue129:
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  jmp .Lbegin129
-.Lend129:
-  pop rax
-### 885    if (lvar) {
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse132
-### 886    type = lvar->type;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 887    return type;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif132
-.Lelse132:
-### 889    GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 40
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 890    GVar *var;
-  push rax
-  pop rax
-### 891    for (var = globals; var; var = var->next)
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  mov rax, OFFSET FLAT:globals
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-.Lbegin133:
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lend133
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 20
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lor1_135
-  push r15
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 28
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:memcmp
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, 0
-  sete al
-  movzb rax, al
-  push rax
-  pop rdi
-  cmp rdi, 0
-  je .Lor1_135
-  mov rax, 1
-  jmp .Lorend_135
-.Lor1_135:
-  mov rax, 0
-.Lorend_135:
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif134
-  mov rax, rbp
-  sub rax, 40
-  push rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-.Lendif134:
-  push rax
-.Lcontinue133:
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  mov rax, rbp
-  sub rax, 48
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  jmp .Lbegin133
-.Lend133:
-  pop rax
-### 894    if (gvar) {
-  mov rax, rbp
-  sub rax, 40
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse136
-### 895    type = gvar->type;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  mov rax, rbp
-  sub rax, 40
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 896    return type;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif136
-.Lelse136:
-### 899    }
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif136:
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif132:
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif128:
-  push rax
-  pop rax
-### 902    if (node->kind == ND_FUNC) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 18
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif137
-### 904    type = calloc(1, sizeof(Type));
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push r15
-  push 16
-  push 1
-  mov rax, OFFSET FLAT:calloc
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 905    type->ty = INT;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 906    return type;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif137:
-  push rax
-  pop rax
-### 908    Type *ltype = estimate_type(node->lhs);
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:estimate_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 909    Type *rtype = estimate_type(node->rhs);
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:estimate_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 911    return (ltype ? ltype : rtype);
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lcond1_138
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  jmp .Lcond2_138
-.Lcond1_138:
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-.Lcond2_138:
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.text
-### 914    int size_from_type(Type *type) {
-  .globl size_from_type
-  .type size_from_type, @function
-size_from_type:
-  push rbp
-  mov rbp, rsp
-  push rdi
-  sub rsp, 24
-### 915    int size = 4;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push 4
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 916    if (type == 0) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse139
-### 917    size = 4;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push 4
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif139
-.Lelse139:
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse140
-### 919    size = 4;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push 4
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif140
-.Lelse140:
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse141
-### 921    size = 1;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif141
-.Lelse141:
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 2
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse142
-### 923    size = 8;
-  mov rax, rbp
-  sub rax, 16
   push rax
   push 8
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif142
-.Lelse142:
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 3
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif143
-### 925    int arrsize = type->array_size;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 926    Type *t = type->ptr_to;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 927    size = size_from_type(t) * arrsize;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 32
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:size_from_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  imul rax, rdi
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-  push rax
-  pop rax
-.Lendif143:
-  push rax
-  pop rax
-.Lendif142:
-  push rax
-  pop rax
-.Lendif141:
-  push rax
-  pop rax
-.Lendif140:
-  push rax
-  pop rax
-.Lendif139:
-  push rax
-  pop rax
-### 929    return size;
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.text
-### 932    Node *unary() {
-  .globl unary
-  .type unary, @function
-unary:
-  push rbp
-  mov rbp, rsp
-  sub rsp, 24
-### 933    if (consume_type(TK_SIZEOF)) {
-  push r15
-  push 10
-  mov rax, OFFSET FLAT:consume_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif144
-### 934    Node *node = unary();
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  push r15
-  mov rax, OFFSET FLAT:unary
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 935    Type *type = estimate_type(node);
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:estimate_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 936    int size = size_from_type(type);
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 16
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:size_from_type
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 937    return new_node_num(size);
-  push r15
-  mov rax, rbp
-  sub rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:new_node_num
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif144:
-  push rax
-  pop rax
-### 939    if (consume("+"))
-  push r15
-  mov rax, OFFSET FLAT:.LC28
-  push rax
-  mov rax, OFFSET FLAT:consume
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif145
-  push r15
-  mov rax, OFFSET FLAT:brackets
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-.Lendif145:
-  push rax
-  pop rax
-### 941    if (consume("-"))
-  push r15
-  mov rax, OFFSET FLAT:.LC29
-  push rax
-  mov rax, OFFSET FLAT:consume
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif146
-  push r15
-  push r15
-  mov rax, OFFSET FLAT:brackets
-  push rax
-  pop r11
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push r15
-  push 0
-  mov rax, OFFSET FLAT:new_node_num
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  push 1
   mov rax, OFFSET FLAT:new_node
   push rax
   pop r11
@@ -12387,10 +20561,12 @@ unary:
   pop rbp
   ret
   pop rax
-.Lendif146:
   push rax
   pop rax
-### 943    if (consume("&"))
+.Lendif230:
+  push rax
+  pop rax
+### 1395    if (consume("--")) {
   push r15
   mov rax, OFFSET FLAT:.LC31
   push rax
@@ -12409,9 +20585,13 @@ unary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif147
-  push r15
-  push 0
+  je  .Lendif231
+### 1396    Node *node = unary();
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
   push r15
   mov rax, OFFSET FLAT:unary
   push rax
@@ -12424,7 +20604,60 @@ unary:
   or rsp, r15
   pop r15
   push rax
-  push 21
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1397    return new_node(ND_ASSIGN, node, new_node(ND_SUB, node, new_node_num(1)));
+  push r15
+  push r15
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 8
   mov rax, OFFSET FLAT:new_node
   push rax
   pop r11
@@ -12447,12 +20680,14 @@ unary:
   pop rbp
   ret
   pop rax
-.Lendif147:
   push rax
   pop rax
-### 945    if (consume("*"))
+.Lendif231:
+  push rax
+  pop rax
+### 1399    if (consume("!"))
   push r15
-  mov rax, OFFSET FLAT:.LC16
+  mov rax, OFFSET FLAT:.LC53
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -12469,7 +20704,7 @@ unary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif148
+  je  .Lendif232
   push r15
   push 0
   push r15
@@ -12484,7 +20719,7 @@ unary:
   or rsp, r15
   pop r15
   push rax
-  push 22
+  push 18
   mov rax, OFFSET FLAT:new_node
   push rax
   pop r11
@@ -12507,12 +20742,306 @@ unary:
   pop rbp
   ret
   pop rax
-.Lendif148:
+.Lendif232:
   push rax
   pop rax
-### 947    return brackets();
+### 1401    if (consume("~"))
   push r15
-  mov rax, OFFSET FLAT:brackets
+  mov rax, OFFSET FLAT:.LC54
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif233
+  push r15
+  push 0
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 19
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif233:
+  push rax
+  pop rax
+### 1404    if (consume("+"))
+  push r15
+  mov rax, OFFSET FLAT:.LC49
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif234
+  push r15
+  mov rax, OFFSET FLAT:postpos
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif234:
+  push rax
+  pop rax
+### 1406    if (consume("-"))
+  push r15
+  mov rax, OFFSET FLAT:.LC50
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif235
+  push r15
+  push r15
+  mov rax, OFFSET FLAT:postpos
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push r15
+  push 0
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif235:
+  push rax
+  pop rax
+### 1408    if (consume("&"))
+  push r15
+  mov rax, OFFSET FLAT:.LC46
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif236
+  push r15
+  push 0
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 36
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif236:
+  push rax
+  pop rax
+### 1410    if (consume("*"))
+  push r15
+  mov rax, OFFSET FLAT:.LC32
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif237
+  push r15
+  push 0
+  push r15
+  mov rax, OFFSET FLAT:unary
+  push rax
+  pop r11
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif237:
+  push rax
+  pop rax
+### 1412    return postpos();
+  push r15
+  mov rax, OFFSET FLAT:postpos
   push rax
   pop r11
   mov rax, 0
@@ -12534,14 +21063,14 @@ unary:
   pop rbp
   ret
 .text
-### 950    Node *brackets() { // TODO:配列アクセス(優先順位は?)
-  .globl brackets
-  .type brackets, @function
-brackets:
+### 1415    Node *postpos() { // TODO:配列アクセス(優先順位は?)
+  .globl postpos
+  .type postpos, @function
+postpos:
   push rbp
   mov rbp, rsp
   sub rsp, 8
-### 952    Node *node = primary();
+### 1416    Node *node = primary();
   push rax
   pop rax
   mov rax, rbp
@@ -12564,11 +21093,14 @@ brackets:
   mov [rax], rdi
   push rdi
   pop rax
-### 954    while (consume("[")) {
-.Lbegin149:
-.Lcontinue149:
+### 1418    for (;;) {
+  push rax
+.Lbegin238:
+  push rax
+  pop rax
+### 1419    if (consume("[")) {
   push r15
-  mov rax, OFFSET FLAT:.LC22
+  mov rax, OFFSET FLAT:.LC38
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -12585,8 +21117,8 @@ brackets:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend149
-### 956    node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
+  je  .Lelse239
+### 1421    node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
   mov rax, rbp
   sub rax, 8
   push rax
@@ -12628,6 +21160,133 @@ brackets:
   call r11
   or rsp, r15
   pop r15
+  push rax
+  push 37
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1422    expect("]");
+  push r15
+  mov rax, OFFSET FLAT:.LC39
+  push rax
+  mov rax, OFFSET FLAT:expect
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif239
+.Lelse239:
+  jmp .Lend238
+  pop rax
+.Lendif239:
+  push rax
+  pop rax
+  push rax
+.Lcontinue238:
+  push rax
+  jmp .Lbegin238
+.Lend238:
+  pop rax
+### 1431    if (consume("++")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC30
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse240
+### 1432    node = new_node(ND_POSTINCR, node, new_node(ND_ADD, node, new_node_num(1)));
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 0
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
   push rax
   push 22
   mov rax, OFFSET FLAT:new_node
@@ -12652,58 +21311,12 @@ brackets:
   mov [rax], rdi
   push rdi
   pop rax
-### 957    expect("]");
+  push rax
+  pop rax
+  jmp .Lendif240
+.Lelse240:
   push r15
-  mov rax, OFFSET FLAT:.LC23
-  push rax
-  mov rax, OFFSET FLAT:expect
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-  jmp .Lbegin149
-.Lend149:
-  push rax
-  pop rax
-### 959    return node;
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-.text
-### 962    Node *primary() {
-  .globl primary
-  .type primary, @function
-primary:
-  push rbp
-  mov rbp, rsp
-  sub rsp, 32
-### 964    if (consume("(")) {
-  push r15
-  mov rax, OFFSET FLAT:.LC17
+  mov rax, OFFSET FLAT:.LC31
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -12720,8 +21333,136 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif150
-### 965    Node *node = expr();
+  je  .Lelse241
+### 1434    node = new_node(ND_POSTDECR, node, new_node(ND_SUB, node, new_node_num(1)));
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  push r15
+  push r15
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:new_node_num
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 23
+  mov rax, OFFSET FLAT:new_node
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif241
+.Lelse241:
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lendif241:
+  push rax
+  pop rax
+.Lendif240:
+  push rax
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 1439    Node *primary() {
+  .globl primary
+  .type primary, @function
+primary:
+  push rbp
+  mov rbp, rsp
+  sub rsp, 32
+### 1441    if (consume("(")) {
+  push r15
+  mov rax, OFFSET FLAT:.LC33
+  push rax
+  mov rax, OFFSET FLAT:consume
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif242
+### 1442    Node *node = expr();
   push rax
   pop rax
   mov rax, rbp
@@ -12744,9 +21485,9 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 966    expect(")");
+### 1443    expect(")");
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -12762,7 +21503,7 @@ primary:
   pop r15
   push rax
   pop rax
-### 967    return node;
+### 1444    return node;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -12776,10 +21517,10 @@ primary:
   pop rax
   push rax
   pop rax
-.Lendif150:
+.Lendif242:
   push rax
   pop rax
-### 970    Token *tok = consume_type(TK_QUOTE);
+### 1447    Token *tok = consume_type(TK_QUOTE);
   push rax
   pop rax
   mov rax, rbp
@@ -12805,7 +21546,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 971    if (tok) { // 文字列リテラル
+### 1448    if (tok) { // 文字列リテラル
   mov rax, rbp
   sub rax, 8
   push rax
@@ -12814,8 +21555,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif151
-### 972    Node *node = calloc(1, sizeof(Node));
+  je  .Lendif243
+### 1449    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -12844,7 +21585,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 973    node->kind = ND_QUOTE;
+### 1450    node->kind = ND_QUOTE;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -12854,13 +21595,13 @@ primary:
   pop rax
   add rax, 0
   push rax
-  push 25
+  push 40
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 974    node->val = strsnum;
+### 1451    node->val = strsnum;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -12880,7 +21621,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 976    Strs *str = calloc(1, sizeof(Strs));
+### 1453    Strs *str = calloc(1, sizeof(Strs));
   push rax
   pop rax
   mov rax, rbp
@@ -12909,7 +21650,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 977    str->next = strs;
+### 1454    str->next = strs;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -12929,7 +21670,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 978    str->text = tok->str;
+### 1455    str->text = tok->str;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -12956,7 +21697,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 979    str->len = tok->len;
+### 1456    str->len = tok->len;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -12983,7 +21724,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 980    str->id = strsnum;
+### 1457    str->id = strsnum;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13003,7 +21744,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 981    strs = str;
+### 1458    strs = str;
   mov rax, OFFSET FLAT:strs
   push rax
   mov rax, rbp
@@ -13017,7 +21758,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 983    strsnum += 1;
+### 1460    strsnum += 1;
   mov rax, OFFSET FLAT:strsnum
   push rax
   mov rax, OFFSET FLAT:strsnum
@@ -13035,7 +21776,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 984    return node;
+### 1461    return node;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13049,10 +21790,10 @@ primary:
   pop rax
   push rax
   pop rax
-.Lendif151:
+.Lendif243:
   push rax
   pop rax
-### 988    tok = consume_type(TK_IDENT);
+### 1465    tok = consume_type(TK_IDENT);
   mov rax, rbp
   sub rax, 8
   push rax
@@ -13076,7 +21817,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 989    if (tok) {
+### 1466    if (tok) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -13085,10 +21826,10 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif152
-### 990    if (consume("(")) { // 関数呼び出し
+  je  .Lendif244
+### 1467    if (consume("(")) { // 関数呼び出し
   push r15
-  mov rax, OFFSET FLAT:.LC17
+  mov rax, OFFSET FLAT:.LC33
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -13105,8 +21846,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse153
-### 991    Node *node = calloc(1, sizeof(Node));
+  je  .Lelse245
+### 1468    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -13135,7 +21876,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 992    node->kind = ND_FUNC;
+### 1469    node->kind = ND_FUNCCALL;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13145,13 +21886,13 @@ primary:
   pop rax
   add rax, 0
   push rax
-  push 18
+  push 33
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 993    node->name = tok->str;
+### 1470    node->name = tok->str;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13178,7 +21919,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 994    node->val = tok->len;
+### 1471    node->val = tok->len;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13205,9 +21946,9 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 996    if (consume(")")) {
+### 1473    if (consume(")")) {
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -13224,8 +21965,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse154
-### 997    return node;
+  je  .Lelse246
+### 1474    return node;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13239,9 +21980,9 @@ primary:
   pop rax
   push rax
   pop rax
-  jmp .Lendif154
-.Lelse154:
-### 1000    Node *tmp = calloc(1, sizeof(Node));
+  jmp .Lendif246
+.Lelse246:
+### 1477    Node *tmp = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -13270,7 +22011,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1001    tmp->kind = ND_ARG;
+### 1478    tmp->kind = ND_ARG;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13280,13 +22021,13 @@ primary:
   pop rax
   add rax, 0
   push rax
-  push 20
+  push 35
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1002    tmp->lhs = expr();
+### 1479    tmp->lhs = assign();
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13297,7 +22038,7 @@ primary:
   add rax, 4
   push rax
   push r15
-  mov rax, OFFSET FLAT:expr
+  mov rax, OFFSET FLAT:assign
   push rax
   pop r11
   mov rax, 0
@@ -13313,7 +22054,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1004    Node *now = tmp;
+### 1481    Node *now = tmp;
   push rax
   pop rax
   mov rax, rbp
@@ -13330,11 +22071,11 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1005    while (consume(",")) {
-.Lbegin155:
-.Lcontinue155:
+### 1482    while (consume(",")) {
+.Lbegin247:
+.Lcontinue247:
   push r15
-  mov rax, OFFSET FLAT:.LC19
+  mov rax, OFFSET FLAT:.LC35
   push rax
   mov rax, OFFSET FLAT:consume
   push rax
@@ -13351,8 +22092,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend155
-### 1006    tmp = calloc(1, sizeof(Node));
+  je  .Lend247
+### 1483    tmp = calloc(1, sizeof(Node));
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13379,7 +22120,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1007    tmp->kind = ND_ARG;
+### 1484    tmp->kind = ND_ARG;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13389,13 +22130,13 @@ primary:
   pop rax
   add rax, 0
   push rax
-  push 20
+  push 35
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1008    tmp->lhs = expr();
+### 1485    tmp->lhs = assign();
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13406,7 +22147,7 @@ primary:
   add rax, 4
   push rax
   push r15
-  mov rax, OFFSET FLAT:expr
+  mov rax, OFFSET FLAT:assign
   push rax
   pop r11
   mov rax, 0
@@ -13422,7 +22163,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1009    tmp->rhs = now;
+### 1486    tmp->rhs = now;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13443,7 +22184,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1010    now = tmp;
+### 1487    now = tmp;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -13460,11 +22201,11 @@ primary:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin155
-.Lend155:
+  jmp .Lbegin247
+.Lend247:
   push rax
   pop rax
-### 1012    node->rhs = now;
+### 1489    node->rhs = now;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13485,9 +22226,9 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1013    expect(")");
+### 1490    expect(")");
   push r15
-  mov rax, OFFSET FLAT:.LC18
+  mov rax, OFFSET FLAT:.LC34
   push rax
   mov rax, OFFSET FLAT:expect
   push rax
@@ -13505,10 +22246,10 @@ primary:
   pop rax
   push rax
   pop rax
-.Lendif154:
+.Lendif246:
   push rax
   pop rax
-### 1015    return node;
+### 1492    return node;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13522,9 +22263,9 @@ primary:
   pop rax
   push rax
   pop rax
-  jmp .Lendif153
-.Lelse153:
-### 1017    Node *node = calloc(1, sizeof(Node));
+  jmp .Lendif245
+.Lelse245:
+### 1494    Node *node = calloc(1, sizeof(Node));
   push rax
   pop rax
   mov rax, rbp
@@ -13553,7 +22294,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1018    node->kind = ND_LVAR;
+### 1495    node->kind = ND_LVAR;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13563,13 +22304,13 @@ primary:
   pop rax
   add rax, 0
   push rax
-  push 17
+  push 32
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1020    LVar *lvar = find_lvar(tok);
+### 1497    LVar *lvar = find_lvar(tok);
   push rax
   pop rax
   mov rax, rbp
@@ -13600,7 +22341,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1021    if (lvar) {
+### 1498    if (lvar) {
   mov rax, rbp
   sub rax, 24
   push rax
@@ -13609,8 +22350,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse156
-### 1022    node->offset = lvar->offset;
+  je  .Lelse248
+### 1499    node->offset = lvar->offset;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13637,7 +22378,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1023    node->val = lvar->len;
+### 1500    node->val = lvar->len;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13664,7 +22405,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1024    node->name = lvar->name;
+### 1501    node->name = lvar->name;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13693,9 +22434,9 @@ primary:
   pop rax
   push rax
   pop rax
-  jmp .Lendif156
-.Lelse156:
-### 1026    GVar *gvar = find_gvar(tok);
+  jmp .Lendif248
+.Lelse248:
+### 1503    GVar *gvar = find_gvar(tok);
   push rax
   pop rax
   mov rax, rbp
@@ -13726,7 +22467,7 @@ primary:
   mov [rax], rdi
   push rdi
   pop rax
-### 1027    if (gvar) {
+### 1504    if (gvar) {
   mov rax, rbp
   sub rax, 32
   push rax
@@ -13735,8 +22476,8 @@ primary:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lelse157
-### 1028    node->offset = gvar->addr;
+  je  .Lelse249
+### 1505    node->offset = gvar->addr;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13763,7 +22504,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1029    node->val = gvar->len;
+### 1506    node->val = gvar->len;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13790,7 +22531,7 @@ primary:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1030    node->name = gvar->name;
+### 1507    node->name = gvar->name;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13819,9 +22560,9 @@ primary:
   pop rax
   push rax
   pop rax
-  jmp .Lendif157
-.Lelse157:
-### 1032    exit(1);
+  jmp .Lendif249
+.Lelse249:
+### 1509    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -13840,15 +22581,15 @@ primary:
   pop rax
   push rax
   pop rax
-.Lendif157:
+.Lendif249:
   push rax
   pop rax
   push rax
   pop rax
-.Lendif156:
+.Lendif248:
   push rax
   pop rax
-### 1035    return node;
+### 1512    return node;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -13862,15 +22603,15 @@ primary:
   pop rax
   push rax
   pop rax
-.Lendif153:
+.Lendif245:
   push rax
   pop rax
   push rax
   pop rax
-.Lendif152:
+.Lendif244:
   push rax
   pop rax
-### 1040    return new_node_num(expect_number());
+### 1517    return new_node_num(expect_number());
   push r15
   push r15
   mov rax, OFFSET FLAT:expect_number
@@ -13908,7 +22649,7 @@ primary:
   pop rbp
   ret
 .text
-### 1043    void gen_lval(Node *node) {
+### 1520    void gen_lval(Node *node) {
   .globl gen_lval
   .type gen_lval, @function
 gen_lval:
@@ -13916,7 +22657,7 @@ gen_lval:
   mov rbp, rsp
   push rdi
   sub rsp, 2064
-### 1044    if (node->kind == ND_DEREF) {
+### 1521    if (node->kind == ND_DEREF) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -13929,7 +22670,7 @@ gen_lval:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  push 22
+  push 37
   pop rdi
   pop rax
   cmp rax, rdi
@@ -13938,8 +22679,8 @@ gen_lval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif158
-### 1045    gen(node->lhs);
+  je  .Lendif250
+### 1522    gen(node->lhs);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -13967,8 +22708,8 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1046    return;
-### 1047    }
+### 1523    return;
+### 1524    }
   push 0
   pop rax
   mov rsp, rbp
@@ -13977,10 +22718,10 @@ gen_lval:
   pop rax
   push rax
   pop rax
-.Lendif158:
+.Lendif250:
   push rax
   pop rax
-### 1049    if (node->kind != ND_LVAR)
+### 1526    if (node->kind != ND_LVAR)
   mov rax, rbp
   sub rax, 8
   push rax
@@ -13993,7 +22734,7 @@ gen_lval:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  push 17
+  push 32
   pop rdi
   pop rax
   cmp rax, rdi
@@ -14002,7 +22743,7 @@ gen_lval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif159
+  je  .Lendif251
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -14019,10 +22760,10 @@ gen_lval:
   pop r15
   push rax
   pop rax
-.Lendif159:
+.Lendif251:
   push rax
   pop rax
-### 1052    Token *tok = calloc(1, sizeof(Token));
+### 1529    Token *tok = calloc(1, sizeof(Token));
   push rax
   pop rax
   mov rax, rbp
@@ -14051,7 +22792,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1053    tok->str = node->name;
+### 1530    tok->str = node->name;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -14078,7 +22819,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1054    tok->len = node->val;
+### 1531    tok->len = node->val;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -14105,7 +22846,7 @@ gen_lval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1055    LVar *lvar = find_lvar(tok);
+### 1532    LVar *lvar = find_lvar(tok);
   push rax
   pop rax
   mov rax, rbp
@@ -14136,7 +22877,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1056    if (lvar) { // ローカル変数
+### 1533    if (lvar) { // ローカル変数
   mov rax, rbp
   sub rax, 24
   push rax
@@ -14145,10 +22886,10 @@ gen_lval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif160
-### 1057    printf("  mov rax, rbp\n");
+  je  .Lendif252
+### 1534    printf("  mov rax, rbp\n");
   push r15
-  mov rax, OFFSET FLAT:.LC32
+  mov rax, OFFSET FLAT:.LC55
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14164,7 +22905,7 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1058    printf("  sub rax, %d\n", node->offset);
+### 1535    printf("  sub rax, %d\n", node->offset);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -14178,7 +22919,7 @@ gen_lval:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC33
+  mov rax, OFFSET FLAT:.LC56
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14196,9 +22937,9 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1059    printf("  push rax\n");
+### 1536    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14214,8 +22955,8 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1060    return;
-### 1061    }
+### 1537    return;
+### 1538    }
   push 0
   pop rax
   mov rsp, rbp
@@ -14224,10 +22965,10 @@ gen_lval:
   pop rax
   push rax
   pop rax
-.Lendif160:
+.Lendif252:
   push rax
   pop rax
-### 1063    tok = calloc(1, sizeof(Token));
+### 1540    tok = calloc(1, sizeof(Token));
   mov rax, rbp
   sub rax, 16
   push rax
@@ -14254,7 +22995,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1064    tok->str = node->name;
+### 1541    tok->str = node->name;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -14281,7 +23022,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1065    tok->len = node->val;
+### 1542    tok->len = node->val;
   mov rax, rbp
   sub rax, 16
   push rax
@@ -14308,7 +23049,7 @@ gen_lval:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1066    GVar *gvar = find_gvar(tok);
+### 1543    GVar *gvar = find_gvar(tok);
   push rax
   pop rax
   mov rax, rbp
@@ -14339,7 +23080,7 @@ gen_lval:
   mov [rax], rdi
   push rdi
   pop rax
-### 1067    if (gvar) { // グローバル変数
+### 1544    if (gvar) { // グローバル変数
   mov rax, rbp
   sub rax, 32
   push rax
@@ -14348,11 +23089,11 @@ gen_lval:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif161
-### 1068    char name[255];
+  je  .Lendif253
+### 1545    char name[255];
   push rax
   pop rax
-### 1069    strncpy(name, node->name, node->val);
+### 1546    strncpy(name, node->name, node->val);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -14399,7 +23140,7 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1070    name[node->val] = '\0';
+### 1547    name[node->val] = '\0';
   mov rax, rbp
   sub rax, 2072
   push rax
@@ -14425,12 +23166,12 @@ gen_lval:
   mov [rax], dil
   push rdi
   pop rax
-### 1073    printf("  mov rax, OFFSET FLAT:%s\n", name);
+### 1550    printf("  mov rax, OFFSET FLAT:%s\n", name);
   push r15
   mov rax, rbp
   sub rax, 2072
   push rax
-  mov rax, OFFSET FLAT:.LC35
+  mov rax, OFFSET FLAT:.LC58
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14448,9 +23189,9 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1074    printf("  push rax\n");
+### 1551    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14466,8 +23207,8 @@ gen_lval:
   pop r15
   push rax
   pop rax
-### 1075    return;
-### 1076    }
+### 1552    return;
+### 1553    }
   push 0
   pop rax
   mov rsp, rbp
@@ -14476,10 +23217,10 @@ gen_lval:
   pop rax
   push rax
   pop rax
-.Lendif161:
+.Lendif253:
   push rax
   pop rax
-### 1077    exit(1);
+### 1554    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -14501,24 +23242,24 @@ gen_lval:
   mov rsp, rbp
   pop rbp
   ret
-### 1080    int branch_label = 0;
+### 1557    int branch_label = 0;
   .globl branch_label
   .data
 branch_label:
   .long 0
 .text
-### 1082    void gen(Node *node) {
+### 1559    void gen(Node *node) {
   .globl gen
   .type gen, @function
 gen:
   push rbp
   mov rbp, rsp
   push rdi
-  sub rsp, 2072
-### 1083    char name[255];
+  sub rsp, 2080
+### 1560    char name[255];
   push rax
   pop rax
-### 1084    if (node == 0) {
+### 1561    if (node == 0) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -14534,10 +23275,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif162
-### 1085    printf("  push rax\n");
+  je  .Lendif254
+### 1562    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14553,8 +23294,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1086    return;
-### 1087    }
+### 1563    return;
+### 1564    }
   push 0
   pop rax
   mov rsp, rbp
@@ -14563,10 +23304,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif162:
+.Lendif254:
   push rax
   pop rax
-### 1088    if (node->kind == ND_VALDEF) {
+### 1565    if (node->kind == ND_VALDEF) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -14579,7 +23320,7 @@ gen:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  push 23
+  push 38
   pop rdi
   pop rax
   cmp rax, rdi
@@ -14588,10 +23329,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif163
-### 1089    printf("  push rax\n");
+  je  .Lendif255
+### 1566    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -14607,8 +23348,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1090    return;
-### 1091    }
+### 1567    return;
+### 1568    }
   push 0
   pop rax
   mov rsp, rbp
@@ -14617,10 +23358,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif163:
+.Lendif255:
   push rax
   pop rax
-### 1092    if (node->kind == ND_GVALDEF) {
+### 1569    if (node->kind == ND_GVALDEF) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -14633,7 +23374,7 @@ gen:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  push 24
+  push 39
   pop rdi
   pop rax
   cmp rax, rdi
@@ -14642,8 +23383,8 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif164
-### 1093    strncpy(name, node->name, node->val);
+  je  .Lendif256
+### 1570    strncpy(name, node->name, node->val);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -14690,7 +23431,7 @@ gen:
   pop r15
   push rax
   pop rax
-### 1094    name[node->val] = '\0';
+### 1571    name[node->val] = '\0';
   mov rax, rbp
   sub rax, 2048
   push rax
@@ -14716,1272 +23457,10 @@ gen:
   mov [rax], dil
   push rdi
   pop rax
-### 1095    printf("  .globl %s\n", name);
+### 1572    printf("  .globl %s\n", name);
   push r15
   mov rax, rbp
   sub rax, 2048
-  push rax
-  mov rax, OFFSET FLAT:.LC36
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1096    printf("%s:\n", name);
-  push r15
-  mov rax, rbp
-  sub rax, 2048
-  push rax
-  mov rax, OFFSET FLAT:.LC37
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1097    printf("  .zero %d\n", node->offset);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 24
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC38
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1098    return;
-### 1099    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif164:
-  push rax
-  pop rax
-### 1100    if (node->kind == ND_FUNCDEF) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 19
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif165
-### 1101    strncpy(name, node->name, node->val);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 20
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 28
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 2048
-  push rax
-  mov rax, OFFSET FLAT:strncpy
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  pop rax
-  mov rdx, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1102    name[node->val] = '\0';
-  mov rax, rbp
-  sub rax, 2048
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 20
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], dil
-  push rdi
-  pop rax
-### 1103    printf("  .globl %s\n", name);
-  push r15
-  mov rax, rbp
-  sub rax, 2048
-  push rax
-  mov rax, OFFSET FLAT:.LC36
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1104    printf("%s:\n", name);
-  push r15
-  mov rax, rbp
-  sub rax, 2048
-  push rax
-  mov rax, OFFSET FLAT:.LC37
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1107    printf("  push rbp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC39
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1108    printf("  mov rbp, rsp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC40
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1110    Node *tmparg = node;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 1111    int i = 0;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 1112    while (tmparg) {
-.Lbegin166:
-.Lcontinue166:
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lend166
-### 1113    switch (i) {
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lcase167_0
-  cmp rax, 1
-  je .Lcase167_1
-  cmp rax, 2
-  je .Lcase167_2
-  cmp rax, 3
-  je .Lcase167_3
-  cmp rax, 4
-  je .Lcase167_4
-  cmp rax, 5
-  je .Lcase167_5
-  jmp .Lend167
-.Lcase167_0:
-  push r15
-  mov rax, OFFSET FLAT:.LC41
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lcase167_1:
-  push r15
-  mov rax, OFFSET FLAT:.LC42
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lcase167_2:
-  push r15
-  mov rax, OFFSET FLAT:.LC43
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lcase167_3:
-  push r15
-  mov rax, OFFSET FLAT:.LC44
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lcase167_4:
-  push r15
-  mov rax, OFFSET FLAT:.LC45
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lcase167_5:
-  push r15
-  mov rax, OFFSET FLAT:.LC46
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend167
-  pop rax
-.Lend167:
-  push rax
-  pop rax
-### 1121    if (i >= 6) {
-  push 6
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  setle al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif168
-### 1123    printf("  push [rbp+rbx+%d]\n", 16 + (i - 6) * 8);
-  push r15
-  push 16
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 6
-  pop rdi
-  pop rax
-  sub rax, rdi
-  push rax
-  push 8
-  pop rdi
-  pop rax
-  imul rax, rdi
-  push rax
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  mov rax, OFFSET FLAT:.LC47
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif168:
-  push rax
-  pop rax
-### 1125    tmparg = tmparg->lhs;
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 1126    i++;
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  pop rax
-  mov edi, DWORD PTR [rax]
-  push rdi
-  add rdi, 1
-  mov DWORD PTR [rax], edi
-  pop rax
-  push rax
-  pop rax
-  jmp .Lbegin166
-.Lend166:
-  push rax
-  pop rax
-### 1129    printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
-  push r15
-  mov rax, OFFSET FLAT:localsnum
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, rbp
-  sub rax, 2064
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  sub rax, rdi
-  push rax
-  push 1
-  pop rdi
-  pop rax
-  add rax, rdi
-  push rax
-  push 8
-  pop rdi
-  pop rax
-  imul rax, rdi
-  push rax
-  mov rax, OFFSET FLAT:.LC48
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1131    gen(node->rhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1132    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1136    printf("  mov rsp, rbp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC50
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1137    printf("  pop rbp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC51
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1138    printf("  ret\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC52
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1139    return;
-### 1140    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif165:
-  push rax
-  pop rax
-### 1142    if (node->kind == ND_BLOCK) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 16
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif169
-### 1143    gen(node->lhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1144    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1145    gen(node->rhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1146    return;
-### 1147    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif169:
-  push rax
-  pop rax
-### 1149    if (node->kind == ND_IF) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 11
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif170
-### 1150    int id = branch_label;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 1151    branch_label++;
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  mov edi, DWORD PTR [rax]
-  push rdi
-  add rdi, 1
-  mov DWORD PTR [rax], edi
-  pop rax
-### 1152    gen(node->lhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1153    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1154    printf("  cmp rax, 0\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC53
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1155    if (node->rhs->kind == ND_ELSE) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 12
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lelse171
-### 1156    printf("  je  .Lelse%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC54
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1157    gen(node->rhs->lhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1158    printf("  jmp .Lend%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC55
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1159    printf(".Lelse%d:\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC56
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1160    gen(node->rhs->rhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-  jmp .Lendif171
-.Lelse171:
-### 1162    printf("  je  .Lend%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC57
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1163    gen(node->rhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push rax
-  pop rax
-.Lendif171:
-  push rax
-  pop rax
-### 1165    printf(".Lend%d:\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC58
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1166    return;
-### 1167    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif170:
-  push rax
-  pop rax
-### 1169    if (node->kind == ND_WHILE) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 13
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif172
-### 1170    int id = branch_label;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 1171    branch_label++;
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  mov edi, DWORD PTR [rax]
-  push rdi
-  add rdi, 1
-  mov DWORD PTR [rax], edi
-  pop rax
-### 1172    printf(".Lbegin%d:\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC59
   push rax
@@ -16001,132 +23480,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1173    gen(node->lhs);
+### 1573    printf("  .data\n");
   push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1174    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1175    printf("  cmp rax, 0\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC53
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1176    printf("  je  .Lend%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC57
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1177    gen(node->rhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1178    printf("  jmp .Lbegin%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
   mov rax, OFFSET FLAT:.LC60
   push rax
   mov rax, OFFSET FLAT:printf
@@ -16134,8 +23489,6 @@ gen:
   pop r11
   pop rax
   mov rdi, rax
-  pop rax
-  mov rsi, rax
   mov rax, 0
   mov r15, rsp
   and r15, 0xF
@@ -16145,15 +23498,12 @@ gen:
   pop r15
   push rax
   pop rax
-### 1179    printf(".Lend%d:\n", id);
+### 1574    printf("%s:\n", name);
   push r15
   mov rax, rbp
-  sub rax, 2056
+  sub rax, 2048
   push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC58
+  mov rax, OFFSET FLAT:.LC61
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -16171,614 +23521,15 @@ gen:
   pop r15
   push rax
   pop rax
-### 1180    return;
-### 1181    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif172:
-  push rax
-  pop rax
-### 1183    if (node->kind == ND_FOR) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 14
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif173
-### 1184    int id = branch_label;
+### 1576    Type *type = estimate_type(node);
   push rax
   pop rax
   mov rax, rbp
   sub rax, 2056
   push rax
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rdi
-  pop rax
-  mov DWORD PTR [rax], edi
-  push rdi
-  pop rax
-### 1185    branch_label++;
-  mov rax, OFFSET FLAT:branch_label
-  push rax
-  pop rax
-  mov edi, DWORD PTR [rax]
-  push rdi
-  add rdi, 1
-  mov DWORD PTR [rax], edi
-  pop rax
-### 1187    gen(node->lhs); // A
   push r15
   mov rax, rbp
   sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1188    printf(".Lbegin%d:\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC59
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1189    gen(node->rhs->lhs); // B
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1190    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1191    printf("  cmp rax, 0\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC53
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1192    printf("  je  .Lend%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC57
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1193    gen(node->rhs->rhs->rhs); // D
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1194    gen(node->rhs->rhs->lhs); // C
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 12
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1195    printf("  jmp .Lbegin%d\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC60
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1196    printf(".Lend%d:\n", id);
-  push r15
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  mov rax, OFFSET FLAT:.LC58
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  pop rax
-  mov rsi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1197    return;
-### 1198    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif173:
-  push rax
-  pop rax
-### 1200    if (node->kind == ND_RETURN) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 10
-  pop rdi
-  pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif174
-### 1201    gen(node->lhs);
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1202    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1203    printf("  mov rsp, rbp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC50
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1204    printf("  pop rbp\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC51
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1205    printf("  ret\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC52
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1206    return;
-### 1207    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif174:
-  push rax
-  pop rax
-### 1209    Type *type = 0;
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  push 0
-  pop rdi
-  pop rax
-  mov [rax], rdi
-  push rdi
-  pop rax
-### 1211    switch (node->kind) {
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rax
-  cmp rax, 21
-  je .Lcase175_0
-  cmp rax, 22
-  je .Lcase175_1
-  cmp rax, 26
-  je .Lcase175_2
-  cmp rax, 25
-  je .Lcase175_3
-  cmp rax, 17
-  je .Lcase175_4
-  cmp rax, 8
-  je .Lcase175_5
-  cmp rax, 18
-  je .Lcase175_6
-  jmp .Lend175
-.Lcase175_0:
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen_lval
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1215    case ND_DEREF:
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-.Lcase175_1:
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  mov rax, OFFSET FLAT:gen
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  push r15
-  mov rax, rbp
-  sub rax, 8
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 4
   push rax
   pop rax
   mov rax, [rax]
@@ -16801,6 +23552,7 @@ gen:
   mov [rax], rdi
   push rdi
   pop rax
+### 1577    if (type && type->ptr_to) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -16809,8 +23561,32 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif176
-### 1219    type = type->ptr_to;
+  je .Lor1_258
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_258
+  mov rax, 1
+  jmp .Lorend_258
+.Lor1_258:
+  mov rax, 0
+.Lorend_258:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif257
+### 1578    type = type->ptr_to;
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -16833,55 +23609,32 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif176:
+.Lendif257:
+  push rax
+  pop rax
+### 1581    int size = 4;
   push rax
   pop rax
   mov rax, rbp
-  sub rax, 2056
+  sub rax, 2064
   push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je  .Lendif177
-### 1222    if (type->ty == ARRAY) {
-  mov rax, rbp
-  sub rax, 2056
-  push rax
-  pop rax
-  mov rax, [rax]
-  push rax
-  pop rax
-  add rax, 0
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  push 3
+  push 4
   pop rdi
   pop rax
-  cmp rax, rdi
-  sete al
-  movzb rax, al
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1585    if (type) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif178
-### 1224    return;
-### 1225    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-  push rax
-  pop rax
-.Lendif178:
-  push rax
-  pop rax
-### 1226    if (type->ty == CHAR) {
+  je  .Lendif259
+### 1586    if (type->ty == CHAR) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -16903,75 +23656,23 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif179
-### 1228    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
+  je  .Lendif260
+### 1587    size = 1;
+  mov rax, rbp
+  sub rax, 2064
   push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
+  push 1
+  pop rdi
   pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1229    printf("  movzx eax, BYTE PTR [rax]\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC61
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1230    printf("  push rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC34
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1231    return;
-### 1232    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
+  mov DWORD PTR [rax], edi
+  push rdi
   pop rax
   push rax
   pop rax
-.Lendif179:
+.Lendif260:
   push rax
   pop rax
-### 1233    if (type->ty == INT) {
+### 1589    if (type->ty == INT) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -16993,27 +23694,164 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif180
-### 1235    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
+  je  .Lendif261
+### 1590    size = 4;
+  mov rax, rbp
+  sub rax, 2064
   push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
+  push 4
+  pop rdi
   pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
   push rax
   pop rax
-### 1236    printf("  movslq rax, DWORD PTR [rax]\n");
+.Lendif261:
+  push rax
+  pop rax
+### 1592    if (type->ty == PTR) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif262
+### 1593    size = 8;
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  push 8
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif262:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif259:
+  push rax
+  pop rax
+### 1597    Node *initval = node->rhs;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2072
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1598    int nowindex = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2080
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1599    int remainsize = node->offset;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2088
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1600    while (initval) {
+.Lbegin263:
+.Lcontinue263:
+  mov rax, rbp
+  sub rax, 2072
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend263
+### 1601    switch (size) {
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 1
+  je .Lcase264_0
+  cmp rax, 4
+  je .Lcase264_1
+  cmp rax, 8
+  je .Lcase264_2
+  jmp .Lend264
+.Lcase264_0:
   push r15
+  mov rax, rbp
+  sub rax, 2072
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
   mov rax, OFFSET FLAT:.LC62
   push rax
   mov rax, OFFSET FLAT:printf
@@ -17021,6 +23859,8 @@ gen:
   pop r11
   pop rax
   mov rdi, rax
+  pop rax
+  mov rsi, rax
   mov rax, 0
   mov r15, rsp
   and r15, 0xF
@@ -17030,60 +23870,41 @@ gen:
   pop r15
   push rax
   pop rax
-### 1237    printf("  push rax\n");
+  mov rax, rbp
+  sub rax, 2088
+  push rax
+  mov rax, rbp
+  sub rax, 2088
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  sub rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  jmp .Lend264
+  pop rax
+.Lcase264_1:
   push r15
-  mov rax, OFFSET FLAT:.LC34
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
+  mov rax, rbp
+  sub rax, 2072
   push rax
   pop rax
-### 1238    return;
-### 1239    }
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
+  mov rax, [rax]
   push rax
   pop rax
-.Lendif180:
+  add rax, 20
   push rax
   pop rax
+  movslq rax, DWORD PTR [rax]
   push rax
-  pop rax
-.Lendif177:
-  push rax
-  pop rax
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push r15
   mov rax, OFFSET FLAT:.LC63
   push rax
   mov rax, OFFSET FLAT:printf
@@ -17091,6 +23912,8 @@ gen:
   pop r11
   pop rax
   mov rdi, rax
+  pop rax
+  mov rsi, rax
   mov rax, 0
   mov r15, rsp
   and r15, 0xF
@@ -17100,34 +23923,31 @@ gen:
   pop r15
   push rax
   pop rax
-  push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, rbp
+  sub rax, 2088
   push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
+  mov rax, rbp
+  sub rax, 2088
   push rax
   pop rax
-### 1245    case ND_NUM:
-  push 0
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 4
+  pop rdi
   pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
+  sub rax, rdi
+  push rax
+  pop rdi
   pop rax
-.Lcase175_2:
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  jmp .Lend264
+  pop rax
+.Lcase264_2:
   push r15
   mov rax, rbp
-  sub rax, 8
+  sub rax, 2072
   push rax
   pop rax
   mov rax, [rax]
@@ -17156,23 +23976,87 @@ gen:
   pop r15
   push rax
   pop rax
-### 1248    case ND_QUOTE:
-  push 0
-  pop rax
-  mov rsp, rbp
-  pop rbp
-  ret
-  pop rax
-.Lcase175_3:
-  push r15
   mov rax, rbp
-  sub rax, 8
+  sub rax, 2088
+  push rax
+  mov rax, rbp
+  sub rax, 2088
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 8
+  pop rdi
+  pop rax
+  sub rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  jmp .Lend264
+  pop rax
+.Lend264:
+  push rax
+  pop rax
+### 1615    initval = initval->rhs;
+  mov rax, rbp
+  sub rax, 2072
+  push rax
+  mov rax, rbp
+  sub rax, 2072
   push rax
   pop rax
   mov rax, [rax]
   push rax
   pop rax
-  add rax, 20
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1616    nowindex++;
+  mov rax, rbp
+  sub rax, 2080
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin263
+.Lend263:
+  push rax
+  pop rax
+### 1618    if (remainsize > 0)
+  push 0
+  mov rax, rbp
+  sub rax, 2088
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setl al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif265
+  push r15
+  mov rax, rbp
+  sub rax, 2088
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
@@ -17195,8 +24079,167 @@ gen:
   pop r15
   push rax
   pop rax
+.Lendif265:
+  push rax
+  pop rax
+### 1620    return;
+### 1621    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif256:
+  push rax
+  pop rax
+### 1622    if (node->kind == ND_FUNCDEF) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 34
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif266
+### 1623    strncpy(name, node->name, node->val);
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 2048
+  push rax
+  mov rax, OFFSET FLAT:strncpy
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1624    name[node->val] = '\0';
+  mov rax, rbp
+  sub rax, 2048
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], dil
+  push rdi
+  pop rax
+### 1625    printf("  .globl %s\n", name);
+  push r15
+  mov rax, rbp
+  sub rax, 2048
+  push rax
+  mov rax, OFFSET FLAT:.LC59
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1626    printf("%s:\n", name);
+  push r15
+  mov rax, rbp
+  sub rax, 2048
+  push rax
+  mov rax, OFFSET FLAT:.LC61
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1629    printf("  push rbp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC66
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17212,14 +24255,2259 @@ gen:
   pop r15
   push rax
   pop rax
-### 1253    case ND_LVAR:
+### 1630    printf("  mov rbp, rsp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC67
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1632    Node *tmparg = node;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1633    int i = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1634    while (tmparg) {
+.Lbegin267:
+.Lcontinue267:
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend267
+### 1635    switch (i) {
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcase268_0
+  cmp rax, 1
+  je .Lcase268_1
+  cmp rax, 2
+  je .Lcase268_2
+  cmp rax, 3
+  je .Lcase268_3
+  cmp rax, 4
+  je .Lcase268_4
+  cmp rax, 5
+  je .Lcase268_5
+  jmp .Lend268
+.Lcase268_0:
+  push r15
+  mov rax, OFFSET FLAT:.LC68
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lcase268_1:
+  push r15
+  mov rax, OFFSET FLAT:.LC69
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lcase268_2:
+  push r15
+  mov rax, OFFSET FLAT:.LC70
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lcase268_3:
+  push r15
+  mov rax, OFFSET FLAT:.LC71
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lcase268_4:
+  push r15
+  mov rax, OFFSET FLAT:.LC72
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lcase268_5:
+  push r15
+  mov rax, OFFSET FLAT:.LC73
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend268
+  pop rax
+.Lend268:
+  push rax
+  pop rax
+### 1643    if (i >= 6) {
+  push 6
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  setle al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif269
+### 1645    printf("  push [rbp+rbx+%d]\n", 16 + (i - 6) * 8);
+  push r15
+  push 16
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 6
+  pop rdi
+  pop rax
+  sub rax, rdi
+  push rax
+  push 8
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  mov rax, OFFSET FLAT:.LC74
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif269:
+  push rax
+  pop rax
+### 1647    tmparg = tmparg->lhs;
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1648    i++;
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin267
+.Lend267:
+  push rax
+  pop rax
+### 1651    printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
+  push r15
+  mov rax, OFFSET FLAT:localsnum
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  sub rax, rdi
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  push 8
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  mov rax, OFFSET FLAT:.LC75
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1653    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1654    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1658    printf("  mov rsp, rbp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC77
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1659    printf("  pop rbp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC78
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1660    printf("  ret\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC79
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1661    return;
+### 1662    }
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
   pop rax
-.Lcase175_4:
+  push rax
+  pop rax
+.Lendif266:
+  push rax
+  pop rax
+### 1664    if (node->kind == ND_BLOCK) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif270
+### 1665    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1666    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1667    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1668    return;
+### 1669    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif270:
+  push rax
+  pop rax
+### 1671    if (node->kind == ND_IF) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 26
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif271
+### 1672    int id = branch_label;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1673    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1674    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1675    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1676    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1677    if (node->rhs->kind == ND_ELSE) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 27
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lelse272
+### 1678    printf("  je  .Lelse%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC81
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1679    gen(node->rhs->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1680    printf("  jmp .Lend%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC82
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1681    printf(".Lelse%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC83
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1682    gen(node->rhs->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+  jmp .Lendif272
+.Lelse272:
+### 1684    printf("  je  .Lend%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC84
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1685    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif272:
+  push rax
+  pop rax
+### 1687    printf(".Lend%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC85
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1688    return;
+### 1689    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif271:
+  push rax
+  pop rax
+### 1691    if (node->kind == ND_WHILE) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 28
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif273
+### 1692    int id = branch_label;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1693    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1694    printf(".Lbegin%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC86
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1695    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1696    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1697    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1698    printf("  je  .Lend%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC84
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1699    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1700    printf("  jmp .Lbegin%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC87
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1701    printf(".Lend%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC85
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1702    return;
+### 1703    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif273:
+  push rax
+  pop rax
+### 1705    if (node->kind == ND_FOR) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 29
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif274
+### 1706    int id = branch_label;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1707    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1709    gen(node->lhs); // A
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1710    printf(".Lbegin%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC86
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1711    gen(node->rhs->lhs); // B
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1712    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1713    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1714    printf("  je  .Lend%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC84
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1715    gen(node->rhs->rhs->rhs); // D
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1716    gen(node->rhs->rhs->lhs); // C
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1717    printf("  jmp .Lbegin%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC87
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1718    printf(".Lend%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC85
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1719    return;
+### 1720    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif274:
+  push rax
+  pop rax
+### 1722    if (node->kind == ND_RETURN) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 25
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif275
+### 1723    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1724    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1725    printf("  mov rsp, rbp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC77
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1726    printf("  pop rbp\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC78
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1727    printf("  ret\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC79
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1728    return;
+### 1729    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif275:
+  push rax
+  pop rax
+### 1731    Type *type = 0;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1733    switch (node->kind) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 36
+  je .Lcase276_0
+  cmp rax, 37
+  je .Lcase276_1
+  cmp rax, 41
+  je .Lcase276_2
+  cmp rax, 40
+  je .Lcase276_3
+  cmp rax, 32
+  je .Lcase276_4
+  cmp rax, 8
+  je .Lcase276_5
+  cmp rax, 33
+  je .Lcase276_6
+  jmp .Lend276
+.Lcase276_0:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen_lval
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1737    case ND_DEREF:
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase276_1:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif277
+### 1741    type = type->ptr_to;
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif277:
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif278
+### 1744    if (type->ty == ARRAY) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 3
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif279
+### 1746    return;
+### 1747    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif279:
+  push rax
+  pop rax
+### 1748    if (type->ty == CHAR) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif280
+### 1750    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1751    printf("  movzx eax, BYTE PTR [rax]\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC88
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1752    printf("  push rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1753    return;
+### 1754    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif280:
+  push rax
+  pop rax
+### 1755    if (type->ty == INT) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif281
+### 1757    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1758    printf("  movslq rax, DWORD PTR [rax]\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC89
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1759    printf("  push rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1760    return;
+### 1761    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif281:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif278:
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC90
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1767    case ND_NUM:
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase276_2:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC91
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1770    case ND_QUOTE:
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase276_3:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC92
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1775    case ND_LVAR:
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase276_4:
   push r15
   mov rax, rbp
   sub rax, 8
@@ -17277,8 +26565,8 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif181
-### 1257    if (type->ty == ARRAY) {
+  je  .Lendif282
+### 1779    if (type->ty == ARRAY) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17300,9 +26588,9 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif182
-### 1259    return;
-### 1260    }
+  je  .Lendif283
+### 1781    return;
+### 1782    }
   push 0
   pop rax
   mov rsp, rbp
@@ -17311,10 +26599,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif182:
+.Lendif283:
   push rax
   pop rax
-### 1261    if (type->ty == CHAR) {
+### 1783    if (type->ty == CHAR) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17336,10 +26624,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif183
-### 1263    printf("  pop rax\n");
+  je  .Lendif284
+### 1785    printf("  pop rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17355,9 +26643,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1264    printf("  movzx eax, BYTE PTR [rax]\n");
+### 1786    printf("  movzx eax, BYTE PTR [rax]\n");
   push r15
-  mov rax, OFFSET FLAT:.LC61
+  mov rax, OFFSET FLAT:.LC88
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17373,9 +26661,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1265    printf("  push rax\n");
+### 1787    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17391,8 +26679,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1266    return;
-### 1267    }
+### 1788    return;
+### 1789    }
   push 0
   pop rax
   mov rsp, rbp
@@ -17401,10 +26689,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif183:
+.Lendif284:
   push rax
   pop rax
-### 1268    if (type->ty == INT) {
+### 1790    if (type->ty == INT) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17426,10 +26714,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif184
-### 1270    printf("  pop rax\n");
+  je  .Lendif285
+### 1792    printf("  pop rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17445,9 +26733,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1271    printf("  movslq rax, DWORD PTR [rax]\n");
+### 1793    printf("  movslq rax, DWORD PTR [rax]\n");
   push r15
-  mov rax, OFFSET FLAT:.LC62
+  mov rax, OFFSET FLAT:.LC89
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17463,9 +26751,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1272    printf("  push rax\n");
+### 1794    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17481,8 +26769,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1273    return;
-### 1274    }
+### 1795    return;
+### 1796    }
   push 0
   pop rax
   mov rsp, rbp
@@ -17491,16 +26779,16 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif184:
+.Lendif285:
   push rax
   pop rax
   push rax
   pop rax
-.Lendif181:
+.Lendif282:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17517,7 +26805,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC66
+  mov rax, OFFSET FLAT:.LC93
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17534,7 +26822,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17550,14 +26838,14 @@ gen:
   pop r15
   push rax
   pop rax
-### 1280    case ND_ASSIGN:
+### 1802    case ND_ASSIGN:
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
   pop rax
-.Lcase175_5:
+.Lcase276_5:
   push r15
   mov rax, rbp
   sub rax, 8
@@ -17654,8 +26942,8 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif185
-### 1286    if (type->ty == ARRAY) {
+  je  .Lendif286
+### 1808    if (type->ty == ARRAY) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17677,8 +26965,8 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif186
-### 1287    exit(1);
+  je  .Lendif287
+### 1809    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -17697,10 +26985,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif186:
+.Lendif287:
   push rax
   pop rax
-### 1289    if (type->ty == CHAR) {
+### 1811    if (type->ty == CHAR) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17722,10 +27010,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif187
-### 1291    printf("  pop rdi\n");
+  je  .Lendif288
+### 1813    printf("  pop rdi\n");
   push r15
-  mov rax, OFFSET FLAT:.LC67
+  mov rax, OFFSET FLAT:.LC94
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17741,9 +27029,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1292    printf("  pop rax\n");
+### 1814    printf("  pop rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17759,7 +27047,25 @@ gen:
   pop r15
   push rax
   pop rax
-### 1293    printf("  mov [rax], dil\n");
+### 1815    printf("  mov [rax], dil\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC95
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1816    printf("  push rdi\n");
   push r15
   mov rax, OFFSET FLAT:.LC68
   push rax
@@ -17777,26 +27083,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1294    printf("  push rdi\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC41
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1295    return;
-### 1296    }
+### 1817    return;
+### 1818    }
   push 0
   pop rax
   mov rsp, rbp
@@ -17805,10 +27093,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif187:
+.Lendif288:
   push rax
   pop rax
-### 1297    if (type->ty == INT) {
+### 1819    if (type->ty == INT) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -17830,10 +27118,10 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif188
-### 1299    printf("  pop rdi\n");
+  je  .Lendif289
+### 1821    printf("  pop rdi\n");
   push r15
-  mov rax, OFFSET FLAT:.LC67
+  mov rax, OFFSET FLAT:.LC94
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17849,9 +27137,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1300    printf("  pop rax\n");
+### 1822    printf("  pop rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17867,9 +27155,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1301    printf("  mov DWORD PTR [rax], edi\n");
+### 1823    printf("  mov DWORD PTR [rax], edi\n");
   push r15
-  mov rax, OFFSET FLAT:.LC69
+  mov rax, OFFSET FLAT:.LC96
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17885,9 +27173,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1302    printf("  push rdi\n");
+### 1824    printf("  push rdi\n");
   push r15
-  mov rax, OFFSET FLAT:.LC41
+  mov rax, OFFSET FLAT:.LC68
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17903,8 +27191,8 @@ gen:
   pop r15
   push rax
   pop rax
-### 1303    return;
-### 1304    }
+### 1825    return;
+### 1826    }
   push 0
   pop rax
   mov rsp, rbp
@@ -17913,16 +27201,16 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif188:
+.Lendif289:
   push rax
   pop rax
   push rax
   pop rax
-.Lendif185:
+.Lendif286:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC67
+  mov rax, OFFSET FLAT:.LC94
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17939,7 +27227,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC76
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17956,7 +27244,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC70
+  mov rax, OFFSET FLAT:.LC97
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17973,7 +27261,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC41
+  mov rax, OFFSET FLAT:.LC68
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -17989,14 +27277,14 @@ gen:
   pop r15
   push rax
   pop rax
-### 1311    case ND_FUNC: // 関数呼び出し
+### 1833    case ND_FUNCCALL: // 関数呼び出し
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
   pop rax
-.Lcase175_6:
+.Lcase276_6:
   push r15
   mov rax, rbp
   sub rax, 8
@@ -18095,8 +27383,8 @@ gen:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-.Lbegin189:
-.Lcontinue189:
+.Lbegin290:
+.Lcontinue290:
   mov rax, rbp
   sub rax, 2064
   push rax
@@ -18111,8 +27399,8 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend189
-### 1319    i++;
+  je  .Lend290
+### 1841    i++;
   mov rax, rbp
   sub rax, 2072
   push rax
@@ -18122,7 +27410,7 @@ gen:
   add rdi, 1
   mov DWORD PTR [rax], edi
   pop rax
-### 1320    now = now->rhs;
+### 1842    now = now->rhs;
   mov rax, rbp
   sub rax, 2064
   push rax
@@ -18143,7 +27431,7 @@ gen:
   mov [rax], rdi
   push rdi
   pop rax
-### 1321    gen(now->lhs);
+### 1843    gen(now->lhs);
   push r15
   mov rax, rbp
   sub rax, 2064
@@ -18173,8 +27461,8 @@ gen:
   pop rax
   push rax
   pop rax
-  jmp .Lbegin189
-.Lend189:
+  jmp .Lbegin290
+.Lend290:
   push rax
   pop rax
   push rax
@@ -18187,7 +27475,7 @@ gen:
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
-.Lbegin190:
+.Lbegin291:
   mov rax, rbp
   sub rax, 2080
   push rax
@@ -18208,7 +27496,7 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_191
+  je .Lor1_292
   mov rax, rbp
   sub rax, 2080
   push rax
@@ -18224,156 +27512,17 @@ gen:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor1_191
+  je .Lor1_292
   mov rax, 1
-  jmp .Lorend_191
-.Lor1_191:
+  jmp .Lorend_292
+.Lor1_292:
   mov rax, 0
-.Lorend_191:
+.Lorend_292:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend190
-### 1325    printf("  pop rax\n");
-  push r15
-  mov rax, OFFSET FLAT:.LC49
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-### 1326    switch (k) {
-  mov rax, rbp
-  sub rax, 2080
-  push rax
-  pop rax
-  movslq rax, DWORD PTR [rax]
-  push rax
-  pop rax
-  cmp rax, 0
-  je .Lcase192_0
-  cmp rax, 1
-  je .Lcase192_1
-  cmp rax, 2
-  je .Lcase192_2
-  cmp rax, 3
-  je .Lcase192_3
-  cmp rax, 4
-  je .Lcase192_4
-  cmp rax, 5
-  je .Lcase192_5
-  jmp .Lend192
-.Lcase192_0:
-  push r15
-  mov rax, OFFSET FLAT:.LC71
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend192
-  pop rax
-.Lcase192_1:
-  push r15
-  mov rax, OFFSET FLAT:.LC72
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend192
-  pop rax
-.Lcase192_2:
-  push r15
-  mov rax, OFFSET FLAT:.LC73
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend192
-  pop rax
-.Lcase192_3:
-  push r15
-  mov rax, OFFSET FLAT:.LC74
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend192
-  pop rax
-.Lcase192_4:
-  push r15
-  mov rax, OFFSET FLAT:.LC75
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend192
-  pop rax
-.Lcase192_5:
+  je  .Lend291
+### 1847    printf("  pop rax\n");
   push r15
   mov rax, OFFSET FLAT:.LC76
   push rax
@@ -18391,13 +27540,152 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend192
+### 1848    switch (k) {
+  mov rax, rbp
+  sub rax, 2080
+  push rax
   pop rax
-.Lend192:
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcase293_0
+  cmp rax, 1
+  je .Lcase293_1
+  cmp rax, 2
+  je .Lcase293_2
+  cmp rax, 3
+  je .Lcase293_3
+  cmp rax, 4
+  je .Lcase293_4
+  cmp rax, 5
+  je .Lcase293_5
+  jmp .Lend293
+.Lcase293_0:
+  push r15
+  mov rax, OFFSET FLAT:.LC98
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lcase293_1:
+  push r15
+  mov rax, OFFSET FLAT:.LC99
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lcase293_2:
+  push r15
+  mov rax, OFFSET FLAT:.LC100
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lcase293_3:
+  push r15
+  mov rax, OFFSET FLAT:.LC101
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lcase293_4:
+  push r15
+  mov rax, OFFSET FLAT:.LC102
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lcase293_5:
+  push r15
+  mov rax, OFFSET FLAT:.LC103
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend293
+  pop rax
+.Lend293:
   push rax
   pop rax
   push rax
-.Lcontinue190:
+.Lcontinue291:
   mov rax, rbp
   sub rax, 2080
   push rax
@@ -18406,11 +27694,11 @@ gen:
   push rdi
   add rdi, 1
   mov DWORD PTR [rax], edi
-  jmp .Lbegin190
-.Lend190:
+  jmp .Lbegin291
+.Lend291:
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC77
+  mov rax, OFFSET FLAT:.LC104
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18427,7 +27715,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC78
+  mov rax, OFFSET FLAT:.LC105
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18444,7 +27732,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC79
+  mov rax, OFFSET FLAT:.LC106
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18461,7 +27749,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC80
+  mov rax, OFFSET FLAT:.LC107
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18481,7 +27769,7 @@ gen:
   mov rax, rbp
   sub rax, 2048
   push rax
-  mov rax, OFFSET FLAT:.LC81
+  mov rax, OFFSET FLAT:.LC108
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18500,7 +27788,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC82
+  mov rax, OFFSET FLAT:.LC109
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18517,7 +27805,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18533,17 +27821,65 @@ gen:
   pop r15
   push rax
   pop rax
-### 1356    }
+### 1878    }
   push 0
   pop rax
   mov rsp, rbp
   pop rbp
   ret
   pop rax
-.Lend175:
+.Lend276:
   push rax
   pop rax
-### 1358    gen(node->lhs);
+### 1880    if (node->kind == ND_COND) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 20
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif294
+### 1881    int id = branch_label;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1882    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1883    gen(node->lhs);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -18571,7 +27907,366 @@ gen:
   pop r15
   push rax
   pop rax
-### 1359    gen(node->rhs);
+### 1884    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1885    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1886    printf("  je .Lcond1_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC110
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1887    gen(node->rhs->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1888    printf("  jmp .Lcond2_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC111
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1889    printf(".Lcond1_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC112
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1890    gen(node->rhs->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1891    printf(".Lcond2_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC113
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1892    return;
+### 1893    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif294:
+  push rax
+  pop rax
+### 1895    if (node->kind == ND_LOGICOR) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 9
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif295
+### 1896    int id = branch_label;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1897    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1898    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1899    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1900    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1901    printf("  jne .Lor1_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC114
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1902    gen(node->rhs);
   push r15
   mov rax, rbp
   sub rax, 8
@@ -18599,9 +28294,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1361    printf("  pop rdi\n");
+### 1903    printf("  pop rdi\n");
   push r15
-  mov rax, OFFSET FLAT:.LC67
+  mov rax, OFFSET FLAT:.LC94
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18617,9 +28312,9 @@ gen:
   pop r15
   push rax
   pop rax
-### 1362    printf("  pop rax\n");
+### 1904    printf("  cmp rdi, 0\n");
   push r15
-  mov rax, OFFSET FLAT:.LC49
+  mov rax, OFFSET FLAT:.LC115
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18635,19 +28330,798 @@ gen:
   pop r15
   push rax
   pop rax
-### 1364    int addsize = 1;
+### 1905    printf("  je .Lor2_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC116
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1906    printf(".Lor1_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC117
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1907    printf("  mov rax, 1\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC118
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1908    printf("  jmp .Lorend_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC119
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1909    printf(".Lor2_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC120
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1910    printf("  mov rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC121
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1911    printf(".Lorend_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC122
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1912    printf("  push rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1913    return;
+### 1914    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif295:
+  push rax
+  pop rax
+### 1916    if (node->kind == ND_LOGICAND) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 10
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif296
+### 1917    int id = branch_label;
   push rax
   pop rax
   mov rax, rbp
   sub rax, 2064
   push rax
-  push 1
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
   pop rdi
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1365    type = estimate_type(node->lhs);
+### 1918    branch_label++;
+  mov rax, OFFSET FLAT:branch_label
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  pop rax
+### 1919    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1920    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1921    printf("  cmp rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC80
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1922    printf("  je .Lor1_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC123
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1923    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1924    printf("  pop rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC94
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1925    printf("  cmp rdi, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC115
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1926    printf("  je .Lor1_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC123
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1927    printf("  mov rax, 1\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC118
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1928    printf("  jmp .Lorend_%d\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC119
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1929    printf(".Lor1_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC117
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1930    printf("  mov rax, 0\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC121
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1931    printf(".Lorend_%d:\n", id);
+  push r15
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC122
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1932    printf("  push rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC57
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1933    return;
+### 1934    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif296:
+  push rax
+  pop rax
+### 1936    if (node->kind == ND_COMMA) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 14
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif297
+### 1937    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1938    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1939    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1940    return;
+### 1941    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif297:
+  push rax
+  pop rax
+### 1943    if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 22
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_299
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 23
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_299
+.Lor1_299:
+  mov rax, 1
+  jmp .Lorend_299
+.Lor2_299:
+  mov rax, 0
+.Lorend_299:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif298
+### 1944    gen_lval(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen_lval
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1945    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1947    type = estimate_type(node->lhs);
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -18682,7 +29156,507 @@ gen:
   mov [rax], rdi
   push rdi
   pop rax
-### 1366    if (type != 0 && (type->ty == PTR || type->ty == ARRAY)) {
+### 1948    if (type) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif300
+### 1949    if (type->ty == ARRAY) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 3
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif301
+### 1950    exit(1);
+  push r15
+  push 1
+  mov rax, OFFSET FLAT:exit
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif301:
+  push rax
+  pop rax
+### 1952    if (type->ty == CHAR) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif302
+### 1954    printf("  pop rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC94
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1955    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1956    printf("  push [rax]\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC124
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1957    printf("  mov [rax], dil\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC95
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1958    return;
+### 1959    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif302:
+  push rax
+  pop rax
+### 1960    if (type->ty == INT) {
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif303
+### 1962    printf("  pop rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC94
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1963    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1964    printf("  push [rax]\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC124
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1965    printf("  mov DWORD PTR [rax], edi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC96
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1966    return;
+### 1967    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif303:
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif300:
+  push rax
+  pop rax
+### 1969    printf("  pop rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC94
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1970    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1971    printf("  push [rax]\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC124
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1972    printf("  mov [rax], rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC97
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1973    return;
+### 1974    }
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif298:
+  push rax
+  pop rax
+### 1976    gen(node->lhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1977    gen(node->rhs);
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gen
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1979    printf("  pop rdi\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC94
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1980    printf("  pop rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC76
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 1982    int addsize = 1;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 2064
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 1983    type = estimate_type(node->lhs);
+  mov rax, rbp
+  sub rax, 2056
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:estimate_type
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 1984    if (type != 0 && (type->ty == PTR || type->ty == ARRAY)) {
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -18698,7 +29672,7 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_194
+  je .Lor1_305
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -18720,7 +29694,7 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  jne .Lor1_195
+  jne .Lor1_306
   mov rax, rbp
   sub rax, 2056
   push rax
@@ -18742,27 +29716,27 @@ gen:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor2_195
-.Lor1_195:
+  je .Lor2_306
+.Lor1_306:
   mov rax, 1
-  jmp .Lorend_195
-.Lor2_195:
+  jmp .Lorend_306
+.Lor2_306:
   mov rax, 0
-.Lorend_195:
+.Lorend_306:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor1_194
+  je .Lor1_305
   mov rax, 1
-  jmp .Lorend_194
-.Lor1_194:
+  jmp .Lorend_305
+.Lor1_305:
   mov rax, 0
-.Lorend_194:
+.Lorend_305:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif193
-### 1367    addsize = size_from_type(type->ptr_to);
+  je  .Lendif304
+### 1985    addsize = size_from_type(type->ptr_to);
   mov rax, rbp
   sub rax, 2064
   push rax
@@ -18799,10 +29773,10 @@ gen:
   pop rax
   push rax
   pop rax
-.Lendif193:
+.Lendif304:
   push rax
   pop rax
-### 1370    switch (node->kind) {
+### 1988    switch (node->kind) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -18817,23 +29791,39 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je .Lcase196_0
+  je .Lcase307_0
   cmp rax, 1
-  je .Lcase196_1
+  je .Lcase307_1
   cmp rax, 2
-  je .Lcase196_2
+  je .Lcase307_2
   cmp rax, 3
-  je .Lcase196_3
+  je .Lcase307_3
+  cmp rax, 15
+  je .Lcase307_4
+  cmp rax, 16
+  je .Lcase307_5
+  cmp rax, 17
+  je .Lcase307_6
+  cmp rax, 11
+  je .Lcase307_7
+  cmp rax, 12
+  je .Lcase307_8
+  cmp rax, 13
+  je .Lcase307_9
+  cmp rax, 19
+  je .Lcase307_10
+  cmp rax, 18
+  je .Lcase307_11
   cmp rax, 6
-  je .Lcase196_4
+  je .Lcase307_12
   cmp rax, 7
-  je .Lcase196_5
+  je .Lcase307_13
   cmp rax, 4
-  je .Lcase196_6
+  je .Lcase307_14
   cmp rax, 5
-  je .Lcase196_7
-  jmp .Lend196
-.Lcase196_0:
+  je .Lcase307_15
+  jmp .Lend307
+.Lcase307_0:
   mov rax, rbp
   sub rax, 2064
   push rax
@@ -18849,7 +29839,7 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif197
+  je  .Lendif308
   push r15
   mov rax, rbp
   sub rax, 2064
@@ -18857,7 +29847,7 @@ gen:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC83
+  mov rax, OFFSET FLAT:.LC125
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18875,11 +29865,11 @@ gen:
   pop r15
   push rax
   pop rax
-.Lendif197:
+.Lendif308:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC84
+  mov rax, OFFSET FLAT:.LC126
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18895,9 +29885,9 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lcase196_1:
+.Lcase307_1:
   mov rax, rbp
   sub rax, 2064
   push rax
@@ -18913,7 +29903,7 @@ gen:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif198
+  je  .Lendif309
   push r15
   mov rax, rbp
   sub rax, 2064
@@ -18921,7 +29911,7 @@ gen:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC83
+  mov rax, OFFSET FLAT:.LC125
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18939,11 +29929,11 @@ gen:
   pop r15
   push rax
   pop rax
-.Lendif198:
+.Lendif309:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC85
+  mov rax, OFFSET FLAT:.LC127
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18959,11 +29949,11 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lcase196_2:
+.Lcase307_2:
   push r15
-  mov rax, OFFSET FLAT:.LC86
+  mov rax, OFFSET FLAT:.LC128
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -18979,48 +29969,11 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lcase196_3:
+.Lcase307_3:
   push r15
-  mov rax, OFFSET FLAT:.LC87
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push r15
-  mov rax, OFFSET FLAT:.LC88
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend196
-  pop rax
-.Lcase196_4:
-  push r15
-  mov rax, OFFSET FLAT:.LC89
+  mov rax, OFFSET FLAT:.LC129
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19037,7 +29990,27 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC90
+  mov rax, OFFSET FLAT:.LC130
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_4:
+  push r15
+  mov rax, OFFSET FLAT:.LC129
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19054,27 +30027,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC91
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  jmp .Lend196
-  pop rax
-.Lcase196_5:
-  push r15
-  mov rax, OFFSET FLAT:.LC89
+  mov rax, OFFSET FLAT:.LC130
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19091,7 +30044,34 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC92
+  mov rax, OFFSET FLAT:.LC70
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2011    break;
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_5:
+  push r15
+  mov rax, OFFSET FLAT:.LC131
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19108,7 +30088,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC91
+  mov rax, OFFSET FLAT:.LC132
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19124,28 +30104,11 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lcase196_6:
+.Lcase307_6:
   push r15
-  mov rax, OFFSET FLAT:.LC89
-  push rax
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
-  pop rax
-  mov rdi, rax
-  mov rax, 0
-  mov r15, rsp
-  and r15, 0xF
-  and rsp, -16
-  call r11
-  or rsp, r15
-  pop r15
-  push rax
-  pop rax
-  push r15
-  mov rax, OFFSET FLAT:.LC93
+  mov rax, OFFSET FLAT:.LC131
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19162,7 +30125,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC91
+  mov rax, OFFSET FLAT:.LC133
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19178,11 +30141,91 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lcase196_7:
+.Lcase307_7:
   push r15
-  mov rax, OFFSET FLAT:.LC89
+  mov rax, OFFSET FLAT:.LC134
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_8:
+  push r15
+  mov rax, OFFSET FLAT:.LC135
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_9:
+  push r15
+  mov rax, OFFSET FLAT:.LC136
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_10:
+  push r15
+  mov rax, OFFSET FLAT:.LC137
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_11:
+  push r15
+  mov rax, OFFSET FLAT:.LC80
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19199,7 +30242,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC94
+  mov rax, OFFSET FLAT:.LC138
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19216,7 +30259,7 @@ gen:
   push rax
   pop rax
   push r15
-  mov rax, OFFSET FLAT:.LC91
+  mov rax, OFFSET FLAT:.LC139
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19232,14 +30275,230 @@ gen:
   pop r15
   push rax
   pop rax
-  jmp .Lend196
+  jmp .Lend307
   pop rax
-.Lend196:
+.Lcase307_12:
+  push r15
+  mov rax, OFFSET FLAT:.LC140
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
   push rax
   pop rax
-### 1410    printf("  push rax\n");
   push r15
-  mov rax, OFFSET FLAT:.LC34
+  mov rax, OFFSET FLAT:.LC141
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC139
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_13:
+  push r15
+  mov rax, OFFSET FLAT:.LC140
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC138
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC139
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_14:
+  push r15
+  mov rax, OFFSET FLAT:.LC140
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC142
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC139
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lcase307_15:
+  push r15
+  mov rax, OFFSET FLAT:.LC140
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC143
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push r15
+  mov rax, OFFSET FLAT:.LC139
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  jmp .Lend307
+  pop rax
+.Lend307:
+  push rax
+  pop rax
+### 2059    printf("  push rax\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC57
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19260,13 +30519,13 @@ gen:
   mov rsp, rbp
   pop rbp
   ret
-### 1412    char *filename;
+### 2061    char *filename;
   .globl filename
   .data
 filename:
   .zero 8
 .text
-### 1415    char *read_file(char *path) {
+### 2064    char *read_file(char *path) {
   .globl read_file
   .type read_file, @function
 read_file:
@@ -19274,14 +30533,14 @@ read_file:
   mov rbp, rsp
   push rdi
   sub rsp, 24
-### 1417    void *fp = fopen(path, "r");
+### 2066    void *fp = fopen(path, "r");
   push rax
   pop rax
   mov rax, rbp
   sub rax, 16
   push rax
   push r15
-  mov rax, OFFSET FLAT:.LC95
+  mov rax, OFFSET FLAT:.LC144
   push rax
   mov rax, rbp
   sub rax, 8
@@ -19309,7 +30568,7 @@ read_file:
   mov [rax], rdi
   push rdi
   pop rax
-### 1418    if (!fp)
+### 2067    if (!fp)
   mov rax, rbp
   sub rax, 16
   push rax
@@ -19325,7 +30584,7 @@ read_file:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif199
+  je  .Lendif310
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -19342,10 +30601,10 @@ read_file:
   pop r15
   push rax
   pop rax
-.Lendif199:
+.Lendif310:
   push rax
   pop rax
-### 1422    if (fseek(fp, 0, 2) == -1)
+### 2071    if (fseek(fp, 0, 2) == -1)
   push r15
   push 2
   push 0
@@ -19386,7 +30645,7 @@ read_file:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif200
+  je  .Lendif311
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -19403,10 +30662,10 @@ read_file:
   pop r15
   push rax
   pop rax
-.Lendif200:
+.Lendif311:
   push rax
   pop rax
-### 1424    int size = ftell(fp);
+### 2073    int size = ftell(fp);
   push rax
   pop rax
   mov rax, rbp
@@ -19437,7 +30696,7 @@ read_file:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1425    if (fseek(fp, 0, 0) == -1)
+### 2074    if (fseek(fp, 0, 0) == -1)
   push r15
   push 0
   push 0
@@ -19478,7 +30737,7 @@ read_file:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif201
+  je  .Lendif312
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -19495,10 +30754,10 @@ read_file:
   pop r15
   push rax
   pop rax
-.Lendif201:
+.Lendif312:
   push rax
   pop rax
-### 1429    char *buf = calloc(1, size + 2);
+### 2078    char *buf = calloc(1, size + 2);
   push rax
   pop rax
   mov rax, rbp
@@ -19537,7 +30796,7 @@ read_file:
   mov [rax], rdi
   push rdi
   pop rax
-### 1430    fread(buf, size, 1, fp);
+### 2079    fread(buf, size, 1, fp);
   push r15
   mov rax, rbp
   sub rax, 16
@@ -19578,7 +30837,7 @@ read_file:
   pop r15
   push rax
   pop rax
-### 1433    if (size == 0 || buf[size - 1] != '\n')
+### 2082    if (size == 0 || buf[size - 1] != '\n')
   mov rax, rbp
   sub rax, 24
   push rax
@@ -19594,7 +30853,7 @@ read_file:
   push rax
   pop rax
   cmp rax, 0
-  jne .Lor1_203
+  jne .Lor1_314
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19628,17 +30887,17 @@ read_file:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor2_203
-.Lor1_203:
+  je .Lor2_314
+.Lor1_314:
   mov rax, 1
-  jmp .Lorend_203
-.Lor2_203:
+  jmp .Lorend_314
+.Lor2_314:
   mov rax, 0
-.Lorend_203:
+.Lorend_314:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif202
+  je  .Lendif313
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19663,10 +30922,10 @@ read_file:
   mov [rax], dil
   push rdi
   pop rax
-.Lendif202:
+.Lendif313:
   push rax
   pop rax
-### 1435    buf[size] = '\0';
+### 2084    buf[size] = '\0';
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19689,7 +30948,7 @@ read_file:
   mov [rax], dil
   push rdi
   pop rax
-### 1436    fclose(fp);
+### 2085    fclose(fp);
   push r15
   mov rax, rbp
   sub rax, 16
@@ -19711,7 +30970,7 @@ read_file:
   pop r15
   push rax
   pop rax
-### 1437    return buf;
+### 2086    return buf;
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19729,7 +30988,1559 @@ read_file:
   pop rbp
   ret
 .text
-### 1440    int main(int argc, char **argv) {
+### 2089    char *nodeToStr(Node *node) {
+  .globl nodeToStr
+  .type nodeToStr, @function
+nodeToStr:
+  push rbp
+  mov rbp, rsp
+  push rdi
+  sub rsp, 32
+### 2090    char *namebuf = calloc(1, sizeof(char) * 100);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  push 1
+  push 100
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 2091    if (node->name)
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif315
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 28
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:strncpy
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+.Lendif315:
+  push rax
+  pop rax
+### 2093    char *ret = calloc(1, sizeof(char) * 100);
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push r15
+  push 1
+  push 100
+  pop rdi
+  pop rax
+  imul rax, rdi
+  push rax
+  push 1
+  mov rax, OFFSET FLAT:calloc
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+### 2094    switch (node->kind) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lcase316_0
+  cmp rax, 1
+  je .Lcase316_1
+  cmp rax, 2
+  je .Lcase316_2
+  cmp rax, 3
+  je .Lcase316_3
+  cmp rax, 4
+  je .Lcase316_4
+  cmp rax, 5
+  je .Lcase316_5
+  cmp rax, 6
+  je .Lcase316_6
+  cmp rax, 7
+  je .Lcase316_7
+  cmp rax, 8
+  je .Lcase316_8
+  cmp rax, 9
+  je .Lcase316_9
+  cmp rax, 10
+  je .Lcase316_10
+  cmp rax, 11
+  je .Lcase316_11
+  cmp rax, 12
+  je .Lcase316_12
+  cmp rax, 13
+  je .Lcase316_13
+  cmp rax, 14
+  je .Lcase316_14
+  cmp rax, 15
+  je .Lcase316_15
+  cmp rax, 16
+  je .Lcase316_16
+  cmp rax, 17
+  je .Lcase316_17
+  cmp rax, 18
+  je .Lcase316_18
+  cmp rax, 19
+  je .Lcase316_19
+  cmp rax, 22
+  je .Lcase316_20
+  cmp rax, 23
+  je .Lcase316_21
+  cmp rax, 20
+  je .Lcase316_22
+  cmp rax, 21
+  je .Lcase316_23
+  cmp rax, 24
+  je .Lcase316_24
+  cmp rax, 25
+  je .Lcase316_25
+  cmp rax, 26
+  je .Lcase316_26
+  cmp rax, 27
+  je .Lcase316_27
+  cmp rax, 28
+  je .Lcase316_28
+  cmp rax, 29
+  je .Lcase316_29
+  cmp rax, 30
+  je .Lcase316_30
+  cmp rax, 31
+  je .Lcase316_31
+  cmp rax, 32
+  je .Lcase316_32
+  cmp rax, 33
+  je .Lcase316_33
+  cmp rax, 34
+  je .Lcase316_34
+  cmp rax, 35
+  je .Lcase316_35
+  cmp rax, 36
+  je .Lcase316_36
+  cmp rax, 37
+  je .Lcase316_37
+  cmp rax, 38
+  je .Lcase316_38
+  cmp rax, 39
+  je .Lcase316_39
+  cmp rax, 40
+  je .Lcase316_40
+  cmp rax, 41
+  je .Lcase316_41
+  jmp .Lend316
+.Lcase316_0:
+  mov rax, OFFSET FLAT:.LC49
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_1:
+  mov rax, OFFSET FLAT:.LC50
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_2:
+  mov rax, OFFSET FLAT:.LC32
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_3:
+  mov rax, OFFSET FLAT:.LC51
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_4:
+  mov rax, OFFSET FLAT:.LC47
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_5:
+  mov rax, OFFSET FLAT:.LC15
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_6:
+  mov rax, OFFSET FLAT:.LC16
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_7:
+  mov rax, OFFSET FLAT:.LC17
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_8:
+  mov rax, OFFSET FLAT:.LC40
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_9:
+  mov rax, OFFSET FLAT:.LC18
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_10:
+  mov rax, OFFSET FLAT:.LC19
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_11:
+  mov rax, OFFSET FLAT:.LC44
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_12:
+  mov rax, OFFSET FLAT:.LC45
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_13:
+  mov rax, OFFSET FLAT:.LC46
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_14:
+  mov rax, OFFSET FLAT:.LC35
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_15:
+  mov rax, OFFSET FLAT:.LC52
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_16:
+  mov rax, OFFSET FLAT:.LC20
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_17:
+  mov rax, OFFSET FLAT:.LC21
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_18:
+  mov rax, OFFSET FLAT:.LC53
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_19:
+  mov rax, OFFSET FLAT:.LC54
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_20:
+  mov rax, OFFSET FLAT:.LC145
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_21:
+  mov rax, OFFSET FLAT:.LC146
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_22:
+  mov rax, OFFSET FLAT:.LC42
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_23:
+  mov rax, OFFSET FLAT:.LC43
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_24:
+  mov rax, OFFSET FLAT:.LC11
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_25:
+  mov rax, OFFSET FLAT:.LC4
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_26:
+  mov rax, OFFSET FLAT:.LC5
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_27:
+  mov rax, OFFSET FLAT:.LC147
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_28:
+  mov rax, OFFSET FLAT:.LC7
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_29:
+  mov rax, OFFSET FLAT:.LC8
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_30:
+  mov rax, OFFSET FLAT:.LC148
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_31:
+  mov rax, OFFSET FLAT:.LC149
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_32:
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC150
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_33:
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC151
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_34:
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC152
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_35:
+  mov rax, OFFSET FLAT:.LC153
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_36:
+  mov rax, OFFSET FLAT:.LC154
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_37:
+  mov rax, OFFSET FLAT:.LC155
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_38:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC156
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  pop rax
+  mov rcx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_39:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC157
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  pop rax
+  mov rcx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_40:
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  mov rax, OFFSET FLAT:strs
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+.Lbegin317:
+.Lcontinue317:
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend317
+### 2140    if (nowstr->id == strid) {
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif318
+### 2141    strncpy(namebuf, nowstr->text, nowstr->len);
+  push r15
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:strncpy
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2142    break;
+  jmp .Lend317
+  pop rax
+  push rax
+  pop rax
+.Lendif318:
+  push rax
+  pop rax
+### 2144    nowstr = nowstr->next;
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  mov rax, rbp
+  sub rax, 40
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov [rax], rdi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+  jmp .Lbegin317
+.Lend317:
+  push rax
+  pop rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC158
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lcase316_41:
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 20
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC159
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:sprintf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+.Lend316:
+  push rax
+  pop rax
+### 2151    return "";
+  mov rax, OFFSET FLAT:.LC160
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 2154    int gengraph(Node *node, int nodeid) {
+  .globl gengraph
+  .type gengraph, @function
+gengraph:
+  push rbp
+  mov rbp, rsp
+  push rdi
+  push rsi
+  sub rsp, 8
+### 2155    int nowid = nodeid;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 2157    printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
+  push r15
+  push r15
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:nodeToStr
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC161
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2158    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF || node->kind == ND_FUNCDEF) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 38
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_321
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 39
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_321
+.Lor1_321:
+  mov rax, 1
+  jmp .Lorend_321
+.Lor2_321:
+  mov rax, 0
+.Lorend_321:
+  push rax
+  pop rax
+  cmp rax, 0
+  jne .Lor1_320
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 34
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor2_320
+.Lor1_320:
+  mov rax, 1
+  jmp .Lorend_320
+.Lor2_320:
+  mov rax, 0
+.Lorend_320:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif319
+### 2159    printf(" shape = box");
+  push r15
+  mov rax, OFFSET FLAT:.LC162
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif319:
+  push rax
+  pop rax
+### 2161    if (node->kind == ND_BLOCK) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 0
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 31
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif322
+### 2162    printf(" shape = point");
+  push r15
+  mov rax, OFFSET FLAT:.LC163
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+  push rax
+  pop rax
+.Lendif322:
+  push rax
+  pop rax
+### 2164    printf("];\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC164
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2165    if (node->lhs) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif323
+### 2166    nodeid = nodeid + 1;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 2167    printf(" node%d -- node%d;\n", nowid, nodeid);
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC165
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2168    nodeid = gengraph(node->lhs, nodeid);
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 4
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gengraph
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif323:
+  push rax
+  pop rax
+### 2170    if (node->rhs) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif324
+### 2171    nodeid = nodeid + 1;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 2172    printf(" node%d -- node%d;\n", nowid, nodeid);
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC165
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  pop rax
+  mov rdx, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2173    nodeid = gengraph(node->rhs, nodeid);
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  push r15
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  pop rax
+  add rax, 12
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  mov rax, OFFSET FLAT:gengraph
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+  pop rax
+.Lendif324:
+  push rax
+  pop rax
+### 2175    return nodeid;
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+.text
+### 2178    int main(int argc, char **argv) {
   .globl main
   .type main, @function
 main:
@@ -19738,7 +32549,7 @@ main:
   push rdi
   push rsi
   sub rsp, 2056
-### 1441    if (argc != 2) {
+### 2183    if (argc < 2) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -19749,13 +32560,13 @@ main:
   pop rdi
   pop rax
   cmp rax, rdi
-  setne al
+  setl al
   movzb rax, al
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif204
-### 1442    exit(1);
+  je  .Lendif325
+### 2184    exit(1);
   push r15
   push 1
   mov rax, OFFSET FLAT:exit
@@ -19772,7 +32583,7 @@ main:
   pop r15
   push rax
   pop rax
-### 1443    return 1;
+### 2185    return 1;
   push 1
   pop rax
   mov rsp, rbp
@@ -19781,10 +32592,10 @@ main:
   pop rax
   push rax
   pop rax
-.Lendif204:
+.Lendif325:
   push rax
   pop rax
-### 1446    filename = argv[1];
+### 2188    filename = argv[1];
   mov rax, OFFSET FLAT:filename
   push rax
   mov rax, rbp
@@ -19807,7 +32618,7 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
-### 1450    user_input = read_file(filename);
+### 2192    user_input = read_file(filename);
   mov rax, OFFSET FLAT:user_input
   push rax
   push r15
@@ -19834,7 +32645,7 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
-### 1451    tokenize(user_input);
+### 2193    tokenize(user_input);
   push r15
   mov rax, OFFSET FLAT:user_input
   push rax
@@ -19855,7 +32666,7 @@ main:
   pop r15
   push rax
   pop rax
-### 1452    program();
+### 2194    program();
   push r15
   mov rax, OFFSET FLAT:program
   push rax
@@ -19869,9 +32680,90 @@ main:
   pop r15
   push rax
   pop rax
-### 1455    printf(".intel_syntax noprefix\n");
+### 2197    if (argc == 3 && strcmp(argv[2], "-g") == 0) {
+  mov rax, rbp
+  sub rax, 8
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  push 3
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rax
+  cmp rax, 0
+  je .Lor1_327
   push r15
-  mov rax, OFFSET FLAT:.LC96
+  mov rax, OFFSET FLAT:.LC166
+  push rax
+  mov rax, rbp
+  sub rax, 16
+  push rax
+  pop rax
+  mov rax, [rax]
+  push rax
+  push 2
+  pop rdi
+  pop rax
+  imul rdi, 8
+  add rax, rdi
+  push rax
+  pop rax
+  mov rax, QWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:strcmp
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  cmp rax, rdi
+  sete al
+  movzb rax, al
+  push rax
+  pop rdi
+  cmp rdi, 0
+  je .Lor1_327
+  mov rax, 1
+  jmp .Lorend_327
+.Lor1_327:
+  mov rax, 0
+.Lorend_327:
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lendif326
+### 2199    int nodeid = 1;
+  push rax
+  pop rax
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+### 2200    printf("graph parsegraph {\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC167
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19887,9 +32779,106 @@ main:
   pop r15
   push rax
   pop rax
-### 1456    printf(".text\n");
+### 2201    int i;
+  push rax
+  pop rax
+### 2202    for (i = 0; code[i]; i++) {
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  push 0
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+.Lbegin328:
+  mov rax, OFFSET FLAT:code
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rdi, 8
+  add rax, rdi
+  push rax
+  pop rax
+  mov rax, QWORD PTR [rax]
+  push rax
+  pop rax
+  cmp rax, 0
+  je  .Lend328
+### 2203    nodeid = gengraph(code[i], nodeid) + 1;
+  mov rax, rbp
+  sub rax, 24
+  push rax
   push r15
-  mov rax, OFFSET FLAT:.LC97
+  mov rax, rbp
+  sub rax, 24
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:code
+  push rax
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  movslq rax, DWORD PTR [rax]
+  push rax
+  pop rdi
+  pop rax
+  imul rdi, 8
+  add rax, rdi
+  push rax
+  pop rax
+  mov rax, QWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:gengraph
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  pop rax
+  mov rsi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  push 1
+  pop rdi
+  pop rax
+  add rax, rdi
+  push rax
+  pop rdi
+  pop rax
+  mov DWORD PTR [rax], edi
+  push rdi
+  pop rax
+  push rax
+.Lcontinue328:
+  mov rax, rbp
+  sub rax, 32
+  push rax
+  pop rax
+  mov edi, DWORD PTR [rax]
+  push rdi
+  add rdi, 1
+  mov DWORD PTR [rax], edi
+  jmp .Lbegin328
+.Lend328:
+  pop rax
+### 2205    printf("}\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC168
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -19905,7 +32894,37 @@ main:
   pop r15
   push rax
   pop rax
-### 1459    Strs *strsptr = strs;
+### 2206    return 0;
+  push 0
+  pop rax
+  mov rsp, rbp
+  pop rbp
+  ret
+  pop rax
+  push rax
+  pop rax
+.Lendif326:
+  push rax
+  pop rax
+### 2210    printf(".intel_syntax noprefix\n");
+  push r15
+  mov rax, OFFSET FLAT:.LC169
+  push rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
+  pop rax
+  mov rdi, rax
+  mov rax, 0
+  mov r15, rsp
+  and r15, 0xF
+  and rsp, -16
+  call r11
+  or rsp, r15
+  pop r15
+  push rax
+  pop rax
+### 2214    Strs *strsptr = strs;
   push rax
   pop rax
   mov rax, rbp
@@ -19921,10 +32940,10 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
-### 1460    int i;
+### 2215    int i;
   push rax
   pop rax
-### 1461    for (i = 0; i < strsnum; i++) {
+### 2216    for (i = 0; i < strsnum; i++) {
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19933,7 +32952,7 @@ main:
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
-.Lbegin205:
+.Lbegin329:
   mov rax, rbp
   sub rax, 32
   push rax
@@ -19953,11 +32972,11 @@ main:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend205
-### 1462    char name[255];
+  je  .Lend329
+### 2217    char name[255];
   push rax
   pop rax
-### 1463    strncpy(name, strsptr->text, strsptr->len);
+### 2218    strncpy(name, strsptr->text, strsptr->len);
   push r15
   mov rax, rbp
   sub rax, 24
@@ -20004,7 +33023,7 @@ main:
   pop r15
   push rax
   pop rax
-### 1464    name[strsptr->len] = '\0';
+### 2219    name[strsptr->len] = '\0';
   mov rax, rbp
   sub rax, 2072
   push rax
@@ -20030,7 +33049,7 @@ main:
   mov [rax], dil
   push rdi
   pop rax
-### 1465    printf(".LC%d:\n", strsptr->id);
+### 2220    printf(".LC%d:\n", strsptr->id);
   push r15
   mov rax, rbp
   sub rax, 24
@@ -20044,7 +33063,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  mov rax, OFFSET FLAT:.LC98
+  mov rax, OFFSET FLAT:.LC170
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -20062,12 +33081,12 @@ main:
   pop r15
   push rax
   pop rax
-### 1466    printf("  .string \"%s\"\n", name);
+### 2221    printf("  .string \"%s\"\n", name);
   push r15
   mov rax, rbp
   sub rax, 2072
   push rax
-  mov rax, OFFSET FLAT:.LC99
+  mov rax, OFFSET FLAT:.LC171
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -20085,9 +33104,9 @@ main:
   pop r15
   push rax
   pop rax
-### 1467    printf(".text\n");
+### 2222    printf(".text\n");
   push r15
-  mov rax, OFFSET FLAT:.LC97
+  mov rax, OFFSET FLAT:.LC172
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -20103,7 +33122,7 @@ main:
   pop r15
   push rax
   pop rax
-### 1469    strsptr = strsptr->next;
+### 2224    strsptr = strsptr->next;
   mov rax, rbp
   sub rax, 24
   push rax
@@ -20125,7 +33144,7 @@ main:
   push rdi
   pop rax
   push rax
-.Lcontinue205:
+.Lcontinue329:
   mov rax, rbp
   sub rax, 32
   push rax
@@ -20134,10 +33153,10 @@ main:
   push rdi
   add rdi, 1
   mov DWORD PTR [rax], edi
-  jmp .Lbegin205
-.Lend205:
+  jmp .Lbegin329
+.Lend329:
   pop rax
-### 1472    if (globals) {
+### 2227    if (globals) {
   mov rax, OFFSET FLAT:globals
   push rax
   pop rax
@@ -20145,10 +33164,10 @@ main:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif206
-### 1473    printf(".bss\n");
+  je  .Lendif330
+### 2228    printf(".bss\n");
   push r15
-  mov rax, OFFSET FLAT:.LC100
+  mov rax, OFFSET FLAT:.LC173
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -20166,10 +33185,10 @@ main:
   pop rax
   push rax
   pop rax
-.Lendif206:
+.Lendif330:
   push rax
   pop rax
-### 1476    int doing_gloval = 1;
+### 2231    int doing_gloval = 1;
   push rax
   pop rax
   mov rax, rbp
@@ -20181,7 +33200,7 @@ main:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1478    for (i = 0; code[i]; i++) {
+### 2233    for (i = 0; code[i]; i++) {
   mov rax, rbp
   sub rax, 32
   push rax
@@ -20190,7 +33209,7 @@ main:
   pop rax
   mov DWORD PTR [rax], edi
   push rdi
-.Lbegin207:
+.Lbegin331:
   mov rax, OFFSET FLAT:code
   push rax
   mov rax, rbp
@@ -20209,8 +33228,8 @@ main:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lend207
-### 1479    localsnum = localsnums[i];
+  je  .Lend331
+### 2234    localsnum = localsnums[i];
   mov rax, OFFSET FLAT:localsnum
   push rax
   mov rax, OFFSET FLAT:localsnums
@@ -20234,7 +33253,7 @@ main:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 1480    locals = LocalsList[i];
+### 2235    locals = LocalsList[i];
   mov rax, OFFSET FLAT:locals
   push rax
   mov rax, OFFSET FLAT:LocalsList
@@ -20258,7 +33277,7 @@ main:
   mov [rax], rdi
   push rdi
   pop rax
-### 1481    if (doing_gloval && code[i]->kind != ND_GVALDEF) {
+### 2236    if (doing_gloval && code[i]->kind != ND_GVALDEF) {
   mov rax, rbp
   sub rax, 40
   push rax
@@ -20267,7 +33286,7 @@ main:
   push rax
   pop rax
   cmp rax, 0
-  je .Lor1_209
+  je .Lor1_333
   mov rax, OFFSET FLAT:code
   push rax
   mov rax, rbp
@@ -20290,7 +33309,7 @@ main:
   pop rax
   movslq rax, DWORD PTR [rax]
   push rax
-  push 24
+  push 39
   pop rdi
   pop rax
   cmp rax, rdi
@@ -20299,19 +33318,19 @@ main:
   push rax
   pop rdi
   cmp rdi, 0
-  je .Lor1_209
+  je .Lor1_333
   mov rax, 1
-  jmp .Lorend_209
-.Lor1_209:
+  jmp .Lorend_333
+.Lor1_333:
   mov rax, 0
-.Lorend_209:
+.Lorend_333:
   push rax
   pop rax
   cmp rax, 0
-  je  .Lendif208
-### 1482    printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
+  je  .Lendif332
+### 2237    printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
   push r15
-  mov rax, OFFSET FLAT:.LC97
+  mov rax, OFFSET FLAT:.LC172
   push rax
   mov rax, OFFSET FLAT:printf
   push rax
@@ -20327,7 +33346,7 @@ main:
   pop r15
   push rax
   pop rax
-### 1483    doing_gloval = 0;
+### 2238    doing_gloval = 0;
   mov rax, rbp
   sub rax, 40
   push rax
@@ -20339,10 +33358,10 @@ main:
   pop rax
   push rax
   pop rax
-.Lendif208:
+.Lendif332:
   push rax
   pop rax
-### 1485    gen(code[i]);
+### 2240    gen(code[i]);
   push r15
   mov rax, OFFSET FLAT:code
   push rax
@@ -20375,7 +33394,7 @@ main:
   push rax
   pop rax
   push rax
-.Lcontinue207:
+.Lcontinue331:
   mov rax, rbp
   sub rax, 32
   push rax
@@ -20384,10 +33403,10 @@ main:
   push rdi
   add rdi, 1
   mov DWORD PTR [rax], edi
-  jmp .Lbegin207
-.Lend207:
+  jmp .Lbegin331
+.Lend331:
   pop rax
-### 1488    return 0;
+### 2243    return 0;
   push 0
   pop rax
   mov rsp, rbp
