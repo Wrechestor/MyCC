@@ -2,7 +2,8 @@
 
 # ・bool → int, true → 1, false → 0, NULL → 0
 sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
-    -e 's/false/0/g' -e 's/true/1/g'  -e 's/FILE/void/g' dentaku/dentaku.c
+    -e 's/false/0/g' -e 's/true/1/g'  -e 's/FILE/void/g' \
+    dentaku/dentaku.c
 
 # ・プリプロセッサは消す
 sed -i -e 's/MAX_IDENT_LEN/255/g' -e 's/SEEK_SET/0/g' \
@@ -20,18 +21,8 @@ sed -i "s/token = head.next;/token = head->next;/g" dentaku/dentaku.c
 # sed -i "s/va_list/__builtin_va_list/g" dentaku/dentaku.c
 sed -i "s/error\(_at\)\?(.*);$/exit(1);/g" dentaku/dentaku.c
 
-
-# forでの宣言
-# →重複定義の修正
-# TODO:forでの宣言実装&for内スコープに入れれば解決
-# sed -i "s/for (LVar \*var/LVar \*var;for (var/g" dentaku/dentaku.c
-# sed -i "s/for (GVar \*var/GVar \*var;for (var/g" dentaku/dentaku.c
-# sed -i "s/for (EnumName \*var/EnumName \*var;for (var/g" dentaku/dentaku.c
-# sed -i "s/for (StructDef \*var/StructDef \*var;for (var/g" dentaku/dentaku.c
-# sed -i "s/for (DefinedType \*var/DefinedType \*var;for (var/g" dentaku/dentaku.c
-# sed -i "s/for (int k/int k;for (k/g" dentaku/dentaku.c
-# sed -i "s/for (int i/int i;for (i/g" dentaku/dentaku.c
-
+# fprintf(stderr,   , strerror(errno)
+sed -i "/fprintf/d" dentaku/dentaku.c
 
 # TODO:複数宣言
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentaku/dentaku.c
