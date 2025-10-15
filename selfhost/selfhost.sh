@@ -39,7 +39,7 @@ sed -i -e "/void exit(1);/d" selfhost/mycc_cat.c
 # sed -i -e 's/stderr/2/g' selfhost/mycc_cat.c
 sed -i -e 's/stderr/2/g' -e 's/errno/0/g' selfhost/mycc_cat.c
 sed -i "s/(int)//g" selfhost/mycc_cat.c
-
+# sed -i "s/fprintf(2, \"%s:%d: \", filename, line_num)/0/g" selfhost/mycc_cat.c
 
 
 # TODO:複数宣言
@@ -50,85 +50,25 @@ sed -i "s/int addsize = 1, addintmp = 1;/int addsize = 1;int addintmp = 1;/g" se
 
 cd selfhost/
 
-# gcc -S selfhost_sup.c -masm=intel
 # ../$input mycc_cat.c > mycc_cat_$output.s
-# gcc -o ../$output mycc_cat_$output.s selfhost_sup.c -g -static
+# gcc -o ../$output mycc_cat_$output.s -std=c11 -g -static
 
+# gccするとき入力ファイル名が同じでないと出力バイナリも同じにならない!
 ../$input mycc_cat.c > mycc_cat_$output.s
-gcc -o ../$output mycc_cat_$output.s -g -static
-
+cat mycc_cat_$output.s > mycc_cat_tmp.s
+gcc -o ../$output mycc_cat_tmp.s -std=c11 -g -static
 
 cd ../
 
 
 
-# assert() {
-#     expected="$1"
-#     input="$2"
-
-#     echo "$input" > tmpc
-#     ./mycc_s tmpc > tmp.s
-#     cc -o tmp tmp.s -g -static
-#     ./tmp
-#     actual="$?"
-
-#     if [ "$actual" = "$expected" ]; then
-#         echo "$input => $actual"
-#     else
-#         echo "$input => $expected expected, but got $actual"
-#         # exit 1
-#         echo -e "\e[31mFAIL\e[m"
-#     fi
-# }
-
-# assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
-# assert 4    'int main(){int a; if(2*3<5)a=6; else a=4; return a;}'
-# assert 45   'int main(){int s=0;int i;for(i=0;i<10;i=i+1){s=s+i;}return s;}'
-# assert 5    'int add(int x, int y){return x+y;}int main(){return add(2,3);}'
-# assert 42   'int mul(int x, int y){return x*y;}int add(int x, int y){return x+y;}int main(){return add(mul(3,4),mul(5,6));}'
-# assert 233  'int fibo(int x){if(x<=2)return 1; else return fibo(x-1)+fibo(x-2);}int main(){return fibo(13);}'
-# assert 3    'int main(){int x=3; int y; y=5; int *z; z=&y+8; return *z;}'
-# assert 3    'int main(){int x; int *y; y = &x; *y = 3; return x;}'
-# assert 6    'int main(){int p[4]; *(p+0)=2; *(p+1)=4; *(p+2)=6; *(p+3)=8; return *(p+2);}'
-# assert 3    'int main(){int a[2]; *a = 1; *(a + 1) = 2; int *p; p = a; return *p + *(p + 1);}'
-# assert 3    'int main(){int a[2]; a[0] = 1; a[1] = 2; int *p; p = a; return *p + p[1];}'
-# assert 8    'int x;int y[20];int main(){x=3;y[5]=5;return x+y[5];}'
-# assert 5    'int x[3][5];int main(){x[0][0]=1;x[0][1]=2;x[1][0]=3;x[1][1]=4;return x[0][0]+x[1][1];}'
-# assert 3    'char x[3];int main(){x[0] = -1; x[1] = 2; int y; y = 4; return x[0] + y;}'
-# assert 0    'int main(){printf("Hello, World!\n"); return 0;}'
-# assert 4    'char x[8];int add3(char *k, int n){k[n] = k[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
-# assert 4    'int x[8];int add3(int *k, int n){k[n] = k[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
-# assert 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
-# assert 28   'int foo(int a,int b,int c,int d,int e,int f,int g){return a+b+c+d+e+f+g;}int main(){return foo(1,2,3,4,5,6,7);}'
-# assert 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j){return a+b+c+d+e+f+g+h+i+j;}int main(){return foo(1,2,3,4,5,6,7,8,9,10);}'
-# assert 13   'int add(int x, int y){return x+y;}int main(){int a[] = {1,4,add(3,6)}; return a[1] + a[2];}'
-# assert 1    'int main(){int a[5] = {1}; return a[0] + a[1];}'
-# assert 0    'int main(){int a[5] = {}; return a[0] + a[1];}'
-# assert 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
-# assert 13   'char a[] = {1,4,9};int main(){return a[1] + a[2];}'
-# assert 2    'char a[] = "ABCDEF!";int main(){printf("%s", a);return a[3] - a[1];}'
-# assert 2    'int main(){char a[] = "ABCDEF!";printf("%s", a);return a[3] - a[1];}'
-# assert 0    'int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf("%d ",i);}return 0;}'
-# assert 45   'int main(){int s=0;int i;for(i=0;i<10;s+=i,i+=1);return s;}'
-# assert 0    'int main(){int i;for(i=0;i<20;++i){printf("%d ",i % 5);}return 0;}'
-# assert 0    'int main(){int i;for(i=0;i<8;++i){printf("%d,%d ",1<<i,1710581>>i);}return 0;}'
-# assert 0    'int main(){int i;for(i=0;i<10;++i){if(!(i%5))printf("%d ",i);}return 0;}'
-# assert 0    'int main(){int i=0;printf("%d ",i++);printf("%d ",++i);return 0;}'
-# assert 0    'int main(){int i;for(i=0;i<10;++i){printf("%s ",(i%3==0?"Fizz":"Buzz"));}return 0;}'
-# assert 47   'int main(){return 1==2 ? 5 : 1<2 ? 47 : 107;}'
-# assert 55   'int main(){int s=0;int i=0;while(1){i++;s+=i;if(i>=10)break;}return s;}'
-# assert 55   'int main(){int s=0;int i=0;for(;;){i++;s+=i;if(i>=10)break;}return s;}'
-# assert 0    'int main(){int i;for(i=0;i<10;++i){if(i%3==0)continue;printf("%d ",i);}return 0;}'
-# assert 0    'int main(){int i;int j;for(i=0;i<5;++i){for(j=0;j<10;++j){if(j%3==0)continue;if(j==7)break;printf("%d ",i*100+j);}}return 0;}'
-# assert 0    'int main(){int day=3;for(day=0;day<10;++day){switch(day){case 1:case 2:case 3:case 4:case 5:printf("平日 ");break;case 6:case 7:printf("週末 ");break;default:printf("無効な日付 ");}}return 0;}'
-# assert 5    'char a[] = {1,2,3,4,5};char *plus2(char *x){return &x[2];}int main(){return plus2(&a[1])[1];}'
-# assert 27   'typedef char chr; int main(){chr p=23; return p+4;}'
-# assert 2    'typedef char *chrptr; char a[] = {1,2,3,4,5};int main(){chrptr p=a; return p[1];}'
-# assert 2    'enum Color {RED,GREEN,BLUE};int main() {enum Color paint = BLUE;if (paint == BLUE) {return 2;}return 0;}'
-# assert 0    'enum Color {RED,GREEN,BLUE}; enum Color paint;int main() {paint = GREEN;if (paint == BLUE) {return 2;}return 0;}'
-# assert 16   'struct MyStruct {char *a;int b;int c;};int main() {struct MyStruct myint; return sizeof(myint);}'
-# assert 16   'struct MyStruct {int a;int b;int c;};struct MyStruct myint; int main() {myint.b=7; myint.c=9; return myint.b+myint.c;}'
-# assert 7    'struct MyStruct {int a;int b;int c;};typedef struct MyStruct MyStrc;MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
-# assert 4    'int main(){return 1<2 ? 3,4 : 5;}'
-# assert 5    'int main(){return sizeof(int)+sizeof(char);}'
-# assert 3   'struct Sub {int a;int b;};typedef struct Sub Sub;struct Main {Sub *c;};typedef struct Main Main;Sub mysub;Main mymain;int main() {mysub.b=3; mymain.c=&mysub; return mymain.c->b;}'
+# 以下を実行
+# make clean
+# make
+# selfhost/selfhost.sh mycc  mycc1
+# selfhost/selfhost.sh mycc1 mycc2
+# selfhost/selfhost.sh mycc2 mycc3
+# strip -s mycc2
+# strip -s mycc3
+# cmp -l mycc2 mycc3
+# ↑何も出なかったら成功!

@@ -22,7 +22,8 @@ test: mycc
 	./test.sh mycc
 
 clean:
-	rm -f mycc *.o *~ tmp* *.dot mycc codegenc_pp mycc_s \
+	rm -f mycc *.o *~ tmp* *.dot codegenc_pp mycc_s \
+	mycc mycc1 mycc2 mycc3 mycc4 \
 	dentaku/dent dentaku/dentout \
 	eightqueen preprocessor/preprocessor optimizer/optimizer \
 	selfhost/*.s selfhost/mycc_cat.c

@@ -1027,6 +1027,7 @@ void tokenize() {
             continue;
         }
 
+        // TODO:エスケープ \n  \"  \'  ⧹⧹ \0
         if (*p == '\'') { // 文字リテラル
                           // TODO:エスケープ
             cur = new_token(TK_NUM, cur, p);
@@ -1034,6 +1035,18 @@ void tokenize() {
                 switch (*(p + 2)) {
                 case 'n':
                     cur->val = '\n';
+                    break;
+                case '\"':
+                    cur->val = '\"';
+                    break;
+                case '\'':
+                    cur->val = '\'';
+                    break;
+                case '\\':
+                    cur->val = '\\';
+                    break;
+                case '0':
+                    cur->val = '\0';
                     break;
                 default:
                     break;
