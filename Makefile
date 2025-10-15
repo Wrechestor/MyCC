@@ -19,11 +19,12 @@ optimizer: optimizer/optimizer
 	$(CC) -o optimizer/optimizer optimizer/optimizer.c $(LDFLAGS)
 
 test: mycc
-	./test.sh
+	./test.sh mycc
 
 clean:
 	rm -f mycc *.o *~ tmp* *.dot mycc codegenc_pp mycc_s \
 	dentaku/dent dentaku/dentout \
-	eightqueen preprocessor/preprocessor optimizer/optimizer
+	eightqueen preprocessor/preprocessor optimizer/optimizer \
+	selfhost/*.s selfhost/mycc_cat.c
 
 .PHONY: all test clean

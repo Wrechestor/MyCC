@@ -1,31 +1,64 @@
 #!/bin/bash
 
+input="$1"
+output="$2"
+
 make
 
-# preprocessor/preprocessor codegen.c > codegenc_pp
-preprocessor/preprocessor codegen.c | sed s/NULL/0/ > codegenc_pp
-# gcc -E codegen.c > codegenc_pp
-# preprocessor/preprocessor main.c > mainc_pp
-# preprocessor/preprocessor parse.c > parsec_pp
+# TODO:↓これらは最終行が空行でないとダメ!
+cat selfhost/mycc_prototype.c mycc.h \
+    parse.c codegen.c main.c > selfhost/mycc_cat.c
 
 
-./mycc codegenc_pp > codegenc_pp.s
-# ./mycc mainc_pp > mainc_pp.s
-# ./mycc parsec_pp > parsec_pp.s
-cat codegenc_pp.s | optimizer/optimizer > codegenc_pp_opt.s
-# cat mainc_pp.s | optimizer/optimizer > mainc_pp_opt.s
-# cat parsec_pp.s | optimizer/optimizer > parsec_pp_opt.s
+# ・bool → int, true → 1, false → 0, NULL → 0
+sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
+    -e 's/false/0/g' -e 's/true/1/g'  -e 's/FILE/void/g' \
+    selfhost/mycc_cat.c
 
-gcc -S main.c -o main.s -masm=intel
-gcc -S parse.c -o parse.s -masm=intel
+# ・プリプロセッサは消す
+sed -i -e 's/MAX_IDENT_LEN/255/g' -e 's/SEEK_SET/0/g' \
+    -e 's/SEEK_CUR/1/g' -e 's/SEEK_END/2/g' selfhost/mycc_cat.c
+sed -i -e "/#include/d" -e "/#define/d" selfhost/mycc_cat.c
 
-gcc -o mycc_s main.s parse.s codegenc_pp_opt.s -g -static
-# gcc -o mycc_s mainc_pp_opt.s parsec_pp_opt.s codegenc_pp_opt.s -g -static
-# gcc -o mycc_s main.s parsec_pp_opt.s codegenc_pp_opt.s -g -static
-./mycc_s tmpc > tmp.s
+# ・tokenizeのheadをcallocに
+sed -i "s/Token head;/Token *head = calloc(1, sizeof(Token));/g" selfhost/mycc_cat.c
+sed -i "s/head.next = 0;/head->next = 0;/g" selfhost/mycc_cat.c
+sed -i "s/Token \*cur = \&head;/Token \*cur = head;/g" selfhost/mycc_cat.c
+sed -i "s/token = head.next;/token = head->next;/g" selfhost/mycc_cat.c
+
+# TODO:可変長引数
+# ・error(), error_at() → exit()
+# sed -i "s/va_list/__builtin_va_list/g" selfhost/mycc_cat.c
+# sed -i "s/error\(_at\)\?(.*);$/exit(1);/g" selfhost/mycc_cat.c
+sed -i -e "/void exit(1);/d" selfhost/mycc_cat.c
+
+
+# TODO:fprintf関連
+# fprintf(stderr,   , strerror(errno)
+# sed -i "/fprintf/d" selfhost/mycc_cat.c
+# sed -i -e 's/stderr/2/g' selfhost/mycc_cat.c
+sed -i -e 's/stderr/2/g' -e 's/errno/0/g' selfhost/mycc_cat.c
+sed -i "s/(int)//g" selfhost/mycc_cat.c
 
 
 
+# TODO:複数宣言
+sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" selfhost/mycc_cat.c
+sed -i "s/int addsize = 1, addintmp = 1;/int addsize = 1;int addintmp = 1;/g" selfhost/mycc_cat.c
+
+
+
+cd selfhost/
+
+# gcc -S selfhost_sup.c -masm=intel
+# ../$input mycc_cat.c > mycc_cat_$output.s
+# gcc -o ../$output mycc_cat_$output.s selfhost_sup.c -g -static
+
+../$input mycc_cat.c > mycc_cat_$output.s
+gcc -o ../$output mycc_cat_$output.s -g -static
+
+
+cd ../
 
 
 
