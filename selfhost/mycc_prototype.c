@@ -23,4 +23,12 @@ int putchar();
 char *strerror();
 char *strcat();
 char *strncat();
-// extern int errno;
+
+// int NULL = 0;
+// typedef int size_t;
+// typedef char bool;
+// int false = 0;
+// int true = 1;
+// typedef void FILE;
+// int stderr = 2;
+// int errno = 0;

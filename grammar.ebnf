@@ -1,23 +1,25 @@
 program    = function_gval*
-function_gval = typed_ident "(" typed_ident* ")" "{" stmt* "}" # 関数定義
-                | typed_ident "(" typed_ident* ")" ";" # プロトタイプ宣言
-                | typed_ident ("=" ("{" (num ("," num)*)? "}") | num | string )? ";" # GVal
-                | "extern" typed_ident
+function_gval =   typed_ident "{" stmt* "}" # 関数定義
+                | typed_ident ";" # プロトタイプ宣言
+                | typed_ident ("=" ("{" (num ("," num)*)? "}") | num | string )? ";" # GValDef
+                | "extern" typed_ident ";"
                 | define_enum  ";"
                 | define_struct ";"
-                | "typedef" (typed_ident | define_enum ident | define_struct ident)  ";"
+                | "typedef" (typed_ident | (define_enum ident) | (define_struct ident))  ";"
 define_enum = "enum" ident "{" ident ("," ident)* "}"
 define_struct = "struct" ident "{" (typed_ident ";")* "}"
 typed_ident = ("int" | "char" | "void" | "enum" ident | "struct" ident | definedtype)
-                "*"* (ident? | "(" typed_ident ")") ("[" num? "]")
-stmt = { stmt* }
-        | typed_ident ("=" ("{" (num ("," num))? "}") | num | string )? ";" # LVal
+                "*"* (ident? | "(" typed_ident ")")
+                ( ("(" (typed_ident ("," typed_ident))? ")")  | ("[" num? "]")*)
+local_val_def = typed_ident ("=" ("{" (num ("," num))? "}") | num | string )? ";"
+stmt =    "{" stmt* "}"
+        | local_val_def
         | "return" expr? ";"
         | "if" "(" expr ")" stmt ("else" stmt)?
         | "switch"  "(" expr ")" "{"
             ((("case" (num | string)) | "default") ":" stmt*)* "}"
         | "while" "(" expr ")" stmt
-        | "for" "(" expr? ";" expr? ";" expr? ")" stmt
+        | "for" "(" (local_val_def | (expr? ";")) expr? ";" expr? ")" stmt
         | "break" ";"
         | "continue" ";"
         | expr ";"
@@ -37,22 +39,28 @@ relational = shift (("<" | "<=" | ">" | ">=") shift)*
 shift      = add ("<<" add | ">>" add)*
 add        = mul ("+" mul | "-" mul)*
 mul        = unary (("*" | "/" | "%") unary)*
-unary      = ("sizeof" unary | sizeof "(" typed_ident ")")
-            | ("&" | "*" |
+unary      = ("sizeof" unary) | ("sizeof" "(" typed_ident ")")
+            | ("&" | "*" | # "(" typed_ident ")" # TODO:キャスト演算子
                 | "!" | "~" | "++" | "--") unary  # ++ -- は前置
             |  ("+" | "-")? postpos
-postpos    = primary (("[" expr "]") || ("." ident) || ("->" ident))*
+postpos    = primary (("[" expr "]") | ("." ident) | ("->" ident) |
+            "(" (assign ("," assign)*)? ")" )*
             ("++" | "--")?  # ++ -- は後置
-primary    = "(" expr ")" | string
-            | ident "(" (assign ("," assign)*)? ")" # commaとの衝突を避けるためassign
-            | ident | num
+primary    = "(" expr ")" | string | ident | num
 
 
 # TODO:int,char以外の型(long,short),unsigned
 # TODO:複数変数の宣言 int x,y; (ポインタの仕様に注意)
-# TODO:エスケープ文字,extern,void,プロトタイプ宣言のテスト
-# TODO:ローカル変数に配列やstructを使えない(ポインタのみ)
-# TODO:配列のローカル変数と可変長引数
+# TODO:エスケープ文字
 # TODO:プリプロセッサ処理(#include,#define)
-# TODO:定数はパーサ時に計算できる(両辺がNUMなら計算結果をノードに)
-# TODO:for内での宣言 for(int i=0; ...)
+
+# TODO:可変長引数
+# ・error(), error_at()
+# sed -i "s/va_list/__builtin_va_list/g" selfhost/mycc_cat.c
+
+# TODO:ローカル変数に配列やstructを使えない(ポインタのみ)
+# TODO:↓structのローカル変数(structのアライメント必要?)
+# sed -i "s/Token head;/Token *head = calloc(1, sizeof(Token));/g" selfhost/mycc_cat.c
+# sed -i "s/head.next = 0;/head->next = 0;/g" selfhost/mycc_cat.c
+# sed -i "s/Token \*cur = \&head;/Token \*cur = head;/g" selfhost/mycc_cat.c
+# sed -i "s/token = head.next;/token = head->next;/g" selfhost/mycc_cat.c

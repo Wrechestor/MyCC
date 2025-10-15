@@ -379,6 +379,10 @@ void gen(Node *node) {
         gen(node->lhs);
         type = estimate_type(node->lhs);
         if (type) {
+            if (type->ty == FUNC) {
+                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                return;
+            }
             type = type->ptr_to;
         }
         if (type) {

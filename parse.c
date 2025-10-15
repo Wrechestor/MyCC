@@ -130,7 +130,7 @@ int expect_number() {
     return val;
 }
 
-int at_eof() { // TODO:これ使ってない(NULLで判定してる→バグの可能性?)
+int at_eof() {
     return token->kind == TK_EOF;
 }
 
@@ -182,6 +182,7 @@ int is_alnum(char c) {
 // void **(*x)()は、ベースの型はvoid、ポインタを表すアスタリスクは**、
 // ネストした型は*x、関数を表すカッコは()、という構成です。
 
+// TODO:↓ベースの型取得する関数とそれ以外に分ける→複数宣言実装(int x,y;)!
 Node *consume_typed_ident(Type *prevtype) {
     // char name[100];
     // strncpy(name, token->str, 20);
@@ -887,6 +888,13 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Type *ltype = lhs ? lhs->type : NULL;
     Type *rtype = rhs ? rhs->type : NULL;
 
+    // 関数指示詞は常に関数ポインタに変換される
+    if ((kind == ND_DEREF) &&
+        ltype && ltype->ty == FUNC) {
+        node->type = ltype;
+        return node;
+    }
+
     // 関数型は返り値の型に暗黙キャスト
     if (ltype && ltype->ty == FUNC)
         ltype = ltype->ptr_to;
@@ -1155,45 +1163,30 @@ Node *function_gval() {
         node->name = externname->str;
         node->val = externname->len;
 
-        Token *tok = externname;
         int size = 1;
         GVar *gvar;
 
         int already = 0;
-        if (tok) {
-            gvar = find_gvar(tok);
-            if (gvar)
-                already = 1;
+        gvar = find_gvar(externname);
+        if (gvar)
+            already = 1;
 
-            while (consume("[")) { // 配列型
-                Type *t = calloc(1, sizeof(Type));
-                t->ty = ARRAY;
-                t->ptr_to = type;
-                type = t;
+        if (!already) {
+            int totalbytesize = 4;
+            totalbytesize = size_from_type(type);
 
-                size = expect_number();
-                expect("]");
+            gvar = calloc(1, sizeof(GVar));
+            gvar->next = globals;
+            gvar->name = externname->str;
+            gvar->len = externname->len;
 
-                t->array_size = size;
-            }
-
-            if (!already) {
-                int totalbytesize = 4;
-                totalbytesize = size_from_type(type);
-
-                gvar = calloc(1, sizeof(GVar));
-                gvar->next = globals;
-                gvar->name = tok->str;
-                gvar->len = tok->len;
-
-                gvar->addr = totalbytesize;
-                gvar->type = type;
-                gvar->is_extern = 1;
-                node->offset = gvar->addr;
-                node->type = type;
-                node->variabletype = GLOBALVAL;
-                globals = gvar;
-            }
+            gvar->addr = totalbytesize;
+            gvar->type = type;
+            gvar->is_extern = 1;
+            node->offset = gvar->addr;
+            node->type = type;
+            node->variabletype = GLOBALVAL;
+            globals = gvar;
         }
         expect(";");
         return node;
@@ -1305,6 +1298,7 @@ Node *function_gval() {
             argname->len = arg->len;
 
             // 引数はローカル変数として扱う
+            // TODO:ここにlocalValDef()を使う!
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->srctoken = token;
             tmp2->kind = ND_VALDEF;
@@ -1321,10 +1315,12 @@ Node *function_gval() {
                 lvar->type = argtype;
                 lvar->scopelayer = scopelayer_now;
 
+                // TODO:ローカル変数のサイズ
                 lvar->offset = (locals ? locals->offset : 0) + 8;
+
                 tmp2->offset = lvar->offset;
                 tmp2->type = argtype;
-                tmp2->val = 1; // TODO:ローカル変数のサイズ
+                tmp2->val = 1;
                 tmp2->variabletype = LOCALVAL;
                 locals = lvar;
 
@@ -1398,57 +1394,37 @@ Node *function_gval() {
         GVar *gvar;
 
         int already = 0;
-        if (tok) {
-            gvar = find_gvar(tok);
-            if (gvar) {
-                if (gvar->is_extern) {
-                    gvar->is_extern = 0;
-                    already = 1;
-                } else {
-                    error_at(tok->str, "重複定義されたグローバル変数です");
-                }
+        gvar = find_gvar(tok);
+        if (gvar) {
+            if (gvar->is_extern) {
+                gvar->is_extern = 0;
+                already = 1;
+            } else {
+                error_at(tok->str, "重複定義されたグローバル変数です");
             }
+        }
 
-            while (consume("[")) { // 配列型
-                Type *t = calloc(1, sizeof(Type));
-                t->ty = ARRAY;
-                t->ptr_to = type;
-                type = t;
+        if (!undefsize) {
+            int totalbytesize = 4;
+            totalbytesize = size_from_type(type);
 
-                if (consume("]")) { // 配列要素数省略
-                    // TODO: 正しくは char a[][10]; (最初のみ省略)
-                    undefsize = 1;
-                    break;
-                }
-
-                size = expect_number();
-                expect("]");
-
-                t->array_size = size;
-            }
-
-            if (!undefsize) {
-                int totalbytesize = 4;
-                totalbytesize = size_from_type(type);
-
-                if (!already) {
-                    gvar = calloc(1, sizeof(GVar));
-                    gvar->next = globals;
-                    gvar->name = tok->str;
-                    gvar->len = tok->len;
-                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                    gvar->addr = totalbytesize;
-                    gvar->type = type;
-                    node->offset = gvar->addr;
-                    node->type = type;
-                    node->variabletype = GLOBALVAL;
-                    globals = gvar;
-                } else {
-                    gvar->addr = totalbytesize;
-                    gvar->type = type;
-                    node->offset = gvar->addr;
-                    node->type = type;
-                }
+            if (!already) {
+                gvar = calloc(1, sizeof(GVar));
+                gvar->next = globals;
+                gvar->name = tok->str;
+                gvar->len = tok->len;
+                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                gvar->addr = totalbytesize;
+                gvar->type = type;
+                node->offset = gvar->addr;
+                node->type = type;
+                node->variabletype = GLOBALVAL;
+                globals = gvar;
+            } else {
+                gvar->addr = totalbytesize;
+                gvar->type = type;
+                node->offset = gvar->addr;
+                node->type = type;
             }
         }
 
