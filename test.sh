@@ -73,6 +73,7 @@ assert 3    'int x=3; int y=5; int ww=7; int uu=1; int main(){ int *z; z=&y-1; r
 assert 7    'typedef struct MyStruct {int a;int b;int c;} MyStrc; MyStrc myint; int main() {MyStrc *p=&myint; p->b=3; p->c=4; return p->b+p->c;}'
 assert 3    'int printf();int main(){int a=3;{int a=6;{ int a=8; {a++;} printf("$%d$ ",a);}printf("@%d@ ",a); }printf("#%d# ",a); return 3;}'
 assert 4    'int printf();int (*p_func[2])(int, int);int max(int a,int b){int m=a;if(m<b)m=b;return m;}int min(int a,int b){int m=a;if(m>b)m=b;return m;}int main(){p_func[0]=max;p_func[1]=min;int i;for(i=0;i<2;i++)printf("p_func[%d](3,5)=%d ",i,p_func[i](3,5));return 4;}'
+assert 90   'int main(){int s=0;for(int i=0;i<10;s+=i,i+=1);for(int i=0;i<10;s+=i,i+=1);return s;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'

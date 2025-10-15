@@ -15,38 +15,50 @@ sed -i "s/head.next = 0;/head->next = 0;/g" dentaku/dentaku.c
 sed -i "s/Token \*cur = \&head;/Token \*cur = head;/g" dentaku/dentaku.c
 sed -i "s/token = head.next;/token = head->next;/g" dentaku/dentaku.c
 
+# TODO:可変長引数
 # ・error(), error_at() → exit()
 # sed -i "s/va_list/__builtin_va_list/g" dentaku/dentaku.c
 sed -i "s/error\(_at\)\?(.*);$/exit(1);/g" dentaku/dentaku.c
 
 
 # forでの宣言
-sed -i "s/for (LVar \*var/LVar \*var;for (var/g" dentaku/dentaku.c
-sed -i "s/for (GVar \*var/GVar \*var;for (var/g" dentaku/dentaku.c
-sed -i "s/for (int k/int k;for (k/g" dentaku/dentaku.c
-sed -i "s/for (int i/int i;for (i/g" dentaku/dentaku.c
+# →重複定義の修正
+# TODO:forでの宣言実装&for内スコープに入れれば解決
+# sed -i "s/for (LVar \*var/LVar \*var;for (var/g" dentaku/dentaku.c
+# sed -i "s/for (GVar \*var/GVar \*var;for (var/g" dentaku/dentaku.c
+# sed -i "s/for (EnumName \*var/EnumName \*var;for (var/g" dentaku/dentaku.c
+# sed -i "s/for (StructDef \*var/StructDef \*var;for (var/g" dentaku/dentaku.c
+# sed -i "s/for (DefinedType \*var/DefinedType \*var;for (var/g" dentaku/dentaku.c
+# sed -i "s/for (int k/int k;for (k/g" dentaku/dentaku.c
+# sed -i "s/for (int i/int i;for (i/g" dentaku/dentaku.c
 
 
-# 複数宣言
+# TODO:複数宣言
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentaku/dentaku.c
+
+
+# プロトタイプ宣言→dentaku_prototype.c
 
 
 # ↓これのtyの修正
 # // 変数の型
 # struct Type {
-#     enum { INT,
-#         CHAR,
-#         PTR,
-#         ARRAY } ty;
-#     struct Type *ptr_to;
-#     int array_size; // 配列のときの要素数
+#   enum { INT, CHAR, PTR, ARRAY, STRUCT, MEMBER } ty;
+#     // MEMBER:structの時の型リスト保存用
+#   struct Type *ptr_to;
+#   size_t array_size; // 配列のときの要素数
+#   struct Type *member; // structのときの型リスト
+#   char *name; // structのときのメンバの名前
+#   int len;    // 名前の長さ
 # };
-
+# ↓
 # typedef enum {
 #     INT,
 #     CHAR,
 #     PTR,
-#     ARRAY
+#     ARRAY,
+#     STRUCT,
+#     MEMBER
 # } ty_t;
 # // 変数の型
 # struct Type {
@@ -54,30 +66,3 @@ sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" dentak
 #     struct Type *ptr_to;
 #     int array_size; // 配列のときの要素数
 # };
-
-
-
-
-
-# プロトタイプ宣言の追加
-# int strlen();
-# int printf();
-# int memcmp();
-# int exit();
-# void *calloc();
-# int isspace();
-# int isdigit();
-# int strncmp();
-# int strtol();
-# int strncpy();
-
-# int free();
-# int snprintf();
-# char *strstr();
-# void *fopen();
-# int fseek();
-# int ftell();
-# int fread();
-# int fclose();
-# int sprintf();
-# int strcmp();

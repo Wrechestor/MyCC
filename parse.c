@@ -1575,6 +1575,187 @@ Node *function_gval() {
     return node;
 }
 
+Node *localValDef() { // ローカル変数定義
+    Node *typedidentnode = consume_typed_ident(NULL);
+
+    Node *node = calloc(1, sizeof(Node));
+    node->srctoken = token;
+    node->kind = ND_VALDEF;
+
+    Type *type = typedidentnode->type;
+
+    if (typedidentnode->name == NULL)
+        error_at(token->str, "変数名がありません");
+
+    Token *tok = calloc(1, sizeof(Token));
+    tok->str = typedidentnode->name;
+    tok->len = typedidentnode->val;
+
+    int offset;
+    int undefsize = 0;   // sizeを省略したとき1
+    int sizeinfered = 0; // undefsizeの時初期化子でサイズが決まる場合,
+    // その推論されたサイズ(決まらなければエラー)
+
+    int totalsize = 1;
+    int size = 1;
+
+    LVar *lvar;
+    lvar = find_lvar(tok);
+    if (lvar && lvar->scopelayer == scopelayer_now)
+        error_at(tok->str, "重複定義されたローカル変数です");
+
+    node->name = tok->str;
+    node->val = tok->len;
+    // char name[100];
+    // strncpy(name, node->name, node->val);
+    // name[node->val] = 0;
+    // fprintf(stderr, "### END %s\n", name);
+    // fprintf(stderr, "### END %d\n", node->val);
+
+    // TODO:ローカル変数の時の配列サイズ
+    Type *tmp = type;
+    while (tmp && tmp->ty == ARRAY) {
+        if (tmp->array_size == 0) {
+
+        } else {
+            totalsize *= tmp->array_size;
+        }
+        tmp = tmp->ptr_to;
+    }
+    if (type && type->ty == ARRAY) {
+        size = type->array_size;
+        if (size == 0)
+            undefsize = 1;
+    }
+
+    lvar = calloc(1, sizeof(LVar));
+    lvar->next = locals;
+    lvar->name = tok->str;
+    lvar->len = tok->len;
+    lvar->type = type;
+    lvar->scopelayer = scopelayer_now;
+    node->type = type;
+    node->variabletype = LOCALVAL;
+    if (!undefsize) {
+        // TODO:offsetの設定バグありそう?(配列の場所)
+        offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+        lvar->offset = offset;
+        node->offset = offset;
+        // node->val = totalsize; // TODO:ローカル変数のサイズ
+
+        localsnum += totalsize;
+        locals = lvar;
+    }
+    // ローカル変数の初期化
+    if (consume("=")) {
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->srctoken = token;
+        tmp2->kind = ND_BLOCK;
+        tmp2->lhs = node;
+
+        Node *top = tmp2;
+
+        Node *lval = calloc(1, sizeof(Node));
+        lval->srctoken = token;
+        lval->kind = ND_LVAR;
+        lval->offset = offset;
+        lval->name = tok->str;
+        lval->val = tok->len;
+        lval->type = type;
+        lval->variabletype = LOCALVAL;
+        if (consume("{")) { // 配列の初期化
+            int nowindex = 0;
+            Node *assignsubj;
+
+            Node *nownode;
+
+            Token *toktmp = token;
+            if (consume("}")) {
+                nownode = new_node_num(0);
+                token = toktmp;
+            } else {
+                nownode = assign();
+            }
+
+            int initassigned = 0;
+            while ((initassigned = consume(",")) ||
+                ((!undefsize) && (nowindex + 1 < size))) {
+                Node *tmp3 = calloc(1, sizeof(Node));
+                tmp3->srctoken = token;
+                tmp3->kind = ND_BLOCK;
+                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
+                tmp2->rhs = tmp3;
+                tmp2 = tmp3;
+
+                nownode = initassigned ? assign() : new_node_num(0);
+                nowindex++;
+            }
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
+            sizeinfered = nowindex;
+
+            expect("}");
+            // }
+        } else {
+            Token *tokquo = consume_kind(TK_QUOTE);
+            if (tokquo) { // 文字列での初期化
+                int nowindex = 0;
+                Node *assignsubj;
+
+                char *nowchr = tokquo->str;
+                int initassigned = 0;
+                while ((initassigned = (nowindex < tokquo->len)) ||
+                    ((!undefsize) && (nowindex + 1 < size))) {
+                    Node *tmp3 = calloc(1, sizeof(Node));
+                    tmp3->srctoken = token;
+                    tmp3->kind = ND_BLOCK;
+                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? *nowchr : 0));
+
+                    tmp2->rhs = tmp3;
+                    tmp2 = tmp3;
+
+                    nowchr++;
+                    nowindex++;
+                }
+                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+                sizeinfered = nowindex;
+            } else {
+                tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+            }
+        }
+        if (undefsize) {
+            if (!sizeinfered)
+                error_at(token->str, "配列サイズを決定できません");
+            int size = (sizeinfered + 1);
+            type->array_size = size;
+            totalsize *= size;
+
+            // TODO:offsetの設定バグありそう?(配列の場所)
+            offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+            lval->offset = offset;
+
+            lvar->offset = offset;
+            lvar->type = type;
+            node->offset = offset;
+            // node->val = totalsize; // TODO:ローカル変数のサイズ
+
+            localsnum += totalsize;
+            locals = lvar;
+        }
+        node = top;
+    }
+    expect(";");
+    return node;
+}
+
 Node *stmt() {
     Node *node;
 
@@ -1611,183 +1792,7 @@ Node *stmt() {
         localsnum = localsnumtmp;
         locals = localstmp;
     } else if (is_typed_ident()) { // ローカル変数定義
-        Node *typedidentnode = consume_typed_ident(NULL);
-
-        node = calloc(1, sizeof(Node));
-        node->srctoken = token;
-        node->kind = ND_VALDEF;
-
-        Type *type = typedidentnode->type;
-
-        if (typedidentnode->name == NULL)
-            error_at(token->str, "変数名がありません");
-
-        Token *tok = calloc(1, sizeof(Token));
-        tok->str = typedidentnode->name;
-        tok->len = typedidentnode->val;
-
-        int offset;
-        int undefsize = 0;   // sizeを省略したとき1
-        int sizeinfered = 0; // undefsizeの時初期化子でサイズが決まる場合,
-        // その推論されたサイズ(決まらなければエラー)
-
-        int totalsize = 1;
-        int size = 1;
-
-        LVar *lvar;
-        lvar = find_lvar(tok);
-        if (lvar && lvar->scopelayer == scopelayer_now)
-            error_at(tok->str, "重複定義されたローカル変数です");
-
-        node->name = tok->str;
-        node->val = tok->len;
-        // char name[100];
-        // strncpy(name, node->name, node->val);
-        // name[node->val] = 0;
-        // fprintf(stderr, "### END %s\n", name);
-        // fprintf(stderr, "### END %d\n", node->val);
-
-        // TODO:ローカル変数の時の配列サイズ
-        Type *tmp = type;
-        while (tmp && tmp->ty == ARRAY) {
-            if (tmp->array_size == 0) {
-
-            } else {
-                totalsize *= tmp->array_size;
-            }
-            tmp = tmp->ptr_to;
-        }
-        if (type && type->ty == ARRAY) {
-            size = type->array_size;
-            if (size == 0)
-                undefsize = 1;
-        }
-
-        lvar = calloc(1, sizeof(LVar));
-        lvar->next = locals;
-        lvar->name = tok->str;
-        lvar->len = tok->len;
-        lvar->type = type;
-        lvar->scopelayer = scopelayer_now;
-        node->type = type;
-        node->variabletype = LOCALVAL;
-        if (!undefsize) {
-            // TODO:offsetの設定バグありそう?(配列の場所)
-            offset = (locals ? locals->offset : 0) + 8 * totalsize;
-
-            lvar->offset = offset;
-            node->offset = offset;
-            // node->val = totalsize; // TODO:ローカル変数のサイズ
-
-            localsnum += totalsize;
-            locals = lvar;
-        }
-        // ローカル変数の初期化
-        if (consume("=")) {
-            Node *tmp2 = calloc(1, sizeof(Node));
-            tmp2->srctoken = token;
-            tmp2->kind = ND_BLOCK;
-            tmp2->lhs = node;
-
-            Node *top = tmp2;
-
-            Node *lval = calloc(1, sizeof(Node));
-            lval->srctoken = token;
-            lval->kind = ND_LVAR;
-            lval->offset = offset;
-            lval->name = tok->str;
-            lval->val = tok->len;
-            lval->type = type;
-            lval->variabletype = LOCALVAL;
-            if (consume("{")) { // 配列の初期化
-                int nowindex = 0;
-                Node *assignsubj;
-
-                Node *nownode;
-
-                Token *toktmp = token;
-                if (consume("}")) {
-                    nownode = new_node_num(0);
-                    token = toktmp;
-                } else {
-                    nownode = assign();
-                }
-
-                int initassigned = 0;
-                while ((initassigned = consume(",")) ||
-                    ((!undefsize) && (nowindex + 1 < size))) {
-                    Node *tmp3 = calloc(1, sizeof(Node));
-                    tmp3->srctoken = token;
-                    tmp3->kind = ND_BLOCK;
-                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
-
-                    tmp2->rhs = tmp3;
-                    tmp2 = tmp3;
-
-                    nownode = initassigned ? assign() : new_node_num(0);
-                    nowindex++;
-                }
-                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
-
-                sizeinfered = nowindex;
-
-                expect("}");
-                // }
-            } else {
-                Token *tokquo = consume_kind(TK_QUOTE);
-                if (tokquo) { // 文字列での初期化
-                    int nowindex = 0;
-                    Node *assignsubj;
-
-                    char *nowchr = tokquo->str;
-                    int initassigned = 0;
-                    while ((initassigned = (nowindex < tokquo->len)) ||
-                        ((!undefsize) && (nowindex + 1 < size))) {
-                        Node *tmp3 = calloc(1, sizeof(Node));
-                        tmp3->srctoken = token;
-                        tmp3->kind = ND_BLOCK;
-                        assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                        tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? *nowchr : 0));
-
-                        tmp2->rhs = tmp3;
-                        tmp2 = tmp3;
-
-                        nowchr++;
-                        nowindex++;
-                    }
-                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                    tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
-
-                    sizeinfered = nowindex;
-                } else {
-                    tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
-                }
-            }
-            if (undefsize) {
-                if (!sizeinfered)
-                    error_at(token->str, "配列サイズを決定できません");
-                int size = (sizeinfered + 1);
-                type->array_size = size;
-                totalsize *= size;
-
-                // TODO:offsetの設定バグありそう?(配列の場所)
-                offset = (locals ? locals->offset : 0) + 8 * totalsize;
-
-                lval->offset = offset;
-
-                lvar->offset = offset;
-                lvar->type = type;
-                node->offset = offset;
-                // node->val = totalsize; // TODO:ローカル変数のサイズ
-
-                localsnum += totalsize;
-                locals = lvar;
-            }
-            node = top;
-        }
-        expect(";");
+        node = localValDef();
     } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->srctoken = token;
@@ -1876,12 +1881,20 @@ Node *stmt() {
         expect(")");
         node->rhs = stmt();
     } else if (consume_kind(TK_FOR)) {
+        // ↓FORでの宣言時にスコープ
+        // 静的スコープ:BLOCKに入るときに現在のlocalsと階層を保存
+        LVar *localstmp = locals;
+        int localsnumtmp = localsnum;
+        scopelayer_now++;
+
         expect("(");
         node = calloc(1, sizeof(Node));
         node->srctoken = token;
         node->kind = ND_FOR;
         if (consume(";")) {
             node->lhs = NULL;
+        } else if (is_typed_ident()) { // ローカル変数定義
+            node->lhs = localValDef();
         } else {
             node->lhs = expr();
             expect(";");
@@ -1909,6 +1922,13 @@ Node *stmt() {
         }
         tmp->rhs = tmp2;
         tmp2->rhs = stmt();
+
+        // ↓FORでの宣言時にスコープ
+        // 静的スコープ:BLOCKから出るときに現在のlocalsと階層を元に戻す
+        scopelayer_now--;
+        localsnum_max = (localsnum > localsnum_max ? localsnum : localsnum_max);
+        localsnum = localsnumtmp;
+        locals = localstmp;
     } else if (consume(";")) {
         // 空文 do nothing
         return NULL;

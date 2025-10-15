@@ -1,5 +1,5 @@
-int strlen();
 int printf();
+int strlen();
 int memcmp();
 int exit();
 void *calloc();
@@ -16,7 +16,6 @@ int fseek();
 int ftell();
 int fread();
 int fclose();
-
 int sprintf();
 int strcmp();
 
@@ -28,17 +27,24 @@ typedef enum {
     TK_ELSE,     // else
     TK_WHILE,    // while
     TK_FOR,      // for
+    TK_BREAK,    // break
+    TK_CONTINUE, // continue
+    TK_SWITCH,   // switch
+    TK_CASE,     // case
+    TK_DEFAULT,  // default
     TK_IDENT,    // 識別子
     TK_NUM,      // 整数トークン
     TK_INT,      // int
     TK_CHAR,     // char
     TK_SIZEOF,   // sizeof
+    TK_ENUM,     // enum
+    TK_STRUCT,   // struct
+    TK_TYPEDEF,  // typedef
     TK_QUOTE,    // 文字列リテラル
     TK_EOF,      // 入力の終わりを表すトークン
 } TokenKind;
 
 typedef struct Token Token;
-
 // トークン型
 struct Token {
     TokenKind kind; // トークンの型
@@ -72,6 +78,8 @@ typedef enum {
     ND_BITNOT,   // ~
     ND_COND,     // ?
     ND_COLON,    // :
+    ND_STRREF,   // .
+    ND_MEMBER,   // .
     ND_POSTINCR, // 後置++
     ND_POSTDECR, // 後置--
     ND_SIZEOF,   // sizeof
@@ -81,6 +89,14 @@ typedef enum {
     ND_WHILE,    // while
     ND_FOR,      // for
     ND_FORSUP,   // for内部のの2つ目以降の文
+    ND_BREAK,    // break
+    ND_CONTINUE, // continue
+    ND_SWITCH,   // switch
+    ND_CASE,     // case
+    ND_DEFAULT,  // default
+    ND_ENUM,     // enumの定義
+    ND_STRUCT,   // structの定義
+    ND_TYPEDEF,  // typedef
     ND_BLOCK,    // {}
     ND_LVAR,     // ローカル変数
     ND_FUNCCALL, // 関数呼び出し
@@ -95,7 +111,6 @@ typedef enum {
 } NodeKind;
 
 typedef struct Node Node;
-
 // 抽象構文木のノードの型
 struct Node {
     NodeKind kind; // ノードの型
@@ -107,22 +122,26 @@ struct Node {
 };
 
 typedef struct Type Type;
-
 typedef enum {
     INT,
     CHAR,
     PTR,
-    ARRAY
+    ARRAY,
+    STRUCT,
+    MEMBER
 } ty_t;
 // 変数の型
 struct Type {
     ty_t ty;
+    // MEMBER:structの時の型リスト保存用
     struct Type *ptr_to;
-    int array_size; // 配列のときの要素数
+    int array_size;      // 配列のときの要素数
+    struct Type *member; // structのときの型リスト
+    char *name;          // structのときのメンバの名前
+    int len;             // 名前の長さ
 };
 
 typedef struct LVar LVar;
-
 // ローカル変数の型
 struct LVar {
     LVar *next; // 次の変数か0
@@ -131,7 +150,6 @@ struct LVar {
     int offset; // RBPからのオフセット
     Type *type; // 変数の型
 };
-
 // ローカル変数
 extern LVar *locals;
 extern LVar *LocalsList[100];
@@ -139,7 +157,6 @@ extern int localsnums[100];
 extern int localsnum;
 
 typedef struct GVar GVar;
-
 // グローバル変数の型
 struct GVar {
     GVar *next; // 次の変数か0
@@ -148,12 +165,10 @@ struct GVar {
     int addr;   // アドレス
     Type *type; // 変数の型
 };
-
 // グローバル変数
 extern GVar *globals;
 
 typedef struct Strs Strs;
-
 // 文字列リテラルの型
 struct Strs {
     Strs *next; // 次の変数か0
@@ -161,10 +176,53 @@ struct Strs {
     int len;    // 長さ
     int id;     // 連番のID
 };
-
 // 文字列リテラルのリスト
 extern Strs *strs;
 extern int strsnum;
+
+typedef struct Constant Constant;
+// enum定数
+struct Constant {
+    Constant *next;
+    char *name;
+    int len;
+    int val;
+};
+// enum定数のリスト
+extern Constant *constants;
+
+typedef struct EnumName EnumName;
+// enum型の名前
+struct EnumName {
+    EnumName *next;
+    char *name;
+    int len;
+};
+// enum型の名前のリスト
+extern EnumName *enumnames;
+
+typedef struct StructDef StructDef;
+// struct型の定義
+struct StructDef {
+    StructDef *next;
+    char *name;
+    int len;
+    Type *type;
+};
+// struct型の定義のリスト
+extern StructDef *structdefs;
+
+typedef struct DefinedType DefinedType;
+// 定義した型名(struct, typedef, (enum))
+// TODO:2単語以上の型(enum A, struct Bなど)
+struct DefinedType {
+    DefinedType *next;
+    char *name;
+    int len;
+    Type *type;
+};
+// 定義した型のリスト
+extern DefinedType *definedtypes;
 
 // 現在着目しているトークン
 extern Token *token;
@@ -181,7 +239,7 @@ extern int branch_label;
 extern char *filename;
 
 int consume(char *op);
-Token *consume_type(TokenKind tkind);
+Token *consume_kind(TokenKind tkind);
 void expect(char *op);
 int expect_number();
 int at_eof();
@@ -191,6 +249,9 @@ Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);
 LVar *find_lvar(Token *tok);
 GVar *find_gvar(Token *tok);
+EnumName *find_enum(Token *tok);
+StructDef *find_struct(Token *tok);
+DefinedType *find_dtype(Token *tok);
 
 extern int estimate_isglobal;
 Type *estimate_type(Node *node);
@@ -217,7 +278,7 @@ Node *unary();
 Node *postpos();
 Node *primary();
 
-void gen_lval(Node *node);
+int gen_lval(Node *node);
 void gen(Node *node);
 
 // 現在着目しているトークン
@@ -225,20 +286,6 @@ Token *token;
 
 // 入力プログラム
 char *user_input;
-
-// // エラー箇所を報告する
-// void error_at(char *loc, char *fmt, ...) {
-// 	va_list ap;
-// 	va_start(ap, fmt);
-
-// 	int pos = loc - user_input;
-// 	fprintf(stderr, "%s\n", user_input);
-// 	fprintf(stderr, "%*s", pos, " "); // pos個の空白を出力
-// 	fprintf(stderr, "^ ");
-// 	vfprintf(stderr, fmt, ap);
-// 	fprintf(stderr, "\n");
-// 	exit(1);
-// }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進めて
 // 真を返す。それ以外の場合には偽を返す。
@@ -252,7 +299,7 @@ int consume(char *op) {
 }
 
 // consume_ident
-Token *consume_type(TokenKind tkind) {
+Token *consume_kind(TokenKind tkind) {
     if (token->kind != tkind)
         return 0;
 
@@ -262,21 +309,71 @@ Token *consume_type(TokenKind tkind) {
     return old;
 }
 
-Type *consume_typeword() {
+Type *consume_type() { // TODO:structに対応
     Type *type = calloc(1, sizeof(Type));
-    if (consume_type(TK_INT))
+    Token *first = token;
+
+    int is_typefound = 0;
+    if (consume_kind(TK_INT)) {
         type->ty = INT;
-    else if (consume_type(TK_CHAR))
+        is_typefound = 1;
+    }
+    if (consume_kind(TK_CHAR)) {
         type->ty = CHAR;
-    else {
+        is_typefound = 1;
+    }
+
+    if (consume_kind(TK_ENUM)) {
+        EnumName *ename = find_enum(token);
+        if (ename) {
+            token = token->next;
+            type->ty = INT;
+            is_typefound = 1;
+        } else {
+            token = first;
+            return 0;
+        }
+    }
+
+    if (consume_kind(TK_STRUCT)) {
+        StructDef *strc = find_struct(token);
+        if (strc) {
+            token = token->next;
+            type = strc->type;
+            is_typefound = 1;
+        } else {
+            token = first;
+            return 0;
+        }
+    }
+
+    DefinedType *dtype = find_dtype(token);
+    if (dtype != 0) {
+        token = token->next;
+        type = dtype->type;
+        is_typefound = 1;
+    }
+
+    if (!is_typefound) {
         free(type);
         return 0;
     }
+
+    while (consume("*")) {
+        Type *t = calloc(1, sizeof(Type));
+        t->ty = PTR;
+        t->ptr_to = type;
+        type = t;
+    }
+
     return type;
 }
 
-int is_typeword() {
-    return token->kind == TK_INT || token->kind == TK_CHAR;
+int is_type() {
+    Token *first = token;
+    Type *type = consume_type();
+    token = first;
+    return type != 0;
 }
 
 // 次のトークンが期待している記号のときには、トークンを1つ読み進める。
@@ -302,7 +399,7 @@ int expect_number() {
     return val;
 }
 
-int at_eof() {
+int at_eof() { // TODO:これ使ってない(0で判定してる→バグの可能性?)
     return token->kind == TK_EOF;
 }
 
@@ -402,6 +499,41 @@ void tokenize() {
             continue;
         }
 
+        if (strncmp(p, "break", 5) == 0 && !is_alnum(p[5])) {
+            cur = new_token(TK_BREAK, cur, p);
+            cur->len = 5;
+            p += 5;
+            continue;
+        }
+
+        if (strncmp(p, "continue", 8) == 0 && !is_alnum(p[8])) {
+            cur = new_token(TK_CONTINUE, cur, p);
+            cur->len = 8;
+            p += 8;
+            continue;
+        }
+
+        if (strncmp(p, "switch", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_SWITCH, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "case", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_CASE, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "default", 7) == 0 && !is_alnum(p[7])) {
+            cur = new_token(TK_DEFAULT, cur, p);
+            cur->len = 7;
+            p += 7;
+            continue;
+        }
+
         if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
             cur = new_token(TK_INT, cur, p);
             cur->len = 3;
@@ -420,6 +552,27 @@ void tokenize() {
             cur = new_token(TK_SIZEOF, cur, p);
             cur->len = 6;
             p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "enum", 4) == 0 && !is_alnum(p[4])) {
+            cur = new_token(TK_ENUM, cur, p);
+            cur->len = 4;
+            p += 4;
+            continue;
+        }
+
+        if (strncmp(p, "struct", 6) == 0 && !is_alnum(p[6])) {
+            cur = new_token(TK_STRUCT, cur, p);
+            cur->len = 6;
+            p += 6;
+            continue;
+        }
+
+        if (strncmp(p, "typedef", 7) == 0 && !is_alnum(p[7])) {
+            cur = new_token(TK_TYPEDEF, cur, p);
+            cur->len = 7;
+            p += 7;
             continue;
         }
 
@@ -448,7 +601,8 @@ void tokenize() {
             strncmp(p, "^=", 2) == 0 ||
             strncmp(p, "|=", 2) == 0 ||
             strncmp(p, "++", 2) == 0 ||
-            strncmp(p, "--", 2) == 0) {
+            strncmp(p, "--", 2) == 0 ||
+            strncmp(p, "->", 2) == 0) {
             cur = new_token(TK_RESERVED, cur, p);
             cur->len = 2;
             p += 2;
@@ -466,7 +620,8 @@ void tokenize() {
             *p == '|' || *p == '^' ||
             *p == '&' || *p == '%' ||
             *p == '!' || *p == '~' ||
-            *p == '?' || *p == ':') {
+            *p == '?' || *p == ':' ||
+            *p == '.') {
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;
             continue;
@@ -511,22 +666,45 @@ void tokenize() {
 
 LVar *locals;
 LVar *LocalsList[100];
-
 // 変数を名前で検索する。見つからなかった場合は0を返す。
 LVar *find_lvar(Token *tok) {
-    LVar *var;
-    for (var = locals; var; var = var->next)
+    for (LVar *var = locals; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return 0;
 }
 
 GVar *globals;
-
 // 変数を名前で検索する。見つからなかった場合は0を返す。
 GVar *find_gvar(Token *tok) {
-    GVar *var;
-    for (var = globals; var; var = var->next)
+    for (GVar *var = globals; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return 0;
+}
+
+EnumName *enumnames;
+// 定義されたenumを名前で検索する。見つからなかった場合は0を返す。
+EnumName *find_enum(Token *tok) {
+    for (EnumName *var = enumnames; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return 0;
+}
+
+StructDef *structdefs;
+// 定義されたstructを名前で検索する。見つからなかった場合は0を返す。
+StructDef *find_struct(Token *tok) {
+    for (StructDef *var = structdefs; var; var = var->next)
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
+            return var;
+    return 0;
+}
+
+DefinedType *definedtypes;
+// 定義された型を名前で検索する。見つからなかった場合は0を返す。
+DefinedType *find_dtype(Token *tok) {
+    for (DefinedType *var = definedtypes; var; var = var->next)
         if (var->len == tok->len && !memcmp(tok->str, var->name, var->len))
             return var;
     return 0;
@@ -565,25 +743,29 @@ Type *estimate_type(Node *node) {
         if (lvar) {
             type = lvar->type;
             return type;
-        } else {
-            GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
-            GVar *var;
-            for (var = globals; var; var = var->next)
-                if (var->len == node->val && !memcmp(node->name, var->name, var->len))
-                    gvar = var;
-            if (gvar) {
-                type = gvar->type;
-                return type;
-            } else {
-                // exit(1);
-            }
         }
+        GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
+        GVar *var2;
+        for (var2 = globals; var2; var2 = var2->next)
+            if (var2->len == node->val && !memcmp(node->name, var2->name, var2->len))
+                gvar = var2;
+        if (gvar) {
+            type = gvar->type;
+            return type;
+        }
+        // exit(1);
     }
     if (node->kind == ND_FUNCCALL) {
-        // TODO:関数の戻り値をポインタ型に対応
-        type = calloc(1, sizeof(Type));
-        type->ty = INT;
-        return type;
+        GVar *gvar = 0; // 0入れておかないと初期値でおかしくなる!!
+        GVar *var;
+        for (var = globals; var; var = var->next)
+            if (var->len == node->val && !memcmp(node->name, var->name, var->len))
+                gvar = var;
+        if (gvar) {
+            type = gvar->type;
+            return type;
+        }
+        // exit(1);
     }
     Type *ltype = estimate_type(node->lhs);
     Type *rtype = estimate_type(node->rhs);
@@ -605,6 +787,13 @@ int size_from_type(Type *type) {
         int arrsize = type->array_size;
         Type *t = type->ptr_to;
         size = size_from_type(t) * arrsize;
+    } else if (type->ty == STRUCT) { // TODO:struct対応
+        size = 0;
+        Type *tmp = type->member;
+        while (tmp) {
+            size += size_from_type(tmp->ptr_to);
+            tmp = tmp->member;
+        }
     }
     return size;
 }
@@ -615,6 +804,8 @@ int localsnum;
 
 Strs *strs;
 int strsnum;
+
+Constant *constants;
 
 void program() {
     int i = 0;
@@ -633,52 +824,177 @@ Node *function_gval() {
     Node *node;
     node = calloc(1, sizeof(Node));
 
-    // 戻り値の型
-    Type *type = consume_typeword();
-    if (!type) {
+    // 関数の戻り値orグローバル変数の型
+    Type *type = consume_type();
+    if (!type) {                     // 存在しない型の場合→enum or struct or エラー
+        if (consume_kind(TK_ENUM)) { // TODO:enum
+            node->kind = ND_ENUM;
+
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok)
+                exit(1);
+
+            node->name = tok->str;
+            node->val = tok->len;
+            int num = 0;
+
+            EnumName *ename = find_enum(tok);
+            if (ename)
+                exit(1);
+
+            ename = calloc(1, sizeof(EnumName));
+            ename->next = enumnames;
+            ename->name = tok->str;
+            ename->len = tok->len;
+            enumnames = ename;
+
+            expect("{");
+            for (;;) {
+                if (consume("}"))
+                    break;
+
+                tok = consume_kind(TK_IDENT);
+                if (!tok)
+                    exit(1);
+
+                Constant *cons = calloc(1, sizeof(Constant));
+                cons->name = tok->str;
+                cons->len = tok->len;
+                cons->val = num;
+                num++;
+                cons->next = constants;
+                constants = cons;
+                if (consume(",")) {
+                    //
+                } else {
+                    expect("}");
+                    break;
+                }
+            }
+            expect(";");
+            return node;
+        }
+
+        if (consume_kind(TK_STRUCT)) { // TODO:struct
+            node->kind = ND_STRUCT;
+
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok)
+                exit(1);
+
+            node->name = tok->str;
+            node->val = tok->len;
+            int num = 0;
+
+            StructDef *strc = find_struct(tok);
+            if (strc)
+                exit(1);
+
+            strc = calloc(1, sizeof(StructDef));
+            strc->next = structdefs;
+            strc->name = tok->str;
+            strc->len = tok->len;
+            structdefs = strc;
+
+            Type *type = calloc(1, sizeof(Type));
+            type->ty = STRUCT;
+
+            strc->type = type;
+
+            expect("{");
+            for (;;) { // TODO:char等があったときアライメントする
+                if (consume("}"))
+                    break;
+
+                Type *membertype = consume_type();
+                if (!membertype)
+                    exit(1);
+
+                tok = consume_kind(TK_IDENT);
+                if (!tok)
+                    exit(1);
+
+                Type *member = calloc(1, sizeof(Type));
+                member->ty = MEMBER;
+                member->ptr_to = membertype;
+                member->name = tok->str;
+                member->len = tok->len;
+                type->member = member;
+                type = member;
+
+                expect(";");
+            }
+            expect(";");
+            return node;
+        }
+
+        if (consume_kind(TK_TYPEDEF)) {
+            node->kind = ND_TYPEDEF;
+
+            Type *type = consume_type();
+            if (!type) {
+                // TODO:現在の仕様ではtypedefをenum等の定義より先に書けない
+                exit(1);
+            }
+
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok)
+                exit(1);
+
+            node->name = tok->str;
+            node->val = tok->len;
+            int num = 0;
+            DefinedType *dtype;
+
+            dtype = find_dtype(tok);
+            if (dtype)
+                exit(1);
+
+            // while (consume("[")) { // TODO:配列型のtypedef
+            //     Type *t = calloc(1, sizeof(Type));
+            //     t->ty = ARRAY;
+            //     t->ptr_to = type;
+            //     type = t;
+            //     size = expect_number();
+            //     expect("]");
+            //     t->array_size = size;
+            //     totalsize *= size;
+            // }
+
+            dtype = calloc(1, sizeof(DefinedType));
+            dtype->next = definedtypes;
+            dtype->name = tok->str;
+            dtype->len = tok->len;
+            dtype->type = type;
+            definedtypes = dtype;
+            expect(";");
+            return node;
+        }
         exit(1);
     }
 
-    while (consume("*")) {
-        Type *t = calloc(1, sizeof(Type));
-        t->ty = PTR;
-        t->ptr_to = type;
-        type = t;
-    }
-
-    Token *funcname;
-    funcname = consume_type(TK_IDENT);
-    if (!funcname) {
+    Token *funcgvalname;
+    funcgvalname = consume_kind(TK_IDENT);
+    if (!funcgvalname)
         exit(1);
-    }
 
     if (consume("(")) { // 関数定義
         node->kind = ND_FUNCDEF;
-        node->name = funcname->str;
-        node->val = funcname->len;
+        node->name = funcgvalname->str;
+        node->val = funcgvalname->len;
 
         Token *argname;
         Type *argtype;
         Node *tmparg = node;
         int argsnum = 0;
         while (!consume(")")) {
-            argtype = consume_typeword();
-            if (!argtype) {
+            argtype = consume_type();
+            if (!argtype)
                 exit(1);
-            }
 
-            // ポインタ型に対応
-            while (consume("*")) {
-                Type *t = calloc(1, sizeof(Type));
-                t->ty = PTR;
-                t->ptr_to = argtype;
-                argtype = t;
-            }
-
-            argname = consume_type(TK_IDENT);
-            if (!argname) {
+            argname = consume_kind(TK_IDENT);
+            if (!argname)
                 exit(1);
-            }
 
             // 引数はローカル変数として扱う
             Node *tmp2 = calloc(1, sizeof(Node));
@@ -716,71 +1032,84 @@ Node *function_gval() {
         tmp->kind = ND_BLOCK;
         node->rhs = tmp;
         while (1) {
-            if (token->next == 0) {
+            if (token->next == 0)
                 exit(1);
-            }
-            if (consume("}")) {
+            if (consume("}"))
                 break;
-            }
+
             tmp->lhs = stmt();
-            if (consume("}")) { // 要らないけどツリーを整理するため
-                break;
-            }
+            if (consume("}"))
+                break; // 要らないけどツリーを整理するため
+
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
             tmp->rhs = tmp2;
             tmp = tmp2;
         }
-    } else { // グローバル変数定義
-        node->kind = ND_GVALDEF;
-        node->name = funcname->str;
-        node->val = funcname->len;
 
-        Token *tok = funcname;
+        // TODO:関数もグローバル変数の領域に登録する
+        GVar *gvar;
+        int totalbytesize = 4;
+        totalbytesize = size_from_type(type);
+
+        gvar = calloc(1, sizeof(GVar));
+        gvar->next = globals;
+        gvar->name = funcgvalname->str;
+        gvar->len = funcgvalname->len;
+        gvar->addr = totalbytesize;
+        gvar->type = type;
+        node->offset = gvar->addr;
+        globals = gvar;
+    } else { // グローバル変数定義
+        // TODO:typedef,enum対応?
+        node->kind = ND_GVALDEF;
+        node->name = funcgvalname->str;
+        node->val = funcgvalname->len;
+
+        Token *tok = funcgvalname;
         int undefsize = 0; // sizeを省略したとき1
         int size = 1;
         GVar *gvar;
         if (tok) {
             gvar = find_gvar(tok);
-            if (gvar) {
+            if (gvar)
                 exit(1);
-            } else {
-                while (consume("[")) { // 配列型
-                    Type *t = calloc(1, sizeof(Type));
-                    t->ty = ARRAY;
-                    t->ptr_to = type;
-                    type = t;
 
-                    if (consume("]")) { // TODO:配列要素数省略
-                        undefsize = 1;
-                        break;
-                    }
+            while (consume("[")) { // 配列型
+                Type *t = calloc(1, sizeof(Type));
+                t->ty = ARRAY;
+                t->ptr_to = type;
+                type = t;
 
-                    size = expect_number();
-                    expect("]");
-
-                    t->array_size = size;
+                if (consume("]")) { // 配列要素数省略
+                    undefsize = 1;
+                    break;
                 }
 
-                if (!undefsize) {
-                    int totalbytesize = 4;
-                    totalbytesize = size_from_type(type);
+                size = expect_number();
+                expect("]");
 
-                    // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
-                    gvar = calloc(1, sizeof(GVar));
-                    gvar->next = globals;
-                    gvar->name = tok->str;
-                    gvar->len = tok->len;
-                    // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                    gvar->addr = totalbytesize;
-                    gvar->type = type;
-                    node->offset = gvar->addr;
-                    globals = gvar;
-                }
+                t->array_size = size;
+            }
+
+            if (!undefsize) {
+                int totalbytesize = 4;
+                totalbytesize = size_from_type(type);
+
+                // printf("### NEWIDT %s:len=%d\n",tok->str,tok->len);
+                gvar = calloc(1, sizeof(GVar));
+                gvar->next = globals;
+                gvar->name = tok->str;
+                gvar->len = tok->len;
+                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
+                gvar->addr = totalbytesize;
+                gvar->type = type;
+                node->offset = gvar->addr;
+                globals = gvar;
             }
         }
 
-        // TODO:グローバル変数の初期化
+        // グローバル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_GVALDEF;
@@ -851,7 +1180,7 @@ Node *function_gval() {
                 // d:
                 // .quad b + 3
 
-                Token *tokquo = consume_type(TK_QUOTE);
+                Token *tokquo = consume_kind(TK_QUOTE);
                 if (tokquo) { // 文字列リテラル
                     int nowindex = 0;
 
@@ -922,73 +1251,63 @@ Node *stmt() {
             tmp = tmp2;
         }
 
-    } else if (is_typeword()) { // ローカル変数定義
+    } else if (is_type()) { // ローカル変数定義
         node = calloc(1, sizeof(Node));
         node->kind = ND_VALDEF;
 
-        // ポインタ型に対応
-        Type *type = consume_typeword();
+        Type *type = consume_type();
 
-        while (consume("*")) {
-            Type *t = calloc(1, sizeof(Type));
-            t->ty = PTR;
-            t->ptr_to = type;
-            type = t;
-        }
+        Token *tok = consume_kind(TK_IDENT);
+        if (!tok)
+            exit(1);
 
-        Token *tok = consume_type(TK_IDENT);
         int offset;
         int undefsize = 0; // sizeを省略したとき1
         int totalsize = 1;
         int size = 1;
+
         LVar *lvar;
-        if (tok) {
-            lvar = find_lvar(tok);
-            if (lvar) {
-                exit(1);
-            } else {
-                node->name = tok->str;
-                node->val = tok->len;
-
-                while (consume("[")) { // 配列型
-                    Type *t = calloc(1, sizeof(Type));
-                    t->ty = ARRAY;
-                    t->ptr_to = type;
-                    type = t;
-
-                    if (consume("]")) { // TODO:配列要素数省略
-                        undefsize = 1;
-                        break;
-                    }
-
-                    size = expect_number();
-                    expect("]");
-
-                    t->array_size = size;
-
-                    totalsize *= size;
-                }
-
-                if (!undefsize) {
-                    // TODO:offsetの設定バグありそう?(配列の場所)
-                    offset = (locals ? locals->offset : 0) + 8 * totalsize;
-
-                    lvar = calloc(1, sizeof(LVar));
-                    lvar->next = locals;
-                    lvar->name = tok->str;
-                    lvar->len = tok->len;
-                    lvar->offset = offset;
-                    lvar->type = type;
-                    node->offset = offset;
-                    locals = lvar;
-
-                    localsnum += totalsize;
-                }
-            }
-        } else {
+        lvar = find_lvar(tok);
+        if (lvar)
             exit(1);
+
+        node->name = tok->str;
+        node->val = tok->len;
+
+        while (consume("[")) { // 配列型
+            Type *t = calloc(1, sizeof(Type));
+            t->ty = ARRAY;
+            t->ptr_to = type;
+            type = t;
+
+            if (consume("]")) { // 配列要素数省略
+                undefsize = 1;
+                break;
+            }
+
+            size = expect_number();
+            expect("]");
+
+            t->array_size = size;
+            totalsize *= size;
         }
-        // TODO:ローカル変数の初期化
+
+        if (!undefsize) {
+            // TODO:offsetの設定バグありそう?(配列の場所)
+            offset = (locals ? locals->offset : 0) + 8 * totalsize;
+
+            lvar = calloc(1, sizeof(LVar));
+            lvar->next = locals;
+            lvar->name = tok->str;
+            lvar->len = tok->len;
+            lvar->offset = offset;
+            lvar->type = type;
+            node->offset = offset;
+            locals = lvar;
+
+            localsnum += totalsize;
+        }
+        // ローカル変数の初期化
         if (consume("=")) {
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->kind = ND_BLOCK;
@@ -1073,7 +1392,7 @@ Node *stmt() {
                     expect("}");
                 }
             } else {
-                Token *tokquo = consume_type(TK_QUOTE);
+                Token *tokquo = consume_kind(TK_QUOTE);
                 if (tokquo) { // 文字列リテラル
                     int nowindex = 0;
                     Node *assignsubj;
@@ -1134,24 +1453,62 @@ Node *stmt() {
         }
 
         expect(";");
-    } else if (consume_type(TK_RETURN)) {
+    } else if (consume_kind(TK_RETURN)) {
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
         expect(";");
-    } else if (consume_type(TK_IF)) {
-        // "if" "(" expr ")" stmt ("else" stmt)?
+    } else if (consume_kind(TK_BREAK)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_BREAK;
+        expect(";");
+    } else if (consume_kind(TK_CONTINUE)) {
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_CONTINUE;
+        expect(";");
+    } else if (consume_kind(TK_IF)) {
         expect("(");
         node = calloc(1, sizeof(Node));
         node->kind = ND_IF;
         node->lhs = expr();
         expect(")");
         Node *tmp = stmt();
-        if (consume_type(TK_ELSE)) {
+        if (consume_kind(TK_ELSE)) {
             tmp = new_node(ND_ELSE, tmp, stmt());
         }
         node->rhs = tmp;
-    } else if (consume_type(TK_WHILE)) {
+    } else if (consume_kind(TK_SWITCH)) {
+        expect("(");
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_SWITCH;
+        node->lhs = expr();
+        expect(")");
+        expect("{");
+        Node *tmp;
+        Node *top = node;
+        for (;;) {
+            if (consume("}"))
+                break;
+
+            if (consume_kind(TK_CASE)) {
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_CASE;
+                tmp->val = expect_number(); // TODO:caseに数値以外の定数
+                expect(":");
+            } else if (consume_kind(TK_DEFAULT)) {
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_DEFAULT;
+                expect(":");
+            } else {
+                tmp = calloc(1, sizeof(Node));
+                tmp->kind = ND_BLOCK;
+                tmp->lhs = stmt();
+            }
+            node->rhs = tmp;
+            node = tmp;
+        }
+        node = top;
+    } else if (consume_kind(TK_WHILE)) {
         // "while" "(" expr ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
@@ -1159,7 +1516,7 @@ Node *stmt() {
         node->lhs = expr();
         expect(")");
         node->rhs = stmt();
-    } else if (consume_type(TK_FOR)) {
+    } else if (consume_kind(TK_FOR)) {
         // "for" "(" expr? ";" expr? ";" expr? ")" stmt
         expect("(");
         node = calloc(1, sizeof(Node));
@@ -1245,12 +1602,12 @@ Node *assign() {
     return node;
 }
 
-Node *condition() { // TODO:優先順位
+Node *condition() {
     Node *node = logicOR();
 
     if (consume("?")) {
         node = new_node(ND_COND, node, 0);
-        Node *b = logicOR();
+        Node *b = expr();
         expect(":");
         Node *tmp = new_node(ND_COLON, b, condition());
         node->rhs = tmp;
@@ -1380,7 +1737,7 @@ Node *mul() {
 }
 
 Node *unary() {
-    if (consume_type(TK_SIZEOF)) {
+    if (consume_kind(TK_SIZEOF)) {
         Node *node = unary();
         Type *type = estimate_type(node);
         int size = size_from_type(type);
@@ -1415,23 +1772,35 @@ Node *unary() {
 Node *postpos() { // TODO:配列アクセス(優先順位は?)
     Node *node = primary();
 
+    int is_strderef;
     for (;;) {
+        is_strderef = 0;
         if (consume("[")) {
             // x[y] -> *(x+y)
             node = new_node(ND_DEREF, new_node(ND_ADD, node, expr()), 0);
             expect("]");
-        }
-        // else if (consume("."))
-        // node = new_node(ND_, node, unary());
-        // else if (consume("->"))
-        // node = new_node(ND_, node, unary());
-        else
+        } else if (consume(".") || (is_strderef = consume("->"))) {
+            Token *tok = consume_kind(TK_IDENT);
+            if (!tok)
+                exit(1);
+
+            Node *membername = calloc(1, sizeof(Node));
+            membername->kind = ND_MEMBER;
+            membername->name = tok->str;
+            membername->val = tok->len;
+
+            // a->b は (*a).bと等価
+            if (is_strderef)
+                node = new_node(ND_STRREF, new_node(ND_DEREF, node, 0), membername);
+            else
+                node = new_node(ND_STRREF, node, membername);
+        } else
             break;
     }
     if (consume("++")) {
-        node = new_node(ND_POSTINCR, node, new_node(ND_ADD, node, new_node_num(1)));
+        node = new_node(ND_POSTINCR, node, 0);
     } else if (consume("--")) {
-        node = new_node(ND_POSTDECR, node, new_node(ND_SUB, node, new_node_num(1)));
+        node = new_node(ND_POSTDECR, node, 0);
     } else
         return node;
 }
@@ -1444,7 +1813,7 @@ Node *primary() {
         return node;
     }
 
-    Token *tok = consume_type(TK_QUOTE);
+    Token *tok = consume_kind(TK_QUOTE);
     if (tok) { // 文字列リテラル
         Node *node = calloc(1, sizeof(Node));
         node->kind = ND_QUOTE;
@@ -1462,14 +1831,14 @@ Node *primary() {
     }
 
     // 次のトークンが識別子なら
-    tok = consume_type(TK_IDENT);
+    tok = consume_kind(TK_IDENT);
     if (tok) {
         if (consume("(")) { // 関数呼び出し
             Node *node = calloc(1, sizeof(Node));
             node->kind = ND_FUNCCALL;
             node->name = tok->str;
             node->val = tok->len;
-            // TODO:引数の個数チェック
+
             if (consume(")")) {
                 return node;
             } else {
@@ -1505,7 +1874,14 @@ Node *primary() {
                     node->offset = gvar->addr;
                     node->val = gvar->len;
                     node->name = gvar->name;
-                } else {
+                } else { // TODO:enum
+                    Constant *cons = constants;
+                    for (; cons; cons = cons->next)
+                        if (cons->len == tok->len && !memcmp(tok->str, cons->name, cons->len))
+                            break;
+                    if (cons) {
+                        return new_node_num(cons->val);
+                    }
                     exit(1);
                 }
             }
@@ -1517,10 +1893,40 @@ Node *primary() {
     return new_node_num(expect_number());
 }
 
-void gen_lval(Node *node) {
+int gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
         gen(node->lhs);
-        return;
+        return 0;
+    }
+
+    if (node->kind == ND_STRREF) { // TODO:struct(特に複数階層の参照)
+        printf("### begin strref\n");
+        gen_lval(node->lhs);
+        // 左辺の型からstructを特定→右辺の型を探す→右辺のサイズを足す
+        Type *lhstype = estimate_type(node->lhs);
+        if (lhstype->ty != STRUCT)
+            exit(1);
+
+        int offset = 0;
+
+        Type *now = lhstype->member;
+        for (;;) {
+            if (!now)
+                exit(1);
+            if (now->ty != MEMBER)
+                exit(1);
+            if (now->len == node->rhs->val && !memcmp(node->rhs->name, now->name, now->len))
+                break;
+            offset += size_from_type(now->ptr_to);
+            now = now->member;
+        }
+        int ty = now->ty;
+        printf("  pop rax\n");
+        printf("  add rax, %d\n", offset); // TODO:offsetが大きすぎると?
+        printf("  push rax\n");
+
+        printf("### end strref\n");
+        return ty;
     }
 
     if (node->kind != ND_LVAR)
@@ -1534,7 +1940,7 @@ void gen_lval(Node *node) {
         printf("  mov rax, rbp\n");
         printf("  sub rax, %d\n", node->offset);
         printf("  push rax\n");
-        return;
+        return 0;
     }
 
     tok = calloc(1, sizeof(Token));
@@ -1549,12 +1955,16 @@ void gen_lval(Node *node) {
         // printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  mov rax, OFFSET FLAT:%s\n", name);
         printf("  push rax\n");
-        return;
+        return 0;
     }
     exit(1);
 }
 
 int branch_label = 0;
+int is_inloop = 0;
+int is_inswitch = 0;
+int current_loop_id = 0;
+int current_switch_id = 0;
 
 void gen(Node *node) {
     char name[255];
@@ -1564,6 +1974,10 @@ void gen(Node *node) {
     }
     if (node->kind == ND_VALDEF) {
         printf("  push rax\n");
+        return;
+    }
+    if (node->kind == ND_TYPEDEF || node->kind == ND_ENUM ||
+        node->kind == ND_STRUCT) {
         return;
     }
     if (node->kind == ND_GVALDEF) {
@@ -1579,7 +1993,7 @@ void gen(Node *node) {
         }
 
         int size = 4;
-        // if (type->ty == ARRAY) { // TODO
+        // if (type->ty == ARRAY) { // TODO:二次元配列の初期化
         //     return;
         // }
         if (type) {
@@ -1648,6 +2062,7 @@ void gen(Node *node) {
             i++;
         }
         // ローカル変数用のスタックを確保
+        // TODO:8より大きいローカル変数(配列,構造体)
         printf("  sub rsp, %d\n", (localsnum - i + 1) * 8);
 
         gen(node->rhs);
@@ -1677,26 +2092,73 @@ void gen(Node *node) {
         if (node->rhs->kind == ND_ELSE) {
             printf("  je  .Lelse%d\n", id);
             gen(node->rhs->lhs);
-            printf("  jmp .Lend%d\n", id);
+            printf("  jmp .Lendif%d\n", id);
             printf(".Lelse%d:\n", id);
             gen(node->rhs->rhs);
         } else {
-            printf("  je  .Lend%d\n", id);
+            printf("  je  .Lendif%d\n", id);
             gen(node->rhs);
         }
+        printf(".Lendif%d:\n", id);
+        return;
+    }
+
+    if (node->kind == ND_SWITCH) {
+        int id = branch_label;
+        current_switch_id = id;
+        branch_label++;
+        int caseid = 0;
+        gen(node->lhs);
+        printf("  pop rax\n");
+
+        is_inswitch = 1;
+        Node *tmp = node->rhs;
+        while (tmp) {
+            if (tmp->kind == ND_CASE) {
+                printf("  cmp rax, %d\n", tmp->val);
+                printf("  je .Lcase%d_%d\n", id, caseid);
+                caseid++;
+            } else if (tmp->kind == ND_DEFAULT) {
+                printf("  jmp .Ldefault%d\n", id);
+            }
+            tmp = tmp->rhs;
+        }
+        printf("  jmp .Lend%d\n", id);
+
+        caseid = 0;
+        tmp = node->rhs;
+        while (tmp) {
+            if (tmp->kind == ND_CASE) {
+                printf(".Lcase%d_%d:\n", id, caseid);
+                caseid++;
+            } else if (tmp->kind == ND_DEFAULT) {
+                printf(".Ldefault%d:\n", id);
+            } else if (tmp->kind == ND_BLOCK) {
+                gen(tmp->lhs);
+                current_switch_id = id;
+                printf("  pop rax\n");
+            }
+            tmp = tmp->rhs;
+        }
+        is_inswitch = 0;
         printf(".Lend%d:\n", id);
         return;
     }
 
     if (node->kind == ND_WHILE) {
         int id = branch_label;
+        current_loop_id = id;
         branch_label++;
         printf(".Lbegin%d:\n", id);
+        printf(".Lcontinue%d:\n", id);
         gen(node->lhs);
         printf("  pop rax\n");
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
+        is_inloop = 1;
         gen(node->rhs);
+        is_inloop = 0;
+        current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
         return;
@@ -1704,18 +2166,47 @@ void gen(Node *node) {
 
     if (node->kind == ND_FOR) {
         int id = branch_label;
+        current_loop_id = id;
         branch_label++;
         // for (A; B; C) D
         gen(node->lhs); // A
         printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); // B
         printf("  pop rax\n");
-        printf("  cmp rax, 0\n");
-        printf("  je  .Lend%d\n", id);
+        if (node->rhs->lhs == 0) { // 条件を省略した場合常に真
+
+        } else {
+            printf("  cmp rax, 0\n");
+            printf("  je  .Lend%d\n", id);
+        }
+        is_inloop = 1;
         gen(node->rhs->rhs->rhs); // D
+        printf(".Lcontinue%d:\n", id);
         gen(node->rhs->rhs->lhs); // C
+        is_inloop = 0;
+        current_loop_id = id;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
+        return;
+    }
+
+    if (node->kind == ND_BREAK) {
+        if (is_inloop || is_inswitch) {
+            int id = current_loop_id;
+            if (current_switch_id > id)
+                id = current_switch_id;
+            printf("  jmp .Lend%d\n", id);
+        } else {
+            exit(1);
+        }
+        return;
+    }
+    if (node->kind == ND_CONTINUE) {
+        if (is_inloop) {
+            printf("  jmp .Lcontinue%d\n", current_loop_id);
+        } else {
+            exit(1);
+        }
         return;
     }
 
@@ -1763,6 +2254,32 @@ void gen(Node *node) {
         printf("  pop rax\n");
         printf("  mov rax, QWORD PTR [rax]\n");
         printf("  push rax\n");
+        return;
+    case ND_STRREF:
+        printf("### $$$ begin strref_R\n");
+        int ty = gen_lval(node); // TODO:structの型推定
+        if (ty == ARRAY) {
+            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+            return;
+        }
+        if (ty == CHAR) {
+            // char型のときは1バイト読み込む
+            printf("  pop rax\n");
+            printf("  movzx eax, BYTE PTR [rax]\n");
+            printf("  push rax\n");
+            return;
+        }
+        if (ty == INT) {
+            // int型のときは4バイト読み込む
+            printf("  pop rax\n");
+            printf("  movslq rax, DWORD PTR [rax]\n");
+            printf("  push rax\n");
+            return;
+        }
+        printf("  pop rax\n");
+        printf("  mov rax, [rax]\n");
+        printf("  push rax\n");
+        printf("### $$$ end strref_R\n");
         return;
     case ND_NUM:
         printf("  push %d\n", node->val);
@@ -1942,7 +2459,14 @@ void gen(Node *node) {
 
     if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
         gen_lval(node->lhs);
-        gen(node->rhs);
+
+        printf("  pop rax\n");
+        printf("  mov rdi, [rax]\n");
+        if (node->kind == ND_POSTINCR) {
+            printf("  add rdi, 1\n");
+        } else {
+            printf("  sub rdi, 1\n");
+        }
 
         type = estimate_type(node->lhs);
         if (type) {
@@ -1951,23 +2475,17 @@ void gen(Node *node) {
             }
             if (type->ty == CHAR) {
                 // char型のときは1バイト書きこむ
-                printf("  pop rdi\n");
-                printf("  pop rax\n");
                 printf("  push [rax]\n");
                 printf("  mov [rax], dil\n");
                 return;
             }
             if (type->ty == INT) {
                 // int型のときは4バイト書きこむ
-                printf("  pop rdi\n");
-                printf("  pop rax\n");
                 printf("  push [rax]\n");
                 printf("  mov DWORD PTR [rax], edi\n");
                 return;
             }
         }
-        printf("  pop rdi\n");
-        printf("  pop rax\n");
         printf("  push [rax]\n");
         printf("  mov [rax], rdi\n");
         return;
@@ -2116,14 +2634,24 @@ char *nodeToStr(Node *node) {
     case ND_POSTDECR: return "(POST)--";
     case ND_COND: return "?";
     case ND_COLON: return ":";
+    case ND_STRREF: return ".";
+    case ND_MEMBER: sprintf(ret, "%s", namebuf); return ret;
     case ND_SIZEOF: return "sizeof";
     case ND_RETURN: return "return";
     case ND_IF: return "if";
     case ND_ELSE: return "then | else";
     case ND_WHILE: return "while";
     case ND_FOR: return "for";
+    case ND_BREAK: return "break";
+    case ND_CONTINUE: return "continue";
+    case ND_SWITCH: return "switch";
+    case ND_CASE: sprintf(ret, "case %d", node->val); return ret;
+    case ND_DEFAULT: return "default";
     case ND_FORSUP: return "FORSUP";
     case ND_BLOCK: return "BLOCK";
+    case ND_ENUM: sprintf(ret, "ENUM(%s)", namebuf); return ret;
+    case ND_STRUCT: sprintf(ret, "STRUCT(%s)", namebuf); return ret;
+    case ND_TYPEDEF: sprintf(ret, "TYPEDEF(%s)", namebuf); return ret;
     case ND_LVAR: sprintf(ret, "%s", namebuf); return ret;
     case ND_FUNCCALL: sprintf(ret, "CALL(%s)", namebuf); return ret;
     case ND_FUNCDEF: sprintf(ret, "FUNC(%s)", namebuf); return ret;
@@ -2155,7 +2683,9 @@ int gengraph(Node *node, int nodeid) {
     int nowid = nodeid;
 
     printf(" node%d [label=\"%s\"", nowid, nodeToStr(node));
-    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF || node->kind == ND_FUNCDEF) {
+    if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
+        node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
+        node->kind == ND_STRUCT || node->kind == ND_TYPEDEF) {
         printf(" shape = box");
     }
     if (node->kind == ND_BLOCK) {
@@ -2228,16 +2758,26 @@ int main(int argc, char **argv) {
         printf(".bss\n");
     }
 
-    int doing_gloval = 1;
+    int last_gloval_index = -1;
+    for (i = 0; code[i]; i++) {
+        if (code[i]->kind == ND_GVALDEF)
+            last_gloval_index = i;
+    }
+
+    if (-1 == last_gloval_index) {
+        // .textは最後のグローバル変数の後ろにのみ入れる
+        printf(".text\n");
+    }
+
     // 先頭の式から順にコード生成
     for (i = 0; code[i]; i++) {
         localsnum = localsnums[i];
         locals = LocalsList[i];
-        if (doing_gloval && code[i]->kind != ND_GVALDEF) {
-            printf(".text\n"); // ←.textは最後のグローバル変数の後ろにのみ入れる(そうでないとずれる)
-            doing_gloval = 0;
-        }
         gen(code[i]);
+        if (i == last_gloval_index) {
+            // .textは最後のグローバル変数の後ろにのみ入れる
+            printf(".text\n");
+        }
     }
 
     return 0;
