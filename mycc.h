@@ -258,7 +258,6 @@ extern int branch_label;
 // 入力ファイル名
 extern char *filename;
 
-void error(char *fmt);
 void error_at(char *loc, char *msg);
 int consume(char *op);
 Token *consume_kind(TokenKind tkind);

@@ -78,7 +78,10 @@ assert() {
 # assert $target 3    'int printf();int main(){int a=3;{int a=6;{ int a=8; {a++;} printf("$%d$ ",a);}printf("@%d@ ",a); }printf("#%d# ",a); return 3;}'
 # assert $target 4    'int printf();int (*p_func[2])(int, int);int max(int a,int b){int m=a;if(m<b)m=b;return m;}int min(int a,int b){int m=a;if(m>b)m=b;return m;}int main(){p_func[0]=max;p_func[1]=min;int i;for(i=0;i<2;i++)printf("p_func[%d](3,5)=%d ",i,p_func[i](3,5));return 4;}'
 # assert $target 90   'int main(){int s=0;for(int i=0;i<10;s+=i,i+=1);for(int i=0;i<10;s+=i,i+=1);return s;}'
-assert $target 3    'int printf();int main(){(&printf)("  &printf = %p\n", &printf);printf ("   printf = %p\n", printf);(  *printf)("  *printf = %p\n", *printf);( **printf)(" **printf = %p\n", **printf);(***printf)("***printf = %p\n", ***printf); return 3;}'
+# assert $target 3    'int printf();int main(){(&printf)("  &printf = %p\n", &printf);printf ("   printf = %p\n", printf);(  *printf)("  *printf = %p\n", *printf);( **printf)(" **printf = %p\n", **printf);(***printf)("***printf = %p\n", ***printf); return 3;}'
+# assert $target 4    'int printf();int main(){printf("\a\b\f\n\r\t\v\\");return 4;}'
+assert $target 4    'int printf();char s[] = "\a\b\f\n\r\t\v\\\'\''\"\0";int main(){char *p=s;while(*p)printf("%d,",*p++);'\
+'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'

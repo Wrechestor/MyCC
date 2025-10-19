@@ -264,7 +264,8 @@ int main(int argc, char **argv) {
     // 	return 1;
     // }
     if (argc < 2) {
-        error("引数の個数が正しくありません");
+        fprintf(stderr, "引数の個数が正しくありません\n");
+        exit(1);
         return 1;
     }
 

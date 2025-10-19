@@ -7,7 +7,7 @@ make
 
 # ↓これらは最終行が空行でないとダメ!
 cat selfhost/mycc_prototype.c mycc.h \
-    parse.c codegen.c main.c > selfhost/mycc_cat.c
+    tokenize.c parse.c codegen.c main.c > selfhost/mycc_cat.c
 
 # TODO:複数宣言
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" selfhost/mycc_cat.c
