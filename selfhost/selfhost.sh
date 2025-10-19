@@ -21,10 +21,6 @@ sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
     -e 's/SEEK_CUR/1/g' -e 's/SEEK_END/2/g' selfhost/mycc_cat.c
 sed -i -e "/#include/d" -e "/#define/d" selfhost/mycc_cat.c
 
-# TODO:キャスト演算子
-sed -i "s/(int)//g" selfhost/mycc_cat.c
-
-
 cd selfhost/
 
 # ↓gccするとき入力ファイル名が同じでないと出力バイナリも同じにならない!

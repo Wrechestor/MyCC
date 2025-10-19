@@ -100,6 +100,7 @@ enum NodeKind {
     ND_ARG,        // 関数の引数
     ND_ADDR,       // unary &
     ND_DEREF,      // unary *
+    ND_CAST,       // キャスト演算子 (int)
     ND_VALDEF,     // ローカル変数定義
     ND_GVALDEF,    // グローバル変数定義
     ND_TYPEDIDENT, // int **x[4][5] など型と識別子名のセット

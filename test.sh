@@ -85,10 +85,10 @@ assert $target 4    'int printf();char s[] = "\a\b\f\n\r\t\v\\\'\''\"\0";int mai
 'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
 assert $target 4    'int printf();int main(){char s[] = "\a\b\f\n\r\t\v\\\'\''\"\0";char *p=s;while(*p)printf("%d,",*p++);'\
 'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
+assert $target 4 'int main(){int a=4; char b=(char)a; return b;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'
-
 
 
 

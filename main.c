@@ -118,6 +118,9 @@ char *nodeToStr(Node *node) {
     case ND_PROTO:
         sprintf(ret, "PROTO(%s)", namebuf);
         return ret;
+    case ND_CAST:
+        sprintf(ret, "CAaST(%s)", typeToStr(node->type));
+        return ret;
     case ND_ARG: return "ARG";
     case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
     case ND_DEREF: return "*<FONT POINT-SIZE='12.0'>(DEREF)</FONT>";

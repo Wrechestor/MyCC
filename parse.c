@@ -1731,6 +1731,26 @@ Node *unary() {
         return new_node_num(size);
     }
 
+    Token *first = token;
+    if (consume("(")) { // キャスト演算子
+        Type *type = NULL;
+        Node *nd = consume_typed_ident(NULL);
+        if (nd)
+            type = nd->type;
+        if (!type) {
+            token = first;
+        } else {
+            int size = size_from_type(type);
+            if (!consume(")")) {
+                token = first;
+            } else {
+                Node *node = new_node(ND_CAST, unary(), NULL);
+                node->type = type;
+                return node;
+            }
+        }
+    }
+
     // 前置++ --は+=1 -=1と同じ
     if (consume("++")) {
         Node *node = unary();

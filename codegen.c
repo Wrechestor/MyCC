@@ -13,6 +13,54 @@ int rsp_lsb4 = 0;
 int rsp_add(int x) {
     return (rsp_lsb4 = (rsp_lsb4 + x) & 15);
 }
+void print_push(char *s) {
+    printf("  push %s\n", s);
+    rsp_add(-8);
+}
+void print_pop(char *s) {
+    printf("  pop %s\n", s);
+    rsp_add(8);
+}
+
+void print_read_type(enum type_t ty, int dstreg) {
+    // TODO:他のレジスタに対応
+    if (ty == CHAR) {
+        // char型のときは1バイト読み込む
+        switch (dstreg) {
+        case 0: printf("  movzx eax, BYTE PTR [rax]\n"); break;
+        case 1: printf("  movzx edi, BYTE PTR [rax]\n"); break;
+        default: break;
+        }
+        return;
+    }
+    if (ty == INT) {
+        // int型のときは4バイト読み込む
+        switch (dstreg) {
+        case 0: printf("  mov eax, DWORD PTR [rax]\n"); break;
+        case 1: printf("  mov edi, DWORD PTR [rax]\n"); break;
+        default: break;
+        }
+        return;
+    }
+    switch (dstreg) {
+    case 0: printf("  mov rax, QWORD PTR [rax]\n"); break;
+    case 1: printf("  mov rdi, QWORD PTR [rax]\n"); break;
+    default: break;
+    }
+}
+void print_write_type(enum type_t ty) {
+    if (ty == CHAR) {
+        // char型のときは1バイト書きこむ
+        printf("  mov [rax], dil\n");
+        return;
+    }
+    if (ty == INT) {
+        // int型のときは4バイト書きこむ
+        printf("  mov DWORD PTR [rax], edi\n");
+        return;
+    }
+    printf("  mov [rax], rdi\n");
+}
 
 int gen_lval(Node *node) {
     if (node->kind == ND_DEREF) {
@@ -43,13 +91,10 @@ int gen_lval(Node *node) {
             now = now->member;
         }
         int ty = now->ptr_to->ty; // typeの本体はnow->ptr_to
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  add rax, %d\n", offset);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
 
-        // printf("### end strref\n");
         return ty;
     }
 
@@ -59,8 +104,7 @@ int gen_lval(Node *node) {
     if (node->variabletype == LOCALVAL) {
         printf("  mov rax, rbp\n");
         printf("  sub rax, %d\n", node->offset);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return 0;
     }
 
@@ -71,8 +115,7 @@ int gen_lval(Node *node) {
 
         // printf("  lea rax, QWORD PTR %s[rip]\n", name);
         printf("  mov rax, OFFSET FLAT:%s\n", name);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return 0;
     }
 
@@ -89,8 +132,7 @@ void gen(Node *node) {
     int is_inswitch_old;
 
     if (node == NULL) {
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
 
@@ -107,8 +149,7 @@ void gen(Node *node) {
     }
 
     if (node->kind == ND_VALDEF) {
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
     if (node->kind == ND_TYPEDEF || node->kind == ND_ENUM ||
@@ -129,10 +170,11 @@ void gen(Node *node) {
         }
 
         int size = 4;
-        // if (type->ty == ARRAY) { // TODO:二次元配列の初期化
-        //     return;
-        // }
         if (type) {
+            // if (type->ty == ARRAY) {
+            // // TODO:二次元配列,structの初期化
+            //     return;
+            // }
             if (type->ty == CHAR) {
                 size = 1;
             }
@@ -179,47 +221,23 @@ void gen(Node *node) {
         rsp_lsb4 = 8;
 
         // プロローグ
-        printf("  push rbp\n");
-        rsp_add(-8);
+        print_push("rbp");
         printf("  mov rbp, rsp\n");
 
         nownode = node->lhs;
         i = 0;
         while (nownode) {
             switch (i) {
-            case 0:
-                printf("  push rdi\n");
-                rsp_add(-8);
-                break;
-            case 1:
-                printf("  push rsi\n");
-                rsp_add(-8);
-                break;
-            case 2:
-                printf("  push rdx\n");
-                rsp_add(-8);
-                break;
-            case 3:
-                printf("  push rcx\n");
-                rsp_add(-8);
-                break;
-            case 4:
-                printf("  push r8\n");
-                rsp_add(-8);
-                break;
-            case 5:
-                printf("  push r9\n");
-                rsp_add(-8);
-                break;
+            case 0: print_push("rdi"); break;
+            case 1: print_push("rsi"); break;
+            case 2: print_push("rdx"); break;
+            case 3: print_push("rcx"); break;
+            case 4: print_push("r8"); break;
+            case 5: print_push("r9"); break;
             }
             if (i >= 6) {
-                // アライメントの状況はr15
-                // printf("  push [rbp+r15+%d]\n", 16 + (i - 6) * 8);
-                // TODO:アラインメント
                 printf("  push [rbp+%d]\n", 16 + (i - 6) * 8);
                 rsp_add(-(16 + (i - 6) * 8));
-                // printf("  push [rbp+%d]\n", i * 8);
-                // rsp_add(-(i * 8));
             }
             nownode = nownode->lhs;
             i++;
@@ -229,29 +247,20 @@ void gen(Node *node) {
         printf("  sub rsp, %d\n", (localsnum - i) * 8);
         rsp_add(-(localsnum - i) * 8);
 
-        // // アライメントを元に戻すため
-        // printf("  push r15\n"); rsp_add(-8);
-
         gen(node->rhs);
-        printf("  pop rax\n");
-        rsp_add(8);
-
-        // // アライメントを元に戻すため
-        // printf("  pop r15\n"); rsp_add(8);
+        print_pop("rax");
 
         // エピローグ
         // 最後の式の結果がRAXに残っているのでそれが返り値になる
         printf("  mov rsp, rbp\n");
-        printf("  pop rbp\n");
-        rsp_add(8);
+        print_pop("rbp");
         printf("  ret\n");
         return;
     }
 
     if (node->kind == ND_BLOCK) {
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         gen(node->rhs);
         return;
     }
@@ -260,28 +269,23 @@ void gen(Node *node) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  cmp rax, 0\n");
         if (node->rhs->kind == ND_ELSE) {
             printf("  je  .Lelse%d\n", id);
             gen(node->rhs->lhs);
-            printf("  pop rax\n");
-            rsp_add(8);
+            print_pop("rax");
             printf("  jmp .Lendif%d\n", id);
             printf(".Lelse%d:\n", id);
             gen(node->rhs->rhs);
-            printf("  pop rax\n");
-            rsp_add(8);
+            print_pop("rax");
         } else {
             printf("  je  .Lendif%d\n", id);
             gen(node->rhs);
-            printf("  pop rax\n");
-            rsp_add(8);
+            print_pop("rax");
         }
         printf(".Lendif%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
 
@@ -292,8 +296,7 @@ void gen(Node *node) {
         branch_label++;
         int caseid = 0;
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         is_inswitch++;
         nownode = node->rhs;
         while (nownode) {
@@ -318,15 +321,13 @@ void gen(Node *node) {
                 printf(".Ldefault%d:\n", id);
             } else if (nownode->kind == ND_BLOCK) {
                 gen(nownode->lhs);
-                printf("  pop rax\n");
-                rsp_add(8);
+                print_pop("rax");
             }
             nownode = nownode->rhs;
         }
         is_inswitch--;
         printf(".Lend%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         current_switch_id = last_switch_id;
         return;
     }
@@ -339,40 +340,31 @@ void gen(Node *node) {
         printf(".Lbegin%d:\n", id);
         printf(".Lcontinue%d:\n", id);
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  cmp rax, 0\n");
         printf("  je  .Lend%d\n", id);
         is_inloop++;
         gen(node->rhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         is_inloop--;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         current_loop_id = last_loop_id;
         return;
     }
 
     if (node->kind == ND_FOR) {
-        // TODO:分岐系でアラインメントが崩れる
-
         last_loop_id = current_loop_id;
         id = branch_label;
         current_loop_id = id;
         branch_label++;
         // for (A; B; C) D
         gen(node->lhs); // A
-        printf("  pop rax\n");
-        rsp_add(8);
-
-        // int rsp_lsb4_now = rsp_lsb4;
+        print_pop("rax");
         printf(".Lbegin%d:\n", id);
         gen(node->rhs->lhs); // B
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         if (node->rhs->lhs == NULL) { // 条件を省略した場合常に真
 
         } else {
@@ -381,19 +373,15 @@ void gen(Node *node) {
         }
         is_inloop++;
         gen(node->rhs->rhs->rhs); // D
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf(".Lcontinue%d:\n", id);
         gen(node->rhs->rhs->lhs); // C
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         is_inloop--;
         printf("  jmp .Lbegin%d\n", id);
         printf(".Lend%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         current_loop_id = last_loop_id;
-        // rsp_lsb4 = rsp_lsb4_now;
         return;
     }
 
@@ -403,8 +391,7 @@ void gen(Node *node) {
             if (current_switch_id > id)
                 id = current_switch_id;
             printf("  jmp .Lend%d\n", id);
-            printf("  push rax\n");
-            rsp_add(-8);
+            print_push("rax");
         } else {
             error_at(node->srctoken->str, "breakの位置が不正です");
         }
@@ -413,8 +400,7 @@ void gen(Node *node) {
     if (node->kind == ND_CONTINUE) {
         if (is_inloop) {
             printf("  jmp .Lcontinue%d\n", current_loop_id);
-            printf("  push rax\n");
-            rsp_add(-8);
+            print_push("rax");
         } else {
             error_at(node->srctoken->str, "continueの位置が不正です");
         }
@@ -423,143 +409,70 @@ void gen(Node *node) {
 
     if (node->kind == ND_RETURN) {
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  mov rsp, rbp\n");
-        printf("  pop rbp\n");
-        rsp_add(8);
+        print_pop("rbp");
         printf("  ret\n");
         return;
     }
 
     switch (node->kind) {
-    case ND_ADDR:
-        gen_lval(node->lhs);
+    case ND_CAST:
+        // TODO:キャスト演算子の処理(unsigned等がないのでまだ無し)
+        gen(node->lhs);
         return;
+    case ND_ADDR: gen_lval(node->lhs); return;
     case ND_DEREF:
         gen(node->lhs);
         type = estimate_type(node->lhs);
         if (type) {
             if (type->ty == FUNC) {
-                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
+                // 関数のときはそのままアドレスを返す
+                // (暗黙のポインタキャスト)
                 return;
             }
             type = type->ptr_to;
         }
-        if (type) {
-            if (type->ty == ARRAY) {
-                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == FUNC) {
-                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  movzx eax, BYTE PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_add(-8);
-                return;
-            }
-            if (type->ty == INT) {
-                // int型のときは4バイト読み込む
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  movslq rax, DWORD PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_add(-8);
-                return;
-            }
+        if (type && (type->ty == ARRAY || type->ty == FUNC)) {
+            // 配列or関数のときはそのままアドレスを返す
+            // (暗黙のポインタキャスト)
+            return;
         }
-        printf("  pop rax\n");
-        rsp_add(8);
-        printf("  mov rax, QWORD PTR [rax]\n");
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_pop("rax");
+        print_read_type(type ? type->ty : VOID, 0);
+        print_push("rax");
         return;
     case ND_STRREF:
         int ty = gen_lval(node);
-        if (ty == ARRAY) {
-            // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
+        if (ty == ARRAY || ty == FUNC) {
+            // 配列or関数のときはそのままアドレスを返す
+            // (暗黙のポインタキャスト)
             return;
         }
-        if (ty == FUNC) {
-            // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
-            return;
-        }
-        if (ty == CHAR) {
-            // char型のときは1バイト読み込む
-            printf("  pop rax\n");
-            rsp_add(8);
-            printf("  movzx eax, BYTE PTR [rax]\n");
-            printf("  push rax\n");
-            rsp_add(-8);
-            return;
-        }
-        if (ty == INT) {
-            // int型のときは4バイト読み込む
-            printf("  pop rax\n");
-            rsp_add(8);
-            printf("  movslq rax, DWORD PTR [rax]\n");
-            printf("  push rax\n");
-            rsp_add(-8);
-            return;
-        }
-        printf("  pop rax\n");
-        rsp_add(8);
-        printf("  mov rax, [rax]\n");
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_pop("rax");
+        print_read_type(ty, 0);
+        print_push("rax");
         return;
     case ND_NUM:
         printf("  push %d\n", node->val);
         rsp_add(-8);
         return;
     case ND_QUOTE:
-        printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
         // printf("  lea	rax, .LC%d[rip]\n", node->val);
-        printf("  push rax\n");
-        rsp_add(-8);
+        printf("  mov rax, OFFSET FLAT:.LC%d\n", node->val);
+        print_push("rax");
         return;
     case ND_LVAR:
         gen_lval(node);
         type = estimate_type(node);
-        if (type) {
-            if (type->ty == ARRAY) {
-                // 配列のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == FUNC) {
-                // 関数のときはそのままアドレスを返す(暗黙のポインタキャスト)
-                return;
-            }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト読み込む
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  movzx eax, BYTE PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_add(-8);
-                return;
-            }
-            if (type->ty == INT) {
-                // int型のときは4バイト読み込む
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  movslq rax, DWORD PTR [rax]\n");
-                printf("  push rax\n");
-                rsp_add(-8);
-                return;
-            }
+        if (type && (type->ty == ARRAY || type->ty == FUNC)) {
+            // 配列or関数のときはそのままアドレスを返す
+            // (暗黙のポインタキャスト)
+            return;
         }
-        printf("  pop rax\n");
-        rsp_add(8);
-        printf("  mov rax, [rax]\n");
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_pop("rax");
+        print_read_type(type ? type->ty : VOID, 0);
+        print_push("rax");
         return;
     case ND_ASSIGN:
         gen_lval(node->lhs);
@@ -570,55 +483,19 @@ void gen(Node *node) {
             if (type->ty == ARRAY) {
                 error_at(node->srctoken->str, "配列には代入できません");
             }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト書きこむ
-                printf("  pop rdi\n");
-                rsp_add(8);
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  mov [rax], dil\n");
-                printf("  push rdi\n");
-                rsp_add(-8);
-                return;
-            }
-            if (type->ty == INT) {
-                // int型のときは4バイト書きこむ
-                printf("  pop rdi\n");
-                rsp_add(8);
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  mov DWORD PTR [rax], edi\n");
-                printf("  push rdi\n");
-                rsp_add(-8);
-                return;
+            if (type->ty == FUNC) {
+                error_at(node->srctoken->str, "関数には代入できません");
             }
         }
-        printf("  pop rdi\n");
-        rsp_add(8);
-        printf("  pop rax\n");
-        rsp_add(8);
-        printf("  mov [rax], rdi\n");
-        printf("  push rdi\n");
-        rsp_add(-8);
+        print_pop("rdi");
+        print_pop("rax");
+        print_write_type(type ? type->ty : VOID);
+        print_push("rdi");
         return;
     case ND_FUNCCALL: // 関数呼び出し
-        // strncpy(name, node->name, node->val);
-        // name[node->val] = '\0';
-
         nownode = node;
-
-        // TODO:アライメントを元に戻すため
-        // printf("  push r15\n");
-        // rsp_add(-8);
-
         int argnum = 0;
-
         i = 0;
-        // while (nownode->rhs) {
-        //     i++;
-        //     nownode = nownode->rhs;
-        //     gen(nownode->lhs);
-        // }
 
         while (nownode->rhs) {
             argnum++;
@@ -626,12 +503,7 @@ void gen(Node *node) {
         }
         nownode = node;
 
-        // 関数のアドレス計算
-        // gen(node->lhs);
-        // printf("  pop r11\n");
-        // rsp_add(8);
-
-        // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れるだけ
+        // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れる
         int k;
         for (k = 0; k < argnum; k++) {
             nownode = nownode->rhs;
@@ -641,51 +513,26 @@ void gen(Node *node) {
         nownode = node;
 
         for (k = 0; k < argnum && k < 6; k++) {
-            // nownode = nownode->rhs;
-            // gen(nownode->lhs);
-            printf("  pop rax\n");
-            rsp_add(8);
+            print_pop("rax");
             switch (k) {
-            case 0:
-                printf("  mov rdi, rax\n");
-                break;
-            case 1:
-                printf("  mov rsi, rax\n");
-                break;
-            case 2:
-                printf("  mov rdx, rax\n");
-                break;
-            case 3:
-                printf("  mov rcx, rax\n");
-                break;
-            case 4:
-                printf("  mov r8, rax\n");
-                break;
-            case 5:
-                printf("  mov r9, rax\n");
-                break;
+            case 0: printf("  mov rdi, rax\n"); break;
+            case 1: printf("  mov rsi, rax\n"); break;
+            case 2: printf("  mov rdx, rax\n"); break;
+            case 3: printf("  mov rcx, rax\n"); break;
+            case 4: printf("  mov r8, rax\n"); break;
+            case 5: printf("  mov r9, rax\n"); break;
             }
         }
-
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov rax, 0\n");
 
-        // TODO:スタックアライメント
-        // (call時にrspが16の倍数でないとセグフォで落ちる)
-        // アライメントの状況(rspの8の位)をr15に保存しておく
-        // printf("  mov r15, rsp\n");
-        // printf("  and r15, 0xF\n");
-        // TODO:rspを16の倍数にする
-        // printf("  and rsp, -16\n");
-
-        // printf("  call %s\n", name);
-        // printf("### rsp_lsb4 = %d\n", rsp_lsb4);
-        // printf("  call r11\n");
         if (argnum > 6)
             rsp_add((argnum - 6) * 8);
+
+        // 関数のアドレス計算
         gen(node->lhs);
-        printf("  pop r11\n");
-        rsp_add(8);
+        print_pop("r11");
+
         if (rsp_lsb4 != 0) {
             printf("  sub rsp, %d\n", rsp_lsb4);
             for (k = 6; k < argnum; k++) {
@@ -699,20 +546,9 @@ void gen(Node *node) {
                 nownode = nownode->rhs;
                 gen(nownode->lhs);
             }
-
             printf("  call r11\n");
         }
-
-        // TODO:スタックアライメント
-        // rspを元に戻す
-        // printf("  or rsp, r15\n");
-
-        // TODO:アライメントを元に戻すため
-        // printf("  pop r15\n");
-        // rsp_add(8);
-
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
 
@@ -720,18 +556,17 @@ void gen(Node *node) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  cmp rax, 0\n");
         printf("  je .Lcond1_%d\n", id);
-        // TODO:分岐でアラインメント崩れる
-        int rsp_lsb4_now = rsp_lsb4;
         gen(node->rhs->lhs);
+        print_pop("rax");
         printf("  jmp .Lcond2_%d\n", id);
         printf(".Lcond1_%d:\n", id);
-        rsp_lsb4 = rsp_lsb4_now;
         gen(node->rhs->rhs);
+        print_pop("rax");
         printf(".Lcond2_%d:\n", id);
+        print_push("rax");
         return;
     }
 
@@ -739,13 +574,11 @@ void gen(Node *node) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  cmp rax, 0\n");
         printf("  jne .Lor1_%d\n", id);
         gen(node->rhs);
-        printf("  pop rdi\n");
-        rsp_add(8);
+        print_pop("rdi");
         printf("  cmp rdi, 0\n");
         printf("  je .Lor2_%d\n", id);
         printf(".Lor1_%d:\n", id);
@@ -754,8 +587,7 @@ void gen(Node *node) {
         printf(".Lor2_%d:\n", id);
         printf("  mov rax, 0\n");
         printf(".Lorend_%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
 
@@ -763,13 +595,11 @@ void gen(Node *node) {
         id = branch_label;
         branch_label++;
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         printf("  cmp rax, 0\n");
         printf("  je .Lor1_%d\n", id);
         gen(node->rhs);
-        printf("  pop rdi\n");
-        rsp_add(8);
+        print_pop("rdi");
         printf("  cmp rdi, 0\n");
         printf("  je .Lor1_%d\n", id);
         printf("  mov rax, 1\n");
@@ -777,15 +607,13 @@ void gen(Node *node) {
         printf(".Lor1_%d:\n", id);
         printf("  mov rax, 0\n");
         printf(".Lorend_%d:\n", id);
-        printf("  push rax\n");
-        rsp_add(-8);
+        print_push("rax");
         return;
     }
 
     if (node->kind == ND_COMMA) {
         gen(node->lhs);
-        printf("  pop rax\n");
-        rsp_add(8);
+        print_pop("rax");
         gen(node->rhs);
         return;
     }
@@ -793,63 +621,31 @@ void gen(Node *node) {
     if (node->kind == ND_POSTINCR || node->kind == ND_POSTDECR) {
         gen_lval(node->lhs);
         type = estimate_type(node->lhs);
-
         if (type) {
             if (type->ty == ARRAY) {
                 error_at(node->srctoken->str, "配列には代入できません");
             }
-            if (type->ty == CHAR) {
-                // char型のときは1バイト書きこむ
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  movzx edx, BYTE PTR [rax]\n");
-                printf("  push rdi\n");
-                rsp_add(-8);
-                if (node->kind == ND_POSTINCR) {
-                    printf("  add rdi, 1\n");
-                } else {
-                    printf("  sub rdi, 1\n");
-                }
-                printf("  mov BYTE PTR [rax], dil\n");
-                return;
-            }
-            if (type->ty == INT) {
-                // int型のときは4バイト書きこむ
-                printf("  pop rax\n");
-                rsp_add(8);
-                printf("  mov edi, DWORD PTR [rax]\n");
-                printf("  push rdi\n");
-                rsp_add(-8);
-                if (node->kind == ND_POSTINCR) {
-                    printf("  add rdi, 1\n");
-                } else {
-                    printf("  sub rdi, 1\n");
-                }
-                printf("  mov DWORD PTR [rax], edi\n");
-                return;
+            if (type->ty == FUNC) {
+                error_at(node->srctoken->str, "関数には代入できません");
             }
         }
-        printf("  pop rax\n");
-        rsp_add(8);
-        printf("  mov rdi, [rax]\n");
-        printf("  push rdi\n");
-        rsp_add(-8);
+        print_pop("rax");
+        print_read_type(type ? type->ty : VOID, 1);
+        print_push("rdi");
         if (node->kind == ND_POSTINCR) {
             printf("  add rdi, 1\n");
         } else {
             printf("  sub rdi, 1\n");
         }
-        printf("  mov [rax], rdi\n");
+        print_write_type(type ? type->ty : VOID);
         return;
     }
 
     gen(node->lhs);
     gen(node->rhs);
 
-    printf("  pop rdi\n");
-    rsp_add(8);
-    printf("  pop rax\n");
-    rsp_add(8);
+    print_pop("rdi");
+    print_pop("rax");
 
     int addsize = 1, addsize_tmp = 1;
     type = estimate_type(node->lhs);
@@ -874,9 +670,7 @@ void gen(Node *node) {
             printf("  imul rdi, %d\n", addsize);
         printf("  sub rax, rdi\n");
         break;
-    case ND_MUL:
-        printf("  imul rax, rdi\n");
-        break;
+    case ND_MUL: printf("  imul rax, rdi\n"); break;
     case ND_DIV:
         printf("  cqo\n");
         printf("  idiv rdi\n");
@@ -884,8 +678,7 @@ void gen(Node *node) {
     case ND_REM:
         printf("  cqo\n");
         printf("  idiv rdi\n");
-        printf("  push rdx\n");
-        rsp_add(-8);
+        print_push("rdx");
         return;
         break;
     case ND_LSHIFT:
@@ -896,18 +689,10 @@ void gen(Node *node) {
         printf("  mov rcx, rdi\n");
         printf("  shr rax, cl\n");
         break;
-    case ND_BITOR:
-        printf("  or rax, rdi\n");
-        break;
-    case ND_BITXOR:
-        printf("  xor rax, rdi\n");
-        break;
-    case ND_BITAND:
-        printf("  and rax, rdi\n");
-        break;
-    case ND_BITNOT:
-        printf("  not rax\n");
-        break;
+    case ND_BITOR: printf("  or rax, rdi\n"); break;
+    case ND_BITXOR: printf("  xor rax, rdi\n"); break;
+    case ND_BITAND: printf("  and rax, rdi\n"); break;
+    case ND_BITNOT: printf("  not rax\n"); break;
     case ND_LOGICNOT:
         printf("  cmp rax, 0\n");
         printf("  sete al\n");
@@ -935,6 +720,5 @@ void gen(Node *node) {
         break;
     }
 
-    printf("  push rax\n");
-    rsp_add(-8);
+    print_push("rax");
 }
