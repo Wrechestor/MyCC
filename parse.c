@@ -1204,6 +1204,37 @@ Node *function_gval() {
     return node;
 }
 
+Node *new_node_arrclear(Node *node) {
+    Type *type = node->type;
+    if (type->ty == ARRAY) {
+        // TODO
+        // type = type->ptr_to;
+        // return new_node_arrclear()
+        Type *subtype = type->ptr_to;
+        Node *assignsubj;
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->srctoken = token;
+        tmp2->kind = ND_BLOCK;
+        Node *top = tmp2;
+        for (int i = 0; i < type->array_size; i++) {
+            Node *tmp3 = calloc(1, sizeof(Node));
+            tmp3->srctoken = token;
+            tmp3->kind = ND_BLOCK;
+
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, node, new_node_num(i)), NULL);
+            // assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            // tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+            tmp3->lhs = new_node_arrclear(assignsubj);
+
+            tmp2->rhs = tmp3;
+            tmp2 = tmp3;
+        }
+        return top;
+    } else {
+        return new_node(ND_ASSIGN, node, new_node_num(0));
+    }
+}
+
 Node *local_val_initializer(Node *node, Node *lval, int size, int *sizeinfered) {
     // fprintf(stderr, "### lvalinit %s\n", token->str);
 
@@ -1227,30 +1258,14 @@ Node *local_val_initializer(Node *node, Node *lval, int size, int *sizeinfered) 
         Token *toktmp = token;
 
         int stepsize = size_from_type_local(lval->type);
-        Node *lval2 = calloc(1, sizeof(Node));
         int sizeinfered2 = 0;
 
         if (consume("}")) {
-            // nownode = new_node_num(0);
             assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-            while (assignsubj->type->ty == ARRAY) // TODO
-                assignsubj->type = assignsubj->type->ptr_to;
-            nownode = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+            nownode = new_node_arrclear(assignsubj);
 
             token = toktmp;
         } else {
-            // nownode = assign();
-
-            // Node *lval2 = calloc(1, sizeof(Node));
-            // lval2->srctoken = lval->srctoken;
-            // lval2->kind = ND_LVAR;
-            // lval2->offset = lval->offset; // TODO:index
-            // lval2->name = lval->name;
-            // lval2->val = lval->val;
-            // lval2->type = lval->type->ptr_to;
-            // lval2->variabletype = LOCALVAL;
-            // int sizeinfered2 = 0;
-
             assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
             nownode = local_val_initializer(NULL, assignsubj, size, &sizeinfered2);
         }
@@ -1261,42 +1276,22 @@ Node *local_val_initializer(Node *node, Node *lval, int size, int *sizeinfered) 
             Node *tmp3 = calloc(1, sizeof(Node));
             tmp3->srctoken = token;
             tmp3->kind = ND_BLOCK;
-            // assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-            // tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+
             tmp3->lhs = nownode;
 
             tmp2->rhs = tmp3;
             tmp2 = tmp3;
 
-            // nownode = initassigned ? assign() : new_node_num(0);
-
-            // lval2->offset += stepsize;
             nowindex++;
             if (initassigned) {
-                // nownode = assign();
-
-                // Node *lval2 = calloc(1, sizeof(Node));
-                // lval2->srctoken = lval->srctoken;
-                // lval2->kind = ND_LVAR;
-                // lval2->offset = lval->offset; // TODO:index
-                // lval2->name = lval->name;
-                // lval2->val = lval->val;
-                // lval2->type = lval->type->ptr_to;
-                // lval2->variabletype = LOCALVAL;
-                // int sizeinfered2 = 0;
                 assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
                 nownode = local_val_initializer(NULL, assignsubj, size, &sizeinfered2);
 
             } else {
-                // nownode = new_node_num(0);
                 assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                while (assignsubj->type->ty == ARRAY) // TODO
-                    assignsubj->type = assignsubj->type->ptr_to;
-                nownode = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+                nownode = new_node_arrclear(assignsubj);
             }
         }
-        // assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-        // tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
         tmp2->rhs = nownode;
 
         *sizeinfered = nowindex;
@@ -1336,13 +1331,10 @@ Node *local_val_initializer(Node *node, Node *lval, int size, int *sizeinfered) 
 
             *sizeinfered = nowindex;
         } else {
-            while (lval->type->ty == ARRAY) // TODO
-                lval->type = lval->type->ptr_to;
             tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
         }
     }
-    node = top;
-    return node;
+    return top;
 }
 
 Node *localValDef() { // ローカル変数定義
