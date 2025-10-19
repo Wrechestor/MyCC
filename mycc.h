@@ -103,6 +103,7 @@ enum NodeKind {
     ND_CAST,       // キャスト演算子 (int)
     ND_VALDEF,     // ローカル変数定義
     ND_GVALDEF,    // グローバル変数定義
+    ND_GVALINIT,   // グローバル変数初期化
     ND_TYPEDIDENT, // int **x[4][5] など型と識別子名のセット
     ND_QUOTE,      // 文字列リテラル
     ND_NUM,        // 整数
@@ -278,6 +279,9 @@ DefinedType *find_dtype(Token *tok);
 
 Type *estimate_type(Node *node);
 int size_from_type(Type *type);
+
+Node *global_initializer(Node *node, Node *gval, int size, int *sizeinfered);
+Node *local_initializer(Node *node, Node *lval, int size, int *sizeinfered);
 
 void program();
 Node *function_gval();

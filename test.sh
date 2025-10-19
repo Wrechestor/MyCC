@@ -91,10 +91,19 @@ assert $target 4    'int printf();int main(){char s[] = "\a\b\f\n\r\t\v\\\'\''\"
 'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
 assert $target 4 'int main(){int a=4; char b=(char)a; return b;}'
 
+
+# Nested Array(Local)
+assert $target 4 'int printf();int main(){char strs[][7]={"un","lucky?","ok!"};for(int i=0;i<3;i++)printf("### %s ", strs[i]); return 4;}'
+assert $target 60 'int printf();int main(){int sum=0;int nums[3][4]={{1,2,3,4},{2,4,6,8},{3,6,9,12}};for(int i=0;i<3;i++)for(int j=0;j<4;j++){printf("### %d ", nums[i][j]);sum+=nums[i][j];} return sum;}'
 assert $target 0 'int printf();int main(){int sum=0;int Arr[5][3]={};for(int i=0;i<5;i++)for(int j=0;j<3;j++){sum+=Arr[i][j];} return sum;}'
 assert $target 0 'int printf();int main(){int sum=0;int Arr[5][3][7]={};for(int i=0;i<5;i++)for(int j=0;j<3;j++)for(int k=0;k<7;k++){sum+=Arr[i][j][k];} return sum;}'
-assert $target 4 'int printf();int main(){char strs[][7]={"happy!","lucky?","hello!"};for(int i=0;i<3;i++)printf("### %s ", strs[i]); return 4;}'
-assert $target 60 'int printf();int main(){int sum=0;int nums[3][4]={{1,2,3,4},{2,4,6,8},{3,6,9,12}};for(int i=0;i<3;i++)for(int j=0;j<4;j++){printf("### %d ", nums[i][j]);sum+=nums[i][j];} return sum;}'
+
+
+# Nested Array(Global)
+assert $target 4 'int printf();char strs[][7]={"un","lucky?","ok!"};int main(){for(int i=0;i<3;i++)printf("### %s ", strs[i]); return 4;}'
+assert $target 60 'int printf();int nums[3][4]={{1,2,3,4},{2,4,6,8},{3,6,9,12}};int main(){int sum=0;for(int i=0;i<3;i++)for(int j=0;j<4;j++){printf("### %d ", nums[i][j]);sum+=nums[i][j];} return sum;}'
+assert $target 0 'int printf();int Arr[5][3]={};int main(){int sum=0;for(int i=0;i<5;i++)for(int j=0;j<3;j++){sum+=Arr[i][j];} return sum;}'
+assert $target 0 'int printf();int Arr[5][3][7]={};int main(){int sum=0;for(int i=0;i<5;i++)for(int j=0;j<3;j++)for(int k=0;k<7;k++){sum+=Arr[i][j][k];} return sum;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'

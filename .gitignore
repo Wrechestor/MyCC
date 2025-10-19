@@ -17,3 +17,4 @@ dentout
 mycc_s
 preprocessor/preprocessor
 optimizer/optimizer
+selfhost/mycc_cat*

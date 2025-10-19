@@ -130,6 +130,9 @@ char *nodeToStr(Node *node) {
     case ND_GVALDEF:
         sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset);
         return ret;
+    case ND_GVALINIT:
+        sprintf(ret, "INIT(%d)", node->val);
+        return ret;
     case ND_QUOTE:
         int strid = node->val;
         Strs *nowstr = strs;
@@ -243,6 +246,7 @@ int gengraph(Node *node, int nodeid) {
         printf("<br/><FONT COLOR='BLUE' POINT-SIZE='9.0'><B>%s</B></FONT>", typeToStr(node->type));
     printf(">");
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
+        node->kind == ND_GVALINIT ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
         node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
         node->kind == ND_EXTERN || node->kind == ND_PROTO) {

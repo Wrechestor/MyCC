@@ -13,8 +13,7 @@ typed_ident = ("int" | "char" | "void" | "enum" ident | "struct" ident | defined
                 "*"* (ident? | "(" typed_ident ")")
                 ( ("(" (typed_ident ("," typed_ident))? ")")  | ("[" num? "]")*)
 initializer = ("{" (initializer ("," initializer))? "}") | num | string # TODO:初期化子
-local_val_def = typed_ident ("=" initializer)? ";" # TODO:初期化子
-# local_val_def = typed_ident ("=" ("{" (num ("," num))? "}") | num | string )? ";"
+local_val_def = typed_ident ("=" initializer)? ";"
 stmt =    "{" stmt* "}"
         | local_val_def
         | "return" expr? ";"

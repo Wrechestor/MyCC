@@ -165,23 +165,27 @@ void gen(Node *node) {
         printf("%s:\n", name);
 
         type = estimate_type(node);
-        if (type && type->ptr_to) {
-            type = type->ptr_to;
+        // if (type && type->ptr_to) {
+        //     type = type->ptr_to;
+        // }
+        Type *tmp = type;
+        while (tmp && tmp->ptr_to) {
+            tmp = tmp->ptr_to;
         }
 
         int size = 4;
-        if (type) {
-            // if (type->ty == ARRAY) {
+        if (tmp) {
+            // if (tmp->ty == ARRAY) {
             // // TODO:二次元配列,structの初期化
             //     return;
             // }
-            if (type->ty == CHAR) {
+            if (tmp->ty == CHAR) {
                 size = 1;
             }
-            if (type->ty == INT) {
+            if (tmp->ty == INT) {
                 size = 4;
             }
-            if (type->ty == PTR) {
+            if (tmp->ty == PTR) {
                 size = 8;
             }
         }
@@ -189,6 +193,16 @@ void gen(Node *node) {
         Node *initval = node->rhs;
         int nowindex = 0;
         int remainsize = node->offset;
+
+        // tmp = type;
+        // while (tmp && tmp->ptr_to) {
+        //     int arrsize = tmp->array_size;
+        //     if (tmp->ty != ARRAY)
+        //         arrsize = 1;
+        //     for (int i = 0; i < arrsize; i++) {
+        //     }
+        //     tmp = tmp->ptr_to;
+        // }
         while (initval) {
             switch (size) {
             case 1:
