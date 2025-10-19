@@ -22,41 +22,18 @@ char parse_char(char **p) {
     char c = 0;
     if ((*(*p)) == '\\') {
         switch (*(*p + 1)) {
-        case 'a':
-            c = '\a';
-            break;
-        case 'b':
-            c = '\b';
-            break;
-        case 'f':
-            c = '\f';
-            break;
-        case 'n':
-            c = '\n';
-            break;
-        case 'r':
-            c = '\r';
-            break;
-        case 't':
-            c = '\t';
-            break;
-        case 'v':
-            c = '\v';
-            break;
-        case '\\':
-            c = '\\';
-            break;
-        case '\'':
-            c = '\'';
-            break;
-        case '\"':
-            c = '\"';
-            break;
-        case '0':
-            c = '\0';
-            break;
-        default:
-            break;
+        case 'a': c = '\a'; break;
+        case 'b': c = '\b'; break;
+        case 'f': c = '\f'; break;
+        case 'n': c = '\n'; break;
+        case 'r': c = '\r'; break;
+        case 't': c = '\t'; break;
+        case 'v': c = '\v'; break;
+        case '\\': c = '\\'; break;
+        case '\'': c = '\''; break;
+        case '\"': c = '\"'; break;
+        case '0': c = '\0'; break;
+        default: break;
         }
         *p += 2;
     } else {

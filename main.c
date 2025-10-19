@@ -119,7 +119,7 @@ char *nodeToStr(Node *node) {
         sprintf(ret, "PROTO(%s)", namebuf);
         return ret;
     case ND_CAST:
-        sprintf(ret, "CAaST(%s)", typeToStr(node->type));
+        sprintf(ret, "CAST(%s)", typeToStr(node->type));
         return ret;
     case ND_ARG: return "ARG";
     case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
@@ -155,7 +155,11 @@ char *nodeToStr(Node *node) {
         strcat(ret, "\"");
         return ret;
     case ND_NUM:
-        sprintf(ret, "%d", node->val);
+        if (node->type->ty == CHAR) {
+            sprintf(ret, "%d(\'%c\')", node->val, node->val);
+        } else {
+            sprintf(ret, "%d", node->val);
+        }
         return ret;
     }
     return "";
