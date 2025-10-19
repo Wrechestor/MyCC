@@ -265,6 +265,7 @@ void expect(char *op);
 int expect_number();
 int at_eof();
 Token *new_token(TokenKind kind, Token *cur, char *str);
+char parse_char(char **p);
 void tokenize();
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs);
 Node *new_node_num(int val);

@@ -17,6 +17,55 @@ int is_alnum(char c) {
         ('0' <= c && c <= '9');
 }
 
+// エスケープ文字の解析 \a \b \f \n \r \t \v ⧹⧹ \' \" \0
+char parse_char(char **p) {
+    char c = 0;
+    if ((*(*p)) == '\\') {
+        switch (*(*p + 1)) {
+        case 'a':
+            c = '\a';
+            break;
+        case 'b':
+            c = '\b';
+            break;
+        case 'f':
+            c = '\f';
+            break;
+        case 'n':
+            c = '\n';
+            break;
+        case 'r':
+            c = '\r';
+            break;
+        case 't':
+            c = '\t';
+            break;
+        case 'v':
+            c = '\v';
+            break;
+        case '\\':
+            c = '\\';
+            break;
+        case '\'':
+            c = '\'';
+            break;
+        case '\"':
+            c = '\"';
+            break;
+        case '0':
+            c = '\0';
+            break;
+        default:
+            break;
+        }
+        *p += 2;
+    } else {
+        c = **p;
+        *p += 1;
+    }
+    return c;
+}
+
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
     char *p = user_input;
@@ -58,7 +107,6 @@ void tokenize() {
         }
 
         if (*p == '"') { // 文字列リテラル
-            // TODO:エスケープ
             char *q = p + 1;
             int isescaped = 0;
             while (isescaped || *q != '"') {
@@ -319,56 +367,13 @@ void tokenize() {
             continue;
         }
 
-        // エスケープ \a \b \f \n \r \t \v ⧹⧹ \' \" \0
         if (*p == '\'') { // 文字リテラル
             cur = new_token(TK_NUM, cur, p);
-            if ((*(p + 1)) == '\\') {
-                switch (*(p + 2)) {
-                case 'a':
-                    cur->val = '\a';
-                    break;
-                case 'b':
-                    cur->val = '\b';
-                    break;
-                case 'f':
-                    cur->val = '\f';
-                    break;
-                case 'n':
-                    cur->val = '\n';
-                    break;
-                case 'r':
-                    cur->val = '\r';
-                    break;
-                case 't':
-                    cur->val = '\t';
-                    break;
-                case 'v':
-                    cur->val = '\v';
-                    break;
-                case '\\':
-                    cur->val = '\\';
-                    break;
-                case '\'':
-                    cur->val = '\'';
-                    break;
-                case '\"':
-                    cur->val = '\"';
-                    break;
-                case '0':
-                    cur->val = '\0';
-                    break;
-                default:
-                    break;
-                }
-                if (*(p + 3) != '\'')
-                    error_at(p, "不正な文字リテラルです");
-                p += 4;
-            } else {
-                cur->val = *(p + 1);
-                if (*(p + 2) != '\'')
-                    error_at(p, "不正な文字リテラルです");
-                p += 3;
-            }
+            p++;
+            cur->val = parse_char(&p);
+            if (*(p) != '\'')
+                error_at(p, "不正な文字リテラルです");
+            p++;
             cur->is_linehead = is_linehead;
             cur->linenumber = linenumber;
             is_linehead = 0;

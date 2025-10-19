@@ -1108,16 +1108,17 @@ Node *function_gval() {
                     int nowindex = 0;
 
                     char *nowchr = tokquo->str;
-                    while (nowindex < tokquo->len) {
+                    while ((nowchr - tokquo->str) < tokquo->len) {
+                        char c = parse_char(&nowchr);
+
                         Node *tmp3 = calloc(1, sizeof(Node));
                         tmp3->srctoken = token;
                         tmp3->kind = ND_GVALDEF;
 
-                        tmp2->val = *nowchr;
+                        tmp2->val = c;
                         tmp2->rhs = tmp3;
                         tmp2 = tmp3;
 
-                        nowchr++;
                         nowindex++;
                     }
                     tmp2->val = 0;
@@ -1291,18 +1292,20 @@ Node *localValDef() { // ローカル変数定義
 
                 char *nowchr = tokquo->str;
                 int initassigned = 0;
-                while ((initassigned = (nowindex < tokquo->len)) ||
+
+                while ((initassigned = ((nowchr - tokquo->str) < tokquo->len)) ||
                     ((!undefsize) && (nowindex + 1 < size))) {
+                    char c = parse_char(&nowchr);
+
                     Node *tmp3 = calloc(1, sizeof(Node));
                     tmp3->srctoken = token;
                     tmp3->kind = ND_BLOCK;
                     assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? *nowchr : 0));
+                    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? c : 0));
 
                     tmp2->rhs = tmp3;
                     tmp2 = tmp3;
 
-                    nowchr++;
                     nowindex++;
                 }
                 assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
