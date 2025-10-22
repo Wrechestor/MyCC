@@ -492,6 +492,7 @@ void gen(Node *node) {
         print_push("rdi");
         return;
     case ND_FUNCCALL: // 関数呼び出し
+        // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れる
         nownode = node;
         int argnum = 0;
         i = 0;
@@ -502,14 +503,22 @@ void gen(Node *node) {
         }
         nownode = node;
 
-        // 引数はパーサの段階で逆順に積んだので後ろをレジスタに入れる
+        if (argnum > 6)
+            rsp_add((argnum - 6) * 8);
+
+        // 関数のアドレス計算
+        gen(node->lhs);
+        print_pop("r11");
+
+        int rspalign_tmp = rsp_lsb4;
+        if (rspalign_tmp != 0)
+            printf("  sub rsp, %d\n", rspalign_tmp);
+
         int k;
         for (k = 0; k < argnum; k++) {
             nownode = nownode->rhs;
-            if (k >= (argnum - 6))
-                gen(nownode->lhs);
+            gen(nownode->lhs);
         }
-        nownode = node;
 
         for (k = 0; k < argnum && k < 6; k++) {
             print_pop("rax");
@@ -522,31 +531,14 @@ void gen(Node *node) {
             case 5: printf("  mov r9, rax\n"); break;
             }
         }
+
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov rax, 0\n");
+        printf("  call r11\n");
 
-        if (argnum > 6)
-            rsp_add((argnum - 6) * 8);
+        if (rspalign_tmp != 0)
+            printf("  add rsp, %d\n", rspalign_tmp);
 
-        // 関数のアドレス計算
-        gen(node->lhs);
-        print_pop("r11");
-
-        if (rsp_lsb4 != 0) {
-            printf("  sub rsp, %d\n", rsp_lsb4);
-            for (k = 6; k < argnum; k++) {
-                nownode = nownode->rhs;
-                gen(nownode->lhs);
-            }
-            printf("  call r11\n");
-            printf("  add rsp, %d\n", rsp_lsb4);
-        } else {
-            for (k = 6; k < argnum; k++) {
-                nownode = nownode->rhs;
-                gen(nownode->lhs);
-            }
-            printf("  call r11\n");
-        }
         print_push("rax");
         return;
     }
