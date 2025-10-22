@@ -36,8 +36,8 @@ void print_read_type(enum type_t ty, int dstreg) {
     if (ty == INT) {
         // int型のときは4バイト読み込む
         switch (dstreg) {
-        case 0: printf("  mov eax, DWORD PTR [rax]\n"); break;
-        case 1: printf("  mov edi, DWORD PTR [rax]\n"); break;
+        case 0: printf("  movslq rax, DWORD PTR [rax]\n"); break;
+        case 1: printf("  movslq rdi, DWORD PTR [rax]\n"); break;
         default: break;
         }
         return;
