@@ -282,6 +282,7 @@ int size_from_type(Type *type);
 
 Node *global_initializer(Node *node, Node *gval, int size, int *sizeinfered);
 Node *local_initializer(Node *node, Node *lval, int size, int *sizeinfered);
+Node *localValDef();
 
 void program();
 Node *function_gval();

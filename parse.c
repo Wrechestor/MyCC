@@ -151,7 +151,6 @@ int at_eof() {
 // void **(*x)()は、ベースの型はvoid、ポインタを表すアスタリスクは**、
 // ネストした型は*x、関数を表すカッコは()、という構成です。
 
-// TODO:↓ベースの型取得する関数とそれ以外に分ける→複数宣言実装(int x,y;)!
 Node *consume_typed_ident(Type *prevtype) {
     // char name[100];
     // strncpy(name, token->str, 20);
@@ -322,7 +321,6 @@ Node *consume_typed_ident(Type *prevtype) {
     if (!node->type)
         node->type = type;
 
-    // TODO:複数宣言に対応 int *x, *y;
     // fprintf(stderr, "### %d\n", node->type->ty);
 
     // Type *now = node->type;
@@ -935,7 +933,6 @@ Node *function_gval() {
             argname->len = arg->len;
 
             // 引数はローカル変数として扱う
-            // TODO:ここにlocalValDef()を使う!
             Node *tmp2 = calloc(1, sizeof(Node));
             tmp2->srctoken = token;
             tmp2->kind = ND_VALDEF;
@@ -1116,7 +1113,6 @@ Node *function_gval() {
 Node *new_node_arrclear(Node *node) {
     Type *type = node->type;
     if (type->ty == ARRAY) {
-        // TODO
         // type = type->ptr_to;
         // return new_node_arrclear()
         Type *subtype = type->ptr_to;
@@ -1156,7 +1152,7 @@ Node *global_initializer(Node *node, Node *gval, int size, int *sizeinfered) {
     // undefsizeの時初期化子でサイズが決まる場合,
     // その推論されたサイズ(決まらなければエラー)
 
-    if (consume("{")) { // 配列の初期化 // 配列の初期化
+    if (consume("{")) { // 配列の初期化
         int nowindex = 0;
         Node *assignsubj;
 
@@ -1168,7 +1164,7 @@ Node *global_initializer(Node *node, Node *gval, int size, int *sizeinfered) {
         } else {
             Type *t = NULL;
             if (gval->type)
-                t = gval->type->ptr_to; // TODO
+                t = gval->type->ptr_to;
             // tmp2->type = gval->type;
             tmp2->type = t;
 
