@@ -12,7 +12,11 @@
   .string "rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
 .text
 ### 1    int printf();
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
 ### 3    int row[8];
   .globl row
   .data
@@ -51,7 +55,11 @@ abs:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 0
   pop rdi
@@ -72,7 +80,11 @@ abs:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -95,7 +107,11 @@ abs:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rax
   mov rsp, rbp
@@ -127,7 +143,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -161,7 +181,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 16
@@ -171,7 +195,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -197,7 +225,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -209,7 +241,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 8
@@ -225,7 +261,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -237,7 +277,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -262,7 +306,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -274,7 +322,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 8
@@ -290,7 +342,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -302,7 +358,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -326,7 +386,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 24
@@ -336,7 +400,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -384,7 +452,11 @@ testNth:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -433,7 +505,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -460,7 +536,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -488,7 +568,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -500,7 +584,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 24
@@ -510,7 +598,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -530,7 +622,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 8
@@ -562,7 +658,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -577,7 +677,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -598,7 +702,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -623,7 +731,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   mov rax, rbp
   sub rax, 16
@@ -633,7 +745,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -688,7 +804,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -709,7 +829,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rdi
   pop rax
@@ -721,7 +845,11 @@ backtracking:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   push 1
   pop rdi
@@ -880,7 +1008,11 @@ backtracking:
   add rsp, 8
   push rax
   pop rax
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
 ### 48    return 0;
   push 0
   pop rax
@@ -931,7 +1063,11 @@ main:
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rax
   mov rdi, rax
@@ -956,7 +1092,11 @@ main:
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rax
   mov rdi, rax
@@ -981,7 +1121,11 @@ main:
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rax
   mov rdi, rax
@@ -1002,7 +1146,11 @@ main:
   movslq rax, DWORD PTR [rax]
 =======
   mov eax, DWORD PTR [rax]
+<<<<<<< HEAD
 >>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
+=======
+>>>>>>> 4c90e8e (ファイル整理)
+>>>>>>> 7ced4a0 (ファイル整理)
   push rax
   pop rax
   mov rsp, rbp
