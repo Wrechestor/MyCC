@@ -140,14 +140,16 @@ void gen(Node *node) {
 
     if (node->srctoken && node->srctoken->is_linehead) {
         // 元のCコードをコメントで表示
-        printf("### %d    ", node->srctoken->linenumber);
-        char *p = node->srctoken->str;
-        while (*p) {
-            putchar(*p);
-            if (*p == '\n')
-                break;
-            p++;
-        }
+        // TODO:↓この行数表示のせいでコメントの有無等でコンパイル失敗したりする(?)
+        // printf("### %d    ", node->srctoken->linenumber);
+        // printf("### ");
+        // char *p = node->srctoken->str;
+        // while (*p) {
+        //     putchar(*p);
+        //     if (*p == '\n')
+        //         break;
+        //     p++;
+        // }
     }
 
     if (node->kind == ND_VALDEF) {
@@ -506,7 +508,7 @@ void gen(Node *node) {
         nownode = node;
 
         if (argnum > 6)
-            rsp_add((argnum - 6) * 8);
+            rsp_add((argnum - 6) * -8);
 
         int rspalign_tmp = rsp_lsb4;
         if (rspalign_tmp != 0)

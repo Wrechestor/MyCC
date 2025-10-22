@@ -13,11 +13,13 @@ mycc: $(OBJS)
 
 $(OBJS): mycc.h
 
-preprocessor: preprocessor/preprocessor
-	$(CC) -o preprocessor/preprocessor preprocessor/preprocessor.c $(LDFLAGS)
+preprocessor: preprocessor/preprocessor.o
+	$(CC) -o preprocessor/preprocessor preprocessor/preprocessor.o $(LDFLAGS)
+preprocessor/preprocessor.o: preprocessor/preprocessor.c
 
-optimizer: optimizer/optimizer
-	$(CC) -o optimizer/optimizer optimizer/optimizer.c $(LDFLAGS)
+optimizer: optimizer/optimizer.o
+	$(CC) -o optimizer/optimizer optimizer/optimizer.o $(LDFLAGS)
+optimizer/optimizer.o: optimizer/optimizer.c
 
 test: mycc
 	./test.sh mycc
@@ -27,6 +29,7 @@ clean:
 	mycc mycc1 mycc2 mycc3 mycc4 \
 	dentaku/dent dentaku/dentout \
 	eightqueen preprocessor/preprocessor optimizer/optimizer \
+	preprocessor/*.o optimizer/*.o \
 	selfhost/*.s selfhost/mycc_cat.c
 
 .PHONY: all test clean

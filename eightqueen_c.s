@@ -5,29 +5,23 @@
 .LC0:
   .string "rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
 .text
-### 1    int printf();
-### 3    int row[8];
   .globl row
   .data
 row:
   .zero 32
-### 4    int g_count;
   .globl g_count
   .data
 g_count:
   .zero 4
-### 5    int bt_count;
   .globl bt_count
   .data
 bt_count:
   .zero 4
-### 6    int tn_count;
   .globl tn_count
   .data
 tn_count:
   .zero 4
 .text
-### 7    int abs(int x) {
   .globl abs
   .type abs, @function
 abs:
@@ -35,7 +29,6 @@ abs:
   mov rbp, rsp
   push rdi
   sub rsp, 0
-### 9    if (x < 0)
   mov rax, rbp
   sub rax, 8
   push rax
@@ -71,7 +64,6 @@ abs:
 .Lendif0:
   push rax
   pop rax
-### 11    return x;
   mov rax, rbp
   sub rax, 8
   push rax
@@ -89,7 +81,6 @@ abs:
   pop rbp
   ret
 .text
-### 13    int testNth(int *row, int n) //  row[0] から row[n] まで配置済み
   .globl testNth
   .type testNth, @function
 testNth:
@@ -98,7 +89,6 @@ testNth:
   push rdi
   push rsi
   sub rsp, 8
-### 15    tn_count = tn_count + 1;
   mov rax, OFFSET FLAT:tn_count
   push rax
   mov rax, OFFSET FLAT:tn_count
@@ -116,10 +106,8 @@ testNth:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 17    int i;
   push rax
   pop rax
-### 18    for (i = 0; i < n; i = i + 1) {
   mov rax, rbp
   sub rax, 24
   push rax
@@ -151,7 +139,6 @@ testNth:
   pop rax
   cmp rax, 0
   je  .Lend1
-### 19    if (row[i] == row[n] || abs(row[i] - row[n]) == n - i)
   mov rax, rbp
   sub rax, 8
   push rax
@@ -201,9 +188,6 @@ testNth:
   pop rax
   cmp rax, 0
   jne .Lor1_3
-  mov rax, OFFSET FLAT:abs
-  push rax
-  pop r11
   sub rsp, 8
   mov rax, rbp
   sub rax, 8
@@ -251,6 +235,9 @@ testNth:
   push rax
   pop rax
   mov rdi, rax
+  mov rax, OFFSET FLAT:abs
+  push rax
+  pop r11
   mov rax, 0
   call r11
   add rsp, 8
@@ -325,7 +312,6 @@ testNth:
 .Lend1:
   push rax
   pop rax
-### 22    return 1;
   push 1
   pop rax
   mov rsp, rbp
@@ -338,7 +324,6 @@ testNth:
   pop rbp
   ret
 .text
-### 24    int backtracking(int *row, int n, int NQ) //  n:配置済みクイーン数
   .globl backtracking
   .type backtracking, @function
 backtracking:
@@ -348,7 +333,6 @@ backtracking:
   push rsi
   push rdx
   sub rsp, 0
-### 26    bt_count = bt_count + 1;
   mov rax, OFFSET FLAT:bt_count
   push rax
   mov rax, OFFSET FLAT:bt_count
@@ -366,7 +350,6 @@ backtracking:
   mov DWORD PTR [rax], edi
   push rdi
   pop rax
-### 35    for (row[n] = 1; row[n] <= NQ; row[n] = row[n] + 1) {
   mov rax, rbp
   sub rax, 8
   push rax
@@ -426,10 +409,6 @@ backtracking:
   pop rax
   cmp rax, 0
   je  .Lend4
-### 36    if (testNth(row, n)) { // 制約を満たしている場合のみ先に進む
-  mov rax, OFFSET FLAT:testNth
-  push rax
-  pop r11
   sub rsp, 8
   mov rax, rbp
   sub rax, 16
@@ -447,6 +426,9 @@ backtracking:
   mov rdi, rax
   pop rax
   mov rsi, rax
+  mov rax, OFFSET FLAT:testNth
+  push rax
+  pop r11
   mov rax, 0
   call r11
   add rsp, 8
@@ -454,7 +436,6 @@ backtracking:
   pop rax
   cmp rax, 0
   je  .Lendif5
-### 37    if (n + 1 == NQ) {
   mov rax, rbp
   sub rax, 16
   push rax
@@ -481,7 +462,6 @@ backtracking:
   pop rax
   cmp rax, 0
   je  .Lelse6
-### 38    g_count = g_count + 1; // 解を発見
   mov rax, OFFSET FLAT:g_count
   push rax
   mov rax, OFFSET FLAT:g_count
@@ -503,10 +483,6 @@ backtracking:
   pop rax
   jmp .Lendif6
 .Lelse6:
-### 41    backtracking(row, n + 1, NQ);
-  mov rax, OFFSET FLAT:backtracking
-  push rax
-  pop r11
   sub rsp, 8
   mov rax, rbp
   sub rax, 24
@@ -537,6 +513,9 @@ backtracking:
   mov rsi, rax
   pop rax
   mov rdx, rax
+  mov rax, OFFSET FLAT:backtracking
+  push rax
+  pop r11
   mov rax, 0
   call r11
   add rsp, 8
@@ -606,10 +585,6 @@ backtracking:
 .Lend4:
   push rax
   pop rax
-### 45    printf("rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n",
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
   sub rsp, 8
   mov rax, rbp
   sub rax, 24
@@ -742,12 +717,14 @@ backtracking:
   mov r8, rax
   pop rax
   mov r9, rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
   mov rax, 0
   call r11
   add rsp, 8
   push rax
   pop rax
-### 48    return 0;
   push 0
   pop rax
   mov rsp, rbp
@@ -760,17 +737,12 @@ backtracking:
   pop rbp
   ret
 .text
-### 51    int main() {
   .globl main
   .type main, @function
 main:
   push rbp
   mov rbp, rsp
   sub rsp, 0
-### 53    backtracking(row, 0, 8);
-  mov rax, OFFSET FLAT:backtracking
-  push rax
-  pop r11
   push 8
   push 0
   mov rax, OFFSET FLAT:row
@@ -781,14 +753,13 @@ main:
   mov rsi, rax
   pop rax
   mov rdx, rax
+  mov rax, OFFSET FLAT:backtracking
+  push rax
+  pop r11
   mov rax, 0
   call r11
   push rax
   pop rax
-### 54    printf("%d\n", g_count);
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax
@@ -800,14 +771,13 @@ main:
   mov rdi, rax
   pop rax
   mov rsi, rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
   mov rax, 0
   call r11
   push rax
   pop rax
-### 55    printf("%d\n", bt_count);
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
   mov rax, OFFSET FLAT:bt_count
   push rax
   pop rax
@@ -819,14 +789,13 @@ main:
   mov rdi, rax
   pop rax
   mov rsi, rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
   mov rax, 0
   call r11
   push rax
   pop rax
-### 56    printf("%d\n", tn_count);
-  mov rax, OFFSET FLAT:printf
-  push rax
-  pop r11
   mov rax, OFFSET FLAT:tn_count
   push rax
   pop rax
@@ -838,11 +807,13 @@ main:
   mov rdi, rax
   pop rax
   mov rsi, rax
+  mov rax, OFFSET FLAT:printf
+  push rax
+  pop r11
   mov rax, 0
   call r11
   push rax
   pop rax
-### 57    return g_count;
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax

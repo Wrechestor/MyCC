@@ -8,13 +8,13 @@ char *user_input;
 
 // プログラム全体の構文木(各要素は関数,グローバル変数,
 //                  enum,struct,typedefの定義)
-Node *code[1000];
+Node *code[2000];
 
 // 現在の関数内のローカル変数及びプログラム全体でのリスト
 LVar *locals;
-LVar *LocalsList[1000];
+LVar *LocalsList[2000];
 int localsnum;
-int localsnums[1000];
+int localsnums[2000];
 int scopelayer_now;
 int localsnum_max;
 
@@ -1374,100 +1374,131 @@ Node *local_initializer(Node *node, Node *lval, int size, int *sizeinfered) {
 }
 
 Node *localValDef() { // ローカル変数定義
-    Node *typedidentnode = consume_typed_ident(NULL);
-
-    Node *node = calloc(1, sizeof(Node));
-    node->srctoken = token;
-    node->kind = ND_VALDEF;
-
-    Type *type = typedidentnode->type;
-
-    if (typedidentnode->name == NULL)
-        error_at(token->str, "変数名がありません");
-
-    Token *tok = calloc(1, sizeof(Token));
-    tok->str = typedidentnode->name;
-    tok->len = typedidentnode->val;
-
-    int offset;
-
-    int size = 1; // sizeを省略したとき0
-
+    Node *typedidentnode;
+    Node *node;
+    Type *basetype = NULL;
+    Type *type;
+    Token *tok;
     LVar *lvar;
-    lvar = find_lvar(tok);
-    if (lvar && lvar->scopelayer == scopelayer_now)
-        error_at(tok->str, "重複定義されたローカル変数です");
 
-    node->name = tok->str;
-    node->val = tok->len;
-    // char name[100];
-    // strncpy(name, node->name, node->val);
-    // name[node->val] = 0;
-    // fprintf(stderr, "### END %s\n", name);
-    // fprintf(stderr, "### END %d\n", node->val);
+    Node *top = NULL;
+    for (;;) {
+        typedidentnode = consume_typed_ident(basetype);
 
-    // TODO:ローカル変数の時の配列サイズ
-    if (type && type->ty == ARRAY) {
-        size = type->array_size;
-    }
+        node = calloc(1, sizeof(Node));
+        node->srctoken = token;
+        node->kind = ND_VALDEF;
 
-    lvar = calloc(1, sizeof(LVar));
-    lvar->next = locals;
-    lvar->name = tok->str;
-    lvar->len = tok->len;
-    lvar->type = type;
-    lvar->scopelayer = scopelayer_now;
-    node->type = type;
-    node->variabletype = LOCALVAL;
-    if (size) {
-        int totalbyte = size_from_type_local(type);
-        offset = (locals ? locals->offset : 0) + totalbyte;
+        type = typedidentnode->type;
 
-        lvar->offset = offset;
-        node->offset = offset;
-        // node->val = totalbyte/8; // TODO:ローカル変数のサイズ
+        if (typedidentnode->name == NULL)
+            error_at(token->str, "変数名がありません");
 
-        localsnum += totalbyte / 8;
-        locals = lvar;
-    }
-    // ローカル変数の初期化
-    if (consume("=")) {
-        Node *lval = calloc(1, sizeof(Node));
-        lval->srctoken = token;
-        lval->kind = ND_LVAR;
-        lval->offset = offset;
-        lval->name = tok->str;
-        lval->val = tok->len;
-        lval->type = type;
-        lval->variabletype = LOCALVAL;
-        int sizeinfered = 0;
-        node = local_initializer(node, lval, size, &sizeinfered);
+        tok = calloc(1, sizeof(Token));
+        tok->str = typedidentnode->name;
+        tok->len = typedidentnode->val;
 
-        if (!size) {
-            if (!sizeinfered)
-                error_at(token->str, "配列サイズを決定できません");
-            size = (sizeinfered + 1);
-            type->array_size = size;
+        int offset;
 
+        int size = 1; // sizeを省略したとき0
+
+        lvar = find_lvar(tok);
+        if (lvar && lvar->scopelayer == scopelayer_now)
+            error_at(tok->str, "重複定義されたローカル変数です");
+
+        node->name = tok->str;
+        node->val = tok->len;
+        // char name[100];
+        // strncpy(name, node->name, node->val);
+        // name[node->val] = 0;
+        // fprintf(stderr, "### END %s\n", name);
+        // fprintf(stderr, "### END %d\n", node->val);
+
+        // TODO:ローカル変数の時の配列サイズ
+        if (type && type->ty == ARRAY) {
+            size = type->array_size;
+        }
+
+        lvar = calloc(1, sizeof(LVar));
+        lvar->next = locals;
+        lvar->name = tok->str;
+        lvar->len = tok->len;
+        lvar->type = type;
+        lvar->scopelayer = scopelayer_now;
+        node->type = type;
+        node->variabletype = LOCALVAL;
+        if (size) {
             int totalbyte = size_from_type_local(type);
-
-            // TODO:offsetの設定バグありそう?(配列の場所)
-            int offset = (locals ? locals->offset : 0) + totalbyte;
-
-            lval->offset = offset;
+            offset = (locals ? locals->offset : 0) + totalbyte;
 
             lvar->offset = offset;
-            lvar->type = type;
             node->offset = offset;
             // node->val = totalbyte/8; // TODO:ローカル変数のサイズ
 
             localsnum += totalbyte / 8;
-
             locals = lvar;
         }
+        // ローカル変数の初期化
+        if (consume("=")) {
+            Node *lval = calloc(1, sizeof(Node));
+            lval->srctoken = token;
+            lval->kind = ND_LVAR;
+            lval->offset = offset;
+            lval->name = tok->str;
+            lval->val = tok->len;
+            lval->type = type;
+            lval->variabletype = LOCALVAL;
+            int sizeinfered = 0;
+            node = local_initializer(node, lval, size, &sizeinfered);
+
+            if (!size) {
+                if (!sizeinfered)
+                    error_at(token->str, "配列サイズを決定できません");
+                size = (sizeinfered + 1);
+                type->array_size = size;
+
+                int totalbyte = size_from_type_local(type);
+
+                // TODO:offsetの設定バグありそう?(配列の場所)
+                int offset = (locals ? locals->offset : 0) + totalbyte;
+
+                lval->offset = offset;
+
+                lvar->offset = offset;
+                lvar->type = type;
+                node->offset = offset;
+                // node->val = totalbyte/8; // TODO:ローカル変数のサイズ
+
+                localsnum += totalbyte / 8;
+
+                locals = lvar;
+            }
+        }
+        Node *newnode = node;
+        int is_end = 0;
+        if (consume(",")) {
+            basetype = type;
+            while (basetype && basetype->ptr_to) {
+                basetype = basetype->ptr_to;
+            }
+            newnode = new_node(ND_BLOCK, node, NULL);
+            // top = new_node(ND_BLOCK, node, NULL);
+        } else {
+            expect(";");
+            is_end = 1;
+        }
+        if (!top) {
+            top = newnode;
+        } else {
+            Node *tmp = top;
+            while (tmp && tmp->rhs)
+                tmp = tmp->rhs;
+            tmp->rhs = newnode;
+        }
+        if (is_end)
+            break;
     }
-    expect(";");
-    return node;
+    return top;
 }
 
 Node *stmt() {

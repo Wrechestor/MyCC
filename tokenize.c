@@ -9,12 +9,17 @@ Token *new_token(TokenKind kind, Token *cur, char *str) {
     return tok;
 }
 
+int is_alpha(char c) {
+    return (c == '_') || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+}
+
+int is_digit(char c) {
+    return ('0' <= c && c <= '9');
+}
+
 // トークンを構成する文字かどうか
 int is_alnum(char c) {
-    return (c == '_') ||
-        ('a' <= c && c <= 'z') ||
-        ('A' <= c && c <= 'Z') ||
-        ('0' <= c && c <= '9');
+    return is_alpha(c) || is_digit(c);
 }
 
 int escape_num = 11;
@@ -191,6 +196,8 @@ void tokenize() {
 
         // 識別子
         char *q = p;
+        // if (is_alpha(*p)) {
+        // }
         while (is_alnum(*q) && !(q == p && '0' <= *q && *q <= '9')) {
             q++;
         }
@@ -205,7 +212,7 @@ void tokenize() {
         }
 
         // 10進整数
-        if (isdigit(*p)) {
+        if (is_digit(*p)) {
             cur = new_token(TK_NUM, cur, p);
             cur->val = strtol(p, &p, 10);
             cur->is_linehead = is_linehead;
