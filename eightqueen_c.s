@@ -1,4 +1,10 @@
 .intel_syntax noprefix
+<<<<<<< HEAD
+.LC0:
+  .string "%d\n"
+.text
+### 2    int printf();
+=======
 .LC1:
   .string "%d\n"
 .text
@@ -6,6 +12,7 @@
   .string "rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
 .text
 ### 1    int printf();
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
 ### 3    int row[8];
   .globl row
   .data
@@ -40,7 +47,11 @@ abs:
   sub rax, 8
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 0
   pop rdi
@@ -57,7 +68,11 @@ abs:
   sub rax, 8
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -76,7 +91,11 @@ abs:
   sub rax, 8
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rax
   mov rsp, rbp
@@ -104,7 +123,11 @@ testNth:
   mov rax, OFFSET FLAT:tn_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -134,13 +157,21 @@ testNth:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -162,7 +193,11 @@ testNth:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -170,7 +205,11 @@ testNth:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 8
@@ -182,7 +221,11 @@ testNth:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -190,7 +233,11 @@ testNth:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -211,7 +258,11 @@ testNth:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -219,7 +270,11 @@ testNth:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 8
@@ -231,7 +286,11 @@ testNth:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -239,7 +298,11 @@ testNth:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -259,13 +322,21 @@ testNth:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -309,7 +380,11 @@ testNth:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -354,7 +429,11 @@ backtracking:
   mov rax, OFFSET FLAT:bt_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -377,7 +456,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -401,7 +484,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -409,13 +496,21 @@ backtracking:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -431,7 +526,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 8
@@ -459,7 +558,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -470,7 +573,11 @@ backtracking:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -487,7 +594,11 @@ backtracking:
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -508,13 +619,21 @@ backtracking:
   sub rax, 24
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   mov rax, rbp
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -565,7 +684,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -582,7 +705,11 @@ backtracking:
   sub rax, 16
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rdi
   pop rax
@@ -590,7 +717,11 @@ backtracking:
   add rax, rdi
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   push 1
   pop rdi
@@ -606,6 +737,8 @@ backtracking:
 .Lend4:
   push rax
   pop rax
+<<<<<<< HEAD
+=======
 ### 45    printf("rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n",
   mov rax, rbp
   sub rax, 8
@@ -747,6 +880,7 @@ backtracking:
   add rsp, 8
   push rax
   pop rax
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
 ### 48    return 0;
   push 0
   pop rax
@@ -789,9 +923,15 @@ main:
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC0
+=======
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rax
   mov rdi, rax
@@ -808,9 +948,15 @@ main:
   mov rax, OFFSET FLAT:bt_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC0
+=======
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rax
   mov rdi, rax
@@ -827,9 +973,15 @@ main:
   mov rax, OFFSET FLAT:tn_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+  push rax
+  mov rax, OFFSET FLAT:.LC0
+=======
   mov eax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rax
   mov rdi, rax
@@ -846,7 +998,11 @@ main:
   mov rax, OFFSET FLAT:g_count
   push rax
   pop rax
+<<<<<<< HEAD
+  movslq rax, DWORD PTR [rax]
+=======
   mov eax, DWORD PTR [rax]
+>>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
   push rax
   pop rax
   mov rsp, rbp
