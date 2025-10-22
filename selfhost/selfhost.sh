@@ -13,7 +13,7 @@ cat selfhost/mycc_prototype.c mycc.h \
 sed -i "s/Token \*argname, \*argtype;/Token \*argname;Token \*argtype;/g" selfhost/mycc_cat.c
 sed -i "s/int addsize = 1, addsize_tmp = 1;/int addsize = 1;int addsize_tmp = 1;/g" selfhost/mycc_cat.c
 
-# プリプロセッサ
+# TODO:プリプロセッサ
 sed -i -e 's/NULL/0/g' -e 's/size_t/int/g' -e 's/bool/int/g' \
     -e 's/false/0/g' -e 's/true/1/g'  -e 's/FILE/void/g' \
     -e 's/stderr/2/g' -e 's/errno/0/g' \

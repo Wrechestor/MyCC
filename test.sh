@@ -42,6 +42,8 @@ assert $target 4    'int x[8];int add3(int *k, int n){k[n] = k[n] + 3;}int main(
 assert $target 4    'int x[8];int add3(int *x, int n){x[n] = x[n] + 3;}int main(){x[3] = 1; add3(x, 3); return x[3];}'
 assert $target 28   'int foo(int a,int b,int c,int d,int e,int f,int g){return a+b+c+d+e+f+g;}int main(){return foo(1,2,3,4,5,6,7);}'
 assert $target 55   'int foo(int a,int b,int c,int d,int e,int f,int g,int h,int i,int j){return a+b+c+d+e+f+g+h+i+j;}int main(){return foo(1,2,3,4,5,6,7,8,9,10);}'
+
+
 assert $target 13   'int add(int x, int y){return x+y;}int main(){int a[] = {1,4,add(3,6)}; return a[1] + a[2];}'
 assert $target 1    'int main(){int a[5] = {1}; return a[0] + a[1];}'
 assert $target 0    'int main(){int a[5] = {}; return a[0] + a[1];}'
@@ -49,6 +51,8 @@ assert $target 13   'int a[] = {1,4,9};int main(){return a[1] + a[2];}'
 assert $target 13   'char a[] = {1,4,9};int main(){return a[1] + a[2];}'
 assert $target 2    'int printf();char a[] = "ABCDEF!";int main(){printf("%s", a);return a[3] - a[1];}'
 assert $target 2    'int printf();int main(){char a[] = "ABCDEF!";printf("%s", a);return a[3] - a[1];}'
+
+
 assert $target 0    'int printf();int main(){int i;for(i=0;i<20;i=i+1){if((i&7)==3 || (i&7)==5)printf("%d ",i);}return 0;}'
 assert $target 45   'int main(){int s=0;int i;for(i=0;i<10;s+=i,i+=1);return s;}'
 assert $target 0    'int printf();int main(){int i;for(i=0;i<20;++i){printf("%d ",i % 5);}return 0;}'
@@ -80,12 +84,29 @@ assert $target 3    'int printf();int main(){int a=3;{int a=6;{ int a=8; {a++;} 
 assert $target 4    'int printf();int (*p_func[2])(int, int);int max(int a,int b){int m=a;if(m<b)m=b;return m;}int min(int a,int b){int m=a;if(m>b)m=b;return m;}int main(){p_func[0]=max;p_func[1]=min;int i;for(i=0;i<2;i++)printf("p_func[%d](3,5)=%d ",i,p_func[i](3,5));return 4;}'
 assert $target 90   'int main(){int s=0;for(int i=0;i<10;s+=i,i+=1);for(int i=0;i<10;s+=i,i+=1);return s;}'
 assert $target 3    'int printf();int main(){(&printf)("  &printf = %p\n", &printf);printf ("   printf = %p\n", printf);(  *printf)("  *printf = %p\n", *printf);( **printf)(" **printf = %p\n", **printf);(***printf)("***printf = %p\n", ***printf); return 3;}'
-assert $target 4    'int printf();int main(){printf("\a\b\f\n\r\t\v\\");return 4;}'
+
+# escape sequences
 assert $target 4    'int printf();char s[] = "\a\b\f\n\r\t\v\\\'\''\"\0";int main(){char *p=s;while(*p)printf("%d,",*p++);'\
 'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
 assert $target 4    'int printf();int main(){char s[] = "\a\b\f\n\r\t\v\\\'\''\"\0";char *p=s;while(*p)printf("%d,",*p++);'\
 'printf("\n# %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d ",'\''\a'\'','\''\b'\'','\''\f'\'','\''\n'\'','\''\r'\'','\''\t'\'','\''\v'\'','\''\\'\'','\''\'\'''\'','\''\"'\'','\''\0'\'');return 4;}'
+
+# cast
 assert $target 4 'int main(){int a=4; char b=(char)a; return b;}'
+
+
+# Nested Array(Local)
+assert $target 4 'int printf();int main(){char strs[][7]={"un","lucky?","ok!"};for(int i=0;i<3;i++)printf("### %s ", strs[i]); return 4;}'
+assert $target 60 'int printf();int main(){int sum=0;int nums[3][4]={{1,2,3,4},{2,4,6,8},{3,6,9,12}};for(int i=0;i<3;i++)for(int j=0;j<4;j++){printf("### %d ", nums[i][j]);sum+=nums[i][j];} return sum;}'
+assert $target 0 'int printf();int main(){int sum=0;int Arr[5][3]={};for(int i=0;i<5;i++)for(int j=0;j<3;j++){sum+=Arr[i][j];} return sum;}'
+assert $target 0 'int printf();int main(){int sum=0;int Arr[5][3][7]={};for(int i=0;i<5;i++)for(int j=0;j<3;j++)for(int k=0;k<7;k++){sum+=Arr[i][j][k];} return sum;}'
+
+
+# Nested Array(Global)
+assert $target 4 'int printf();char strs[][7]={"un","lucky?","ok!"};int main(){for(int i=0;i<3;i++)printf("### %s ", strs[i]); return 4;}'
+assert $target 60 'int printf();int nums[3][4]={{1,2,3,4},{2,4,6,8},{3,6,9,12}};int main(){int sum=0;for(int i=0;i<3;i++)for(int j=0;j<4;j++){printf("### %d ", nums[i][j]);sum+=nums[i][j];} return sum;}'
+assert $target 0 'int printf();int Arr[5][3]={};int main(){int sum=0;for(int i=0;i<5;i++)for(int j=0;j<3;j++){sum+=Arr[i][j];} return sum;}'
+assert $target 0 'int printf();int Arr[5][3][7]={};int main(){int sum=0;for(int i=0;i<5;i++)for(int j=0;j<3;j++)for(int k=0;k<7;k++){sum+=Arr[i][j][k];} return sum;}'
 
 
 # assert 6    'int main(){int foo; int bar; foo = 1; bar = 2 + 3; return foo + bar;}'

@@ -17,46 +17,20 @@ int is_alnum(char c) {
         ('0' <= c && c <= '9');
 }
 
+int escape_num = 11;
+char escape_letters[] = {'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '\'', '\"', '0'};
+char escape_codes[] = {'\a', '\b', '\f', '\n', '\r', '\t', '\v', '\\', '\'', '\"', '\0'};
+
 // エスケープ文字の解析 \a \b \f \n \r \t \v ⧹⧹ \' \" \0
 char parse_char(char **p) {
     char c = 0;
     if ((*(*p)) == '\\') {
-        switch (*(*p + 1)) {
-        case 'a':
-            c = '\a';
-            break;
-        case 'b':
-            c = '\b';
-            break;
-        case 'f':
-            c = '\f';
-            break;
-        case 'n':
-            c = '\n';
-            break;
-        case 'r':
-            c = '\r';
-            break;
-        case 't':
-            c = '\t';
-            break;
-        case 'v':
-            c = '\v';
-            break;
-        case '\\':
-            c = '\\';
-            break;
-        case '\'':
-            c = '\'';
-            break;
-        case '\"':
-            c = '\"';
-            break;
-        case '0':
-            c = '\0';
-            break;
-        default:
-            break;
+        char ec = *(*p + 1);
+        for (int i = 0; i < escape_num; i++) {
+            if (ec == escape_letters[i]) {
+                c = escape_codes[i];
+                break;
+            }
         }
         *p += 2;
     } else {
@@ -66,6 +40,34 @@ char parse_char(char **p) {
     return c;
 }
 
+int reserved_2_num = 19;
+char reserved_2[][3] = {">=", "<=", "==", "!=", "||", "&&",
+    "<<", ">>", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=",
+    "++", "--", "->"};
+
+int reserved_1_num = 25;
+char reserved_1[] = {'+', '-', '*', '/', '(', ')', '<', '>',
+    ';', '=', '{', '}', ',', '&', '[', ']', '|', '^', '&',
+    '%', '!', '~', '?', ':', '.'};
+
+int keyword_num = 18;
+char keyword_strs[][9] = {"return", "if", "else", "while",
+    "for", "break", "continue", "switch",
+    "case", "default", "int", "char",
+    "void", "sizeof", "enum", "struct",
+    "typedef", "extern"};
+int keyword_lens[] = {
+    6, 2, 4, 5,
+    3, 5, 8, 6,
+    4, 7, 3, 4,
+    4, 6, 4, 6,
+    7, 6};
+int keyword_tokenkinds[] = {
+    TK_RETURN, TK_IF, TK_ELSE, TK_WHILE,
+    TK_FOR, TK_BREAK, TK_CONTINUE, TK_SWITCH,
+    TK_CASE, TK_DEFAULT, TK_INT, TK_CHAR,
+    TK_VOID, TK_SIZEOF, TK_ENUM, TK_STRUCT,
+    TK_TYPEDEF, TK_EXTERN};
 // 入力文字列pをトークナイズしてそれを返す
 void tokenize() {
     char *p = user_input;
@@ -106,7 +108,8 @@ void tokenize() {
             continue;
         }
 
-        if (*p == '"') { // 文字列リテラル
+        // 文字列リテラル
+        if (*p == '"') {
             char *q = p + 1;
             int isescaped = 0;
             while (isescaped || *q != '"') {
@@ -127,247 +130,53 @@ void tokenize() {
             continue;
         }
 
-        if (strncmp(p, "return", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_RETURN, cur, p);
-            cur->len = 6;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 6;
-            continue;
+        // キーワード
+        int is_keyword = 0;
+        for (int i = 0; i < keyword_num; i++) {
+            int len = keyword_lens[i];
+            if (strncmp(p, keyword_strs[i], len) == 0 &&
+                !is_alnum(p[len])) {
+                cur = new_token(keyword_tokenkinds[i], cur, p);
+                cur->len = len;
+                cur->is_linehead = is_linehead;
+                cur->linenumber = linenumber;
+                is_linehead = 0;
+                p += len;
+                is_keyword = 1;
+                break;
+            }
         }
-
-        if (strncmp(p, "if", 2) == 0 && !is_alnum(p[2])) {
-            cur = new_token(TK_IF, cur, p);
-            cur->len = 2;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 2;
+        if (is_keyword)
             continue;
-        }
 
-        if (strncmp(p, "else", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_ELSE, cur, p);
-            cur->len = 4;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 4;
-            continue;
+        // 記号
+        int reserved_flag = 0;
+        if ((!reserved_flag) &&
+            (strncmp(p, ">>=", 3) == 0 || strncmp(p, "<<=", 3) == 0)) {
+            reserved_flag = 3;
         }
-
-        if (strncmp(p, "while", 5) == 0 && !is_alnum(p[5])) {
-            cur = new_token(TK_WHILE, cur, p);
-            cur->len = 5;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 5;
-            continue;
+        for (int i = 0; i < reserved_2_num; ++i) {
+            if ((!reserved_flag) && (strncmp(p, reserved_2[i], 2) == 0)) {
+                reserved_flag = 2;
+            }
         }
-
-        if (strncmp(p, "for", 3) == 0 && !is_alnum(p[3])) {
-            cur = new_token(TK_FOR, cur, p);
-            cur->len = 3;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 3;
-            continue;
+        for (int i = 0; i < reserved_1_num; ++i) {
+            if ((!reserved_flag) && (*p == reserved_1[i])) {
+                reserved_flag = 1;
+            }
         }
-
-        if (strncmp(p, "break", 5) == 0 && !is_alnum(p[5])) {
-            cur = new_token(TK_BREAK, cur, p);
-            cur->len = 5;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 5;
-            continue;
-        }
-
-        if (strncmp(p, "continue", 8) == 0 && !is_alnum(p[8])) {
-            cur = new_token(TK_CONTINUE, cur, p);
-            cur->len = 8;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 8;
-            continue;
-        }
-
-        if (strncmp(p, "switch", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_SWITCH, cur, p);
-            cur->len = 6;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 6;
-            continue;
-        }
-
-        if (strncmp(p, "case", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_CASE, cur, p);
-            cur->len = 4;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 4;
-            continue;
-        }
-
-        if (strncmp(p, "default", 7) == 0 && !is_alnum(p[7])) {
-            cur = new_token(TK_DEFAULT, cur, p);
-            cur->len = 7;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 7;
-            continue;
-        }
-
-        if (strncmp(p, "int", 3) == 0 && !is_alnum(p[3])) {
-            cur = new_token(TK_INT, cur, p);
-            cur->len = 3;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 3;
-            continue;
-        }
-
-        if (strncmp(p, "char", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_CHAR, cur, p);
-            cur->len = 4;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 4;
-            continue;
-        }
-
-        if (strncmp(p, "void", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_VOID, cur, p);
-            cur->len = 4;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 4;
-            continue;
-        }
-
-        if (strncmp(p, "sizeof", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_SIZEOF, cur, p);
-            cur->len = 6;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 6;
-            continue;
-        }
-
-        if (strncmp(p, "enum", 4) == 0 && !is_alnum(p[4])) {
-            cur = new_token(TK_ENUM, cur, p);
-            cur->len = 4;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 4;
-            continue;
-        }
-
-        if (strncmp(p, "struct", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_STRUCT, cur, p);
-            cur->len = 6;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 6;
-            continue;
-        }
-
-        if (strncmp(p, "typedef", 7) == 0 && !is_alnum(p[7])) {
-            cur = new_token(TK_TYPEDEF, cur, p);
-            cur->len = 7;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 7;
-            continue;
-        }
-
-        if (strncmp(p, "extern", 6) == 0 && !is_alnum(p[6])) {
-            cur = new_token(TK_EXTERN, cur, p);
-            cur->len = 6;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 6;
-            continue;
-        }
-
-        if (strncmp(p, ">>=", 3) == 0 ||
-            strncmp(p, "<<=", 3) == 0) {
+        if (reserved_flag) {
             cur = new_token(TK_RESERVED, cur, p);
-            cur->len = 3;
+            cur->len = reserved_flag;
             cur->is_linehead = is_linehead;
             cur->linenumber = linenumber;
             is_linehead = 0;
-            p += 3;
+            p += reserved_flag;
             continue;
         }
 
-        if (strncmp(p, ">=", 2) == 0 ||
-            strncmp(p, "<=", 2) == 0 ||
-            strncmp(p, "==", 2) == 0 ||
-            strncmp(p, "!=", 2) == 0 ||
-            strncmp(p, "||", 2) == 0 ||
-            strncmp(p, "&&", 2) == 0 ||
-            strncmp(p, "<<", 2) == 0 ||
-            strncmp(p, ">>", 2) == 0 ||
-            strncmp(p, "+=", 2) == 0 ||
-            strncmp(p, "-=", 2) == 0 ||
-            strncmp(p, "*=", 2) == 0 ||
-            strncmp(p, "/=", 2) == 0 ||
-            strncmp(p, "%=", 2) == 0 ||
-            strncmp(p, "&=", 2) == 0 ||
-            strncmp(p, "^=", 2) == 0 ||
-            strncmp(p, "|=", 2) == 0 ||
-            strncmp(p, "++", 2) == 0 ||
-            strncmp(p, "--", 2) == 0 ||
-            strncmp(p, "->", 2) == 0) {
-            cur = new_token(TK_RESERVED, cur, p);
-            cur->len = 2;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            p += 2;
-            continue;
-        }
-
-        if (*p == '+' || *p == '-' ||
-            *p == '*' || *p == '/' ||
-            *p == '(' || *p == ')' ||
-            *p == '<' || *p == '>' ||
-            *p == ';' || *p == '=' ||
-            *p == '{' || *p == '}' ||
-            *p == ',' || *p == '&' ||
-            *p == '[' || *p == ']' ||
-            *p == '|' || *p == '^' ||
-            *p == '&' || *p == '%' ||
-            *p == '!' || *p == '~' ||
-            *p == '?' || *p == ':' ||
-            *p == '.') {
-            cur = new_token(TK_RESERVED, cur, p++);
-            cur->len = 1;
-            cur->is_linehead = is_linehead;
-            cur->linenumber = linenumber;
-            is_linehead = 0;
-            continue;
-        }
-
-        if (*p == '\'') { // 文字リテラル
+        // 文字リテラル
+        if (*p == '\'') {
             cur = new_token(TK_NUM, cur, p);
             p++;
             cur->val = parse_char(&p);
@@ -395,6 +204,7 @@ void tokenize() {
             continue;
         }
 
+        // 10進整数
         if (isdigit(*p)) {
             cur = new_token(TK_NUM, cur, p);
             cur->val = strtol(p, &p, 10);

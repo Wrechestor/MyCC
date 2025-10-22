@@ -283,21 +283,33 @@ Node *consume_typed_ident(Type *prevtype) {
                 expect(",");
         }
     } else {
+        Type *tmp = NULL;
+        Type *top = NULL;
+        int is_first = 1;
         while (consume("[")) { // 配列型
             Type *t = calloc(1, sizeof(Type));
             t->ty = ARRAY;
-            t->ptr_to = type;
-            type = t;
+
+            if (is_first) {
+                tmp = t;
+                top = t;
+                is_first = 0;
+            } else {
+                tmp->ptr_to = t;
+                tmp = t;
+            }
 
             if (consume("]")) { // 配列要素数省略
-                // TODO: 正しくは char a[][10]; (最初のみ省略)
                 size = 0;
             } else {
                 size = expect_number();
                 expect("]");
             }
             t->array_size = size;
-            // totalsize *= size;
+        }
+        if (tmp) {
+            tmp->ptr_to = type;
+            type = top;
         }
     }
 
@@ -364,6 +376,37 @@ int size_from_type(Type *type) {
         Type *tmp = type->member;
         while (tmp) {
             size += size_from_type(tmp->ptr_to);
+            tmp = tmp->member;
+        }
+    }
+    return size;
+}
+
+int size_from_type_local(Type *type) {
+    // TODO:ローカル変数の場合のサイズ
+    int size = 8;
+    if (type == NULL)
+        return 8;
+    if (type->ty == VOID)
+        return 8;
+    if (type->ty == INT)
+        return 8;
+    if (type->ty == CHAR)
+        return 8;
+    if (type->ty == PTR)
+        return 8;
+
+    if (type->ty == ARRAY) {
+        int arrsize = type->array_size;
+        Type *t = type->ptr_to;
+        size = size_from_type_local(t) * arrsize;
+    }
+
+    if (type->ty == STRUCT) {
+        size = 0;
+        Type *tmp = type->member;
+        while (tmp) {
+            size += size_from_type_local(tmp->ptr_to);
             tmp = tmp->member;
         }
     }
@@ -551,7 +594,7 @@ Node *new_node_num(int val) {
     node->kind = ND_NUM;
     node->val = val;
 
-    Type *type = calloc(1, sizeof(type));
+    Type *type = calloc(1, sizeof(Type));
     type->ty = INT;
     node->type = type;
     return node;
@@ -983,7 +1026,6 @@ Node *function_gval() {
         node->name = funcgvalname->str;
         node->val = funcgvalname->len;
         Token *tok = funcgvalname;
-        int undefsize = 0; // sizeを省略したとき1
         int size = 1;
         GVar *gvar;
 
@@ -998,7 +1040,11 @@ Node *function_gval() {
             }
         }
 
-        if (!undefsize) {
+        if (type && type->ty == ARRAY) {
+            size = type->array_size;
+        }
+
+        if (size) {
             int totalbytesize = 4;
             totalbytesize = size_from_type(type);
 
@@ -1007,7 +1053,6 @@ Node *function_gval() {
                 gvar->next = globals;
                 gvar->name = tok->str;
                 gvar->len = tok->len;
-                // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
                 gvar->addr = totalbytesize;
                 gvar->type = type;
                 node->offset = gvar->addr;
@@ -1024,139 +1069,308 @@ Node *function_gval() {
 
         // グローバル変数の初期化
         if (consume("=")) {
-            Node *tmp2 = calloc(1, sizeof(Node));
-            tmp2->srctoken = token;
-            tmp2->kind = ND_GVALDEF;
+            Node *gval = calloc(1, sizeof(Node));
+            gval->srctoken = token;
+            gval->kind = ND_GVALDEF;
+            gval->offset = node->offset;
+            gval->name = tok->str;
+            gval->val = tok->len;
+            gval->type = type;
+            gval->variabletype = GLOBALVAL;
+            int sizeinfered = 0;
 
-            node->rhs = tmp2;
+            Node *tmp2;
+            node->rhs = global_initializer(node, gval, size, &sizeinfered);
 
-            if (consume("{")) { // 配列の初期化
-                int nowindex = 0;
-                Node *assignsubj;
+            if (!size) {
+                int size = (sizeinfered + 1);
+                type->array_size = size;
 
-                if (consume("}")) {
-                    // do nothing
+                int totalbytesize = 4;
+                totalbytesize = size_from_type(type);
+
+                if (!already) {
+                    gvar = calloc(1, sizeof(GVar));
+                    gvar->next = globals;
+                    gvar->name = tok->str;
+                    gvar->len = tok->len;
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    node->type = type;
+                    node->variabletype = GLOBALVAL;
+                    globals = gvar;
                 } else {
-                    int nowval = expect_number();
-                    while (consume(",")) {
-                        Node *tmp3 = calloc(1, sizeof(Node));
-                        tmp3->srctoken = token;
-                        tmp3->kind = ND_GVALDEF;
-
-                        tmp2->val = nowval;
-                        tmp2->rhs = tmp3;
-                        tmp2 = tmp3;
-
-                        nowval = expect_number();
-                        nowindex++;
-                    }
-                    tmp2->val = nowval;
-
-                    if (undefsize) {
-                        int size = (nowindex + 1);
-                        type->array_size = size;
-
-                        int totalbytesize = 4;
-                        totalbytesize = size_from_type(type);
-
-                        if (!already) {
-                            gvar = calloc(1, sizeof(GVar));
-                            gvar->next = globals;
-                            gvar->name = tok->str;
-                            gvar->len = tok->len;
-                            // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                            gvar->addr = totalbytesize;
-                            gvar->type = type;
-                            node->offset = gvar->addr;
-                            node->type = type;
-                            node->variabletype = GLOBALVAL;
-                            globals = gvar;
-                        } else {
-                            gvar->addr = totalbytesize;
-                            gvar->type = type;
-                            node->offset = gvar->addr;
-                            node->type = type;
-                        }
-                    }
-
-                    expect("}");
-                }
-            } else {
-                // TODO:グローバル変数や関数のアドレス(に定数を足したもの)で初期化
-                // int a = 3;
-                // char b[] = "foobar";
-                // int *c = &a;
-                // char *d = b + 3;
-                // ↓
-                // a:
-                // .long 3
-                // b:
-                // .byte 0x66 // 'f'
-                // .byte 0x6f // 'o'
-                // .byte 0x6f // 'o'
-                // .byte 0x62 // 'b'
-                // .byte 0x61 // 'a'
-                // .byte 0x72 // 'r'
-                // .byte 0    // '\0'
-                // c:
-                // .quad a
-                // d:
-                // .quad b + 3
-
-                Token *tokquo = consume_kind(TK_QUOTE);
-                if (tokquo) { // 文字列での初期化
-                    int nowindex = 0;
-
-                    char *nowchr = tokquo->str;
-                    while ((nowchr - tokquo->str) < tokquo->len) {
-                        char c = parse_char(&nowchr);
-
-                        Node *tmp3 = calloc(1, sizeof(Node));
-                        tmp3->srctoken = token;
-                        tmp3->kind = ND_GVALDEF;
-
-                        tmp2->val = c;
-                        tmp2->rhs = tmp3;
-                        tmp2 = tmp3;
-
-                        nowindex++;
-                    }
-                    tmp2->val = 0;
-
-                    if (undefsize) {
-                        int size = (nowindex + 1);
-                        type->array_size = size;
-
-                        int totalbytesize = 4;
-                        totalbytesize = size_from_type(type);
-
-                        if (!already) {
-                            gvar = calloc(1, sizeof(GVar));
-                            gvar->next = globals;
-                            gvar->name = tok->str;
-                            gvar->len = tok->len;
-                            // gvar->addr = (globals ? globals->addr : 0) + 8 * arrsize;
-                            gvar->addr = totalbytesize;
-                            gvar->type = type;
-                            node->offset = gvar->addr;
-                            node->type = type;
-                            node->variabletype = GLOBALVAL;
-                            globals = gvar;
-                        } else {
-                            gvar->addr = totalbytesize;
-                            gvar->type = type;
-                            node->offset = gvar->addr;
-                            node->type = type;
-                        }
-                    }
-                } else {
-                    tmp2->val = expect_number();
+                    gvar->addr = totalbytesize;
+                    gvar->type = type;
+                    node->offset = gvar->addr;
+                    node->type = type;
                 }
             }
         }
         expect(";");
     }
     return node;
+}
+
+Node *new_node_arrclear(Node *node) {
+    Type *type = node->type;
+    if (type->ty == ARRAY) {
+        // TODO
+        // type = type->ptr_to;
+        // return new_node_arrclear()
+        Type *subtype = type->ptr_to;
+        Node *assignsubj;
+        Node *tmp2 = calloc(1, sizeof(Node));
+        tmp2->srctoken = token;
+        tmp2->kind = ND_BLOCK;
+        Node *top = tmp2;
+        for (int i = 0; i < type->array_size; i++) {
+            Node *tmp3 = calloc(1, sizeof(Node));
+            tmp3->srctoken = token;
+            tmp3->kind = ND_BLOCK;
+
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, node, new_node_num(i)), NULL);
+            // assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            // tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
+            tmp3->lhs = new_node_arrclear(assignsubj);
+
+            tmp2->rhs = tmp3;
+            tmp2 = tmp3;
+        }
+        return top;
+    } else {
+        return new_node(ND_ASSIGN, node, new_node_num(0));
+    }
+}
+Node *global_initializer(Node *node, Node *gval, int size, int *sizeinfered) {
+    // fprintf(stderr, "### GINIT!%d\n", size);
+
+    Node *tmp2 = calloc(1, sizeof(Node));
+    tmp2->srctoken = token;
+    tmp2->kind = ND_GVALINIT;
+
+    Node *top = tmp2;
+
+    *sizeinfered = 0;
+    // undefsizeの時初期化子でサイズが決まる場合,
+    // その推論されたサイズ(決まらなければエラー)
+
+    if (consume("{")) { // 配列の初期化 // 配列の初期化
+        int nowindex = 0;
+        Node *assignsubj;
+
+        Node *nownode;
+        int sizeinfered2 = 0;
+
+        if (consume("}")) {
+            // do nothing
+        } else {
+            Type *t = NULL;
+            if (gval->type)
+                t = gval->type->ptr_to; // TODO
+            // tmp2->type = gval->type;
+            tmp2->type = t;
+
+            int size2;
+            if (tmp2->type && tmp2->type->ty == ARRAY) {
+                size2 = tmp2->type->array_size;
+            }
+            nownode = global_initializer(NULL, tmp2, size2, &sizeinfered2);
+
+            while (consume(",")) {
+                tmp2->rhs = nownode;
+
+                tmp2 = nownode;
+                while (tmp2 && tmp2->rhs)
+                    tmp2 = tmp2->rhs;
+
+                if (tmp2->type && tmp2->type->ty == ARRAY) {
+                    size2 = tmp2->type->array_size;
+                }
+                nownode = global_initializer(NULL, tmp2, size2, &sizeinfered2);
+
+                nowindex++;
+            }
+            tmp2->rhs = nownode;
+
+            if (top)
+                top = top->rhs;
+
+            *sizeinfered = nowindex;
+
+            expect("}");
+        }
+    } else {
+        // TODO:グローバル変数や関数のアドレス(に定数を足したもの)で初期化
+        // int a = 3;
+        // char b[] = "foobar";
+        // int *c = &a;
+        // char *d = b + 3;
+        // ↓
+        // a:
+        // .long 3
+        // b:
+        // .byte 0x66 // 'f'
+        // .byte 0x6f // 'o'
+        // .byte 0x6f // 'o'
+        // .byte 0x62 // 'b'
+        // .byte 0x61 // 'a'
+        // .byte 0x72 // 'r'
+        // .byte 0    // '\0'
+        // c:
+        // .quad a
+        // d:
+        // .quad b + 3
+
+        Token *tokquo = consume_kind(TK_QUOTE);
+        if (tokquo) { // 文字列での初期化
+            int nowindex = 0;
+            Node *assignsubj;
+
+            char *nowchr = tokquo->str;
+            int initassigned = 0;
+
+            while ((initassigned = ((nowchr - tokquo->str) < tokquo->len)) ||
+                ((size) && (nowindex + 1 < size))) {
+                char c = 0;
+                if (initassigned) {
+                    c = parse_char(&nowchr);
+                } else {
+                    // fprintf(stderr, "### noassign!\n");
+                }
+
+                Node *tmp3 = calloc(1, sizeof(Node));
+                tmp3->srctoken = token;
+                tmp3->kind = ND_GVALINIT;
+
+                tmp2->type = gval->type;
+
+                tmp2->val = c;
+                tmp2->rhs = tmp3;
+                tmp2 = tmp3;
+
+                nowindex++;
+            }
+            tmp2->type = gval->type;
+
+            tmp2->val = 0;
+
+            *sizeinfered = nowindex;
+        } else {
+            tmp2->val = expect_number();
+            tmp2->type = gval->type;
+        }
+    }
+    return top;
+}
+
+Node *local_initializer(Node *node, Node *lval, int size, int *sizeinfered) {
+    // fprintf(stderr, "### lvalinit %s\n", token->str);
+
+    Node *tmp2 = calloc(1, sizeof(Node));
+    tmp2->srctoken = token;
+    tmp2->kind = ND_BLOCK;
+    tmp2->lhs = node;
+
+    Node *top = tmp2;
+
+    *sizeinfered = 0;
+    // undefsizeの時初期化子でサイズが決まる場合,
+    // その推論されたサイズ(決まらなければエラー)
+
+    if (consume("{")) { // 配列の初期化
+        int nowindex = 0;
+        Node *assignsubj;
+
+        Node *nownode;
+
+        Token *toktmp = token;
+
+        int sizeinfered2 = 0;
+
+        if (consume("}")) {
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            nownode = new_node_arrclear(assignsubj);
+
+            token = toktmp;
+        } else {
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            int size2 = 0;
+            if (assignsubj->type && assignsubj->type->ty == ARRAY) {
+                size2 = assignsubj->type->array_size;
+            }
+            nownode = local_initializer(NULL, assignsubj, size2, &sizeinfered2);
+        }
+
+        int initassigned = 0;
+        while ((initassigned = consume(",")) ||
+            ((size) && (nowindex + 1 < size))) {
+            Node *tmp3 = calloc(1, sizeof(Node));
+            tmp3->srctoken = token;
+            tmp3->kind = ND_BLOCK;
+
+            tmp3->lhs = nownode;
+
+            tmp2->rhs = tmp3;
+            tmp2 = tmp3;
+
+            nowindex++;
+            if (initassigned) {
+                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                int size2 = 0;
+                if (assignsubj->type && assignsubj->type->ty == ARRAY) {
+                    size2 = assignsubj->type->array_size;
+                }
+                nownode = local_initializer(NULL, assignsubj, size2, &sizeinfered2);
+
+            } else {
+                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+                nownode = new_node_arrclear(assignsubj);
+            }
+        }
+        tmp2->rhs = nownode;
+
+        *sizeinfered = nowindex;
+
+        expect("}");
+    } else {
+        Token *tokquo = consume_kind(TK_QUOTE);
+        if (tokquo) { // 文字列での初期化
+            int nowindex = 0;
+            Node *assignsubj;
+
+            char *nowchr = tokquo->str;
+            int initassigned = 0;
+
+            while ((initassigned = ((nowchr - tokquo->str) < tokquo->len)) ||
+                ((size) && (nowindex + 1 < size))) {
+                char c = 0;
+                if (initassigned)
+                    c = parse_char(&nowchr);
+
+                Node *tmp3 = calloc(1, sizeof(Node));
+                tmp3->srctoken = token;
+                tmp3->kind = ND_BLOCK;
+                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+
+                tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? c : 0));
+                tmp3->lhs->rhs->type->ty = CHAR;
+
+                tmp2->rhs = tmp3;
+                tmp2 = tmp3;
+
+                nowindex++;
+            }
+            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
+            tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
+
+            *sizeinfered = nowindex;
+        } else {
+            tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
+        }
+    }
+    return top;
 }
 
 Node *localValDef() { // ローカル変数定義
@@ -1176,12 +1390,8 @@ Node *localValDef() { // ローカル変数定義
     tok->len = typedidentnode->val;
 
     int offset;
-    int undefsize = 0;   // sizeを省略したとき1
-    int sizeinfered = 0; // undefsizeの時初期化子でサイズが決まる場合,
-    // その推論されたサイズ(決まらなければエラー)
 
-    int totalsize = 1;
-    int size = 1;
+    int size = 1; // sizeを省略したとき0
 
     LVar *lvar;
     lvar = find_lvar(tok);
@@ -1197,19 +1407,8 @@ Node *localValDef() { // ローカル変数定義
     // fprintf(stderr, "### END %d\n", node->val);
 
     // TODO:ローカル変数の時の配列サイズ
-    Type *tmp = type;
-    while (tmp && tmp->ty == ARRAY) {
-        if (tmp->array_size == 0) {
-
-        } else {
-            totalsize *= tmp->array_size;
-        }
-        tmp = tmp->ptr_to;
-    }
     if (type && type->ty == ARRAY) {
         size = type->array_size;
-        if (size == 0)
-            undefsize = 1;
     }
 
     lvar = calloc(1, sizeof(LVar));
@@ -1220,26 +1419,19 @@ Node *localValDef() { // ローカル変数定義
     lvar->scopelayer = scopelayer_now;
     node->type = type;
     node->variabletype = LOCALVAL;
-    if (!undefsize) {
-        // TODO:offsetの設定バグありそう?(配列の場所)
-        offset = (locals ? locals->offset : 0) + 8 * totalsize;
+    if (size) {
+        int totalbyte = size_from_type_local(type);
+        offset = (locals ? locals->offset : 0) + totalbyte;
 
         lvar->offset = offset;
         node->offset = offset;
-        // node->val = totalsize; // TODO:ローカル変数のサイズ
+        // node->val = totalbyte/8; // TODO:ローカル変数のサイズ
 
-        localsnum += totalsize;
+        localsnum += totalbyte / 8;
         locals = lvar;
     }
     // ローカル変数の初期化
     if (consume("=")) {
-        Node *tmp2 = calloc(1, sizeof(Node));
-        tmp2->srctoken = token;
-        tmp2->kind = ND_BLOCK;
-        tmp2->lhs = node;
-
-        Node *top = tmp2;
-
         Node *lval = calloc(1, sizeof(Node));
         lval->srctoken = token;
         lval->kind = ND_LVAR;
@@ -1248,95 +1440,31 @@ Node *localValDef() { // ローカル変数定義
         lval->val = tok->len;
         lval->type = type;
         lval->variabletype = LOCALVAL;
-        if (consume("{")) { // 配列の初期化
-            int nowindex = 0;
-            Node *assignsubj;
+        int sizeinfered = 0;
+        node = local_initializer(node, lval, size, &sizeinfered);
 
-            Node *nownode;
-
-            Token *toktmp = token;
-            if (consume("}")) {
-                nownode = new_node_num(0);
-                token = toktmp;
-            } else {
-                nownode = assign();
-            }
-
-            int initassigned = 0;
-            while ((initassigned = consume(",")) ||
-                ((!undefsize) && (nowindex + 1 < size))) {
-                Node *tmp3 = calloc(1, sizeof(Node));
-                tmp3->srctoken = token;
-                tmp3->kind = ND_BLOCK;
-                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                tmp3->lhs = new_node(ND_ASSIGN, assignsubj, nownode);
-
-                tmp2->rhs = tmp3;
-                tmp2 = tmp3;
-
-                nownode = initassigned ? assign() : new_node_num(0);
-                nowindex++;
-            }
-            assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-            tmp2->rhs = new_node(ND_ASSIGN, assignsubj, nownode);
-
-            sizeinfered = nowindex;
-
-            expect("}");
-            // }
-        } else {
-            Token *tokquo = consume_kind(TK_QUOTE);
-            if (tokquo) { // 文字列での初期化
-                int nowindex = 0;
-                Node *assignsubj;
-
-                char *nowchr = tokquo->str;
-                int initassigned = 0;
-
-                while ((initassigned = ((nowchr - tokquo->str) < tokquo->len)) ||
-                    ((!undefsize) && (nowindex + 1 < size))) {
-                    char c = parse_char(&nowchr);
-
-                    Node *tmp3 = calloc(1, sizeof(Node));
-                    tmp3->srctoken = token;
-                    tmp3->kind = ND_BLOCK;
-                    assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                    tmp3->lhs = new_node(ND_ASSIGN, assignsubj, new_node_num(initassigned ? c : 0));
-
-                    tmp2->rhs = tmp3;
-                    tmp2 = tmp3;
-
-                    nowindex++;
-                }
-                assignsubj = new_node(ND_DEREF, new_node(ND_ADD, lval, new_node_num(nowindex)), NULL);
-                tmp2->rhs = new_node(ND_ASSIGN, assignsubj, new_node_num(0));
-
-                sizeinfered = nowindex;
-            } else {
-                tmp2->rhs = new_node(ND_ASSIGN, lval, assign());
-            }
-        }
-        if (undefsize) {
+        if (!size) {
             if (!sizeinfered)
                 error_at(token->str, "配列サイズを決定できません");
-            int size = (sizeinfered + 1);
+            size = (sizeinfered + 1);
             type->array_size = size;
-            totalsize *= size;
+
+            int totalbyte = size_from_type_local(type);
 
             // TODO:offsetの設定バグありそう?(配列の場所)
-            offset = (locals ? locals->offset : 0) + 8 * totalsize;
+            int offset = (locals ? locals->offset : 0) + totalbyte;
 
             lval->offset = offset;
 
             lvar->offset = offset;
             lvar->type = type;
             node->offset = offset;
-            // node->val = totalsize; // TODO:ローカル変数のサイズ
+            // node->val = totalbyte/8; // TODO:ローカル変数のサイズ
 
-            localsnum += totalsize;
+            localsnum += totalbyte / 8;
+
             locals = lvar;
         }
-        node = top;
     }
     expect(";");
     return node;

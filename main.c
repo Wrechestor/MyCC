@@ -119,7 +119,7 @@ char *nodeToStr(Node *node) {
         sprintf(ret, "PROTO(%s)", namebuf);
         return ret;
     case ND_CAST:
-        sprintf(ret, "CAaST(%s)", typeToStr(node->type));
+        sprintf(ret, "CAST(%s)", typeToStr(node->type));
         return ret;
     case ND_ARG: return "ARG";
     case ND_ADDR: return "&amp;<FONT POINT-SIZE='12.0'>(ADDR)</FONT>";
@@ -129,6 +129,9 @@ char *nodeToStr(Node *node) {
         return ret;
     case ND_GVALDEF:
         sprintf(ret, "GVAL(%s) @%d", namebuf, node->offset);
+        return ret;
+    case ND_GVALINIT:
+        sprintf(ret, "INIT(%d)", node->val);
         return ret;
     case ND_QUOTE:
         int strid = node->val;
@@ -155,7 +158,11 @@ char *nodeToStr(Node *node) {
         strcat(ret, "\"");
         return ret;
     case ND_NUM:
-        sprintf(ret, "%d", node->val);
+        if (node->type->ty == CHAR) {
+            sprintf(ret, "%d(\'%c\')", node->val, node->val);
+        } else {
+            sprintf(ret, "%d", node->val);
+        }
         return ret;
     }
     return "";
@@ -239,6 +246,7 @@ int gengraph(Node *node, int nodeid) {
         printf("<br/><FONT COLOR='BLUE' POINT-SIZE='9.0'><B>%s</B></FONT>", typeToStr(node->type));
     printf(">");
     if (node->kind == ND_VALDEF || node->kind == ND_GVALDEF ||
+        node->kind == ND_GVALINIT ||
         node->kind == ND_FUNCDEF || node->kind == ND_ENUM ||
         node->kind == ND_STRUCT || node->kind == ND_TYPEDEF ||
         node->kind == ND_EXTERN || node->kind == ND_PROTO) {
