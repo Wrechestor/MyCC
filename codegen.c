@@ -38,6 +38,8 @@ void print_read_type(enum type_t ty, int dstreg) {
         switch (dstreg) {
         case 0: printf("  movslq rax, DWORD PTR [rax]\n"); break;
         case 1: printf("  movslq rdi, DWORD PTR [rax]\n"); break;
+        // case 0: printf("  mov eax, DWORD PTR [rax]\n"); break;
+        // case 1: printf("  mov edi, DWORD PTR [rax]\n"); break;
         default: break;
         }
         return;
@@ -506,10 +508,6 @@ void gen(Node *node) {
         if (argnum > 6)
             rsp_add((argnum - 6) * 8);
 
-        // 関数のアドレス計算
-        gen(node->lhs);
-        print_pop("r11");
-
         int rspalign_tmp = rsp_lsb4;
         if (rspalign_tmp != 0)
             printf("  sub rsp, %d\n", rspalign_tmp);
@@ -531,6 +529,10 @@ void gen(Node *node) {
             case 5: printf("  mov r9, rax\n"); break;
             }
         }
+
+        // 関数のアドレス計算
+        gen(node->lhs);
+        print_pop("r11");
 
         // ALに引数の浮動小数点数の数を入れる
         printf("  mov rax, 0\n");

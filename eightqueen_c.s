@@ -6,14 +6,6 @@
   .string "rown %d %d %d %d %d %d, [%d %d %d], n: %d, NQ: %d\n"
 .text
 ### 1    int printf();
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
 ### 3    int row[8];
   .globl row
   .data
@@ -49,16 +41,6 @@ abs:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 0
   pop rdi
@@ -76,16 +58,6 @@ abs:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -105,16 +77,6 @@ abs:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rax
   mov rsp, rbp
@@ -143,16 +105,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -183,32 +135,12 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 16
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -231,16 +163,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -249,16 +171,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 8
@@ -271,16 +183,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -289,16 +191,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -324,16 +216,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -342,16 +224,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 8
@@ -364,16 +236,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -382,16 +244,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -408,32 +260,12 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 24
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -478,16 +310,6 @@ testNth:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -533,16 +355,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -566,16 +378,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -600,16 +402,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -618,32 +410,12 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 24
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -664,16 +436,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 8
@@ -698,16 +460,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -719,16 +471,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -746,16 +488,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -781,32 +513,12 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   mov rax, rbp
   sub rax, 16
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -854,16 +566,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -881,16 +583,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rdi
   pop rax
@@ -899,16 +591,6 @@ backtracking:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   push 1
   pop rdi
@@ -1065,14 +747,6 @@ backtracking:
   add rsp, 8
   push rax
   pop rax
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
 ### 48    return 0;
   push 0
   pop rax
@@ -1121,14 +795,6 @@ main:
   movslq rax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rax
   mov rdi, rax
@@ -1148,14 +814,6 @@ main:
   movslq rax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rax
   mov rdi, rax
@@ -1175,14 +833,6 @@ main:
   movslq rax, DWORD PTR [rax]
   push rax
   mov rax, OFFSET FLAT:.LC1
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rax
   mov rdi, rax
@@ -1197,16 +847,6 @@ main:
   push rax
   pop rax
   movslq rax, DWORD PTR [rax]
-<<<<<<< HEAD
-=======
-  mov eax, DWORD PTR [rax]
-<<<<<<< HEAD
->>>>>>> 4c90e8e9ed5f20bdf011fbf8b13a575caadcaf2b
-=======
->>>>>>> 4c90e8e (ファイル整理)
->>>>>>> 7ced4a0 (ファイル整理)
-=======
->>>>>>> c97a538 (関数呼び出しのバグ修正(7個め以上の引数計算時にrdiが書き換えられてエラー))
   push rax
   pop rax
   mov rsp, rbp

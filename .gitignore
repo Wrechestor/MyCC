@@ -4,6 +4,7 @@
 *.pdf
 *.svg
 *.dot
+*.zip
 tmp*
 a.out
 mycc
