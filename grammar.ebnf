@@ -56,8 +56,6 @@ primary    = "(" expr ")" | string | ident | num
 # ↑localValDefでfor(;;)→consume(",")なら
 # type->ptr_to==NULLまで遡ってベースの型取得,それを引数としてconsumetypedident()
 
-# TODO:ローカル変数の定義でsizefromtype alignfromtypeを使う
-
 # TODO:プリプロセッサ処理(#include,#define)
 # tokenize→プリプロセッサ→#includeのトークンが来たらread_fileしてtokenizeする再帰で
 # マクロ展開できる #defineなら#defineリストを作って置換
